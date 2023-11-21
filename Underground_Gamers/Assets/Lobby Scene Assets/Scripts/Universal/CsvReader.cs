@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CSVReader
 {
+    //data[번호]["키(속성이름)"] = 벨류
+
     static string SPLIT_RE = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
     static string LINE_SPLIT_RE = @"\r\n|\n\r|\n|\r";
     static char[] TRIM_CHARS = { '\"' };

@@ -4,14 +4,14 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : MonoBehaviour
+public static class SceneChanger
 {
-    public void ToGameScene()
+    public static void ToGameScene()
     {
         SceneManager.LoadScene("Game Scene");
     }
 
-    public void ToLobbyScene()
+    public static void ToLobbyScene()
     {
         SceneManager.LoadScene("Lobby Scene");
     }
