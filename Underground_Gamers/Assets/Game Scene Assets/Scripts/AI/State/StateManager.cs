@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StateManager
@@ -8,7 +6,7 @@ public class StateManager
 
     public void ChangeState(BaseState newState)
     {
-        if (currentState == null)
+        if (currentState != null)
             currentState.Exit();
 
         currentState = newState;
@@ -17,6 +15,7 @@ public class StateManager
 
     public void Update()
     {
-        currentState.Update();
+        if (currentState != null)
+            currentState.Update();
     }
 }

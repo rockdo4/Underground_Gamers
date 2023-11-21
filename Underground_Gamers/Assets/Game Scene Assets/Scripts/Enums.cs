@@ -4,11 +4,5 @@ using UnityEngine;
 
 public class Enums
 {
-    public enum States
-    {
-        Idle,
-        Trace,
-        Attack,
 
-    }
 }
