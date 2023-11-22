@@ -9,17 +9,16 @@ enum PlayerClass
     Supporter,
     Sniper
 }
-public class CurrentPlayer
+public class Player
 {
-    int playerCode;
-    PlayerClass playerClass;
+    int code;
     int grade;
-    int gearCode;
+    int gearCode = -1;
 }
 
 public struct PlayerInfo
 {
-    public int playerCode;
+    public int code;
     public string name;
     public string comment;    //선수 설명
     public int hp;
