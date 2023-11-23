@@ -31,8 +31,9 @@ public class AttackState : AIState
             aiController.SetState(States.Idle);
             return;
         }
-
+        Debug.Log(aiTr);
         var dirToTarget = aiController.target.position - aiTr.position;
+
         dirToTarget.Normalize();
 
         if (aiController.RaycastToTarget)
