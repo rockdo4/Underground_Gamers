@@ -8,18 +8,24 @@ public class HitScanAttack : AttackDefinition
     public GameObject hitScanLine;
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
+        if (defender == null)
+            return;
+
         GameObject line = Instantiate(hitScanLine);
         LineRenderer lineRen = line.GetComponent<LineRenderer>();
         AIController attackAI = attacker.GetComponent<AIController>();
         lineRen.positionCount = 2;
 
         var attackPos = attackAI.firePos.position;
-        attackPos.y += 0.6f;
+        //attackPos.y += 0.6f;
 
         lineRen.SetPosition(0, attackPos);
         lineRen.SetPosition(1, attackAI.hitInfoPos);
 
+        var attackStatus = attacker.GetComponent<CharacterStatus>();
+        var defendStatus = defender.GetComponent<CharacterStatus>();
 
+        var attack = CreateAttack(attackStatus, defendStatus);
 
         Destroy(line, 0.3f);
     }

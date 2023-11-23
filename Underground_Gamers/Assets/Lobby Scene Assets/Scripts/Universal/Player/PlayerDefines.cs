@@ -14,6 +14,7 @@ public class Player
     public int code;
     public int grade;
     public int gearCode = -1;
+    public float ID;
 }
 
 public struct PlayerInfo

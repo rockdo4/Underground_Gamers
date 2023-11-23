@@ -57,6 +57,21 @@ public class GameInfo : MonoBehaviour
 
             var ai = madePlayer.GetComponent<AIController>();
             ai.spum = madePlayerCharactor.GetComponent<SPUM_Prefabs>();
+            var childs = madePlayerCharactor.GetComponentsInChildren<Transform>();
+            foreach (var child in childs)
+            {
+                if (child.name == "ArmL")
+                {
+                    ai.leftHand = child;
+                }
+                else if (child.name == "ArmR")
+                {
+                    ai.rightHand = child;
+                }
+
+                //임시코드 나중에 바꿔야함!!
+                ai.firePos = ai.rightHand;
+            }
             madePlayer.SetActive(false);
             players.Add(madePlayer);
         }

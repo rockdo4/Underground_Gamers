@@ -12,9 +12,11 @@ public class TraceState : AIState
 
     public override void Enter()
     {
-        lastDetectTime = Time.time - aiController.detectTime;
+        //lastDetectTime = Time.time - aiController.detectTime;
+        lastDetectTime -= aiController.detectTime;
         agent.isStopped = false;
-        agent.speed = aiController.status.speed;
+        agent.angularSpeed = aiStatus.reactionSpeed;
+        agent.speed = aiStatus.speed;
     }
 
     public override void Exit()
@@ -24,13 +26,19 @@ public class TraceState : AIState
 
     public override void Update()
     {
-        if (target == null)
+        //Debug.Log("Trace State");
+
+        if (aiController.target == null)
         {
             aiController.SetState(States.Idle);
             return;
         }
 
-        RotateToTarget();
+        if (aiStatus.range > DistanceToTarget)
+        {
+            aiController.SetState(States.Attack);
+            return;
+        }
 
         if (lastDetectTime + aiController.detectTime < Time.time)
         {
@@ -38,23 +46,17 @@ public class TraceState : AIState
 
             SearchTargetInDetectionRange();
             SearchTargetInSector();
-            agent.SetDestination(target.position);
+            agent.SetDestination(aiController.target.position);
         }
-    }
-
-    private void RotateToTarget()
-    {
-        Quaternion targetRotation = Quaternion.LookRotation(target.position - aiTr.position);
-        aiTr.rotation = Quaternion.RotateTowards(aiTr.rotation, targetRotation, aiStatus.reactionSpeed * Time.deltaTime);
     }
 
     // ºÎÃ¤²Ã Å½»ö
     private void SearchTargetInSector()
     {
-        var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.sight, enemyLayer);
-        if (enemyCols.Length == 0)
+        var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.sight, aiController.enemyLayer);
+        if (enemyCols.Length == 0 && aiController.target == null)
         {
-            Debug.Log("Not Founded");
+            //Debug.Log("Not Founded");
             SetTarget(aiController.point);
             return;
         }
@@ -64,7 +66,7 @@ public class TraceState : AIState
         {
             var dirToTarget = col.transform.position - aiTr.position;
             dirToTarget.Normalize();
-            if (Physics.Raycast(aiTr.position, dirToTarget, aiStatus.sight, obstacleLayer))
+            if (Physics.Raycast(aiTr.position, dirToTarget, aiStatus.sight, aiController.obstacleLayer))
                 continue;
 
             float dot = Vector3.Dot(dirToTarget, aiTr.forward);
@@ -80,16 +82,19 @@ public class TraceState : AIState
             }
         }
         if (target != null)
+        {
             SetTarget(target);
+            return;
+        }
     }
 
     // Å½Áö¹üÀ§ Å½»ö
     private void SearchTargetInDetectionRange()
     {
-        var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.detectionRange, enemyLayer);
-        if (enemyCols.Length == 0)
+        var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.detectionRange, aiController.enemyLayer);
+        if (enemyCols.Length == 0 && aiController.target == null)
         {
-            Debug.Log("Not Founded");
+            //Debug.Log("Not Founded");
             SetTarget(aiController.point);
             return;
         }
@@ -101,7 +106,7 @@ public class TraceState : AIState
         {
             var dirToTarget = col.transform.position - aiTr.position;
             dirToTarget.Normalize();
-            if (Physics.Raycast(aiTr.position, dirToTarget, aiStatus.sight, obstacleLayer))
+            if (Physics.Raycast(aiTr.position, dirToTarget, aiStatus.sight, aiController.obstacleLayer))
                 continue;
 
             var dis = Vector3.Distance(col.transform.position, aiTr.position);
@@ -112,6 +117,10 @@ public class TraceState : AIState
             }
         }
         if (target != null)
+        {
             SetTarget(target);
+            return;
+        }
+
     }
 }
