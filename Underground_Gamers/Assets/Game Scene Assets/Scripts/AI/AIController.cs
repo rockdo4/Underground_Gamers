@@ -166,10 +166,6 @@ public class AIController : MonoBehaviour
         Gizmos.DrawLine(newV, newV + viewAngleA * viewRadius);
         Gizmos.DrawLine(newV, newV + viewAngleB * viewRadius);
 
-        Debug.Log(firePos);
-        Debug.Log(target);
-
-
         if(firePos != null && target != null)
         {
             if (RaycastToTarget)
