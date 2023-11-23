@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 public enum States
@@ -11,12 +12,13 @@ public class AIController : MonoBehaviour
 {
     private NavMeshAgent agent;
     public CharacterStatus status;
+
     private StateManager stateManager;
     private List<BaseState> states = new List<BaseState>();
 
-    private LookCamera lookCamera;
     public Transform point;
     public LayerMask layer;
+    public SPUM_Prefabs spum;
 
     [Tooltip("탐지 딜레이 시간")]
     public float detectTime = 0.1f;
@@ -27,7 +29,7 @@ public class AIController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         // 데이터 테이블에 따라서 정보를 가져올 수 있음, 레벨 정보는 세이브 데이터
         status = GetComponent<CharacterStatus>();
-        lookCamera = GetComponentInChildren<LookCamera>();
+        spum.AddComponent<LookCameraRect>();
     }
 
     private void Start()
@@ -47,14 +49,14 @@ public class AIController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             agent.SetDestination(point.position);
-
         }
-        lookCamera.LookAtCamera();
+        spum._anim.SetFloat("RunState", agent.velocity.magnitude/2f);
+        //최대 속도일때 0.5f가 되어야 함으로 2로나눔
     }
     public void SetState(States newState)
     {
         stateManager.ChangeState(states[(int)newState]);
-    }    
+    }
 
 
     public void UpdateState()
