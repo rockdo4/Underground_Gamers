@@ -4,14 +4,27 @@ using UnityEngine;
 
 public class AIManager : MonoBehaviour
 {
-    public AIController pc1;
+    public List<AIController> pc;
 
-    public AIController npc1;
+    public List<AIController> npc;
 
     // Update is called once per frame
     void Update()
     {
-        pc1.UpdateState();
-        npc1.UpdateState();
+        if(pc.Count >0)
+        {
+            foreach(AIController controller in pc)
+            {
+                controller.UpdateState();
+            }
+        }        
+        
+        if(npc.Count >0)
+        {
+            foreach(AIController controller in npc)
+            {
+                controller.UpdateState();
+            }
+        }
     }
 }

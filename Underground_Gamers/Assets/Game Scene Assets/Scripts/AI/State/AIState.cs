@@ -40,6 +40,8 @@ public abstract class AIState : BaseState
     }
     protected void RotateToTarget()
     {
+        if (aiController.target == null || aiTr == null)
+            return;
         Quaternion targetRotation = Quaternion.LookRotation(aiController.target.position - aiTr.position);
         aiTr.rotation = Quaternion.RotateTowards(aiTr.rotation, targetRotation, aiStatus.reactionSpeed * Time.deltaTime);
         //Debug.Log($"THIS {this.target} ");

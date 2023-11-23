@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -38,6 +39,7 @@ public class AIController : MonoBehaviour
 
     public Transform rightHand;
     public Transform leftHand;
+    public AIManager manager;
 
     public Vector3 hitInfoPos;
 
@@ -117,11 +119,6 @@ public class AIController : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            agent.SetDestination(point.position);
-
-        }
         lookCamera.LookAtCamera();
     }
     public void SetState(States newState)

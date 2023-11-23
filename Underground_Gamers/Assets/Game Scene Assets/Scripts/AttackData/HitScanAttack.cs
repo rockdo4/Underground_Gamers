@@ -27,6 +27,11 @@ public class HitScanAttack : AttackDefinition
 
         var attack = CreateAttack(attackStatus, defendStatus);
 
+        var attackables = defender.GetComponents<IAttackable>();
+        foreach( var attackable in attackables )
+        {
+            attackable.OnAttack(attacker, attack);
+        }
         Destroy(line, 0.3f);
     }
 }
