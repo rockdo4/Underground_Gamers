@@ -11,19 +11,21 @@ public class AIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(pc.Count >0)
+        if (pc.Count > 0)
         {
-            foreach(AIController controller in pc)
+            foreach (AIController controller in pc)
             {
-                controller.UpdateState();
+                if (controller.status.IsLive)
+                    controller.UpdateState();
             }
-        }        
-        
-        if(npc.Count >0)
+        }
+
+        if (npc.Count > 0)
         {
-            foreach(AIController controller in npc)
+            foreach (AIController controller in npc)
             {
-                controller.UpdateState();
+                if (controller.status.IsLive)
+                    controller.UpdateState();
             }
         }
     }

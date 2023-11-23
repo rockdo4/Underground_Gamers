@@ -16,6 +16,7 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
 
         if(status.Hp <= 0)
         {
+            status.IsLive = false;
             if(gameObject.layer == LayerMask.GetMask("PC"))
             {
                 GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc.Remove(controller);
