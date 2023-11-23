@@ -47,8 +47,9 @@ public class GameInfo : MonoBehaviour
         enemys.Clear();
 
         List<Player> usePlayer = GamePlayerInfo.instance.usingPlayers;
-        foreach (var player in usePlayer)
+        for (int i = 0; i < 5; i++)
         {
+            var player = usePlayer[i];
             PlayerInfo playerInfo = PlayerLoadManager.instance.playerDatabase[PlayerLoadManager.instance.PlayerIndexSearch(player.code)];
             var madePlayer = Instantiate(playerObj);
             madePlayer.AddComponent<DontDestroy>();
@@ -83,7 +84,7 @@ public class GameInfo : MonoBehaviour
         var endPos = GameObject.FindGameObjectsWithTag("EnemyStartPos");
         var playerDestinations = GameObject.FindGameObjectsWithTag("PlayerDestination");
 
-        if (startPos.Length < 1 )
+        if (startPos.Length < 1)
         {
             return;
         }
@@ -95,16 +96,16 @@ public class GameInfo : MonoBehaviour
             player.SetActive(true);
             var ai = player.GetComponent<AIController>();
             if (playerDestinations != null)
-            ai.point = playerDestinations[Random.Range(0, playerDestinations.Length - 1)].transform;
+                ai.point = playerDestinations[Random.Range(0, playerDestinations.Length - 1)].transform;
             ai.SetDestination(ai.point.position);
         }
-        if(players.Count>0)
+        if (players.Count > 0)
         {
             foreach (var player in players)
             {
                 GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc.Add(player.GetComponent<AIController>());
             }
         }
-        
+
     }
 }
