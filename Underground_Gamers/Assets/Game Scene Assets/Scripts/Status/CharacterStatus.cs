@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterStatus : MonoBehaviour
 {
-    public int maxHp;
+    public int maxHp = 50;
     public float speed;
     public float sight;                 // 시야
     public float sightAngle;        // 시야각

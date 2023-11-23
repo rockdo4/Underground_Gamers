@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -40,6 +41,7 @@ public class AIController : MonoBehaviour
 
     public Transform rightHand;
     public Transform leftHand;
+    public AIManager manager;
 
     public Vector3 hitInfoPos;
 

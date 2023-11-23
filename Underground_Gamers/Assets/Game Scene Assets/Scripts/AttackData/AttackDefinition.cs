@@ -31,7 +31,7 @@ public class AttackDefinition : ScriptableObject
 
     public Attack CreateAttack(CharacterStatus attacker, CharacterStatus defender)
     {
-        float damage = attacker.damage;
+        float damage = this.damage + attacker.damage;
         damage *= Random.Range(minDamageRate, maxDamageRate);
 
         bool isCritical = Random.value < criticalRate;

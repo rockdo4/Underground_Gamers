@@ -74,7 +74,6 @@ public class PlayerChanger : MonoBehaviour
 
         usingList.Add(haveList[index]);
         haveList.Remove(haveList[index]);
-        Debug.Log(index);
         StartChange();
     }
 

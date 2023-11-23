@@ -100,7 +100,10 @@ public class GameInfo : MonoBehaviour
         }
         if(players.Count>0)
         {
-            GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc1 = players[0].GetComponent<AIController>();
+            foreach (var player in players)
+            {
+                GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc.Add(player.GetComponent<AIController>());
+            }
         }
         
     }

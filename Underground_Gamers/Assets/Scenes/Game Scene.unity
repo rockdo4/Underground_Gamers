@@ -841,17 +841,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 475584139}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1683752558 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 779055762165048350, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
-  m_PrefabInstance: {fileID: 6754190364423181764}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75051cbc3db96f4bb908deaec943c6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1683752562 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
@@ -964,8 +953,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ce14dc649e7c646b7a601deae3a6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pc1: {fileID: 1683752558}
-  npc1: {fileID: 779055763051833173}
+  pc: []
+  npc: []
 --- !u!1001 &18566632392327579
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1027,17 +1016,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b14cf04491fcbc146b30c28bc9e24da0, type: 3}
---- !u!114 &779055763051833173 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8955805494660279668, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
-  m_PrefabInstance: {fileID: 6408892601051904914}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75051cbc3db96f4bb908deaec943c6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &779055763051833177 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1775514118096814915, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
@@ -1090,6 +1068,10 @@ PrefabInstance:
     - target: {fileID: 1775514118096814915, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: maxHp
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7378083268255723418, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_Name

@@ -26,6 +26,11 @@ public class AttackState : AIState
     {
         //Debug.Log("Attack State");
         RotateToTarget();
+        if (aiController.target == null)
+        {
+            aiController.SetState(States.Idle);
+            return;
+        }
 
         var dirToTarget = aiController.target.position - aiTr.position;
         dirToTarget.Normalize();
