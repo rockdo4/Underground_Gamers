@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -81,5 +82,11 @@ public class LobbyUIManager : MonoBehaviour
     public void ActiveStage(bool on)
     {
         stage.SetActive(on);
+    }
+
+    public void StartGame()
+    {
+        GameInfo.instance.RegistPlayers();
+        SceneManager.LoadScene("Game Scene");
     }
 }

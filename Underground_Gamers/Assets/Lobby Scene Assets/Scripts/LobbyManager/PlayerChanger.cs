@@ -45,20 +45,22 @@ public class PlayerChanger : MonoBehaviour
         int index = 0;
         foreach (var player in haveList)
         {
+            int currIndex = index;
             var bt = Instantiate(playerButtons, havePlayerSpace.transform);
             var pb = bt.GetComponent<PlayerButtons>();
             pb.SetImage(playerLoadManager.playerSprites[player.code]);
-            pb.GetComponent<Button>().onClick.AddListener(() => ToUse(index));
+            pb.GetComponent<Button>().onClick.AddListener(() => ToUse(currIndex));
             pb.index = index++;
         }
 
         index = 0;
         foreach (var player in usingList)
         {
+            int currIndex = index;
             var bt = Instantiate(playerButtons, usingPlayerSpace.transform);
             var pb = bt.GetComponent<PlayerButtons>();
             pb.SetImage(playerLoadManager.playerSprites[player.code]);
-            pb.GetComponent<Button>().onClick.AddListener(() => ToHave(index));
+            pb.GetComponent<Button>().onClick.AddListener(() => ToHave(currIndex));
             pb.index = index++;
         }
     }

@@ -31,5 +31,12 @@ public class Test : MonoBehaviour
             GamePlayerInfo.instance.havePlayers.Add(newPlayer);
             Debug.Log("ADD 2");
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Player newPlayer = new Player();
+            newPlayer.code = 3;
+            GamePlayerInfo.instance.havePlayers.Add(newPlayer);
+            Debug.Log("ADD 3");
+        }
     }
 }

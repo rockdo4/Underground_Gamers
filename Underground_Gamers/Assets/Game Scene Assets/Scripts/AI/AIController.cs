@@ -29,7 +29,6 @@ public class AIController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         // 데이터 테이블에 따라서 정보를 가져올 수 있음, 레벨 정보는 세이브 데이터
         status = GetComponent<CharacterStatus>();
-        spum.AddComponent<LookCameraRect>();
     }
 
     private void Start()
@@ -42,6 +41,11 @@ public class AIController : MonoBehaviour
         agent.SetDestination(point.position);
 
         SetState(States.Idle);
+    }
+
+    public void SetDestination(Vector3 vector3)
+    {
+        agent.SetDestination(vector3);
     }
 
     private void Update()
