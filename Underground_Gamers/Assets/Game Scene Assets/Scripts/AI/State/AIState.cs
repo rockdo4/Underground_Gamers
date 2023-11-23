@@ -46,6 +46,5 @@ public abstract class AIState : BaseState
         aiTr.rotation = Quaternion.RotateTowards(aiTr.rotation, targetRotation, aiStatus.reactionSpeed * Time.deltaTime);
         //Debug.Log($"THIS {this.target} ");
         //Debug.Log($"TARGET {target} ");
-
     }
 }

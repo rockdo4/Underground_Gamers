@@ -24,6 +24,10 @@ public class AttackState : AIState
 
     public override void Update()
     {
+        if(!aiStatus.IsLive)
+        {
+            return;
+        }
         //Debug.Log("Attack State");
         RotateToTarget();
         if (aiController.target == null)
@@ -31,7 +35,6 @@ public class AttackState : AIState
             aiController.SetState(States.Idle);
             return;
         }
-        Debug.Log(aiTr);
         var dirToTarget = aiController.target.position - aiTr.position;
 
         dirToTarget.Normalize();

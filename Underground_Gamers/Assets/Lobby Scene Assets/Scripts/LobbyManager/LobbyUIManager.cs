@@ -16,6 +16,7 @@ public class LobbyUIManager : MonoBehaviour
     [Header("UIGroup : Schedule")]
     public GameObject schedule;
     public GameObject stage;
+    public GameObject playerCountLackWarning;
     public static LobbyUIManager instance
     {
         get
@@ -86,7 +87,17 @@ public class LobbyUIManager : MonoBehaviour
 
     public void StartGame()
     {
+        if (GamePlayerInfo.instance.usingPlayers.Count < 5)
+        {
+            ActivePlayerCountLackWarning(true);
+            return;
+        }
         GameInfo.instance.RegistPlayers();
         SceneManager.LoadScene("Game Scene");
+    }
+
+    public void ActivePlayerCountLackWarning(bool on)
+    {
+        playerCountLackWarning.SetActive(on);
     }
 }

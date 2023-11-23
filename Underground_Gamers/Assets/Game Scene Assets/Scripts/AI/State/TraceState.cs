@@ -27,7 +27,10 @@ public class TraceState : AIState
     public override void Update()
     {
         //Debug.Log("Trace State");
-
+        if (!aiStatus.IsLive)
+        {
+            return;
+        }
         if (aiController.target == null)
         {
             aiController.SetState(States.Idle);

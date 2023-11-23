@@ -26,7 +26,10 @@ public class IdleState : AIState
     public override void Update()
     {
         //Debug.Log("Idle State");
-
+        if (!aiStatus.IsLive)
+        {
+            return;
+        }
         if (aiController.target == null)
         {
             aiController.target = aiController.point;
