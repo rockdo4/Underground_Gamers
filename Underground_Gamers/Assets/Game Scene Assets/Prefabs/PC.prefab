@@ -45,7 +45,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6281770148374587240}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.35
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -72,10 +72,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 0}
   point: {fileID: 0}
+  target: {fileID: 0}
   layer:
     serializedVersion: 2
     m_Bits: 64
-  detectTime: 1
+  detectTime: 0.1
 --- !u!114 &2013940768982972327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,8 +94,9 @@ MonoBehaviour:
   sight: 3
   sightAngle: 15
   detectionRange: 5
+  range: 4
   evasionRate: 0
-  reactionSpeed: 0
+  reactionSpeed: 150
   damage: 0
   armor: 0
 --- !u!136 &8199792129937762316

@@ -10,6 +10,8 @@ public class CharacterStatus : MonoBehaviour
     public float sightAngle;        // 시야각
     public float detectionRange;    // 탐지범위
 
+    public float range;         // 공격 사정거리
+
     public float evasionRate;       // 회피율
     public float reactionSpeed;     // 반응속도
 

@@ -11,11 +11,17 @@ public abstract class AIState : BaseState
     protected NavMeshAgent agent;
     protected Animator animator;
 
-    protected Transform target;
-    protected int teamLayer;
-    protected int enemyLayer;
-    protected int obstacleLayer;
-
+    public float DistanceToTarget
+    {
+        get
+        {
+            if (aiController.target == null)
+            {
+                return 0f;
+            }
+            return Vector3.Distance(aiController.transform.position, aiController.target.transform.position);
+        }
+    }
 
     public AIState(AIController aiController)
     {
@@ -24,21 +30,20 @@ public abstract class AIState : BaseState
         agent = aiController.GetComponent<NavMeshAgent>();
         animator = aiController.GetComponent<Animator>();
         aiTr = aiController.GetComponent<Transform>();
-        teamLayer = aiController.layer;
-
-        if (teamLayer == LayerMask.GetMask("PC"))
-            enemyLayer = LayerMask.GetMask("NPC");
-        else
-            enemyLayer = LayerMask.GetMask("PC");
-
-        obstacleLayer = LayerMask.GetMask("Obstacle");
-        target = aiController.point;
     }
 
     public void SetTarget(Transform target)
     {
-        this.target = target;
-        agent.SetDestination(this.target.position);
+        aiController.target = target;
+        agent.SetDestination(aiController.target.position);
+        //Debug.Log(this.target);
+    }
+    protected void RotateToTarget()
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(aiController.target.position - aiTr.position);
+        aiTr.rotation = Quaternion.RotateTowards(aiTr.rotation, targetRotation, aiStatus.reactionSpeed * Time.deltaTime);
+        //Debug.Log($"THIS {this.target} ");
+        //Debug.Log($"TARGET {target} ");
 
     }
 }

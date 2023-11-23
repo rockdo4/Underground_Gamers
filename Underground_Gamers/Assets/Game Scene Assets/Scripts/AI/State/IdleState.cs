@@ -12,6 +12,7 @@ public class IdleState : AIState
     public override void Enter()
     {
         agent.isStopped = true;
+        agent.angularSpeed = 0;
         agent.speed = 0f;
         // Idle애니메이션 실행
 
@@ -24,13 +25,15 @@ public class IdleState : AIState
 
     public override void Update()
     {
-        if (target == null)
+        //Debug.Log("Idle State");
+
+        if (aiController.target == null)
         {
-            target = aiController.point;
+            aiController.target = aiController.point;
             return;
         }
 
-        if(target != null)
+        if(aiController.target != null)
         {
             aiController.SetState(States.Trace);
         }
