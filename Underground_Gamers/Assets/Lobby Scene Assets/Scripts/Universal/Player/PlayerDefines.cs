@@ -11,10 +11,10 @@ enum PlayerClass
 }
 public class Player
 {
-    public int code;
-    public int grade;
+    public int code = -1;
+    public int grade = -1;
     public int gearCode = -1;
-    public float ID;
+    public float ID = -1f;
 }
 
 public struct PlayerInfo

@@ -11,6 +11,7 @@ public class LobbyUIManager : MonoBehaviour
     public List<GameObject> lobbyNoMoney;
     public GameObject money;
     public GameObject playerList;
+    public GameObject playerSlotSet;
 
     [Space(10f)]
     [Header("UIGroup : Schedule")]
@@ -67,11 +68,16 @@ public class LobbyUIManager : MonoBehaviour
 
     public void ActivePlayerList(bool on)
     {
-        playerList.SetActive(on);
         if (on)
         {
-            PlayerChanger.instance.StartChange();
+            PlayerChanger.instance.SlotChecker();
         }
+        playerList.SetActive(on);
+    }
+
+    public void ActivePlayerSlotSet(bool on)
+    {
+        playerSlotSet.SetActive(on);
     }
 
     //------------------------------------------------//

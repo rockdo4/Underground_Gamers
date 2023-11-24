@@ -2,8 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GamePlayerInfo : MonoBehaviour
 {
@@ -40,6 +43,13 @@ public class GamePlayerInfo : MonoBehaviour
     [HideInInspector]
     public int IDcode = 0;
 
+    private void Awake()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            usingPlayers.Add(new Player());
+        }
+    }
     public void SortPlayersWithGrade()
     {
         var sortedPeople = havePlayers.OrderBy(p => p.grade).ThenBy(p => p.code);
@@ -53,6 +63,16 @@ public class GamePlayerInfo : MonoBehaviour
         newPlayer.ID = IDPrinter();
         Debug.Log(newPlayer.ID);
         havePlayers.Add(newPlayer);
+    }
+
+    public void RemoveUsePlayer(int slotIndex)
+    {
+        if (slotIndex > 4)
+        {
+            return;
+        }
+        Player newPlayer = new Player();
+        usingPlayers[slotIndex] = newPlayer;
     }
 
     private float IDPrinter()

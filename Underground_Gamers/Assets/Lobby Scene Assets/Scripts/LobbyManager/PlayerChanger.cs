@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,13 +10,15 @@ public class PlayerChanger : MonoBehaviour
     public GameObject playerButtons;
     
     public GameObject havePlayerSpace;
-    public GameObject usingPlayerSpace;
+
+    public List<UIPlayerSlots> usingSlots;
 
     public List<Player> haveList;
     public List<Player> usingList;
 
-    public PlayerLoadManager playerLoadManager;
-
+    private int currentSlotIndex = 0;
+    private LobbyUIManager lobbyUIManager;
+    private List<GameObject> olds = new List<GameObject>();
     public static PlayerChanger instance
     {
         get
@@ -29,18 +32,44 @@ public class PlayerChanger : MonoBehaviour
     }
 
     private static PlayerChanger playerChanger;
-    public void StartChange()
+
+
+    private void Awake()
     {
+        lobbyUIManager = GetComponent<LobbyUIManager>();
+    }
+    public void SlotChecker()
+    {
+        usingList = GamePlayerInfo.instance.usingPlayers;
+        for (int i = 0; i < 8; i++) 
+        {
+            if(usingList[i].code < 0)
+            {
+                usingSlots[i].FrontPanel.gameObject.SetActive(true);
+                usingSlots[i].image.sprite = null;
+            }
+            else
+            {
+                usingSlots[i].FrontPanel.gameObject.SetActive(false);
+                usingSlots[i].image.sprite = PlayerLoadManager.instance.playerSprites[PlayerLoadManager.instance.PlayerIndexSearch(usingList[i].code)];
+            }
+            
+        }
+
+    }
+    public void StartChange(int slotIndex)
+    {
+        currentSlotIndex = slotIndex;
         GamePlayerInfo.instance.SortPlayersWithGrade();
-        var olds = GameObject.FindGameObjectsWithTag("PlayerButtons");
+        haveList = GamePlayerInfo.instance.havePlayers;
+        usingList = GamePlayerInfo.instance.usingPlayers;
+
         foreach (var old in olds)
         {
             Destroy(old.gameObject);
         }
-        GamePlayerInfo.instance.SortPlayersWithGrade();
+        olds.Clear();
 
-        haveList = GamePlayerInfo.instance.havePlayers;
-        usingList = GamePlayerInfo.instance.usingPlayers;
 
         int index = 0;
         foreach (var player in haveList)
@@ -48,40 +77,36 @@ public class PlayerChanger : MonoBehaviour
             int currIndex = index;
             var bt = Instantiate(playerButtons, havePlayerSpace.transform);
             var pb = bt.GetComponent<PlayerButtons>();
-            pb.SetImage(playerLoadManager.playerSprites[player.code]);
+            pb.SetImage(PlayerLoadManager.instance.playerSprites[player.code]);
             pb.GetComponent<Button>().onClick.AddListener(() => ToUse(currIndex));
+            pb.GetComponent<Button>().onClick.AddListener(() => lobbyUIManager.ActivePlayerSlotSet(false));
+            Debug.Log(index);
             pb.index = index++;
+            olds.Add(bt);
         }
 
         index = 0;
-        foreach (var player in usingList)
-        {
-            int currIndex = index;
-            var bt = Instantiate(playerButtons, usingPlayerSpace.transform);
-            var pb = bt.GetComponent<PlayerButtons>();
-            pb.SetImage(playerLoadManager.playerSprites[player.code]);
-            pb.GetComponent<Button>().onClick.AddListener(() => ToHave(currIndex));
-            pb.index = index++;
-        }
     }
 
     public void ToUse(int index)
     {
-        if (usingList.Count >= 8)
+        if (usingList[currentSlotIndex].code > 0)
         {
-            return;
+            haveList.Add(usingList[currentSlotIndex]);
+            GamePlayerInfo.instance.RemoveUsePlayer(currentSlotIndex);
         }
-
-        usingList.Add(haveList[index]);
+        usingList[currentSlotIndex] = haveList[index];
         haveList.Remove(haveList[index]);
-        StartChange();
+        SlotChecker();
     }
 
-    public void ToHave(int index)
+    public void ToHave()
     {
-        haveList.Add(usingList[index]);
-        usingList.RemoveAt(index);
-
-        StartChange();
+        if (usingList[currentSlotIndex].code > 0)
+        {
+            haveList.Add(usingList[currentSlotIndex]);
+            GamePlayerInfo.instance.RemoveUsePlayer(currentSlotIndex);
+        }
+        SlotChecker();
     }
 }
