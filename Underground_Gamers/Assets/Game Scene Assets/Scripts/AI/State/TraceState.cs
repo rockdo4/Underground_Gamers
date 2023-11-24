@@ -12,11 +12,13 @@ public class TraceState : AIState
 
     public override void Enter()
     {
-        //lastDetectTime = Time.time - aiController.detectTime;
+        aiController.RefreshDebugAIStatus(this.ToString());
+
         lastDetectTime -= aiController.detectTime;
         agent.isStopped = false;
         agent.angularSpeed = aiStatus.reactionSpeed;
         agent.speed = aiStatus.speed;
+
     }
 
     public override void Exit()
@@ -31,17 +33,18 @@ public class TraceState : AIState
         {
             return;
         }
+
         if (aiController.target == null)
         {
             aiController.SetState(States.Idle);
             return;
         }
 
-        if (aiStatus.range > DistanceToTarget)
-        {
-            aiController.SetState(States.Attack);
-            return;
-        }
+        //if (aiStatus.range > DistanceToTarget)
+        //{
+        //    aiController.SetState(States.Attack);
+        //    return;
+        //}
 
         if (lastDetectTime + aiController.detectTime < Time.time)
         {
@@ -49,6 +52,7 @@ public class TraceState : AIState
 
             SearchTargetInDetectionRange();
             SearchTargetInSector();
+
             agent.SetDestination(aiController.target.position);
         }
     }
@@ -87,6 +91,7 @@ public class TraceState : AIState
         if (target != null)
         {
             SetTarget(target);
+            aiController.SetState(States.AimSearch);
             return;
         }
     }
@@ -122,6 +127,7 @@ public class TraceState : AIState
         if (target != null)
         {
             SetTarget(target);
+            aiController.SetState(States.AimSearch);
             return;
         }
 

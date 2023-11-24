@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,7 +11,9 @@ public enum States
 {
     Idle,
     Trace,
+    AimSearch,
     Attack,
+    Kiting,
 }
 
 public enum SkillTypes
@@ -48,14 +52,24 @@ public class AIController : MonoBehaviour
 
 
     public AttackDefinition[] attackInfos = new AttackDefinition[(int)SkillTypes.Count];
+    public KitingData kitingInfo;
 
 
     [Tooltip("탐지 딜레이 시간")]
     public float detectTime = 0.1f;
 
+    [Tooltip("마지막 공격 시점")]
+    public float lastAttackTime;
+    [Tooltip("공격 딜레이 타임")]
+    public float attackCoolTime;
+
+
     public int teamLayer;
     public int enemyLayer;
     public int obstacleLayer;
+
+    public string statusName;
+    public AIStatusInfo aiStatusInfo;
 
 
     public bool RaycastToTarget
@@ -75,12 +89,19 @@ public class AIController : MonoBehaviour
             //LayerMask.LayerToName(gameObject.layer),
             //    LayerMask.LayerToName(this.target.gameObject.layer));
             //var layer = Physics.AllLayers ^ mask;
-            bool isCol = Physics.Raycast(origin, direction, out RaycastHit hitInfo, status.range, enemyLayer);
 
-            if (isCol)
+            float dot = Vector3.Dot(direction, transform.forward);
+            bool isCol = false;
+            if (dot < 1f)
             {
-                hitInfoPos = hitInfo.point;
+                isCol = Physics.Raycast(origin, direction, out RaycastHit hitInfo, status.range, enemyLayer);
+                if(isCol)
+                {
+                    Debug.Log(statusName);
+                    hitInfoPos = hitInfo.point;
+                }
             }
+
             return isCol;
         }
     }
@@ -92,6 +113,10 @@ public class AIController : MonoBehaviour
         // 데이터 테이블에 따라서 정보를 가져올 수 있음, 레벨 정보는 세이브 데이터
         status = GetComponent<CharacterStatus>();
         target = point;
+
+        attackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
+        lastAttackTime -= attackCoolTime;
+
 
         teamLayer = layer;
 
@@ -110,12 +135,20 @@ public class AIController : MonoBehaviour
         stateManager = new StateManager();
         states.Add(new IdleState(this));
         states.Add(new TraceState(this));
+        states.Add(new AimSearchState(this));
         states.Add(new AttackState(this));
+        states.Add(new KitingState(this));
 
         agent.speed = status.speed;
         agent.SetDestination(point.position);
 
         SetState(States.Idle);
+    }
+
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
+        SetDestination(this.target.position);
     }
 
     public void SetDestination(Vector3 vector3)
@@ -141,6 +174,17 @@ public class AIController : MonoBehaviour
     public void UpdateState()
     {
         stateManager.Update();
+    }
+
+    public void UpdateKiting()
+    {
+        kitingInfo.UpdateKiting(target, this);
+    }
+
+    public void RefreshDebugAIStatus(string debug)
+    {
+        statusName = $"{aiStatusInfo.aiType}{aiStatusInfo.aiNum} : {debug}";
+        aiStatusInfo.GetComponentInChildren<TextMeshProUGUI>().text = statusName;
     }
 
     private void OnDrawGizmos()

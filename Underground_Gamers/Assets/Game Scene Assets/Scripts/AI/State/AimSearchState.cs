@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState : AIState
+public class AimSearchState : AIState
 {
-    public IdleState(AIController aiController) : base(aiController)
+    public AimSearchState(AIController aiController) : base(aiController)
     {
 
     }
@@ -14,10 +14,7 @@ public class IdleState : AIState
         aiController.RefreshDebugAIStatus(this.ToString());
 
         agent.isStopped = true;
-        agent.angularSpeed = 0;
         agent.speed = 0f;
-        // Idle애니메이션 실행
-
     }
 
     public override void Exit()
@@ -27,20 +24,17 @@ public class IdleState : AIState
 
     public override void Update()
     {
-        //Debug.Log("Idle State");
-        if (!aiStatus.IsLive)
+        RotateToTarget();
+        if (aiController.RaycastToTarget)
         {
-            return;
-        }
-        if (aiController.target == null)
-        {
-            aiController.target = aiController.point;
+            aiController.SetState(States.Attack);
             return;
         }
 
-        if(aiController.target != null)
+        if(DistanceToTarget > aiStatus.range)
         {
             aiController.SetState(States.Trace);
+            return;
         }
     }
 }
