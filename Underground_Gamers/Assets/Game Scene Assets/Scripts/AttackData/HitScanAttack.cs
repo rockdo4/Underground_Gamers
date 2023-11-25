@@ -17,10 +17,12 @@ public class HitScanAttack : AttackDefinition
         lineRen.positionCount = 2;
 
         var attackPos = attackAI.firePos.position;
+        var hitPos = attackAI.hitInfoPos;
+        hitPos.y = attackPos.y;
         //attackPos.y += 0.6f;
 
         lineRen.SetPosition(0, attackPos);
-        lineRen.SetPosition(1, attackAI.hitInfoPos);
+        lineRen.SetPosition(1, hitPos);
 
         var attackStatus = attacker.GetComponent<CharacterStatus>();
         var defendStatus = defender.GetComponent<CharacterStatus>();

@@ -14,11 +14,7 @@ public class AttackState : AIState
         agent.isStopped = true;
         agent.speed = 0;
 
-        if (aiController.attackInfos[(int)SkillTypes.Base] != null)
-        {
-            aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
-            aiController.SetState(States.Kiting);
-        }
+
     }
 
     public override void Exit()
@@ -42,6 +38,13 @@ public class AttackState : AIState
         if(DistanceToTarget > aiStatus.range)
         {
             aiController.SetState(States.Trace);
+            return;
+        }
+
+        if (aiController.attackInfos[(int)SkillTypes.Base] != null)
+        {
+            aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
+            aiController.SetState(States.Kiting);
             return;
         }
         //Debug.Log("Attack State");

@@ -12,9 +12,9 @@ public class AimSearchState : AIState
     public override void Enter()
     {
         aiController.RefreshDebugAIStatus(this.ToString());
-
         agent.isStopped = true;
         agent.speed = 0f;
+
     }
 
     public override void Exit()
@@ -25,6 +25,8 @@ public class AimSearchState : AIState
     public override void Update()
     {
         RotateToTarget();
+
+
         if (aiController.RaycastToTarget)
         {
             aiController.SetState(States.Attack);
@@ -33,6 +35,7 @@ public class AimSearchState : AIState
 
         if(DistanceToTarget > aiStatus.range)
         {
+            aiController.SetTarget(aiController.target);
             aiController.SetState(States.Trace);
             return;
         }

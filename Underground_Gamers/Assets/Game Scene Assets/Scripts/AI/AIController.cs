@@ -10,6 +10,7 @@ using static UnityEngine.GraphicsBuffer;
 public enum States
 {
     Idle,
+    MissionExecution,
     Trace,
     AimSearch,
     Attack,
@@ -31,7 +32,7 @@ public enum SkillActionTypes
 }
 public class AIController : MonoBehaviour
 {
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     public CharacterStatus status;
 
     private StateManager stateManager;
@@ -48,6 +49,8 @@ public class AIController : MonoBehaviour
     public AIManager manager;
 
     public Vector3 hitInfoPos;
+    public Vector3 kitingPos;
+    public bool isKiting = false;
 
 
 
@@ -76,10 +79,12 @@ public class AIController : MonoBehaviour
     {
         get
         {
-            var origin = firePos.position;
+            if (this.target == null)
+                return false;
+            var origin = transform.position;
             //origin.y += 0.6f;
             var target = this.target.position;
-            target.y += firePos.position.y;
+            target.y = transform.position.y;
             var direction = target - origin;
             direction.Normalize();
 
@@ -91,13 +96,14 @@ public class AIController : MonoBehaviour
             //var layer = Physics.AllLayers ^ mask;
 
             float dot = Vector3.Dot(direction, transform.forward);
+            float dotAngle = 1f - (status.sightAngle / 2) * 0.01f;
+
             bool isCol = false;
-            if (dot < 1f)
+            if (dot > dotAngle)
             {
                 isCol = Physics.Raycast(origin, direction, out RaycastHit hitInfo, status.range, enemyLayer);
                 if(isCol)
                 {
-                    Debug.Log(statusName);
                     hitInfoPos = hitInfo.point;
                 }
             }
@@ -115,7 +121,7 @@ public class AIController : MonoBehaviour
         target = point;
 
         attackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
-        lastAttackTime -= attackCoolTime;
+        lastAttackTime = Time.time - attackCoolTime;
 
 
         teamLayer = layer;
@@ -134,13 +140,14 @@ public class AIController : MonoBehaviour
     {
         stateManager = new StateManager();
         states.Add(new IdleState(this));
+        states.Add(new MissionExecutionState(this));
         states.Add(new TraceState(this));
         states.Add(new AimSearchState(this));
         states.Add(new AttackState(this));
         states.Add(new KitingState(this));
 
         agent.speed = status.speed;
-        agent.SetDestination(point.position);
+        //agent.SetDestination(point.position);
 
         SetState(States.Idle);
     }
@@ -178,7 +185,8 @@ public class AIController : MonoBehaviour
 
     public void UpdateKiting()
     {
-        kitingInfo.UpdateKiting(target, this);
+        if(target != null)
+            kitingInfo.UpdateKiting(target, this);
     }
 
     public void RefreshDebugAIStatus(string debug)
