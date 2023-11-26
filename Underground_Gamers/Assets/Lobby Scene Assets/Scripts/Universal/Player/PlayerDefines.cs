@@ -11,15 +11,23 @@ enum PlayerClass
 }
 public class Player
 {
-    public int code = -1;
-    public int grade = -1;
-    public int gearCode = -1;
     public float ID = -1f;
+
+    public int code = -1;
+    public int type = -1;
+    public int grade = -1;
+    public int maxGrade = -1;
+    public int breakthrough = -1;
+
+    public int gearCode = -1;
+    public int condition = 0;
+    //ability??
 }
 
 public struct PlayerInfo
 {
     public int code;
+    public int type;
     public string name;
     public string comment;    //선수 설명
     public int hp;

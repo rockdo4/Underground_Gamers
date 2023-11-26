@@ -80,7 +80,6 @@ public class PlayerChanger : MonoBehaviour
             pb.SetImage(PlayerLoadManager.instance.playerSprites[player.code]);
             pb.GetComponent<Button>().onClick.AddListener(() => ToUse(currIndex));
             pb.GetComponent<Button>().onClick.AddListener(() => lobbyUIManager.ActivePlayerSlotSet(false));
-            Debug.Log(index);
             pb.index = index++;
             olds.Add(bt);
         }
@@ -90,7 +89,7 @@ public class PlayerChanger : MonoBehaviour
 
     public void ToUse(int index)
     {
-        if (usingList[currentSlotIndex].code > 0)
+        if (usingList[currentSlotIndex].code >= 0)
         {
             haveList.Add(usingList[currentSlotIndex]);
             GamePlayerInfo.instance.RemoveUsePlayer(currentSlotIndex);
@@ -102,11 +101,24 @@ public class PlayerChanger : MonoBehaviour
 
     public void ToHave()
     {
-        if (usingList[currentSlotIndex].code > 0)
+        if (usingList[currentSlotIndex].code >= 0)
         {
             haveList.Add(usingList[currentSlotIndex]);
             GamePlayerInfo.instance.RemoveUsePlayer(currentSlotIndex);
         }
         SlotChecker();
+    }
+
+    public bool IsFullSquad()
+    {
+        usingList = GamePlayerInfo.instance.usingPlayers;
+        for (int i = 0; i < 5; i++)
+        {
+            if (usingList[i].code == -1)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

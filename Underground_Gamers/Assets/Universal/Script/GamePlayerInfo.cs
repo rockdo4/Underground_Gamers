@@ -60,14 +60,14 @@ public class GamePlayerInfo : MonoBehaviour
     {
         Player newPlayer = new Player();
         newPlayer.code = code;
+        newPlayer.type = PlayerLoadManager.instance.playerDatabase[code].type;
         newPlayer.ID = IDPrinter();
-        Debug.Log(newPlayer.ID);
         havePlayers.Add(newPlayer);
     }
 
     public void RemoveUsePlayer(int slotIndex)
     {
-        if (slotIndex > 4)
+        if (slotIndex > 7)
         {
             return;
         }

@@ -43,6 +43,7 @@ public class PlayerLoadManager : MonoBehaviour
             playerInfo.code = (int)player["Code"];
             playerInfo.name = (string)player["Name"];
             playerInfo.hp = (int)player["Hp"];
+            playerInfo.type = (int)player["Type"];
             playerDatabase.Add(playerInfo);
             playerSprites.Add(Resources.Load<Sprite>(
                 Path.Combine("PlayerSprite", playerInfo.code.ToString())));

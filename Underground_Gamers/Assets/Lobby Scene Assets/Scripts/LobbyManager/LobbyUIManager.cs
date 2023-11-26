@@ -12,6 +12,7 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject money;
     public GameObject playerList;
     public GameObject playerSlotSet;
+    public GameObject playerSlotLackWarning;
 
     [Space(10f)]
     [Header("UIGroup : Schedule")]
@@ -54,6 +55,7 @@ public class LobbyUIManager : MonoBehaviour
     {
         lobby.SetActive(on);
     }
+
     public void ActiveLobyWithoutMoney(bool on)
     {
         foreach (GameObject obj in lobbyNoMoney)
@@ -61,6 +63,7 @@ public class LobbyUIManager : MonoBehaviour
             obj.SetActive(on);
         }
     }
+
     public void ActiveMoney(bool on)
     {
         money.SetActive(on);
@@ -72,6 +75,16 @@ public class LobbyUIManager : MonoBehaviour
         {
             PlayerChanger.instance.SlotChecker();
         }
+        else if(!PlayerChanger.instance.IsFullSquad())
+        {
+            playerSlotLackWarning.SetActive(true);
+            return;
+        }
+        playerList.SetActive(on);
+    }
+
+    public void ActivePlayerListAnyway(bool on)
+    {
         playerList.SetActive(on);
     }
 
@@ -81,6 +94,7 @@ public class LobbyUIManager : MonoBehaviour
     }
 
     //------------------------------------------------//
+
     public void ActiveSchedule(bool on)
     {
         schedule.SetActive(on);
@@ -105,5 +119,10 @@ public class LobbyUIManager : MonoBehaviour
     public void ActivePlayerCountLackWarning(bool on)
     {
         playerCountLackWarning.SetActive(on);
+    }
+
+    public void ActivePlayerSlotLackWarning(bool on)
+    {
+        playerSlotLackWarning.SetActive(on);
     }
 }
