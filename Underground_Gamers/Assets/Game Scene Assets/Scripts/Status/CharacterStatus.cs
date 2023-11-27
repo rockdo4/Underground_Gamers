@@ -19,6 +19,9 @@ public class CharacterStatus : MonoBehaviour
 
     public int armor;
 
+    public int deathCount;
+    public float respawnTime;
+    public float respawnTimeIncreaseRate;
     public bool IsLive { get; set; } = true;
     public int Hp { get; set; }
 

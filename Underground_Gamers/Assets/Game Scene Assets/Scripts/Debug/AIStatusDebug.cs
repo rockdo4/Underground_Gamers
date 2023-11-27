@@ -5,7 +5,7 @@ using UnityEngine;
 public class AIStatusDebug : MonoBehaviour
 {
     public AIManager aiManager;
-    public AIStatusInfo aiInfoPrefab;
+    public DebugAIStatusInfo aiInfoPrefab;
 
     public Transform pcPannel;
     public Transform npcPannel;
@@ -22,16 +22,16 @@ public class AIStatusDebug : MonoBehaviour
 
         foreach(var ai in aiManager.pc)
         {
-            ai.aiStatusInfo = Instantiate(aiInfoPrefab, pcAIInfoParent);
-            ai.aiStatusInfo.aiType = "PC";
-            ai.aiStatusInfo.aiNum = pcNum++;
+            ai.debugAIStatusInfo = Instantiate(aiInfoPrefab, pcAIInfoParent);
+            ai.debugAIStatusInfo.aiType = "PC";
+            ai.debugAIStatusInfo.aiNum = pcNum++;
 
         }
         foreach(var ai in aiManager.npc)
         {
-            ai.aiStatusInfo = Instantiate(aiInfoPrefab, npcAIInfoParent);
-            ai.aiStatusInfo.aiType = "NPC";
-            ai.aiStatusInfo.aiNum = npcNum++;
+            ai.debugAIStatusInfo = Instantiate(aiInfoPrefab, npcAIInfoParent);
+            ai.debugAIStatusInfo.aiType = "NPC";
+            ai.debugAIStatusInfo.aiNum = npcNum++;
         }
     }
 }

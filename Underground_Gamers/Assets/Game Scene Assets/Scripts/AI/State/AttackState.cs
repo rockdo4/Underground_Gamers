@@ -41,7 +41,7 @@ public class AttackState : AIState
             return;
         }
 
-        if (aiController.attackInfos[(int)SkillTypes.Base] != null)
+        if (aiController.attackInfos[(int)SkillTypes.Base] != null && aiController.target != null && aiController != null)
         {
             aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
             aiController.SetState(States.Kiting);

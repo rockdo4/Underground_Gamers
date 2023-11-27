@@ -26,6 +26,8 @@ public class AimSearchState : AIState
     {
         RotateToTarget();
 
+        if (aiController.target == null)
+            aiController.SetState(States.Idle);
 
         if (aiController.RaycastToTarget)
         {

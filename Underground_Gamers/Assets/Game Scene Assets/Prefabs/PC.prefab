@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 2013940768982972327}
   - component: {fileID: 8199792129937762316}
   - component: {fileID: -6158067953069640075}
+  - component: {fileID: 2064359598527298224}
+  - component: {fileID: 5988317614649542852}
+  - component: {fileID: 5380978509213074266}
   m_Layer: 6
   m_Name: PC
   m_TagString: Untagged
@@ -70,6 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c75051cbc3db96f4bb908deaec943c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
   status: {fileID: 0}
   point: {fileID: 0}
   target: {fileID: 0}
@@ -82,6 +86,8 @@ MonoBehaviour:
   leftHand: {fileID: 0}
   manager: {fileID: 0}
   hitInfoPos: {x: 0, y: 0, z: 0}
+  kitingPos: {x: 0, y: 0, z: 0}
+  isKiting: 0
   attackInfos:
   - {fileID: 11400000, guid: 55edeb36a82ac5a42a324bddbe6df0a4, type: 2}
   - {fileID: 0}
@@ -93,6 +99,9 @@ MonoBehaviour:
   teamLayer: 0
   enemyLayer: 0
   obstacleLayer: 0
+  statusName: 
+  debugAIStatusInfo: {fileID: 0}
+  aiCommandInfo: {fileID: 0}
 --- !u!114 &2013940768982972327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +124,9 @@ MonoBehaviour:
   reactionSpeed: 150
   damage: 10
   armor: 0
+  deathCount: 0
+  respawnTime: 0
+  respawnTimeIncreaseRate: 0
 --- !u!136 &8199792129937762316
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -148,5 +160,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0236d73d4811af43bd2cb3a5c4cbef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2064359598527298224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281770148374587240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad6da4e85dec64f44bf8d7f713f47dec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5988317614649542852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281770148374587240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b38bbd20076796479405769b48cd8b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5380978509213074266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281770148374587240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d47c38837190388419384dddf0b40043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

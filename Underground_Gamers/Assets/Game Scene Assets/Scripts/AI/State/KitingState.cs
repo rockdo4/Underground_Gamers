@@ -27,17 +27,24 @@ public class KitingState : AIState
 
     public override void Update()
     {
-        if(Vector3.Distance(aiController.kitingPos, aiTr.position) < 0.1f && aiController.isKiting)
+        if(aiController.target == null)
         {
-            aiController.isKiting = false;
-            aiController.SetState(States.Attack);
-            return;
+            aiController.SetState(States.Idle);
         }
 
-        if (lastKitingTime + kitingCoolTime < Time.time)
+        if(Vector3.Distance(aiController.kitingPos, aiTr.position) < 0.1f)
         {
-            lastKitingTime = Time.time;
+            aiController.isKiting = false;
+            if(DistanceToTarget < aiStatus.range)
+                aiController.SetState(States.AimSearch);
+            else
+                aiController.SetState(States.Trace);
+        }
+
+        if (lastKitingTime + kitingCoolTime < Time.time && !aiController.isKiting)
+        {
             aiController.isKiting = true;
+            lastKitingTime = Time.time;
             aiController.UpdateKiting();
         }
 

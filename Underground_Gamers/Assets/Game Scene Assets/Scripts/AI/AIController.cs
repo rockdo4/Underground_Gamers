@@ -52,11 +52,8 @@ public class AIController : MonoBehaviour
     public Vector3 kitingPos;
     public bool isKiting = false;
 
-
-
     public AttackDefinition[] attackInfos = new AttackDefinition[(int)SkillTypes.Count];
     public KitingData kitingInfo;
-
 
     [Tooltip("Å½Áö µô·¹ÀÌ ½Ã°£")]
     public float detectTime = 0.1f;
@@ -66,14 +63,13 @@ public class AIController : MonoBehaviour
     [Tooltip("°ø°Ý µô·¹ÀÌ Å¸ÀÓ")]
     public float attackCoolTime;
 
-
     public int teamLayer;
     public int enemyLayer;
     public int obstacleLayer;
 
     public string statusName;
-    public AIStatusInfo aiStatusInfo;
-
+    public DebugAIStatusInfo debugAIStatusInfo;
+    public CommandInfo aiCommandInfo;
 
     public bool RaycastToTarget
     {
@@ -191,8 +187,8 @@ public class AIController : MonoBehaviour
 
     public void RefreshDebugAIStatus(string debug)
     {
-        statusName = $"{aiStatusInfo.aiType}{aiStatusInfo.aiNum} : {debug}";
-        aiStatusInfo.GetComponentInChildren<TextMeshProUGUI>().text = statusName;
+        statusName = $"{debugAIStatusInfo.aiType}{debugAIStatusInfo.aiNum} : {debug}";
+        debugAIStatusInfo.GetComponentInChildren<TextMeshProUGUI>().text = statusName;
     }
 
     private void OnDrawGizmos()
