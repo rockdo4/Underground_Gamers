@@ -43,6 +43,7 @@ public class GamePlayerInfo : MonoBehaviour
     [HideInInspector]
     public int IDcode = 0;
 
+    private PlayerTable pt;
     private void Awake()
     {
         for (int i = 0; i < 8; i++)
@@ -50,19 +51,26 @@ public class GamePlayerInfo : MonoBehaviour
             usingPlayers.Add(new Player());
         }
     }
+
+    private void Start()
+    {
+        pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+    }
+
     public void SortPlayersWithGrade()
     {
-        var sortedPeople = havePlayers.OrderBy(p => p.grade).ThenBy(p => p.code);
+        var sortedPeople = havePlayers.OrderBy(p => p.level).ThenBy(p => p.code);
         havePlayers = sortedPeople.ToList();
     }
 
-    public void AddPlayer(int code)
+    public Player AddPlayer(int code)
     {
         Player newPlayer = new Player();
         newPlayer.code = code;
-        newPlayer.type = PlayerLoadManager.instance.playerDatabase[code].type;
+        newPlayer.type = pt.playerDatabase[code].type;
         newPlayer.ID = IDPrinter();
         havePlayers.Add(newPlayer);
+        return newPlayer;
     }
 
     public void RemoveUsePlayer(int slotIndex)

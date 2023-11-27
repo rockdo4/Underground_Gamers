@@ -15,11 +15,14 @@ public class Player
 
     public int code = -1;
     public int type = -1;
-    public int grade = -1;
-    public int maxGrade = -1;
-    public int breakthrough = -1;
+    public int level = 0;
+    public int maxLevel = 30;
+    public int breakthrough = 0;
 
     public int gearCode = -1;
+    public int gearLevel = 0;
+    public float xp = 0;
+    public float maxXp = 100;
     public int condition = 0;
     //ability??
 }

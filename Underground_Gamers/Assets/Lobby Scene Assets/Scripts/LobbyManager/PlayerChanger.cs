@@ -19,6 +19,7 @@ public class PlayerChanger : MonoBehaviour
     private int currentSlotIndex = 0;
     private LobbyUIManager lobbyUIManager;
     private List<GameObject> olds = new List<GameObject>();
+    
     public static PlayerChanger instance
     {
         get
@@ -32,26 +33,44 @@ public class PlayerChanger : MonoBehaviour
     }
 
     private static PlayerChanger playerChanger;
-
+    private PlayerTable pt;
+    private StringTable st;
 
     private void Awake()
     {
         lobbyUIManager = GetComponent<LobbyUIManager>();
+    }
+
+    private void Start()
+    {
+        pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        st = DataTableManager.instance.Get<StringTable>(DataType.String);
     }
     public void SlotChecker()
     {
         usingList = GamePlayerInfo.instance.usingPlayers;
         for (int i = 0; i < 8; i++) 
         {
+            UIPlayerSlots slot = usingSlots[i];
             if(usingList[i].code < 0)
             {
-                usingSlots[i].FrontPanel.gameObject.SetActive(true);
-                usingSlots[i].image.sprite = null;
+                slot.FrontPanel.gameObject.SetActive(true);
+                slot.image.sprite = null;
             }
             else
             {
-                usingSlots[i].FrontPanel.gameObject.SetActive(false);
-                usingSlots[i].image.sprite = PlayerLoadManager.instance.playerSprites[PlayerLoadManager.instance.PlayerIndexSearch(usingList[i].code)];
+                Player player = usingList[i];
+                slot.FrontPanel.gameObject.SetActive(false);
+                slot.image.sprite =pt.playerSprites[pt.PlayerIndexSearch(player.code)];
+                if (!slot.isSpare)
+                {
+                    slot.typeText.text = st.Get($"type{player.type}");
+                    slot.levelText.text = $"Lv.{player.level}";
+                    slot.nameText.text = st.Get($"playerName{player.code}");
+                    slot.skillNameText.text = st.Get($"skillName{player.gearCode}");
+                    slot.skillLevelText.text = $"Lv.{player.gearLevel}";
+                    slot.xpGauge.value = player.xp / player.maxXp;
+                }
             }
             
         }
@@ -77,10 +96,12 @@ public class PlayerChanger : MonoBehaviour
             int currIndex = index;
             var bt = Instantiate(playerButtons, havePlayerSpace.transform);
             var pb = bt.GetComponent<PlayerButtons>();
-            pb.SetImage(PlayerLoadManager.instance.playerSprites[player.code]);
+            pb.SetImage(pt.playerSprites[player.code]);
             pb.GetComponent<Button>().onClick.AddListener(() => ToUse(currIndex));
             pb.GetComponent<Button>().onClick.AddListener(() => lobbyUIManager.ActivePlayerSlotSet(false));
             pb.index = index++;
+            pb.playerNameCard.text = st.Get($"playerName{player.code}");
+            pb.Level.text = $"Lv.{player.level}";
             olds.Add(bt);
         }
 
