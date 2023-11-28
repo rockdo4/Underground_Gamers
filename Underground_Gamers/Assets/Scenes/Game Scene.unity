@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -279,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775514118096814915, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.39000005
+      value: 1.379
       objectReference: {fileID: 0}
     - target: {fileID: 1775514118096814915, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_LocalPosition.y
@@ -343,7 +343,11 @@ PrefabInstance:
       objectReference: {fileID: 1692478888}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: maxHp
-      value: 200
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sight
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: speed
@@ -356,6 +360,10 @@ PrefabInstance:
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTime
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: detectionRange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTimeIncreaseRate
@@ -410,7 +418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775514118096814915, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.40000015
+      value: 1.82
       objectReference: {fileID: 0}
     - target: {fileID: 1775514118096814915, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_LocalPosition.y
@@ -474,7 +482,11 @@ PrefabInstance:
       objectReference: {fileID: 1692478888}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: maxHp
-      value: 200
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sight
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: speed
@@ -487,6 +499,10 @@ PrefabInstance:
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTime
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: detectionRange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTimeIncreaseRate
@@ -927,7 +943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: avoidancePriority
-      value: 51
+      value: 53
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_ObstacleAvoidanceType
@@ -959,7 +975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.95000005
+      value: 3.091
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.y
@@ -967,7 +983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -18.69
+      value: -19.846
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1104,7 +1120,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: avoidancePriority
-      value: 51
+      value: 54
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_ObstacleAvoidanceType
@@ -1136,7 +1152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.95000005
+      value: 1.816
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1144,7 +1160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -18.69
+      value: -20.38
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1877,7 +1893,11 @@ PrefabInstance:
       objectReference: {fileID: 1692478888}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: maxHp
-      value: 200
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sight
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: speed
@@ -1890,6 +1910,10 @@ PrefabInstance:
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTime
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: detectionRange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTimeIncreaseRate
@@ -2065,7 +2089,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: avoidancePriority
-      value: 51
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_ObstacleAvoidanceType
@@ -2097,7 +2121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.95000005
+      value: -0.16
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2105,7 +2129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -18.69
+      value: -20.16
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2809,7 +2833,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: avoidancePriority
-      value: 51
+      value: 52
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_ObstacleAvoidanceType
@@ -2841,7 +2865,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.95000005
+      value: 2.235
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4457,7 +4481,11 @@ PrefabInstance:
       objectReference: {fileID: 1692478888}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: maxHp
-      value: 200
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sight
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: speed
@@ -4470,6 +4498,10 @@ PrefabInstance:
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTime
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: detectionRange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTimeIncreaseRate
@@ -4846,7 +4878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: sight
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: speed
@@ -4858,7 +4890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: detectionRange
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTimeIncreaseRate

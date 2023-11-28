@@ -32,6 +32,12 @@ public class CharacterStatus : MonoBehaviour
 
     public void Respawn()
     {
+        AIController aIController = GetComponent<AIController>();
+        if (aIController != null)
+        {
+            aIController.isOnCoolBaseAttack = true;
+            aIController.isKiting = false;
+        }
         IsLive = true;
         Hp = maxHp;
     }

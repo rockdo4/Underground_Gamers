@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class KitingState : AIState
 {
-    private float kitingCoolTime;
+    private float kitingCoolTime = 0.5f;
     private float lastKitingTime;
 
     public KitingState(AIController aiController) : base(aiController)
     {
-        kitingCoolTime = aiController.kitingInfo.kitingCoolTime;
+        //kitingCoolTime = aiController.kitingInfo.kitingCoolTime;
         lastKitingTime = Time.time - kitingCoolTime;
+        agent.speed = aiController.kitingInfo.kitingSpeed;
     }
 
     public override void Enter()
@@ -37,24 +38,31 @@ public class KitingState : AIState
             aiController.SetState(States.Idle);
         }
 
-
-        if (lastKitingTime + kitingCoolTime < Time.time && !aiController.isKiting)
+        if(aiController.isOnCoolBaseAttack)
         {
-            aiController.isKiting = true;
+            aiController.SetState(States.AimSearch);
+            return;
+        }
+
+
+        if (lastKitingTime + kitingCoolTime < Time.time/* && !aiController.isKiting*/)
+        {
+            //aiController.isKiting = true;
             lastKitingTime = Time.time;
             aiController.UpdateKiting();
         }
-        float dis = Vector3.Distance(aiController.kitingPos, aiTr.position);
-        if (Vector3.Distance(aiController.kitingPos, aiTr.position) < 0.1f)
-        {
-            aiController.isKiting = false;
-            if (DistanceToTarget < aiStatus.range)
-                aiController.SetState(States.AimSearch);
-            else
-                aiController.SetState(States.MissionExecution);
 
-            return;
-        }
+        //float dis = Vector3.Distance(aiController.kitingPos, aiTr.position);
+        //if (Vector3.Distance(aiController.kitingPos, aiTr.position) < 0.1f)
+        //{
+        //    //aiController.isKiting = false;
+        //    if (DistanceToTarget < aiStatus.range)
+        //        aiController.SetState(States.AimSearch);
+        //    else
+        //        aiController.SetState(States.MissionExecution);
+
+        //    return;
+        //}
 
 
         //if (aiController.lastAttackTime + aiController.attackCoolTime < Time.time)
