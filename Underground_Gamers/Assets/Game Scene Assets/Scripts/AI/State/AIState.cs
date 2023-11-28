@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,7 +22,9 @@ public abstract class AIState : BaseState
             {
                 return 0f;
             }
-            return Vector3.Distance(aiController.transform.position, aiController.target.transform.position);
+            Vector3 targetPos = aiController.target.transform.position;
+            targetPos.y = aiController.transform.position.y;
+            return Vector3.Distance(aiController.transform.position, targetPos);
         }
     }
 

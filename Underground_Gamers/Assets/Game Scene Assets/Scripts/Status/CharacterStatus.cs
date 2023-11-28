@@ -36,7 +36,7 @@ public class CharacterStatus : MonoBehaviour
         if (aIController != null)
         {
             aIController.isOnCoolBaseAttack = true;
-            aIController.isKiting = false;
+            //aIController.isKiting = false;
         }
         IsLive = true;
         Hp = maxHp;

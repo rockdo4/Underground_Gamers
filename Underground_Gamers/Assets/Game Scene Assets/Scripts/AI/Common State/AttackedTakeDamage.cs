@@ -37,10 +37,10 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
 
             var destroyable = transform.GetComponent<IDestroyable>();
             var respawnable = transform.GetComponent<IRespawnable>();
-            if (destroyable == null || respawnable == null)
-                return;
-            destroyable.DestoryObject();
-            respawnable.ExecuteRespawn(transform.gameObject);
+            if (destroyable != null)
+                destroyable.DestoryObject();
+            if (respawnable != null)
+                respawnable.ExecuteRespawn(transform.gameObject);
 
             //Destroy(transform.gameObject);
         }

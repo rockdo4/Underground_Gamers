@@ -79,9 +79,10 @@ public class AIController : MonoBehaviour
             if (this.target == null)
                 return false;
             var origin = transform.position;
-            //origin.y += 0.6f;
+            origin.y += 0.6f;
             var target = this.target.position;
-            target.y = transform.position.y;
+            //target.y = transform.position.y;
+            target.y = origin.y;
             var direction = target - origin;
             direction.Normalize();
 

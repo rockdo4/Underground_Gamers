@@ -6,6 +6,7 @@ using UnityEngine;
 public class HitScanAttack : AttackDefinition
 {
     public GameObject hitScanLine;
+    public float lineWidth;
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
         if (defender == null)
@@ -15,6 +16,8 @@ public class HitScanAttack : AttackDefinition
         LineRenderer lineRen = line.GetComponent<LineRenderer>();
         AIController attackAI = attacker.GetComponent<AIController>();
         lineRen.positionCount = 2;
+        lineRen.startWidth = lineWidth;
+        lineRen.endWidth = lineWidth;
 
         var attackPos = attackAI.firePos.position;
         var hitPos = attackAI.hitInfoPos;
