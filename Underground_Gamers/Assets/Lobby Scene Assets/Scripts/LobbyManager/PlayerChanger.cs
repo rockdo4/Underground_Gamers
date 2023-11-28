@@ -52,6 +52,7 @@ public class PlayerChanger : MonoBehaviour
     }
     public void SlotChecker()
     {
+        GamePlayerInfo.instance.LoadPreset();
         usingList = GamePlayerInfo.instance.usingPlayers;
         for (int i = 0; i < 8; i++) 
         {
@@ -141,6 +142,7 @@ public class PlayerChanger : MonoBehaviour
                 pb.index = index++;
                 pb.playerNameCard.text = st.Get($"playerName{player.code}");
                 pb.Level.text = $"Lv.{player.level}";
+                pb.isUsing.color = Color.green;
                 oldsPlayerList.Add(bt);
             }
         }
@@ -156,6 +158,7 @@ public class PlayerChanger : MonoBehaviour
             pb.index = index++;
             pb.playerNameCard.text = st.Get($"playerName{player.code}");
             pb.Level.text = $"Lv.{player.level}";
+            pb.isUsing.color = Color.red;
             oldsPlayerList.Add(bt);
         }
     }
@@ -194,4 +197,5 @@ public class PlayerChanger : MonoBehaviour
         }
         return true;
     }
+
 }

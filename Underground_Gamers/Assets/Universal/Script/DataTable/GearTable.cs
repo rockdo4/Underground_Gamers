@@ -18,14 +18,14 @@ public class GearTable : DataTable
     {
         if (itemDatabase != null) { return; }
 
-        List<Dictionary<string, object>> items = CSVReader.Read(Path.Combine("CSV", "ItemStats"));
+        List<Dictionary<string, string>> items = CSVReader.Read(Path.Combine("CSV", "ItemStats"));
         itemDatabase = new List<GearInfo>();
         playerSprites = new List<Sprite>();
         foreach (var item in items)
         {
             GearInfo itemInfo = new GearInfo();
-            itemInfo.code = (int)item["Code"];
-            itemInfo.name = (string)item["Name"];
+            itemInfo.code = int.Parse(item["Code"]);
+            itemInfo.name = item["Name"];
             itemDatabase.Add(itemInfo);
             playerSprites.Add(Resources.Load<Sprite>(
                 Path.Combine("PlayerSprite", itemInfo.code.ToString())));

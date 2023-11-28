@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject playerSlotSortWindow;
     public GameObject playerSlotLackWarning;
     public GameObject playerInfo;
+    public List<Toggle> presets;
 
     [Space(10f)]
     [Header("UIGroup : Schedule")]
@@ -84,6 +86,7 @@ public class LobbyUIManager : MonoBehaviour
     {
         if (on)
         {
+            presets[GamePlayerInfo.instance.PresetCode].isOn = true;
             PlayerChanger.instance.SlotChecker();
         }
         else if(!PlayerChanger.instance.IsFullSquad())
@@ -118,6 +121,18 @@ public class LobbyUIManager : MonoBehaviour
         PlayerInfoIndex = index;
         isUsingPlayer = isUsing;
         playerInfo.SetActive(on);
+    }
+
+    public void PresetChange()
+    {
+        for (int i = 0; i < presets.Count; i++)
+        {
+            if (presets[i].isOn)
+            {
+                GamePlayerInfo.instance.LoadPreset(i);
+                return;
+            }
+        }
     }
 
     //------------------------------------------------//

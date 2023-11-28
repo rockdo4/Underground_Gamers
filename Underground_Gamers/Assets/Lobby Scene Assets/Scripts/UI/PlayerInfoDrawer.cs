@@ -57,6 +57,8 @@ public class PlayerInfoDrawer : MonoBehaviour
         XpBar.value = currPlayer.xp / currPlayer.maxXp;
         PlayerChar = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{currPlayer.code}")), PlayerCharPos);
         PlayerChar.layer = 10;
+        PlayerChar.GetComponent<RectTransform>().localScale = Vector3.one*170;
+        PlayerChar.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0,-57,0);
         StatsInfo[0].text = playerInfo.hp.ToString();
         StatsInfo[1].text = playerInfo.atk.ToString();
         StatsInfo[2].text = playerInfo.atkRate.ToString();

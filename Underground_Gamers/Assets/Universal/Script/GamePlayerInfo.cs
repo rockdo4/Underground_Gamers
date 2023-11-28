@@ -43,6 +43,9 @@ public class GamePlayerInfo : MonoBehaviour
 
     [HideInInspector]
     public int IDcode = 0;
+    [HideInInspector]
+    public int PresetCode = 0;
+    public List<List<float>> Presets;
 
     private PlayerTable pt;
     private void Awake()
@@ -50,6 +53,16 @@ public class GamePlayerInfo : MonoBehaviour
         for (int i = 0; i < 8; i++)
         {
             usingPlayers.Add(new Player());
+        }
+
+        Presets = new List<List<float>>();
+        for (int i = 0; i < 4; i++)
+        {
+            Presets.Add(new List<float>());
+            for (int j = 0; j < 8; j++)
+            {
+                Presets[i].Add(-1f);
+            }
         }
     }
 
@@ -136,5 +149,56 @@ public class GamePlayerInfo : MonoBehaviour
         float ID = 0.0000001f * IDcode;
         IDcode++;
         return ID;
+    }
+
+    public void LoadPreset()
+    {
+        LoadPreset(PresetCode);
+    }
+    public void LoadPreset(int index)
+    {
+        if (index > 4)
+        {
+            return;
+        }
+
+        List<float> newPreset = new List<float>();
+        foreach (var item in usingPlayers)
+        {
+            newPreset.Add(item.ID);
+        }
+        Presets[PresetCode] = newPreset;
+
+        if (PresetCode == index)
+        {
+            return;
+        }
+
+        PresetCode = index;
+        List<float> presetCodeList = Presets[PresetCode];
+
+        for (int i = 0; i < usingPlayers.Count; i++)
+        {
+            havePlayers.Add(usingPlayers[i]);
+            RemoveUsePlayer(i);
+        }
+
+        int count = 0;
+        foreach (float presetCode in presetCodeList) 
+        {
+            if (presetCode != -1)
+            {
+                foreach (var havePlayer in havePlayers)
+                {
+                    if (havePlayer.ID == presetCode)
+                    {
+                        usingPlayers[count] = havePlayer;
+                        havePlayers.Remove(havePlayer);
+                        continue;
+                    }
+                }
+            }
+            count++;
+        }
     }
 }

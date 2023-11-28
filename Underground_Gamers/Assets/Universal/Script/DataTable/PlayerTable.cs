@@ -17,31 +17,31 @@ public class PlayerTable : DataTable
     {
         if (playerDatabase != null) { return; }
 
-        List<Dictionary<string, object>> players = CSVReader.Read(Path.Combine("CSV", "PlayerStats"));
+        List<Dictionary<string, string>> players = CSVReader.Read(Path.Combine("CSV", "PlayerStats"));
         playerDatabase = new List<PlayerInfo>();
         playerSprites = new List<Sprite>();
         foreach (var player in players)
         {
             PlayerInfo playerInfo = new PlayerInfo();
-            playerInfo.code = (int)player["Code"];
-            playerInfo.name = (string)player["Name"];
-            playerInfo.type = (int)player["Grade"];
-            playerInfo.UniqueSkillCode = (int)player["UniqueSkill"];
-            playerInfo.Potential = (int)player["Type"];
-            playerInfo.info = (string)player["Info"];
-            playerInfo.cost = (int)player["Cost"];
-            playerInfo.weaponType = (int)player["WeaponType"];
-            playerInfo.hp = (int)player["Hp"];
-            playerInfo.atk = (int)player["Atk"];
-            playerInfo.atkRate = (float)player["AtkRate"];
-            playerInfo.moveSpeed = (float)player["Speed"];
-            playerInfo.sight = (float)player["Sight"];
-            playerInfo.range = (float)player["Range"];
-            playerInfo.criticalChance = (float)player["Critical"];
-            playerInfo.magazine = (int)player["Mag"];
-            playerInfo.reloadingSpeed = (int)player["Reload"];
-            playerInfo.Accuracy = (int)player["Accuracy"];
-            playerInfo.reactionSpeed = (int)player["Reaction"];
+            playerInfo.code = int.Parse(player["Code"]);
+            playerInfo.name = player["Name"];
+            playerInfo.type = int.Parse(player["Grade"]);
+            playerInfo.UniqueSkillCode = int.Parse(player["UniqueSkill"]);
+            playerInfo.Potential = int.Parse(player["Type"]);
+            playerInfo.info = player["Info"];
+            playerInfo.cost = int.Parse(player["Cost"]);
+            playerInfo.weaponType = int.Parse(player["WeaponType"]);
+            playerInfo.hp = int.Parse(player["Hp"]);
+            playerInfo.atk = int.Parse(player["Atk"]);
+            playerInfo.atkRate = float.Parse(player["AtkRate"]);
+            playerInfo.moveSpeed = float.Parse(player["Speed"]);
+            playerInfo.sight = float.Parse(player["Sight"]);
+            playerInfo.range = float.Parse(player["Range"]);
+            playerInfo.criticalChance = float.Parse(player["Critical"]);
+            playerInfo.magazine = int.Parse(player["Mag"]);
+            playerInfo.reloadingSpeed = float.Parse(player["Reload"]);
+            playerInfo.Accuracy = float.Parse(player["Accuracy"]);
+            playerInfo.reactionSpeed = float.Parse(player["Reaction"]);
             playerDatabase.Add(playerInfo);
             playerSprites.Add(Resources.Load<Sprite>(
                 Path.Combine("PlayerSprite", playerInfo.code.ToString())));
