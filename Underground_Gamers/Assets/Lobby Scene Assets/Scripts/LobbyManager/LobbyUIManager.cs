@@ -12,13 +12,26 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject money;
     public GameObject playerList;
     public GameObject playerSlotSet;
+    public GameObject playerSlotSortWindow;
     public GameObject playerSlotLackWarning;
+    public GameObject playerInfo;
 
     [Space(10f)]
     [Header("UIGroup : Schedule")]
     public GameObject schedule;
     public GameObject stage;
     public GameObject playerCountLackWarning;
+
+    [Header("LobbyUI")]
+    [SerializeField]
+    private List<TMP_Text> MoneyList;
+
+    private EntryFilter filter;
+
+    [HideInInspector]
+    public int PlayerInfoIndex = 0;
+    [HideInInspector]
+    public bool isUsingPlayer = false;
     public static LobbyUIManager instance
     {
         get
@@ -32,14 +45,12 @@ public class LobbyUIManager : MonoBehaviour
     }
 
     private static LobbyUIManager lobbyUIManager;
-
-    [Header("LobbyUI")]
-    [SerializeField]
-    private List<TMP_Text> MoneyList;
+  
 
     private void Start()
     {
         UpdateMoneyInfo();
+        filter = GetComponent<EntryFilter>();
     }
     public void UpdateMoneyInfo()
     {
@@ -91,6 +102,22 @@ public class LobbyUIManager : MonoBehaviour
     public void ActivePlayerSlotSet(bool on)
     {
         playerSlotSet.SetActive(on);
+        if (!on)
+        {
+            filter.ResetSortStandard();
+            filter.ResetToggleList();
+        }
+    }
+    public void ActivePlayerSortWindow(bool on)
+    {
+        playerSlotSortWindow.SetActive(on);
+    }
+
+    public void ActivePlayerInfo(bool on, int index, bool isUsing)
+    {
+        PlayerInfoIndex = index;
+        isUsingPlayer = isUsing;
+        playerInfo.SetActive(on);
     }
 
     //------------------------------------------------//

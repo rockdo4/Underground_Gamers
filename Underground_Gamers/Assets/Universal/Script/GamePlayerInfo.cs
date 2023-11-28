@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using TMPro;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -57,17 +58,60 @@ public class GamePlayerInfo : MonoBehaviour
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
     }
 
-    public void SortPlayersWithGrade()
+    public void SortPlayersWithLevel(bool Orderby)
     {
-        var sortedPeople = havePlayers.OrderBy(p => p.level).ThenBy(p => p.code);
-        havePlayers = sortedPeople.ToList();
+        if (!Orderby)
+        {
+            var sortedPeople = havePlayers.OrderBy(p => p.level).ThenBy(p => p.grade).ThenBy(p => p.name).ThenBy(p => p.ID);
+            havePlayers = sortedPeople.ToList();
+        }
+        else
+        {
+            var sortedPeople = havePlayers.OrderByDescending(p => p.level).ThenByDescending(p => p.grade).ThenByDescending(p => p.name).ThenByDescending(p => p.ID);
+            havePlayers = sortedPeople.ToList();
+        }
+    }
+
+    public void SortPlayersWithGrade(bool Orderby)
+    {
+        if (!Orderby)
+        {
+            var sortedPeople = havePlayers.OrderBy(p => p.grade).ThenBy(p => p.name).ThenBy(p => p.level).ThenBy(p => p.ID);
+            havePlayers = sortedPeople.ToList();
+        }
+        else
+        {
+            var sortedPeople = havePlayers.OrderByDescending(p => p.grade).ThenByDescending(p => p.name).ThenByDescending(p => p.level).ThenByDescending(p => p.ID);
+            havePlayers = sortedPeople.ToList();
+        }
+    }
+
+    public void SortPlayersWithID(bool Orderby)
+    {
+        if (!Orderby) 
+        { 
+            var sortedPeople = havePlayers.OrderBy(p => p.ID);
+            havePlayers = sortedPeople.ToList();
+        }
+        else
+        {
+            var sortedPeople = havePlayers.OrderByDescending(p => p.ID);
+            havePlayers = sortedPeople.ToList();
+        }
+        
     }
 
     public Player AddPlayer(int code)
     {
         Player newPlayer = new Player();
+        if (pt == null)
+        {
+            pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        }
+        PlayerInfo info = pt.playerDatabase[code];
+        newPlayer.name = info.name;
         newPlayer.code = code;
-        newPlayer.type = pt.playerDatabase[code].type;
+        newPlayer.type = info.type;
         newPlayer.ID = IDPrinter();
         havePlayers.Add(newPlayer);
         return newPlayer;

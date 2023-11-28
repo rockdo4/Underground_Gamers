@@ -10,6 +10,7 @@ public class PlayerChanger : MonoBehaviour
     public GameObject playerButtons;
     
     public GameObject havePlayerSpace;
+    public GameObject havePlayerListSpace;
 
     public List<UIPlayerSlots> usingSlots;
 
@@ -18,8 +19,11 @@ public class PlayerChanger : MonoBehaviour
 
     private int currentSlotIndex = 0;
     private LobbyUIManager lobbyUIManager;
-    private List<GameObject> olds = new List<GameObject>();
-    
+
+    [HideInInspector]
+    public List<GameObject> olds = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> oldsPlayerList = new List<GameObject>();
     public static PlayerChanger instance
     {
         get
@@ -79,7 +83,11 @@ public class PlayerChanger : MonoBehaviour
     public void StartChange(int slotIndex)
     {
         currentSlotIndex = slotIndex;
-        GamePlayerInfo.instance.SortPlayersWithGrade();
+        StartChange();
+    }
+
+    public void StartChange()
+    {
         haveList = GamePlayerInfo.instance.havePlayers;
         usingList = GamePlayerInfo.instance.usingPlayers;
 
@@ -106,6 +114,50 @@ public class PlayerChanger : MonoBehaviour
         }
 
         index = 0;
+    }
+
+    public void OpenPlayers()
+    {
+        haveList = GamePlayerInfo.instance.havePlayers;
+        usingList = GamePlayerInfo.instance.usingPlayers;
+
+        foreach (var old in oldsPlayerList)
+        {
+            Destroy(old.gameObject);
+        }
+        oldsPlayerList.Clear();
+
+
+        int index = 0;
+        foreach (var player in usingList)
+        {
+            if (player.code != -1)
+            {
+                int currIndex = index;
+                var bt = Instantiate(playerButtons, havePlayerListSpace.transform);
+                var pb = bt.GetComponent<PlayerButtons>();
+                pb.SetImage(pt.playerSprites[pt.PlayerIndexSearch(player.code)]);
+                pb.GetComponent<Button>().onClick.AddListener(() => lobbyUIManager.ActivePlayerInfo(true, currIndex, true));
+                pb.index = index++;
+                pb.playerNameCard.text = st.Get($"playerName{player.code}");
+                pb.Level.text = $"Lv.{player.level}";
+                oldsPlayerList.Add(bt);
+            }
+        }
+
+        index = 0;
+        foreach (var player in haveList)
+        {
+            int currIndex = index;
+            var bt = Instantiate(playerButtons, havePlayerListSpace.transform);
+            var pb = bt.GetComponent<PlayerButtons>();
+            pb.SetImage(pt.playerSprites[player.code]);
+            pb.GetComponent<Button>().onClick.AddListener(() => lobbyUIManager.ActivePlayerInfo(true, currIndex, false));
+            pb.index = index++;
+            pb.playerNameCard.text = st.Get($"playerName{player.code}");
+            pb.Level.text = $"Lv.{player.level}";
+            oldsPlayerList.Add(bt);
+        }
     }
 
     public void ToUse(int index)
