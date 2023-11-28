@@ -24,6 +24,5 @@ public class CommandManager : MonoBehaviour
             var text = info.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
             text.text = $"{info.aiType}{info.aiNum}";
         }
-
     }
 }
