@@ -8,7 +8,7 @@ public class Respawner : MonoBehaviour
     public Transform npcReSpawner;
     public AIManager aiManager;
 
-    public List<(AIController, float)> pcRespawnTimers = new List<(AIController, float)>();
+    public List<(AIController, float, float)> pcRespawnTimers = new List<(AIController, float, float)>();
     public List<(AIController, float)> npcRespawnTimers = new List<(AIController, float)>();
 
     public float respawnRange = 1f;
@@ -24,7 +24,10 @@ public class Respawner : MonoBehaviour
                     new Vector3(Random.Range(-respawnRange, respawnRange), 0f, Random.Range(-respawnRange, respawnRange));
 
                 pcRespawnTimers[i].Item1.aiCommandInfo.OffRespawnUI();
-                pcRespawnTimers[i].Item1.SetState(States.Idle);
+
+                //aiManager.pc.Add(pcRespawnTimers[i].Item1);
+                pcRespawnTimers[i].Item1.status.Respawn();
+                pcRespawnTimers[i].Item1.SetState(States.Idle);             
                 pcRespawnTimers[i].Item1.gameObject.SetActive(true);
                 pcRespawnTimers.RemoveAt(i);
             }
@@ -32,6 +35,7 @@ public class Respawner : MonoBehaviour
             {
                 float respawnTimeUI = pcRespawnTimers[i].Item2 - Time.time;
                 pcRespawnTimers[i].Item1.aiCommandInfo.DisplayRespawnTime(respawnTimeUI);
+                pcRespawnTimers[i].Item1.aiCommandInfo.RefreshRespawnCoolTime(respawnTimeUI / (pcRespawnTimers[i].Item2 - pcRespawnTimers[i].Item3));
             }
         }
 
@@ -42,21 +46,12 @@ public class Respawner : MonoBehaviour
                 npcRespawnTimers[i].Item1.transform.position = npcReSpawner.position +
                     new Vector3(Random.Range(-respawnRange, respawnRange), 0f, Random.Range(-respawnRange, respawnRange));
 
+                //aiManager.npc.Add(npcRespawnTimers[i].Item1);
+                npcRespawnTimers[i].Item1.status.Respawn();
                 npcRespawnTimers[i].Item1.SetState(States.Idle);
                 npcRespawnTimers[i].Item1.gameObject.SetActive(true);
                 npcRespawnTimers.RemoveAt(i);
             }
         }
-
-        //foreach ((AIController controller, float respawnTime) in npcRespawnTimers)
-        //{
-        //    if (respawnTime <= Time.time)
-        //    {
-        //        controller.transform.position = npcReSpawner.position +
-        //            new Vector3(Random.Range(-respawnRange, respawnRange), 0f, Random.Range(-respawnRange, respawnRange));
-        //        controller.gameObject.SetActive(true);
-        //        npcRespawnTimers.Remove((controller, respawnTime));
-        //    }
-        //}
     }
 }

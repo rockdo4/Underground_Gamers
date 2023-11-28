@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CommandInfo : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class CommandInfo : MonoBehaviour
     public GameObject respawnTimeUI;
     public TextMeshProUGUI respawnTimeText;
     public AIController aiController;
+    public Image respawnCoolTime;
 
     public Transform respawner;
 
@@ -33,5 +35,10 @@ public class CommandInfo : MonoBehaviour
     public void DisplayRespawnTime(float time)
     {
         respawnTimeText.text = $"{Mathf.RoundToInt(time)}";
+    }
+
+    public void RefreshRespawnCoolTime(float coolTime)
+    {
+        respawnCoolTime.fillAmount = coolTime;
     }
 }

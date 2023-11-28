@@ -14,14 +14,14 @@ public class RespawnableObject : MonoBehaviour, IRespawnable
             return;
 
         float currentRespawnTime = status.respawnTime + (float)status.deathCount * status.respawnTimeIncreaseRate + Time.time;
-
+        float currentTime = Time.time;
         if (commandInfo != null)
         {
             aIController.aiCommandInfo.OnRespawnUI(currentRespawnTime);
         }
 
         if (aIController.layer == LayerMask.GetMask("PC"))
-            respawner.pcRespawnTimers.Add((aIController, currentRespawnTime));
+            respawner.pcRespawnTimers.Add((aIController, currentRespawnTime, currentTime));
         else if(aIController.layer == LayerMask.GetMask("NPC"))
             respawner.npcRespawnTimers.Add((aIController, currentRespawnTime));
 

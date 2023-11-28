@@ -8,12 +8,12 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
     {
         CharacterStatus status = transform.GetComponent<CharacterStatus>();
         AIController controller = transform.GetComponent<AIController>();
-        AIController attackerAI = null;
+        //AIController attackerAI = null;
 
-        if (attacker != null)
-        {
-            attackerAI = attacker.GetComponent<AIController>();
-        }
+        //if (attacker != null)
+        //{
+        //    attackerAI = attacker.GetComponent<AIController>();
+        //}
         if (!status.IsLive)
             return;
 
@@ -23,16 +23,17 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         if (status.Hp <= 0)
         {
             status.IsLive = false;
-            if (attackerAI != null)
-                attackerAI.target = null;
-            if (gameObject.layer == LayerMask.GetMask("PC"))
-            {
-                GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc.Remove(controller);
-            }
-            else
-            {
-                GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().npc.Remove(controller);
-            }
+            //if (attackerAI != null)
+            //    attackerAI.target = null;
+
+            //if (controller.teamLayer == LayerMask.GetMask("PC"))
+            //{
+            //    GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc.Remove(controller);
+            //}
+            //else
+            //{
+            //    GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().npc.Remove(controller);
+            //}
 
             var destroyable = transform.GetComponent<IDestroyable>();
             var respawnable = transform.GetComponent<IRespawnable>();

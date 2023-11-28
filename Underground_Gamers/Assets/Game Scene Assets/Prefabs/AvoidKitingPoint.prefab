@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5103153707710531421}
   - component: {fileID: 5601836136250095670}
   m_Layer: 0
-  m_Name: KitingPoint
+  m_Name: AvoidKitingPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4a376df29b7132d46b074b0e6aabe0dd, type: 2}
+  - {fileID: 2100000, guid: 46174f0c3ac105d4e853cc40b143fcc7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,7 +99,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

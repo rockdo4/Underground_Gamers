@@ -34,12 +34,12 @@ public abstract class AIState : BaseState
         aiTr = aiController.GetComponent<Transform>();
     }
 
-    public void SetTarget(Transform target)
-    {
-        aiController.target = target;
-        agent.SetDestination(aiController.target.position);
-        //Debug.Log(this.target);
-    }
+    //public void SetTarget(Transform target)
+    //{
+    //    aiController.target = target;
+    //    agent.SetDestination(aiController.target.position);
+    //    //Debug.Log(this.target);
+    //}
     protected void RotateToTarget()
     {
         if (aiController.target == null || aiTr == null)
@@ -55,7 +55,7 @@ public abstract class AIState : BaseState
         if (enemyCols.Length == 0 && aiController.target == null)
         {
             //Debug.Log("Not Founded");
-            SetTarget(aiController.point);
+            aiController.SetTarget(aiController.point);
             aiController.SetState(States.MissionExecution);
             return;
         }
@@ -83,7 +83,7 @@ public abstract class AIState : BaseState
         }
         if (target != null)
         {
-            SetTarget(target);
+            aiController.SetTarget(target);
             aiController.SetState(States.Trace);
             return;
         }
@@ -96,7 +96,7 @@ public abstract class AIState : BaseState
         if (enemyCols.Length == 0 && aiController.target == null)
         {
             //Debug.Log("Not Founded");
-            SetTarget(aiController.point);
+            aiController.SetTarget(aiController.point);
             aiController.SetState(States.MissionExecution);
             return;
         }
@@ -120,7 +120,7 @@ public abstract class AIState : BaseState
         }
         if (target != null)
         {
-            SetTarget(target);
+            aiController.SetTarget(target);
             aiController.SetState(States.Trace);
             return;
         }

@@ -13,11 +13,11 @@ public class TraceState : AIState
     {
         aiController.RefreshDebugAIStatus(this.ToString());
 
-        lastDetectTime -= aiController.detectTime;
+        lastDetectTime = Time.time - aiController.detectTime;
 
         agent.isStopped = false;
         agent.angularSpeed = aiStatus.reactionSpeed;
-        agent.speed = aiStatus.speed;
+        agent.speed = aiController.kitingInfo.kitingSpeed;
     }
 
     public override void Exit()
@@ -27,16 +27,19 @@ public class TraceState : AIState
 
     public override void Update()
     {
-        if(aiController.target == null)
+        if (!aiStatus.IsLive)
+        {
+            return;
+        }
+        if (aiController.target == null)
         {
             aiController.SetState(States.MissionExecution);
         }
 
-        if(lastDetectTime + aiController.detectTime < Time.time)
+        if(lastDetectTime + aiController.detectTime < Time.time && aiController.target != null)
         {
             aiController.SetDestination(aiController.target.position);
         }
-
 
         if(DistanceToTarget < aiStatus.range)
         {

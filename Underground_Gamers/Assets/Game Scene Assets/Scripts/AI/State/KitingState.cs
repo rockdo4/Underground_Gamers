@@ -16,6 +16,7 @@ public class KitingState : AIState
     public override void Enter()
     {
         aiController.RefreshDebugAIStatus(this.ToString());
+
         agent.isStopped = false;
         agent.speed = aiController.kitingInfo.kitingSpeed;
     }
@@ -27,19 +28,15 @@ public class KitingState : AIState
 
     public override void Update()
     {
-        if(aiController.target == null)
+        if (!aiStatus.IsLive)
+        {
+            return;
+        }
+        if (aiController.target == null)
         {
             aiController.SetState(States.Idle);
         }
 
-        if(Vector3.Distance(aiController.kitingPos, aiTr.position) < 0.1f)
-        {
-            aiController.isKiting = false;
-            if(DistanceToTarget < aiStatus.range)
-                aiController.SetState(States.AimSearch);
-            else
-                aiController.SetState(States.Trace);
-        }
 
         if (lastKitingTime + kitingCoolTime < Time.time && !aiController.isKiting)
         {
@@ -47,7 +44,17 @@ public class KitingState : AIState
             lastKitingTime = Time.time;
             aiController.UpdateKiting();
         }
+        float dis = Vector3.Distance(aiController.kitingPos, aiTr.position);
+        if (Vector3.Distance(aiController.kitingPos, aiTr.position) < 0.1f)
+        {
+            aiController.isKiting = false;
+            if (DistanceToTarget < aiStatus.range)
+                aiController.SetState(States.AimSearch);
+            else
+                aiController.SetState(States.MissionExecution);
 
+            return;
+        }
 
 
         //if (aiController.lastAttackTime + aiController.attackCoolTime < Time.time)

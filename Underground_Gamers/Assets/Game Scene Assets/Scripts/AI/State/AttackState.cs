@@ -13,8 +13,6 @@ public class AttackState : AIState
         aiController.RefreshDebugAIStatus(this.ToString());
         agent.isStopped = true;
         agent.speed = 0;
-
-
     }
 
     public override void Exit()
@@ -24,7 +22,7 @@ public class AttackState : AIState
 
     public override void Update()
     {
-        if(!aiStatus.IsLive)
+        if (!aiStatus.IsLive)
         {
             return;
         }
@@ -35,14 +33,20 @@ public class AttackState : AIState
             return;
         }
 
-        if(DistanceToTarget > aiStatus.range)
+        if (DistanceToTarget > aiStatus.range)
         {
-            aiController.SetState(States.Trace);
+            aiController.SetState(States.MissionExecution);
             return;
         }
-
-        if (aiController.attackInfos[(int)SkillTypes.Base] != null && aiController.target != null && aiController != null)
+        if (!aiController.RaycastToTarget)
         {
+            RotateToTarget();
+        }
+
+        if (aiController.attackInfos[(int)SkillTypes.Base] != null && aiController.target != null && aiController != null 
+            && aiController.isOnCoolBaseAttack && aiController.RaycastToTarget)
+        {
+            aiController.isOnCoolBaseAttack = false;
             aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
             aiController.SetState(States.Kiting);
             return;

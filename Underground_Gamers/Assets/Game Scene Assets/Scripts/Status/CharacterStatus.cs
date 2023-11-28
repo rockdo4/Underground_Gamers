@@ -29,4 +29,10 @@ public class CharacterStatus : MonoBehaviour
     {
         Hp = maxHp;
     }
+
+    public void Respawn()
+    {
+        IsLive = true;
+        Hp = maxHp;
+    }
 }

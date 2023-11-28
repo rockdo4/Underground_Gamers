@@ -24,6 +24,10 @@ public class AimSearchState : AIState
 
     public override void Update()
     {
+        if (!aiStatus.IsLive)
+        {
+            return;
+        }
         RotateToTarget();
 
         if (aiController.target == null)
@@ -37,8 +41,7 @@ public class AimSearchState : AIState
 
         if(DistanceToTarget > aiStatus.range)
         {
-            aiController.SetTarget(aiController.target);
-            aiController.SetState(States.Trace);
+            aiController.SetState(States.MissionExecution);
             return;
         }
     }

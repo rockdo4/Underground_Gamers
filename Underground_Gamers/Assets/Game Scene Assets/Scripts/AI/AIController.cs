@@ -59,9 +59,10 @@ public class AIController : MonoBehaviour
     public float detectTime = 0.1f;
 
     [Tooltip("마지막 공격 시점")]
-    public float lastAttackTime;
+    public float lastBaseAttackTime;
     [Tooltip("공격 딜레이 타임")]
-    public float attackCoolTime;
+    public float baseAttackCoolTime;
+    public bool isOnCoolBaseAttack;
 
     public int teamLayer;
     public int enemyLayer;
@@ -98,7 +99,7 @@ public class AIController : MonoBehaviour
             if (dot > dotAngle)
             {
                 isCol = Physics.Raycast(origin, direction, out RaycastHit hitInfo, status.range, enemyLayer);
-                if(isCol)
+                if (isCol)
                 {
                     hitInfoPos = hitInfo.point;
                 }
@@ -116,8 +117,8 @@ public class AIController : MonoBehaviour
         status = GetComponent<CharacterStatus>();
         target = point;
 
-        attackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
-        lastAttackTime = Time.time - attackCoolTime;
+        baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
+        lastBaseAttackTime = Time.time - baseAttackCoolTime;
 
 
         teamLayer = layer;
@@ -151,7 +152,15 @@ public class AIController : MonoBehaviour
     public void SetTarget(Transform target)
     {
         this.target = target;
+        CharacterStatus status = target.GetComponent<CharacterStatus>();
+        if(status != null)
+            TargetEventBus.Subscribe(status, ReleaseTarget);
         SetDestination(this.target.position);
+    }
+
+    public void ReleaseTarget()
+    {
+        target = null;
     }
 
     public void SetDestination(Vector3 vector3)
@@ -161,11 +170,18 @@ public class AIController : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             agent.SetDestination(point.position);
         }
-        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude,0.5f));
+
+        if (lastBaseAttackTime + baseAttackCoolTime < Time.time)
+        {
+            lastBaseAttackTime = Time.time;
+            isOnCoolBaseAttack = true;
+        }
+
+        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
         //최대 속도일때 0.5f가 되어야 함으로 2로나눔
     }
     public void SetState(States newState)
@@ -181,7 +197,7 @@ public class AIController : MonoBehaviour
 
     public void UpdateKiting()
     {
-        if(target != null)
+        if (target != null)
             kitingInfo.UpdateKiting(target, this);
     }
 
@@ -214,7 +230,7 @@ public class AIController : MonoBehaviour
         Gizmos.DrawLine(newV, newV + viewAngleA * viewRadius);
         Gizmos.DrawLine(newV, newV + viewAngleB * viewRadius);
 
-        if(firePos != null && target != null)
+        if (firePos != null && target != null)
         {
             if (RaycastToTarget)
             {

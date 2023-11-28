@@ -11,10 +11,16 @@ public class MissionExecutionState : AIState
 
     public override void Enter()
     {
+        if (!aiStatus.IsLive)
+        {
+            return;
+        }
         aiController.RefreshDebugAIStatus(this.ToString());
 
-        if(aiController.point != null)
+        if(aiController.point != null && aiController.target == null)
             aiController.SetTarget(aiController.point);
+        //else if(aiController.target != null)
+        //    aiController.SetTarget(aiController.target);
 
         lastDetectTime -= aiController.detectTime;
         agent.isStopped = false;

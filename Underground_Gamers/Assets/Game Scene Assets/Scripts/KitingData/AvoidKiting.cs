@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = "AvoidKiting.Asset", menuName = "KitingData/AvoidKiting")]
 public class AvoidKiting : KitingData
@@ -8,22 +9,35 @@ public class AvoidKiting : KitingData
     public GameObject point;
     public override void UpdateKiting(Transform target, AIController ctrl)
     {
+        int attempt = 0;
+
         Vector3 enemyLook = ctrl.transform.position - target.position;
         enemyLook.Normalize();
 
-        // 랜덤한 각도를 생성합니다.
-        float randomAngle = Random.Range(-45f, 45f); // -45도에서 45도 사이의 각도
-        Quaternion randomRotation = Quaternion.Euler(0f, randomAngle, 0f);
-
-        // 현재 방향을 랜덤하게 회전합니다.
-        Vector3 randomDirection = randomRotation * enemyLook;
-
         float distanceToTarget = Vector3.Distance(ctrl.transform.position, target.transform.position);
 
-        Vector3 kitingPos = (randomDirection * (ctrl.status.range - distanceToTarget)) + ctrl.transform.position;
-        ctrl.SetDestination(kitingPos);
-        ctrl.kitingPos = kitingPos;
+        Vector3 kitingPos = Vector3.zero;
 
-        //Instantiate(point, kitingPos, Quaternion.identity);
+        while (attempt < 30)
+        {
+            float randomAngle = Random.Range(-30f, 30f);
+            Quaternion randomRotation = Quaternion.Euler(0f, randomAngle, 0f);
+            Vector3 randomDirection = randomRotation * enemyLook;
+            kitingPos = (randomDirection * (ctrl.status.range - distanceToTarget)) + ctrl.transform.position;
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(kitingPos, out hit, 1.0f, NavMesh.AllAreas)) // 생성된 위치가 네비메시에 있는지 확인
+            {
+                kitingPos = hit.position;
+                ctrl.SetDestination(kitingPos);
+                ctrl.kitingPos = kitingPos;
+                Instantiate(point, kitingPos, Quaternion.identity);
+                return;
+            }
+
+            attempt++;
+        }
+
+        ctrl.SetState(States.Idle);
     }
 }

@@ -10,13 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1775514118096814915}
   - component: {fileID: 2973730541297755366}
-  - component: {fileID: 8955805494660279668}
+  - component: {fileID: 3691062370849856382}
   - component: {fileID: 5619921147084294796}
   - component: {fileID: 4762857722842106087}
   - component: {fileID: 3197324845452877469}
   - component: {fileID: 2465857710318269164}
   - component: {fileID: 3163457359775540961}
-  - component: {fileID: 744051137058741423}
   m_Layer: 7
   m_Name: NPC
   m_TagString: Untagged
@@ -62,7 +61,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8955805494660279668
+--- !u!114 &3691062370849856382
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -71,14 +70,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7378083268255723418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75051cbc3db96f4bb908deaec943c6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 94e20b9c182676546a7e25d6f6ee3219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   status: {fileID: 0}
   point: {fileID: 0}
   target: {fileID: 0}
-  firePos: {fileID: 5507046961699234595}
+  firePos: {fileID: 6352711880163675711}
   layer:
     serializedVersion: 2
     m_Bits: 128
@@ -90,13 +89,14 @@ MonoBehaviour:
   kitingPos: {x: 0, y: 0, z: 0}
   isKiting: 0
   attackInfos:
-  - {fileID: 11400000, guid: dcdd6cb2c4f354340bda7adcca736f92, type: 2}
+  - {fileID: 11400000, guid: b503aaf37a9007645be6aca63eafbc51, type: 2}
   - {fileID: 0}
   - {fileID: 0}
-  kitingInfo: {fileID: 0}
+  kitingInfo: {fileID: 11400000, guid: 84d27bfc7ac76c247822d2827c2dff26, type: 2}
   detectTime: 0.1
-  lastAttackTime: 0
-  attackCoolTime: 0
+  lastBaseAttackTime: 0
+  baseAttackCoolTime: 0
+  isOnCoolBaseAttack: 0
   teamLayer: 0
   enemyLayer: 0
   obstacleLayer: 0
@@ -187,18 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b38bbd20076796479405769b48cd8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &744051137058741423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7378083268255723418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d47c38837190388419384dddf0b40043, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  respawner: {fileID: 7707049715390412, guid: 10348f86f87073c4598154a32663860e, type: 3}
 --- !u!1001 &7282946049260121120
 PrefabInstance:
   m_ObjectHideFlags: 0

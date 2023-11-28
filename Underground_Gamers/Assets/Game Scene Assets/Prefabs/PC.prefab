@@ -10,13 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7970350570541111039}
   - component: {fileID: 4745340300516590824}
-  - component: {fileID: 779055762165048350}
+  - component: {fileID: 8860506263280521353}
   - component: {fileID: 2013940768982972327}
   - component: {fileID: 8199792129937762316}
   - component: {fileID: -6158067953069640075}
   - component: {fileID: 2064359598527298224}
   - component: {fileID: 5988317614649542852}
-  - component: {fileID: 5380978509213074266}
   m_Layer: 6
   m_Name: PC
   m_TagString: Untagged
@@ -61,7 +60,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &779055762165048350
+--- !u!114 &8860506263280521353
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,7 +69,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6281770148374587240}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75051cbc3db96f4bb908deaec943c6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 94e20b9c182676546a7e25d6f6ee3219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
@@ -89,13 +88,14 @@ MonoBehaviour:
   kitingPos: {x: 0, y: 0, z: 0}
   isKiting: 0
   attackInfos:
-  - {fileID: 11400000, guid: 55edeb36a82ac5a42a324bddbe6df0a4, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   kitingInfo: {fileID: 0}
   detectTime: 0.1
-  lastAttackTime: 0
-  attackCoolTime: 0
+  lastBaseAttackTime: 0
+  baseAttackCoolTime: 0
+  isOnCoolBaseAttack: 0
   teamLayer: 0
   enemyLayer: 0
   obstacleLayer: 0
@@ -186,15 +186,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b38bbd20076796479405769b48cd8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5380978509213074266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6281770148374587240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d47c38837190388419384dddf0b40043, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  respawner: {fileID: 0}

@@ -12,7 +12,6 @@ public static class Utils
 
         Vector3 randomPoint = new Vector3(x, 0, z);
         randomPoint += target.transform.position;
-
         return randomPoint;
     }
 }
