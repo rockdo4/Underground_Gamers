@@ -19,11 +19,26 @@ public class CharacterStatus : MonoBehaviour
 
     public int armor;
 
+    public int deathCount;
+    public float respawnTime;
+    public float respawnTimeIncreaseRate;
     public bool IsLive { get; set; } = true;
     public int Hp { get; set; }
 
     private void Awake()
     {
+        Hp = maxHp;
+    }
+
+    public void Respawn()
+    {
+        AIController aIController = GetComponent<AIController>();
+        if (aIController != null)
+        {
+            aIController.isOnCoolBaseAttack = true;
+            //aIController.isKiting = false;
+        }
+        IsLive = true;
         Hp = maxHp;
     }
 }

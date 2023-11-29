@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class AttackState : AIState
 {
-    private float lastAttackTime;
-    private float attackCoolTime;
     public AttackState(AIController aiController) : base(aiController)
     {
-        attackCoolTime = aiController.attackInfos[(int)SkillTypes.Base].cooldown;
     }
 
     public override void Enter()
     {
+        aiController.RefreshDebugAIStatus(this.ToString());
+        agent.isStopped = true;
         agent.speed = 0;
-        lastAttackTime -= attackCoolTime;
     }
 
     public override void Exit()
@@ -24,30 +22,53 @@ public class AttackState : AIState
 
     public override void Update()
     {
-        if(!aiStatus.IsLive)
+        if (!aiStatus.IsLive)
         {
             return;
         }
-        //Debug.Log("Attack State");
-        RotateToTarget();
+
         if (aiController.target == null)
         {
             aiController.SetState(States.Idle);
             return;
         }
-        var dirToTarget = aiController.target.position - aiTr.position;
 
-        dirToTarget.Normalize();
-
-        if (aiController.RaycastToTarget)
+        if (DistanceToTarget > aiStatus.range)
         {
-            if (lastAttackTime + attackCoolTime < Time.time)
-            {
-                lastAttackTime = Time.time;
-                if (aiController.attackInfos[(int)SkillTypes.Base] != null)
-                    aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
-
-            }
+            aiController.SetState(States.MissionExecution);
+            return;
         }
+        if (!aiController.RaycastToTarget)
+        {
+            RotateToTarget();
+        }
+
+        if (aiController.attackInfos[(int)SkillTypes.Base] != null && aiController.target != null && aiController != null 
+            && aiController.isOnCoolBaseAttack && aiController.RaycastToTarget)
+        {
+            aiController.isOnCoolBaseAttack = false;
+            aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
+            aiController.SetState(States.Kiting);
+            return;
+        }
+        //Debug.Log("Attack State");
+        //RotateToTarget();
+
+        //if (aiController.RaycastToTarget)
+        //{
+        //    if (aiController.attackInfos[(int)SkillTypes.Base] != null)
+        //    {
+        //        aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
+        //        aiController.SetState(States.Kiting);
+        //    }
+
+        //    //if (aiController.lastAttackTime + aiController.attackCoolTime < Time.time)
+        //    //{
+        //    //    aiController.lastAttackTime = Time.time;
+        //    //    if (aiController.attackInfos[(int)SkillTypes.Base] != null)
+        //    //        aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
+
+        //    //}
+        //}
     }
 }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,8 +10,11 @@ using static UnityEngine.GraphicsBuffer;
 public enum States
 {
     Idle,
+    MissionExecution,
     Trace,
+    AimSearch,
     Attack,
+    Kiting,
 }
 
 public enum SkillTypes
@@ -27,7 +32,7 @@ public enum SkillActionTypes
 }
 public class AIController : MonoBehaviour
 {
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     public CharacterStatus status;
 
     private StateManager stateManager;
@@ -44,28 +49,41 @@ public class AIController : MonoBehaviour
     public AIManager manager;
 
     public Vector3 hitInfoPos;
-
-
+    public Vector3 kitingPos;
+    public bool isKiting = false;
 
     public AttackDefinition[] attackInfos = new AttackDefinition[(int)SkillTypes.Count];
-
+    public KitingData kitingInfo;
 
     [Tooltip("탐지 딜레이 시간")]
     public float detectTime = 0.1f;
+
+    [Tooltip("마지막 공격 시점")]
+    public float lastBaseAttackTime;
+    [Tooltip("공격 딜레이 타임")]
+    public float baseAttackCoolTime;
+    public bool isOnCoolBaseAttack;
 
     public int teamLayer;
     public int enemyLayer;
     public int obstacleLayer;
 
+    public string statusName;
+    public DebugAIStatusInfo debugAIStatusInfo;
+    public CommandInfo aiCommandInfo;
+    public TextMeshProUGUI aiType;
 
     public bool RaycastToTarget
     {
         get
         {
-            var origin = firePos.position;
-            //origin.y += 0.6f;
+            if (this.target == null)
+                return false;
+            var origin = transform.position;
+            origin.y += 0.6f;
             var target = this.target.position;
-            target.y += firePos.position.y;
+            //target.y = transform.position.y;
+            target.y = origin.y;
             var direction = target - origin;
             direction.Normalize();
 
@@ -75,12 +93,20 @@ public class AIController : MonoBehaviour
             //LayerMask.LayerToName(gameObject.layer),
             //    LayerMask.LayerToName(this.target.gameObject.layer));
             //var layer = Physics.AllLayers ^ mask;
-            bool isCol = Physics.Raycast(origin, direction, out RaycastHit hitInfo, status.range, enemyLayer);
 
-            if (isCol)
+            float dot = Vector3.Dot(direction, transform.forward);
+            float dotAngle = 1f - (status.sightAngle / 2) * 0.01f;
+
+            bool isCol = false;
+            if (dot > dotAngle)
             {
-                hitInfoPos = hitInfo.point;
+                isCol = Physics.Raycast(origin, direction, out RaycastHit hitInfo, status.range, enemyLayer);
+                if (isCol)
+                {
+                    hitInfoPos = hitInfo.point;
+                }
             }
+
             return isCol;
         }
     }
@@ -92,6 +118,10 @@ public class AIController : MonoBehaviour
         // 데이터 테이블에 따라서 정보를 가져올 수 있음, 레벨 정보는 세이브 데이터
         status = GetComponent<CharacterStatus>();
         target = point;
+
+        baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
+        lastBaseAttackTime = Time.time - baseAttackCoolTime;
+
 
         teamLayer = layer;
 
@@ -109,13 +139,30 @@ public class AIController : MonoBehaviour
     {
         stateManager = new StateManager();
         states.Add(new IdleState(this));
+        states.Add(new MissionExecutionState(this));
         states.Add(new TraceState(this));
+        states.Add(new AimSearchState(this));
         states.Add(new AttackState(this));
+        states.Add(new KitingState(this));
 
         agent.speed = status.speed;
-        agent.SetDestination(point.position);
+        //agent.SetDestination(point.position);
 
         SetState(States.Idle);
+    }
+
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
+        CharacterStatus status = target.GetComponent<CharacterStatus>();
+        if(status != null)
+            TargetEventBus.Subscribe(status, ReleaseTarget);
+        SetDestination(this.target.position);
+    }
+
+    public void ReleaseTarget()
+    {
+        target = null;
     }
 
     public void SetDestination(Vector3 vector3)
@@ -125,11 +172,18 @@ public class AIController : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             agent.SetDestination(point.position);
         }
-        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude,0.5f));
+
+        if (lastBaseAttackTime + baseAttackCoolTime < Time.time)
+        {
+            lastBaseAttackTime = Time.time;
+            isOnCoolBaseAttack = true;
+        }
+
+        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
         //최대 속도일때 0.5f가 되어야 함으로 2로나눔
     }
     public void SetState(States newState)
@@ -141,6 +195,18 @@ public class AIController : MonoBehaviour
     public void UpdateState()
     {
         stateManager.Update();
+    }
+
+    public void UpdateKiting()
+    {
+        if (target != null)
+            kitingInfo.UpdateKiting(target, this);
+    }
+
+    public void RefreshDebugAIStatus(string debug)
+    {
+        statusName = $"{debugAIStatusInfo.aiType}{debugAIStatusInfo.aiNum} : {debug}";
+        debugAIStatusInfo.GetComponentInChildren<TextMeshProUGUI>().text = statusName;
     }
 
     private void OnDrawGizmos()
@@ -166,7 +232,7 @@ public class AIController : MonoBehaviour
         Gizmos.DrawLine(newV, newV + viewAngleA * viewRadius);
         Gizmos.DrawLine(newV, newV + viewAngleB * viewRadius);
 
-        if(firePos != null && target != null)
+        if (firePos != null && target != null)
         {
             if (RaycastToTarget)
             {

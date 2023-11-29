@@ -11,9 +11,11 @@ public class IdleState : AIState
 
     public override void Enter()
     {
-        agent.isStopped = true;
-        agent.angularSpeed = 0;
-        agent.speed = 0f;
+        aiController.RefreshDebugAIStatus(this.ToString());
+
+        //agent.isStopped = true;
+        //agent.angularSpeed = 0;
+        //agent.speed = 0f;
         // Idle애니메이션 실행
 
     }
@@ -25,7 +27,6 @@ public class IdleState : AIState
 
     public override void Update()
     {
-        //Debug.Log("Idle State");
         if (!aiStatus.IsLive)
         {
             return;
@@ -38,7 +39,7 @@ public class IdleState : AIState
 
         if(aiController.target != null)
         {
-            aiController.SetState(States.Trace);
+            aiController.SetState(States.MissionExecution);
         }
     }
 }
