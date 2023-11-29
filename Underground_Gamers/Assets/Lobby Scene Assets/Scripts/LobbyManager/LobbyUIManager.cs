@@ -149,10 +149,14 @@ public class LobbyUIManager : MonoBehaviour
 
     public void StartGame()
     {
-        if (GamePlayerInfo.instance.usingPlayers.Count < 5)
+        List<Player> list = GamePlayerInfo.instance.usingPlayers;
+        for (int i = 0; i < 5; i++)
         {
-            ActivePlayerCountLackWarning(true);
-            return;
+            if (list[i].code == -1)
+            {
+                ActivePlayerCountLackWarning(true);
+                return;
+            }
         }
         GameInfo.instance.RegistPlayers();
         SceneManager.LoadScene("Game Scene");

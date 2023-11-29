@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMaker : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         if (GameInfo.instance != null)
         {

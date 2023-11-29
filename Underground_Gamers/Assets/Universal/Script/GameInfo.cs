@@ -86,7 +86,7 @@ public class GameInfo : MonoBehaviour
     {
         var startPos = GameObject.FindGameObjectsWithTag("PlayerStartPos");
         var endPos = GameObject.FindGameObjectsWithTag("EnemyStartPos");
-        var playerDestinations = GameObject.FindGameObjectsWithTag("PlayerDestination");
+        var playerDestinations = GameObject.FindGameObjectsWithTag("NPCTower");
 
         if (startPos.Length < 1)
         {
