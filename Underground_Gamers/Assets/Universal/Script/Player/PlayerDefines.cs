@@ -56,3 +56,12 @@ public struct PlayerInfo
     public float collectingRate;   //집탄율
     public float detectionRange;   //감지범위
 }
+
+public struct RecruitInfo
+{
+    public string code;
+    public string info;
+    public int money;
+    public int crystal;
+    public int contractTicket;
+}
