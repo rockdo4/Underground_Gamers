@@ -14,4 +14,26 @@ public static class Utils
         randomPoint += target.transform.position;
         return randomPoint;
     }
+
+    public static Transform FindNearestRemainingDistance(AIController ai, Transform[] paths)
+    {
+        Transform target = ai.target;
+        Transform wayPoint = null;
+        float nearestRemainingDistance = float.MaxValue;
+
+        // 0번째 path는 제외
+        for(int i = 1; i < paths.Length; ++i)
+        {
+            ai.agent.SetDestination(paths[i].position);
+            if (nearestRemainingDistance > ai.agent.remainingDistance)
+            {
+                nearestRemainingDistance = ai.agent.remainingDistance;
+                wayPoint = paths[i];
+            }
+
+        }
+
+        ai.agent.SetDestination(target.position);
+        return wayPoint;
+    }
 }

@@ -41,6 +41,9 @@ public class AIController : MonoBehaviour
     public Transform point;
     public Transform target;
     public Transform firePos;
+    public Line currentLine = Line.Bottom;
+
+
     public LayerMask layer;
     public SPUM_Prefabs spum;
 
@@ -73,6 +76,7 @@ public class AIController : MonoBehaviour
     public CommandInfo aiCommandInfo;
     public TextMeshProUGUI aiType;
     public int colorIndex;
+
 
     public bool RaycastToTarget
     {

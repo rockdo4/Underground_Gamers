@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class Command
 {
-    public abstract void ExecuteCommand(AIController ai);
+    public abstract void ExecuteCommand(AIController ai, WayPoint wayPoint);
 }

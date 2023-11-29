@@ -53,10 +53,15 @@ public class Respawner : MonoBehaviour
                 npcRespawnTimers[i].Item1.transform.position = npcReSpawner.position +
                     new Vector3(Random.Range(-respawnRange, respawnRange), 0f, Random.Range(-respawnRange, respawnRange));
 
-                //aiManager.npc.Add(npcRespawnTimers[i].Item1);
                 npcRespawnTimers[i].Item1.status.Respawn();
                 npcRespawnTimers[i].Item1.SetState(States.Idle);
                 npcRespawnTimers[i].Item1.gameObject.SetActive(true);
+                ParticleSystem effect = aiParticlePrefabs[npcRespawnTimers[i].Item1.colorIndex];
+                if (effect != null)
+                {
+                    Instantiate(effect, npcRespawnTimers[i].Item1.transform.position, effect.transform.rotation);
+                    effect.Play();
+                }
                 npcRespawnTimers.RemoveAt(i);
             }
         }

@@ -9,6 +9,9 @@ public class DestroyedObject : MonoBehaviour, IDestroyable
 
     public void DestoryObject()
     {
+        GameManager gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        if (!gameManager.IsPlaying && gameManager != null)
+            return;
         CharacterStatus status = GetComponent<CharacterStatus>();
         AIController controller = GetComponent<AIController>();
         if(controller != null)

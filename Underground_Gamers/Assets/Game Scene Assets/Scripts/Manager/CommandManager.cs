@@ -16,6 +16,7 @@ public class CommandManager : MonoBehaviour
 {
     [Header("Ä³½Ì")]
     public AIManager aiManager;
+    public WayPoint wayPoint;
 
     [Header("Ä¿¸àµå UI")]
     public CommandInfo commandInfoPrefab;
@@ -30,6 +31,7 @@ public class CommandManager : MonoBehaviour
     private List<CommandInfo> commandInfos = new List<CommandInfo>();
     private CommandInfo currentCommandInfo = null;
     private bool isCheckInfo = false;
+
 
     private void Awake()
     {
@@ -73,7 +75,7 @@ public class CommandManager : MonoBehaviour
                 commandID.text = $"{(CommandType)i}";
 
                 // ±â´É ÀÔ·Â
-                commandButton.onClick.AddListener(() => commands[index].ExecuteCommand(info.aiController));
+                commandButton.onClick.AddListener(() => commands[index].ExecuteCommand(info.aiController, wayPoint));
                 commandButton.gameObject.SetActive(false);
                 info.commandButtons.Add(commandButton);
             }
