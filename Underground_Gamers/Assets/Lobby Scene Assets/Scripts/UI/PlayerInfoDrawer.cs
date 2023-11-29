@@ -69,6 +69,7 @@ public class PlayerInfoDrawer : MonoBehaviour
         StatsInfo[7].text = playerInfo.reloadingSpeed.ToString();
         StatsInfo[8].text = playerInfo.moveSpeed.ToString();
         StatsInfo[9].text = playerInfo.reactionSpeed.ToString();
+        TypeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", playerInfo.type.ToString()));
     }
 
     private void OnDisable()

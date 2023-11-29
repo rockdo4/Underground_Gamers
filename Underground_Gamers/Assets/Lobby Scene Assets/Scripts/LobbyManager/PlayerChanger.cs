@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -89,6 +90,7 @@ public class PlayerChanger : MonoBehaviour
 
     public void StartChange()
     {
+        GamePlayerInfo.instance.SortPlayersWithLevel(true);
         haveList = GamePlayerInfo.instance.havePlayers;
         usingList = GamePlayerInfo.instance.usingPlayers;
 
@@ -97,7 +99,7 @@ public class PlayerChanger : MonoBehaviour
             Destroy(old.gameObject);
         }
         olds.Clear();
-
+        
 
         int index = 0;
         foreach (var player in haveList)
@@ -111,6 +113,7 @@ public class PlayerChanger : MonoBehaviour
             pb.index = index++;
             pb.playerNameCard.text = st.Get($"playerName{player.code}");
             pb.Level.text = $"Lv.{player.level}";
+            pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
             olds.Add(bt);
         }
 
@@ -143,6 +146,7 @@ public class PlayerChanger : MonoBehaviour
                 pb.playerNameCard.text = st.Get($"playerName{player.code}");
                 pb.Level.text = $"Lv.{player.level}";
                 pb.isUsing.color = Color.green;
+                pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
                 oldsPlayerList.Add(bt);
             }
         }
@@ -159,6 +163,7 @@ public class PlayerChanger : MonoBehaviour
             pb.playerNameCard.text = st.Get($"playerName{player.code}");
             pb.Level.text = $"Lv.{player.level}";
             pb.isUsing.color = Color.red;
+            pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
             oldsPlayerList.Add(bt);
         }
     }

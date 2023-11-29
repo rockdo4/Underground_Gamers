@@ -179,11 +179,15 @@ public class GamePlayerInfo : MonoBehaviour
 
         for (int i = 0; i < usingPlayers.Count; i++)
         {
-            havePlayers.Add(usingPlayers[i]);
-            RemoveUsePlayer(i);
+            if (usingPlayers[i].code != -1)
+            {
+                havePlayers.Add(usingPlayers[i]);
+                RemoveUsePlayer(i);
+            }
         }
 
         int count = 0;
+        List<Player> deletePlayer = new List<Player>();
         foreach (float presetCode in presetCodeList) 
         {
             if (presetCode != -1)
@@ -193,12 +197,17 @@ public class GamePlayerInfo : MonoBehaviour
                     if (havePlayer.ID == presetCode)
                     {
                         usingPlayers[count] = havePlayer;
-                        havePlayers.Remove(havePlayer);
+                        deletePlayer.Add(havePlayer);
                         continue;
                     }
                 }
             }
             count++;
+        }
+
+        foreach (var item in deletePlayer)
+        {
+            havePlayers.Remove(item);
         }
     }
 }

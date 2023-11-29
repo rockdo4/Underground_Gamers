@@ -25,7 +25,8 @@ public class PlayerTable : DataTable
             PlayerInfo playerInfo = new PlayerInfo();
             playerInfo.code = int.Parse(player["Code"]);
             playerInfo.name = player["Name"];
-            playerInfo.type = int.Parse(player["Grade"]);
+            playerInfo.grade = int.Parse(player["Grade"]);
+            playerInfo.type = int.Parse(player["Type"]);
             playerInfo.UniqueSkillCode = int.Parse(player["UniqueSkill"]);
             playerInfo.Potential = int.Parse(player["Type"]);
             playerInfo.info = player["Info"];
