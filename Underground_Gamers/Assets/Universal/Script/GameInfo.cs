@@ -27,10 +27,15 @@ public class GameInfo : MonoBehaviour
 
     private List<GameObject> players;
     private List<GameObject> enemys;
+    private PlayerTable pt;
     public void Awake()
     {
         players = new List<GameObject>();
         enemys = new List<GameObject>();
+    }
+    private void Start()
+    {
+        pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
     }
     public void RegistPlayers()
     {
@@ -49,7 +54,7 @@ public class GameInfo : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             var player = usePlayer[i];
-            PlayerInfo playerInfo = PlayerLoadManager.instance.playerDatabase[PlayerLoadManager.instance.PlayerIndexSearch(player.code)];
+            PlayerInfo playerInfo = pt.playerDatabase[pt.PlayerIndexSearch(player.code)];
             var madePlayer = Instantiate(playerObj);
             madePlayer.AddComponent<DontDestroy>();
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{player.code}")), madePlayer.transform);
@@ -98,6 +103,7 @@ public class GameInfo : MonoBehaviour
                 ai.point = playerDestinations[Random.Range(0, playerDestinations.Length - 1)].transform;
             ai.SetDestination(ai.point.position);
         }
+
         if (players.Count > 0)
         {
             foreach (var player in players)
@@ -105,6 +111,5 @@ public class GameInfo : MonoBehaviour
                 GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc.Add(player.GetComponent<AIController>());
             }
         }
-
     }
 }
