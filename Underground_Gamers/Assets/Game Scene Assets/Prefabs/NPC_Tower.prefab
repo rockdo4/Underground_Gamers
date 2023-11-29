@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 2622320935478547304}
   - component: {fileID: 1412631206617938874}
   - component: {fileID: 1414948617929467594}
+  - component: {fileID: 164803349240366411}
   m_Layer: 7
   m_Name: NPC_Tower
   m_TagString: NPCTower
@@ -242,3 +243,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6da4e85dec64f44bf8d7f713f47dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particlePrefab: {fileID: 2407849614386759806, guid: 1b901813f2b10fe4fb4986526e315caa, type: 3}
+--- !u!114 &164803349240366411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7103576870835131446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d6c7f57c55a95479014c182aa43fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64

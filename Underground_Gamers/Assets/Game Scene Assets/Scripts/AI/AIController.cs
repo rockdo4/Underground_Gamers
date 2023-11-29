@@ -72,6 +72,7 @@ public class AIController : MonoBehaviour
     public DebugAIStatusInfo debugAIStatusInfo;
     public CommandInfo aiCommandInfo;
     public TextMeshProUGUI aiType;
+    public int colorIndex;
 
     public bool RaycastToTarget
     {

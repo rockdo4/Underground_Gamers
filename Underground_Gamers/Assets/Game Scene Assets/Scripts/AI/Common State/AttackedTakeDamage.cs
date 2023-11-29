@@ -35,12 +35,22 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
             //    GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().npc.Remove(controller);
             //}
 
-            var destroyable = transform.GetComponent<IDestroyable>();
-            var respawnable = transform.GetComponent<IRespawnable>();
-            if (destroyable != null)
-                destroyable.DestoryObject();
-            if (respawnable != null)
-                respawnable.ExecuteRespawn(transform.gameObject);
+            var destroyables = transform.GetComponents<IDestroyable>();
+            var respawnables = transform.GetComponents<IRespawnable>();
+            if (destroyables != null)
+            {
+                foreach (var destroyable in destroyables)
+                {
+                    destroyable.DestoryObject();
+                }
+            }
+            if (respawnables != null)
+            {
+                foreach (var respawnable in respawnables)
+                {
+                    respawnable.ExecuteRespawn(transform.gameObject);
+                }
+            }
 
             //Destroy(transform.gameObject);
         }
