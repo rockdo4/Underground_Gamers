@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Command
+public abstract class Command
 {
-
+    public abstract void ExecuteCommand(AIController ai);
 }

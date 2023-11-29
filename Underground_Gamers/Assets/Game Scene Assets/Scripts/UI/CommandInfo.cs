@@ -9,9 +9,9 @@ public class CommandInfo : MonoBehaviour
     public string aiType;
     public int aiNum;
 
+    public AIController aiController;
     public GameObject respawnTimeUI;
     public TextMeshProUGUI respawnTimeText;
-    public AIController aiController;
     public Image respawnCoolTime;
 
     public Transform respawner;
