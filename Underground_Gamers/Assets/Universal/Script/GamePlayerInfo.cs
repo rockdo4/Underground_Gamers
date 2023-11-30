@@ -125,6 +125,7 @@ public class GamePlayerInfo : MonoBehaviour
         newPlayer.name = info.name;
         newPlayer.code = code;
         newPlayer.type = info.type;
+        newPlayer.grade = info.grade;
         newPlayer.ID = IDPrinter();
         havePlayers.Add(newPlayer);
         return newPlayer;
@@ -223,5 +224,60 @@ public class GamePlayerInfo : MonoBehaviour
         this.crystal -= crystal;
         this.contractTicket -= contractTicket;
         return true;
+    }
+
+    public bool CheckMoney(int money, int crystal, int contractTicket)
+    {
+        if (this.money < money ||
+            this.crystal < crystal ||
+            this.contractTicket < contractTicket)
+        {
+            return false;
+        }
+        return true;
+    }
+
+
+    public List<Player> CopyOfSortPlayersWithLevel(bool Orderby)
+    {
+        if (!Orderby)
+        {
+            var sortedPeople = havePlayers.OrderBy(p => p.level).ThenBy(p => p.grade).ThenBy(p => p.name).ThenBy(p => p.ID);
+            return sortedPeople.ToList();
+        }
+        else
+        {
+            var sortedPeople = havePlayers.OrderByDescending(p => p.level).ThenByDescending(p => p.grade).ThenByDescending(p => p.name).ThenByDescending(p => p.ID);
+            return sortedPeople.ToList();
+        }
+    }
+
+    public List<Player> CopyOfSortPlayersWithGrade(bool Orderby)
+    {
+        if (!Orderby)
+        {
+            var sortedPeople = havePlayers.OrderBy(p => p.grade).ThenBy(p => p.name).ThenBy(p => p.level).ThenBy(p => p.ID);
+            return sortedPeople.ToList();
+        }
+        else
+        {
+            var sortedPeople = havePlayers.OrderByDescending(p => p.grade).ThenByDescending(p => p.name).ThenByDescending(p => p.level).ThenByDescending(p => p.ID);
+            return sortedPeople.ToList();
+        }
+    }
+
+    public List<Player> CopyOfSortPlayersWithID(bool Orderby)
+    {
+        if (!Orderby)
+        {
+            var sortedPeople = havePlayers.OrderBy(p => p.ID);
+            return sortedPeople.ToList();
+        }
+        else
+        {
+            var sortedPeople = havePlayers.OrderByDescending(p => p.ID);
+            return sortedPeople.ToList();
+        }
+
     }
 }

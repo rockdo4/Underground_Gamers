@@ -376,7 +376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 16.2, y: 0}
+  m_AnchoredPosition: {x: 16.200012, y: 0}
   m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &16986057
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC120\uC218\uB2E8 \uC790\uB9AC \uBD80\uC871"
+  m_text: "\uC601\uC785 \uD655\uC778"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 86b603696a0fa6549acfefb3b68ad13f, type: 2}
   m_sharedMaterial: {fileID: -292045414227251496, guid: 86b603696a0fa6549acfefb3b68ad13f, type: 2}
@@ -1208,7 +1208,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 46617262}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1493043649}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &46617262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11167,7 +11179,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -200, y: 27.000017}
+  m_AnchoredPosition: {x: -200, y: 27.000015}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &420698784
@@ -11214,7 +11226,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2102378791}
+      - m_Target: {fileID: 1493043649}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -13213,7 +13225,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -16.00002, y: 27.000017}
+  m_AnchoredPosition: {x: -16.00003, y: 27.000015}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &504177532
@@ -13260,10 +13272,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2102378791}
+      - m_Target: {fileID: 1493043649}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1289923590}
+        m_TargetAssemblyTypeName: RecruitManager, Assembly-CSharp
+        m_MethodName: StartRecruit
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -16646,7 +16670,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 16.2, y: 0}
+  m_AnchoredPosition: {x: 16.200012, y: 0}
   m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &636886146
@@ -18080,7 +18104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 16.2, y: 0}
+  m_AnchoredPosition: {x: 16.200012, y: 0}
   m_SizeDelta: {x: 127.1, y: 80}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &691241404
@@ -29262,7 +29286,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1289923590}
         m_TargetAssemblyTypeName: RecruitManager, Assembly-CSharp
-        m_MethodName: StartRecruit
+        m_MethodName: TryRecruit
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30943,6 +30967,9 @@ MonoBehaviour:
   - {fileID: 1026081527}
   - {fileID: 2129065459}
   - {fileID: 370867049}
+  playerlistLeftToggles:
+  - {fileID: 15518203}
+  - {fileID: 2049991794}
   schedule: {fileID: 1949346988}
   stage: {fileID: 855061397}
   playerCountLackWarning: {fileID: 1808525699}
@@ -37703,13 +37730,13 @@ MonoBehaviour:
   defaultRecruitCode: 10000
   MoneyText1: {fileID: 2126904949}
   MoneyText10: {fileID: 919715455}
-  recruitCheckWindow: {fileID: 0}
-  recruitCheckWindowMoney: {fileID: 0}
-  recruitCheckWindowMoneyCurr: {fileID: 0}
-  spaceLackWarning: {fileID: 0}
+  recruitCheckWindow: {fileID: 1493043649}
+  recruitCheckWindowMoney: {fileID: 2114715194}
+  recruitCheckWindowMoneyCurr: {fileID: 1830441158}
+  spaceLackWarning: {fileID: 2102378791}
   moneyWarning: {fileID: 661826471}
-  moneyWarningWindowMoney: {fileID: 0}
-  moneyWarningWindowMoneyCurr: {fileID: 0}
+  moneyWarningWindowMoney: {fileID: 1299750515}
+  moneyWarningWindowMoneyCurr: {fileID: 1693931705}
   recruitCardBoard: {fileID: 795469785}
   recruitEffect: {fileID: 606276942}
   recruitEffrctPrefabNomal: {fileID: 3667392460787068519, guid: a95566896fb11f94ebcdbe33562bc64a, type: 3}
@@ -37721,8 +37748,8 @@ MonoBehaviour:
   recruitEffrctName: {fileID: 1763583883}
   recruitCardPos: {fileID: 1202157606}
   recruitCardPrefab: {fileID: 3780260979733474002, guid: d4ac9c1020e0bd449b3ac0497bd0e4a1, type: 3}
-  recruitCardEffetRare: {fileID: 0}
-  recruitCardEffetUnique: {fileID: 0}
+  recruitCardEffetRare: {fileID: 7969225968288437982, guid: 5e9eb3aad7e0b9544a1a961bc7b5b20a, type: 3}
+  recruitCardEffetUnique: {fileID: 7969225968288437982, guid: 15395f4d030e4b54095d1ea5a5ce90fa, type: 3}
 --- !u!1 &1299750513
 GameObject:
   m_ObjectHideFlags: 0
@@ -42044,7 +42071,7 @@ GameObject:
   - component: {fileID: 1493043652}
   - component: {fileID: 1493043651}
   m_Layer: 5
-  m_Name: EmptyWarningPopupUI (1)
+  m_Name: RecruitCheckUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44267,7 +44294,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1564570052}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2102378791}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1564570052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52573,6 +52612,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1076230015}
+        m_TargetAssemblyTypeName: LobbyUIManager, Assembly-CSharp
+        m_MethodName: OpenPlayerReleaseImmediate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1895358366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56109,6 +56160,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1076230017}
+        m_TargetAssemblyTypeName: PlayerChanger, Assembly-CSharp
+        m_MethodName: OpenPlayers
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1076230019}
         m_TargetAssemblyTypeName: PlayersFilter, Assembly-CSharp
         m_MethodName: Filtering
@@ -58245,7 +58308,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1289923590}
         m_TargetAssemblyTypeName: RecruitManager, Assembly-CSharp
-        m_MethodName: StartRecruit
+        m_MethodName: TryRecruit
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -60871,7 +60934,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2651708791330912957}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 661826471}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &6103259242329178890
 RectTransform:
   m_ObjectHideFlags: 0

@@ -146,6 +146,7 @@ public class PlayerChanger : MonoBehaviour
                 pb.playerNameCard.text = st.Get($"playerName{player.code}");
                 pb.Level.text = $"Lv.{player.level}";
                 pb.isUsing.color = Color.green;
+                pb.ID = player.ID;
                 pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
                 oldsPlayerList.Add(bt);
             }
@@ -163,6 +164,7 @@ public class PlayerChanger : MonoBehaviour
             pb.playerNameCard.text = st.Get($"playerName{player.code}");
             pb.Level.text = $"Lv.{player.level}";
             pb.isUsing.color = Color.red;
+            pb.ID = player.ID;
             pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
             oldsPlayerList.Add(bt);
         }

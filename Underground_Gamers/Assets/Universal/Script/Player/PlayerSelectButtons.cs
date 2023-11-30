@@ -14,6 +14,7 @@ public class PlayerButtons : MonoBehaviour
     public TMP_Text playerNameCard;
     [HideInInspector]
     public int index;
+    public float ID;
     public void SetImage(Sprite spr)
     {
         image.sprite = spr;

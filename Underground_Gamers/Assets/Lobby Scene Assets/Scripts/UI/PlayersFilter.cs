@@ -23,19 +23,20 @@ public class PlayersFilter : MonoBehaviour
 
     public void Filtering()
     {
+        List<Player> list = new List<Player>();
+        list.AddRange(GamePlayerInfo.instance.usingPlayers);
         switch (SortStandard.value)
         {
             case 0:
-                GamePlayerInfo.instance.SortPlayersWithLevel(OrderByToggle.isOn);
+                list = GamePlayerInfo.instance.CopyOfSortPlayersWithLevel(OrderByToggle.isOn);
                 break;
             case 1:
-                GamePlayerInfo.instance.SortPlayersWithGrade(OrderByToggle.isOn);
+                list = GamePlayerInfo.instance.CopyOfSortPlayersWithGrade(OrderByToggle.isOn);
                 break;
-            case 2:
-                GamePlayerInfo.instance.SortPlayersWithID(OrderByToggle.isOn);
+            default:
+                list = GamePlayerInfo.instance.CopyOfSortPlayersWithID(OrderByToggle.isOn);
                 break;
         }
-        PlayerChanger.instance.OpenPlayers();
 
         List<Player> players = new List<Player>();
         List<Player> usingPlayers = GamePlayerInfo.instance.usingPlayers;
@@ -46,7 +47,7 @@ public class PlayersFilter : MonoBehaviour
                 players.Add(item);
             }
         }
-        //int useCount = players.Count;
+
         players.AddRange(GamePlayerInfo.instance.havePlayers);
         if (players.Count <= 0)
         {
@@ -55,7 +56,6 @@ public class PlayersFilter : MonoBehaviour
 
         var buttons = PlayerChanger.instance.oldsPlayerList;
         int index = 0;
-
         foreach (var player in players)
         {
             if (EntrySearch.text != "" &&
@@ -69,6 +69,16 @@ public class PlayersFilter : MonoBehaviour
                 buttons[index].gameObject.SetActive(CanActiveWithFilter(player));
                 index++;
             }
+        }
+
+        foreach (var button in buttons)
+        {
+            button.transform.SetParent(null);
+        }
+
+        foreach (var item in list)
+        {
+            buttons.Find(b => b.GetComponent<PlayerButtons>().ID == item.ID).transform.SetParent(EntryField.transform);
         }
     }
 
