@@ -77,6 +77,9 @@ public class AIController : MonoBehaviour
     public TextMeshProUGUI aiType;
     public int colorIndex;
 
+    public Transform[] tops;
+    public Transform[] bottoms;
+
 
     public bool RaycastToTarget
     {
@@ -160,7 +163,7 @@ public class AIController : MonoBehaviour
     {
         this.target = target;
         CharacterStatus status = target.GetComponent<CharacterStatus>();
-        if(status != null)
+        if (status != null)
             TargetEventBus.Subscribe(status, ReleaseTarget);
         SetDestination(this.target.position);
     }
@@ -177,6 +180,30 @@ public class AIController : MonoBehaviour
 
     private void Update()
     {
+        //if (teamLayer == LayerMask.GetMask("PC"))
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Alpha1))
+        //    {
+        //        SetTarget(tops[0]);
+        //    }
+        //    if (Input.GetKeyDown(KeyCode.Alpha2))
+        //    {
+        //        SetTarget(tops[1]);
+
+        //    }
+
+        //    if (Input.GetKeyDown(KeyCode.Alpha3))
+        //    {
+        //        SetTarget(bottoms[0]);
+        //    }
+        //    if (Input.GetKeyDown(KeyCode.Alpha4))
+        //    {
+        //        SetTarget(bottoms[1]);
+        //    }
+
+        //}
+        //if()
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             agent.SetDestination(point.position);

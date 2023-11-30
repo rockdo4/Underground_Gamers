@@ -15,25 +15,30 @@ public static class Utils
         return randomPoint;
     }
 
-    public static Transform FindNearestRemainingDistance(AIController ai, Transform[] paths)
+    public static Transform FindNearestPoint(AIController ai, Transform[] paths)
     {
         Transform target = ai.target;
         Transform wayPoint = null;
-        float nearestRemainingDistance = float.MaxValue;
+        float nearestDistance = float.MaxValue;
 
         // 0번째 path는 제외
         for(int i = 1; i < paths.Length; ++i)
         {
-            ai.agent.SetDestination(paths[i].position);
-            if (nearestRemainingDistance > ai.agent.remainingDistance)
+            //ai.SetDestination(paths[i].position);
+            //if (nearestRemainingDistance > ai.agent.remainingDistance)
+            //{
+            //    nearestRemainingDistance = ai.agent.remainingDistance;
+            //    wayPoint = paths[i];
+            //}
+            float distance = Vector3.Distance(ai.transform.position, paths[i].position);
+            if (nearestDistance > distance)
             {
-                nearestRemainingDistance = ai.agent.remainingDistance;
+                nearestDistance = distance;
                 wayPoint = paths[i];
             }
-
         }
 
-        ai.agent.SetDestination(target.position);
+        //ai.SetDestination(target.position);
         return wayPoint;
     }
 }
