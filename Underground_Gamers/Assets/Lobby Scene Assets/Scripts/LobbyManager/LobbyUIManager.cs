@@ -53,6 +53,7 @@ public class LobbyUIManager : MonoBehaviour
     {
         UpdateMoneyInfo();
         filter = GetComponent<EntryFilter>();
+        GameInfo.instance.DeletePlayers();
     }
     public void UpdateMoneyInfo()
     {

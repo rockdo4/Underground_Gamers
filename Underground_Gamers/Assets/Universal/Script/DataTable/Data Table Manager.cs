@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 
 public class DataTableManager : MonoBehaviour
 {
+    public PlayersStateDef stateDef;
     public static DataTableManager instance
     {
         get
