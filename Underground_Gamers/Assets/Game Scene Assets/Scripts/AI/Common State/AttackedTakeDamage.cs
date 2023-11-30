@@ -17,23 +17,32 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         if (!status.IsLive)
             return;
 
+        if(controller.isInvalid)
+        {
+            foreach (var buff in controller.appliedBuffs)
+            {
+                if (buff is InvalidAttackBuff)
+                {
+                    InvalidAttackBuff invalidAttackBuff = buff as InvalidAttackBuff;
+                    invalidAttackBuff.invalidAttackCount--;
+                    if (invalidAttackBuff.invalidAttackCount <= 0)
+                    {
+                        invalidAttackBuff.RemoveBuff(controller);
+                    }
+                    return;
+                }
+            }
+        }
+
         status.Hp -= attack.Damage;
         status.Hp = Mathf.Max(0, status.Hp);
+
 
         if (status.Hp <= 0)
         {
             status.IsLive = false;
-            //if (attackerAI != null)
-            //    attackerAI.target = null;
 
-            //if (controller.teamLayer == LayerMask.GetMask("PC"))
-            //{
-            //    GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc.Remove(controller);
-            //}
-            //else
-            //{
-            //    GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().npc.Remove(controller);
-            //}
+
 
             var destroyables = transform.GetComponents<IDestroyable>();
             var respawnables = transform.GetComponents<IRespawnable>();
@@ -54,5 +63,9 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
 
             //Destroy(transform.gameObject);
         }
+    }
+
+    public void InvalidAttack(AIController controller)
+    {
     }
 }

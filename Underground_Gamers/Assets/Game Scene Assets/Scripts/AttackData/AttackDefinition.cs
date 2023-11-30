@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AttackDefinition.Asset", menuName = "AttackData/AttackDefinition")]
 public class AttackDefinition : ScriptableObject
 {
+    [Header("어택")]
     [Tooltip("데미지")]
     public float damage;
     public float maxDamageRate;

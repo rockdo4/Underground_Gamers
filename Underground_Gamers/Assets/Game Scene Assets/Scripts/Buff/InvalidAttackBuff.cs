@@ -1,0 +1,30 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class InvalidAttackBuff : Buff
+{
+    public int invalidAttackCount;
+    public override void UpdateBuff(AIController ai)
+    {
+        base.UpdateBuff(ai);
+    }
+    public override void ApplyBuff(AIController ai)
+    {
+        ai.isInvalid = true;
+        ai.appliedBuffs.Add(this);
+    }
+
+    public override void RemoveBuff(AIController ai)
+    {
+        ai.removedBuffs.Add(this);
+        foreach(var buff in ai.appliedBuffs)
+        {
+            if(buff is InvalidAttackBuff)
+            {
+                return;
+            }
+        }
+        ai.isInvalid = false;
+    }
+}
