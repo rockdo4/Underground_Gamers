@@ -39,22 +39,12 @@ public class GameInfo : MonoBehaviour
     }
     public void RegistPlayers()
     {
-        foreach (var player in players)
-        {
-            Destroy(player);
-        }
-        foreach (var player in enemys)
-        {
-            Destroy(player);
-        }
-        players.Clear();
-        enemys.Clear();
-
+        var stateDefines = DataTableManager.instance.stateDef;
         List<Player> usePlayer = GamePlayerInfo.instance.usingPlayers;
         for (int i = 0; i < 5; i++)
         {
             var player = usePlayer[i];
-            PlayerInfo playerInfo = pt.playerDatabase[pt.PlayerIndexSearch(player.code)];
+            PlayerInfo playerInfo = pt.GetPlayerInfo(player.code);
             var madePlayer = Instantiate(playerObj);
             madePlayer.AddComponent<DontDestroy>();
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{player.code}")), madePlayer.transform);
@@ -77,6 +67,24 @@ public class GameInfo : MonoBehaviour
                 //임시코드 나중에 바꿔야함!!
                 ai.firePos = ai.rightHand;
             }
+            AttackDefinition atkDef = stateDefines.attackDefs.Find(a => a.code == playerInfo.atkType).value;
+            ai.attackInfos[0] = atkDef;
+            ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
+
+            var stat = madePlayer.GetComponent<CharacterStatus>();
+            stat.Hp = playerInfo.hp;
+            stat.maxHp = playerInfo.hp;
+            stat.speed = playerInfo.moveSpeed;
+            stat.sight = playerInfo.sight;
+            stat.range = playerInfo.range/2f;
+            stat.reactionSpeed = playerInfo.reactionSpeed * 15;
+            stat.damage = playerInfo.atk;
+            stat.cooldown = playerInfo.atkRate;
+            stat.critical = playerInfo.criticalChance;
+            stat.chargeCount = playerInfo.magazine;
+            stat.reloadCooldown = playerInfo.reloadingSpeed;
+            stat.accuracyRate = playerInfo.Accuracy;
+
             madePlayer.SetActive(false);
             players.Add(madePlayer);
         }
@@ -98,10 +106,13 @@ public class GameInfo : MonoBehaviour
             var spawnPos = startPos[Random.Range(0, startPos.Length - 1)].transform.position + new Vector3(Random.Range(-RandomSpawnRange, RandomSpawnRange), 0, Random.Range(-RandomSpawnRange, RandomSpawnRange));
             player.transform.position = spawnPos;
             player.SetActive(true);
+
             var ai = player.GetComponent<AIController>();
             if (playerDestinations != null)
                 ai.point = playerDestinations[Random.Range(0, playerDestinations.Length - 1)].transform;
             ai.SetDestination(ai.point.position);
+
+            player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();
         }
 
         if (players.Count > 0)
@@ -111,5 +122,19 @@ public class GameInfo : MonoBehaviour
                 GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc.Add(player.GetComponent<AIController>());
             }
         }
+    }
+
+    public void DeletePlayers()
+    {
+        foreach (var player in players)
+        {
+            Destroy(player);
+        }
+        foreach (var player in enemys)
+        {
+            Destroy(player);
+        }
+        players.Clear();
+        enemys.Clear();
     }
 }

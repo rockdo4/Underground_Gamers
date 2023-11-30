@@ -16,6 +16,11 @@ public class CharacterStatus : MonoBehaviour
     public float reactionSpeed;     // 반응속도
 
     public float damage;
+    public float cooldown;
+    public float critical;
+    public int chargeCount;
+    public float reloadCooldown;
+    public float accuracyRate;
 
     public int armor;
 

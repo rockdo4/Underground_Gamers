@@ -43,6 +43,9 @@ public class PlayerTable : DataTable
             playerInfo.reloadingSpeed = float.Parse(player["Reload"]);
             playerInfo.Accuracy = float.Parse(player["Accuracy"]);
             playerInfo.reactionSpeed = float.Parse(player["Reaction"]);
+            playerInfo.atkType = int.Parse(player["AtkType"]);
+            playerInfo.kitingType = int.Parse(player["KitingType"]);
+
             playerDatabase.Add(playerInfo);
             playerSprites.Add(Resources.Load<Sprite>(
                 Path.Combine("PlayerSprite", playerInfo.code.ToString())));

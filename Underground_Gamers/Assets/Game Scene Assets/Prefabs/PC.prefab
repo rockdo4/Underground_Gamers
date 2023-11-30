@@ -403,6 +403,7 @@ MonoBehaviour:
   point: {fileID: 0}
   target: {fileID: 0}
   firePos: {fileID: 0}
+  currentLine: 1
   layer:
     serializedVersion: 2
     m_Bits: 64
@@ -429,7 +430,9 @@ MonoBehaviour:
   debugAIStatusInfo: {fileID: 0}
   aiCommandInfo: {fileID: 0}
   aiType: {fileID: 5357651350825094259}
-  aiColor: {r: 0, g: 0, b: 0, a: 0}
+  colorIndex: 0
+  tops: []
+  bottoms: []
 --- !u!114 &2013940768982972327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,10 +454,15 @@ MonoBehaviour:
   evasionRate: 0
   reactionSpeed: 150
   damage: 10
+  cooldown: 0
+  critical: 0
+  chargeCount: 0
+  reloadCooldown: 0
+  accuracyRate: 0
   armor: 0
   deathCount: 0
-  respawnTime: 0
-  respawnTimeIncreaseRate: 0
+  respawnTime: 8
+  respawnTimeIncreaseRate: 3
 --- !u!136 &8199792129937762316
 CapsuleCollider:
   m_ObjectHideFlags: 0

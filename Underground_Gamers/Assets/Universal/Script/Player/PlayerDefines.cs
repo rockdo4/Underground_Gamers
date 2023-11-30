@@ -55,6 +55,9 @@ public struct PlayerInfo
     public float avoidRate;        //회피율
     public float collectingRate;   //집탄율
     public float detectionRange;   //감지범위
+
+    public int atkType;
+    public int kitingType;
 }
 
 public struct RecruitInfo
@@ -64,4 +67,18 @@ public struct RecruitInfo
     public int money;
     public int crystal;
     public int contractTicket;
+}
+
+[System.Serializable]
+public class AttackDefinitionData
+{
+    public int code;
+    public AttackDefinition value;
+}
+
+[System.Serializable]
+public class KitingDefinitionData
+{ 
+    public int code;
+    public KitingData value;
 }
