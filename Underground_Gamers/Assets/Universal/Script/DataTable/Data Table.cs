@@ -7,6 +7,7 @@ public enum DataType
     String,
     Player,
     Gear,
+    Recruit,
     Count
 }
 public abstract class DataTable

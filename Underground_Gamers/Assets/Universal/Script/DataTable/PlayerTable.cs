@@ -53,4 +53,14 @@ public class PlayerTable : DataTable
     {
         return playerDatabase.FindIndex(player => player.code == code);
     }
+
+    public PlayerInfo GetPlayerInfo(int code)
+    {
+        return playerDatabase.Find(player => player.code == code);
+    }
+
+    public Sprite GetPlayerSprite(int code)
+    {
+        return playerSprites[PlayerIndexSearch(code)];
+    }
 }

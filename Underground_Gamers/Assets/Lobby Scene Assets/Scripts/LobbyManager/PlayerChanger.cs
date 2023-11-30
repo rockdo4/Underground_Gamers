@@ -85,12 +85,12 @@ public class PlayerChanger : MonoBehaviour
     public void StartChange(int slotIndex)
     {
         currentSlotIndex = slotIndex;
+        GamePlayerInfo.instance.SortPlayersWithLevel(true);
         StartChange();
     }
 
     public void StartChange()
     {
-        GamePlayerInfo.instance.SortPlayersWithLevel(true);
         haveList = GamePlayerInfo.instance.havePlayers;
         usingList = GamePlayerInfo.instance.usingPlayers;
 
@@ -107,7 +107,7 @@ public class PlayerChanger : MonoBehaviour
             int currIndex = index;
             var bt = Instantiate(playerButtons, havePlayerSpace.transform);
             var pb = bt.GetComponent<PlayerButtons>();
-            pb.SetImage(pt.playerSprites[player.code]);
+            pb.SetImage(pt.playerSprites[pt.PlayerIndexSearch(player.code)]);
             pb.GetComponent<Button>().onClick.AddListener(() => ToUse(currIndex));
             pb.GetComponent<Button>().onClick.AddListener(() => lobbyUIManager.ActivePlayerSlotSet(false));
             pb.index = index++;
@@ -157,7 +157,7 @@ public class PlayerChanger : MonoBehaviour
             int currIndex = index;
             var bt = Instantiate(playerButtons, havePlayerListSpace.transform);
             var pb = bt.GetComponent<PlayerButtons>();
-            pb.SetImage(pt.playerSprites[player.code]);
+            pb.SetImage(pt.playerSprites[pt.PlayerIndexSearch(player.code)]);
             pb.GetComponent<Button>().onClick.AddListener(() => lobbyUIManager.ActivePlayerInfo(true, currIndex, false));
             pb.index = index++;
             pb.playerNameCard.text = st.Get($"playerName{player.code}");
