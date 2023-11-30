@@ -37,8 +37,8 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         }
 
         status.Hp -= attack.Damage;
+        status.Hp = Mathf.Min(status.Hp, status.maxHp);
         status.Hp = Mathf.Max(0, status.Hp);
-
 
         if (status.Hp <= 0)
         {

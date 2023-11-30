@@ -41,6 +41,9 @@ public class CharacterStatus : MonoBehaviour
         if (aIController != null)
         {
             aIController.isOnCoolBaseAttack = true;
+            aIController.isOnCoolOriginalSkill = true;
+            aIController.isOnCoolGeneralSkill = true;
+
             //aIController.isKiting = false;
         }
         IsLive = true;

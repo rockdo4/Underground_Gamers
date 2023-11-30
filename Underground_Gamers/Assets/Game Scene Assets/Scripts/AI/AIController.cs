@@ -67,6 +67,20 @@ public class AIController : MonoBehaviour
     [Tooltip("공격 딜레이 타임")]
     public float baseAttackCoolTime;
     public bool isOnCoolBaseAttack;
+
+    [Tooltip("마지막 고유스킬 사용 시점")]
+    public float lastOriginalSkillTime;
+    [Tooltip("고유스킬 딜레이 타임")]
+    public float originalSkillCoolTime;
+    public bool isOnCoolOriginalSkill;
+
+    [Tooltip("마지막 공용스킬 사용 시점")]
+    public float lastGeneralSkillTime;
+    [Tooltip("공용스킬 딜레이 타임")]
+    public float generalSkillCoolTime;
+    public bool isOnCoolGeneralSkill;
+
+
     [Header("버프")]
     public List<Buff> appliedBuffs = new List<Buff>();
     public List<Buff> removedBuffs = new List<Buff>();
@@ -133,8 +147,17 @@ public class AIController : MonoBehaviour
         status = GetComponent<CharacterStatus>();
         target = point;
 
-        baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
+        if (attackInfos[(int)SkillTypes.Base] != null)
+            baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
         lastBaseAttackTime = Time.time - baseAttackCoolTime;
+
+        if (attackInfos[(int)SkillTypes.Original] != null)
+            originalSkillCoolTime = attackInfos[(int)SkillTypes.Original].cooldown;
+        lastOriginalSkillTime = Time.time - originalSkillCoolTime;
+
+        if (attackInfos[(int)SkillTypes.General] != null)
+            generalSkillCoolTime = attackInfos[(int)SkillTypes.General].cooldown;
+        lastGeneralSkillTime = Time.time - generalSkillCoolTime;
 
 
         teamLayer = layer;
@@ -169,6 +192,13 @@ public class AIController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             agent.SetDestination(point.position);
+        }
+
+        if(lastOriginalSkillTime + originalSkillCoolTime < Time.time 
+            && attackInfos[(int)SkillTypes.Original] != null)
+        {
+            lastOriginalSkillTime = Time.time;
+            isOnCoolOriginalSkill = true;
         }
 
         if (lastBaseAttackTime + baseAttackCoolTime < Time.time)

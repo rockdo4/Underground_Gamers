@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ElevatedSpiritsBuff.Asset", menuName = "BuffSkill/ElevatedSpiritsBuff")]
@@ -16,6 +17,14 @@ public class ElevatedSpiritsBuff : BuffSkill
             BuffType.Other => defender.GetComponent<AIController>(),
             _ => attacker.GetComponent<AIController>()
         };
+
+        Vector3 textPos = attacker.transform.position;
+        textPos.y += offsetText;
+        TextMeshPro text = Instantiate(scrollingBuffText, textPos, Quaternion.identity);
+        text.text = "Spirit UP!";
+        text.color = new Color(0.7f, 1, 0);
+
+
         SpeedBuff speedBuff = new SpeedBuff();
         speedBuff.duration = duration;
         speedBuff.increasedSpeedRate = increasedSpeedRate;
@@ -26,5 +35,8 @@ public class ElevatedSpiritsBuff : BuffSkill
 
         speedBuff.ApplyBuff(buffAi);
         invalidAttackBuff.ApplyBuff(buffAi);
+
+        GameObject buffEffect = Instantiate(effectPrefab, buffAi.transform);
+        Destroy(buffEffect, duration);
     }
 }
