@@ -61,16 +61,23 @@ public class AIController : MonoBehaviour
     [Tooltip("탐지 딜레이 시간")]
     public float detectTime = 0.1f;
 
+    [Header("공격, 스킬 관련")]
     [Tooltip("마지막 공격 시점")]
     public float lastBaseAttackTime;
     [Tooltip("공격 딜레이 타임")]
     public float baseAttackCoolTime;
     public bool isOnCoolBaseAttack;
+    [Header("버프")]
+    public List<Buff> appliedBuffs = new List<Buff>();
+    public List<Buff> removedBuffs = new List<Buff>();
+    public bool isInvalid = false;
 
+    [Header("레이어")]
     public int teamLayer;
     public int enemyLayer;
     public int obstacleLayer;
 
+    [Header("UI")]
     public string statusName;
     public DebugAIStatusInfo debugAIStatusInfo;
     public CommandInfo aiCommandInfo;
@@ -119,7 +126,6 @@ public class AIController : MonoBehaviour
         }
     }
 
-
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -158,6 +164,28 @@ public class AIController : MonoBehaviour
 
         SetState(States.Idle);
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            agent.SetDestination(point.position);
+        }
+
+        if (lastBaseAttackTime + baseAttackCoolTime < Time.time)
+        {
+            lastBaseAttackTime = Time.time;
+            isOnCoolBaseAttack = true;
+        }
+
+        foreach(var buff in removedBuffs)
+        {
+            appliedBuffs.Remove(buff);
+        }
+        removedBuffs.Clear();
+
+        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
+        //최대 속도일때 0.5f가 되어야 함으로 2로나눔
+    }
 
     public void SetTarget(Transform target)
     {
@@ -178,51 +206,10 @@ public class AIController : MonoBehaviour
         agent.SetDestination(vector3);
     }
 
-    private void Update()
-    {
-        //if (teamLayer == LayerMask.GetMask("PC"))
-        //{
-        //    if (Input.GetKeyDown(KeyCode.Alpha1))
-        //    {
-        //        SetTarget(tops[0]);
-        //    }
-        //    if (Input.GetKeyDown(KeyCode.Alpha2))
-        //    {
-        //        SetTarget(tops[1]);
-
-        //    }
-
-        //    if (Input.GetKeyDown(KeyCode.Alpha3))
-        //    {
-        //        SetTarget(bottoms[0]);
-        //    }
-        //    if (Input.GetKeyDown(KeyCode.Alpha4))
-        //    {
-        //        SetTarget(bottoms[1]);
-        //    }
-
-        //}
-        //if()
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            agent.SetDestination(point.position);
-        }
-
-        if (lastBaseAttackTime + baseAttackCoolTime < Time.time)
-        {
-            lastBaseAttackTime = Time.time;
-            isOnCoolBaseAttack = true;
-        }
-
-        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
-        //최대 속도일때 0.5f가 되어야 함으로 2로나눔
-    }
     public void SetState(States newState)
     {
         stateManager.ChangeState(states[(int)newState]);
     }
-
 
     public void UpdateState()
     {
@@ -240,6 +227,7 @@ public class AIController : MonoBehaviour
         statusName = $"{debugAIStatusInfo.aiType}{debugAIStatusInfo.aiNum} : {debug}";
         debugAIStatusInfo.GetComponentInChildren<TextMeshProUGUI>().text = statusName;
     }
+
 
     private void OnDrawGizmos()
     {

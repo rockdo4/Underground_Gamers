@@ -15,7 +15,7 @@ public class CharacterStatus : MonoBehaviour
     public float evasionRate;       // 회피율
     public float reactionSpeed;     // 반응속도
 
-    public int damage;
+    public float damage;
 
     public int armor;
 
