@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SetString : MonoBehaviour
 {
-    [TextArea]
     public string textId;
     void Start()
     {

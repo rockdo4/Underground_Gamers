@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class PlayersFilter : MonoBehaviour
 {
 
@@ -14,6 +15,8 @@ public class PlayersFilter : MonoBehaviour
     public List<Toggle> TypeToggles;
     public TMP_Dropdown SortStandard;
     public Toggle OrderByToggle;
+    public Image filterButton;
+    public TMP_Text filterButtonText;
 
     private StringTable st;
     private void Start()
@@ -84,6 +87,8 @@ public class PlayersFilter : MonoBehaviour
 
     public bool CanActiveWithFilter(Player player)
     {
+        filterButton.color = Color.yellow;
+        filterButtonText.text = st.Get("filter");
         //Grade
         bool isOnLevel = true;
         foreach (var LevelToggle in LevelToggles)
@@ -146,7 +151,16 @@ public class PlayersFilter : MonoBehaviour
             }
         }
 
-        return isOnLevel && isOnBreak && isOnType;
+        if (isOnLevel && isOnBreak && isOnType)
+        {
+            filterButton.color = Color.white;
+            filterButtonText.text = st.Get("all");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void ResetToggleList()

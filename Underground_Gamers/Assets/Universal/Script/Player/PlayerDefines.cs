@@ -26,6 +26,7 @@ public class Player
     public float xp = 0;
     public float maxXp = 100;
     public int condition = 0;
+    public int cost = 0;
     //ability??
 }
 

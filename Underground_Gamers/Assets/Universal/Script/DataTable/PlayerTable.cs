@@ -8,6 +8,7 @@ public class PlayerTable : DataTable
 {
     public List<PlayerInfo> playerDatabase = null;
     public List<Sprite> playerSprites;
+    public List<Sprite> playerFullSprites;
 
     public PlayerTable() : base(DataType.Player)
     {
@@ -20,6 +21,7 @@ public class PlayerTable : DataTable
         List<Dictionary<string, string>> players = CSVReader.Read(Path.Combine("CSV", "PlayerStats"));
         playerDatabase = new List<PlayerInfo>();
         playerSprites = new List<Sprite>();
+        playerFullSprites = new List<Sprite>();
         foreach (var player in players)
         {
             PlayerInfo playerInfo = new PlayerInfo();
@@ -49,6 +51,8 @@ public class PlayerTable : DataTable
             playerDatabase.Add(playerInfo);
             playerSprites.Add(Resources.Load<Sprite>(
                 Path.Combine("PlayerSprite", playerInfo.code.ToString())));
+            playerFullSprites.Add(Resources.Load<Sprite>(
+                Path.Combine("PlayerFullSprite", playerInfo.code.ToString())));
         }
     }
     
@@ -65,5 +69,9 @@ public class PlayerTable : DataTable
     public Sprite GetPlayerSprite(int code)
     {
         return playerSprites[PlayerIndexSearch(code)];
+    }
+    public Sprite GetPlayerFullSprite(int code)
+    {
+        return playerFullSprites[PlayerIndexSearch(code)];
     }
 }

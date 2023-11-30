@@ -243,7 +243,7 @@ public class RecruitManager : MonoBehaviour
         currCount--;
         int currMakeCode = outPut[currCount];
         PlayerInfo pi = pt.GetPlayerInfo(currMakeCode);
-        recruitEffrctCharImage.sprite = pt.GetPlayerSprite(currMakeCode);
+        recruitEffrctCharImage.sprite = pt.GetPlayerFullSprite(currMakeCode);
         recruitEffrctTypeImage.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", pi.type.ToString()));
         recruitEffrctName.text = pi.name;
     }
