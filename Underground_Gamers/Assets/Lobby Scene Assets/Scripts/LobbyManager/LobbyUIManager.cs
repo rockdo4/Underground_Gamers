@@ -17,6 +17,7 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject playerSlotLackWarning;
     public GameObject playerInfo;
     public List<Toggle> presets;
+    public List<Toggle> playerlistLeftToggles;
 
     [Space(10f)]
     [Header("UIGroup : Schedule")]
@@ -134,6 +135,13 @@ public class LobbyUIManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+
+    public void OpenPlayerReleaseImmediate()
+    {
+        ActivePlayerList(true);
+        playerlistLeftToggles[1].isOn = true;
     }
 
     //------------------------------------------------//

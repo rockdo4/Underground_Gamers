@@ -119,24 +119,29 @@ public class RecruitManager : MonoBehaviour
         int needCrystal = info.crystal * recruitCount;
         int needTicket = info.contractTicket * recruitCount;
 
-        if (!GamePlayerInfo.instance.UseMoney(needMoney, needCrystal, needTicket))
+        if (!GamePlayerInfo.instance.CheckMoney(needMoney, needCrystal, needTicket))
         {
             string messege = "";
-            if (needMoney > 0)
+            string submessege = st.Get("recruitMoneyLackMessegeCurr");
+            if (needMoney - GamePlayerInfo.instance.money> 0)
             {
-                messege += $" {st.Get("money")} {needMoney}{st.Get("count")}" ;
+                messege += $" {st.Get("money")} {needMoney - GamePlayerInfo.instance.money}{st.Get("count")}" ;
+                submessege += $"{st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")} ";
             }
-            if (needCrystal > 0)
+            if (needCrystal - GamePlayerInfo.instance.crystal > 0)
             {
-                messege += $" {st.Get("crystal")} {needMoney}{st.Get("count")}";
+                messege += $" {st.Get("crystal")} {needCrystal - GamePlayerInfo.instance.crystal}{st.Get("count")}";
+                submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
             }
-            if (needTicket > 0)
+            if (needTicket - GamePlayerInfo.instance.contractTicket > 0)
             {
-                messege += $" {st.Get("ticket")} {needMoney}{st.Get("count")}";
+                messege += $" {st.Get("ticket")} {needTicket - GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
+                submessege += $" {st.Get("ticket")} {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
             }
             messege += st.Get("recruitMoneyLackMessege");
-            //recruitCheckWindowMoney.text = 
-            //moneyWarning.SetActive(true);
+            moneyWarningWindowMoney.text = messege;
+            moneyWarningWindowMoneyCurr.text = submessege;
+            moneyWarning.SetActive(true);
             return;
         }
         else if (GamePlayerInfo.instance.havePlayers.Count + count > 200)
@@ -146,6 +151,26 @@ public class RecruitManager : MonoBehaviour
         }
         else
         {
+            string messege = "";
+            string submessege = st.Get("recruitCheckCurrMessege");
+            if (needMoney > 0)
+            {
+                messege += $" {st.Get("money")} {needMoney}{st.Get("count")}";
+                submessege += $"{st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")} ";
+            }
+            if (needCrystal> 0)
+            {
+                messege += $" {st.Get("crystal")} {needCrystal}{st.Get("count")}";
+                submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
+            }
+            if (needTicket > 0)
+            {
+                messege += $" {st.Get("ticket")} {needTicket}{st.Get("count")}";
+                submessege += $" {st.Get("ticket")} {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
+            }
+            messege += st.Get("recruitCheckMessege");
+            recruitCheckWindowMoney.text = messege;
+            recruitCheckWindowMoneyCurr.text = submessege;
             recruitCheckWindow.SetActive(true);
             return;
         }
@@ -153,7 +178,11 @@ public class RecruitManager : MonoBehaviour
 
     public void StartRecruit()
     {
-
+        RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
+        if (!GamePlayerInfo.instance.UseMoney(info.money * recruitCount, info.crystal * recruitCount, info.contractTicket * recruitCount))
+        {
+            return;
+        }
         foreach (var card in oldRecruitCards)
         {
             Destroy(card.gameObject);
@@ -228,4 +257,5 @@ public class RecruitManager : MonoBehaviour
             moneyListText[2].text = GamePlayerInfo.instance.contractTicket.ToString();
         }
     }
+
 }

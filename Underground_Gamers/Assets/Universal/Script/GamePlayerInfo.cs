@@ -224,4 +224,15 @@ public class GamePlayerInfo : MonoBehaviour
         this.contractTicket -= contractTicket;
         return true;
     }
+
+    public bool CheckMoney(int money, int crystal, int contractTicket)
+    {
+        if (this.money < money ||
+            this.crystal < crystal ||
+            this.contractTicket < contractTicket)
+        {
+            return false;
+        }
+        return true;
+    }
 }
