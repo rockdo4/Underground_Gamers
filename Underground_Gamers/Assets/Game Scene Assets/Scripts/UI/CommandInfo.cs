@@ -16,6 +16,8 @@ public class CommandInfo : MonoBehaviour
 
     public Transform respawner;
 
+    public List<Button> commandButtons = new List<Button>();
+
     private void Start()
     {
         respawnTimeUI.SetActive(false);

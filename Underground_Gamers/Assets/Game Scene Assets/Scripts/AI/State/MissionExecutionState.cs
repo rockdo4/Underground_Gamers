@@ -48,6 +48,11 @@ public class MissionExecutionState : AIState
             return;
         }
 
+        if(Vector3.Distance(aiTr.position, aiController.target.position) < 1f)
+        {
+            aiController.SetTarget(aiController.point);
+        }
+
         if (lastDetectTime + aiController.detectTime < Time.time)
         {
             lastDetectTime = Time.time;

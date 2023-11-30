@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2811229290781980073}
   - component: {fileID: 6673036548579790637}
   - component: {fileID: 541201851290404755}
+  - component: {fileID: 8899061229304321925}
   m_Layer: 6
   m_Name: PC_Tower
   m_TagString: PCTower
@@ -30,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5011689183556583040}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.02, y: 1, z: -22.74}
   m_LocalScale: {x: 0.5, y: 0.4, z: 0.5}
   m_ConstrainProportionsScale: 0
@@ -159,6 +160,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6da4e85dec64f44bf8d7f713f47dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particlePrefab: {fileID: 2407849614386759806, guid: 1b901813f2b10fe4fb4986526e315caa, type: 3}
+--- !u!114 &8899061229304321925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5011689183556583040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d6c7f57c55a95479014c182aa43fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &7418898342292977192
 GameObject:
   m_ObjectHideFlags: 0

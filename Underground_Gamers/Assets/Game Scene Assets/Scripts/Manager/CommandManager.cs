@@ -16,6 +16,7 @@ public class CommandManager : MonoBehaviour
 {
     [Header("캐싱")]
     public AIManager aiManager;
+    public WayPoint wayPoint;
 
     [Header("커멘드 UI")]
     public CommandInfo commandInfoPrefab;
@@ -26,6 +27,11 @@ public class CommandManager : MonoBehaviour
 
     private Queue<(Command, AIController)> records = new Queue<(Command, AIController)>();
     private List<Command> commands = new List<Command>();
+
+    private List<CommandInfo> commandInfos = new List<CommandInfo>();
+    private CommandInfo currentCommandInfo = null;
+    private bool isCheckInfo = false;
+
 
     private void Awake()
     {
@@ -53,7 +59,11 @@ public class CommandManager : MonoBehaviour
             info.aiNum = pcNum++;
             var text = info.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
             text.text = $"{info.aiType}{info.aiNum}";
+            commandInfos.Add(info);
 
+            // 기능 입력
+            var infoButotn = info.GetComponent<Button>();
+            infoButotn.onClick.AddListener(() => OnCommadns(info));
             // 커멘드 넣기
             Transform commandParent = info.transform.GetChild(0);
 
@@ -65,8 +75,51 @@ public class CommandManager : MonoBehaviour
                 commandID.text = $"{(CommandType)i}";
 
                 // 기능 입력
-                commandButton.onClick.AddListener(() => commands[index].ExecuteCommand(info.aiController));
+                commandButton.onClick.AddListener(() => commands[index].ExecuteCommand(info.aiController, wayPoint));
+                commandButton.gameObject.SetActive(false);
+                info.commandButtons.Add(commandButton);
             }
         }
+    }
+
+    public void OnCommadns(CommandInfo commandInfo)
+    {
+        OffAllCommands();
+        if (currentCommandInfo == commandInfo)
+            isCheckInfo = true;
+        else
+            isCheckInfo = false;
+
+        currentCommandInfo = commandInfo;
+        foreach (var button in currentCommandInfo.commandButtons)
+        {
+            button.gameObject.SetActive(true);
+        }
+
+        if (isCheckInfo)
+        {
+            OffCurrentCommads();
+        }
+
+    }
+
+    public void OffAllCommands()
+    {
+        foreach(var info in commandInfos)
+        {
+            foreach(var button in info.commandButtons)
+            {
+                button.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void OffCurrentCommads()
+    {
+        foreach(var info in currentCommandInfo.commandButtons)
+        {
+            info.gameObject.SetActive(false);
+        }
+        currentCommandInfo = null;
     }
 }

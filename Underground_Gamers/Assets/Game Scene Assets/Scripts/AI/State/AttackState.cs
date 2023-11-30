@@ -43,7 +43,8 @@ public class AttackState : AIState
             RotateToTarget();
         }
 
-        if (aiController.attackInfos[(int)SkillTypes.Base] != null && aiController.target != null && aiController != null 
+        if (aiController.attackInfos[(int)SkillTypes.Base] != null 
+            && aiController.target != null && aiController != null 
             && aiController.isOnCoolBaseAttack && aiController.RaycastToTarget)
         {
             aiController.isOnCoolBaseAttack = false;
