@@ -90,6 +90,7 @@ public class LobbyUIManager : MonoBehaviour
         {
             presets[GamePlayerInfo.instance.PresetCode].isOn = true;
             PlayerChanger.instance.SlotChecker();
+            playerlistLeftToggles[0].isOn = true;
         }
         else if(!PlayerChanger.instance.IsFullSquad())
         {
@@ -136,7 +137,6 @@ public class LobbyUIManager : MonoBehaviour
             }
         }
     }
-
 
     public void OpenPlayerReleaseImmediate()
     {
