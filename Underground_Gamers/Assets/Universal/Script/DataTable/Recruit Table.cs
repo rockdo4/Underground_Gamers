@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class RecruitTable : DataTable
 {
@@ -41,9 +42,50 @@ public class RecruitTable : DataTable
         
         for (int i = 0; i < count; i++)
         {
-            //da
+            result.Add(DoGatcha(data));
         }
         return result;
+    }
+
+    public int DoGatcha(Dictionary<string, string> data)
+    {
+        int count = 1;
+        int ratioVal = 0;
+        List<(int, int)> results = new List<(int, int)>();
+        while (data[$"reward{count}"] != "")
+        {
+            int ratio = int.Parse(data[$"ratio{count}"]);
+            results.Add((int.Parse(data[$"reward{count}"]), ratio));
+            ratioVal += ratio;
+            count++;
+        }
+        ratioVal = Random.Range(0, ratioVal);
+
+        int probability = 0;
+        int result = -1;
+        foreach (var item in results)
+        {
+            probability += item.Item2;
+            if (probability >= ratioVal)
+            {
+                result = item.Item1;
+                break;
+            }
+        }
+
+        if (result == -1 ) 
+        {
+            Debug.Log("GatchaError!");
+            return -1;
+        }
+        else if (int.Parse(data["end"]) == 0)
+        {
+            return DoGatcha(gatchaData.Find(data => data["ID"] == result.ToString()));
+        }
+        else
+        {
+            return result;
+        }
     }
 
 }

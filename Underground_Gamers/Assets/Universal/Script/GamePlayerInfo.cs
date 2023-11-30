@@ -37,7 +37,7 @@ public class GamePlayerInfo : MonoBehaviour
     [Space(10f)]
     [Header("Resource")]
     public int money = 1000;
-    public int crystal = 100;
+    public int crystal = 1000;
     public int contractTicket = 0;
     public int stamina = 0;
 
@@ -209,5 +209,19 @@ public class GamePlayerInfo : MonoBehaviour
         {
             havePlayers.Remove(item);
         }
+    }
+
+    public bool UseMoney(int money, int crystal, int contractTicket)
+    {
+        if (this.money < money ||
+            this.crystal < crystal ||
+            this.contractTicket < contractTicket)
+        {
+            return false;
+        }
+        this.money -= money;
+        this.crystal -= crystal;
+        this.contractTicket -= contractTicket;
+        return true;
     }
 }

@@ -7,6 +7,11 @@ using UnityEngine.UI;
 
 public class RecruitManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject moneyList;
+    [SerializeField]
+    private List<TMP_Text> moneyListText;
+    [Space(5f)]
     [Header("Recruit")]
     [SerializeField]
     private GameObject recruitList;
@@ -22,10 +27,18 @@ public class RecruitManager : MonoBehaviour
     private PlayerTable pt;
     private List<int> outPut;
     [SerializeField]
+    private TMP_Text MoneyText1;
+    [SerializeField]
+    private TMP_Text MoneyText10;
+    [SerializeField]
     private GameObject moneyWarning;
 
     [Space(5f)]
     [Header("RecruitEffect")]
+    [SerializeField]
+    private GameObject recruitCardBoard;
+    [SerializeField]
+    private GameObject recruitEffect;
     public GameObject recruitEffrctPrefabNomal;
     public GameObject recruitEffrctPrefabRare;
     [SerializeField]
@@ -60,6 +73,7 @@ public class RecruitManager : MonoBehaviour
         currCode = defaultRecruitCode;
         ShowIndex(defaultRecruitCode);
         recruitListToggles[0].isOn = true;
+        UpdateMoneyInfo();
     }
 
     public void ShowIndex(int code)
@@ -70,18 +84,31 @@ public class RecruitManager : MonoBehaviour
             rt = DataTableManager.instance.Get<RecruitTable>(DataType.Recruit);
             pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
         }
+        RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
 
         recruitImage.sprite = Resources.Load<Sprite>(Path.Combine("RecruitSprite", currCode.ToString()));
-        recruitInfo.text = rt.GetRecruitInfo(code.ToString()).info;
+        recruitInfo.text = info.info;
+        MoneyText1.text = $"{info.money} {info.crystal} {info.contractTicket}";
+        MoneyText10.text = $"{info.money * 10} {info.crystal * 10} {info.contractTicket * 10}";
     }
 
     public void StartRecruit(int count)
     {
+        RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
+
+        if (!GamePlayerInfo.instance.UseMoney(info.money * count,info.crystal * count, info.contractTicket * count))
+        {
+            moneyWarning.SetActive(true);
+            return;
+        }
+
         foreach (var card in oldRecruitCards)
         {
             Destroy(card.gameObject);
         }
         oldRecruitCards.Clear();
+
+        
 
         outPut = rt.RecruitRandom(currCode, count);
         currCount = count;
@@ -98,6 +125,11 @@ public class RecruitManager : MonoBehaviour
         Instantiate(recruitEffrctPrefabNomal, recruitEffrctPos);
         RecruitEffrctNextPlayer();
 
+        recruitCardBoard.SetActive(true);
+        recruitEffect.SetActive(true);
+        moneyList.SetActive(false);
+        UpdateMoneyInfo();
+        LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
     public void RecruitEffrctNextPlayer()
@@ -113,5 +145,15 @@ public class RecruitManager : MonoBehaviour
         recruitEffrctCharImage.sprite = pt.GetPlayerSprite(currMakeCode);
         recruitEffrctTypeImage.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", pi.type.ToString()));
         recruitEffrctName.text = pi.name;
+    }
+
+    public void UpdateMoneyInfo()
+    {
+        if (moneyListText.Count >= 3)
+        {
+            moneyListText[0].text = GamePlayerInfo.instance.money.ToString();
+            moneyListText[1].text = GamePlayerInfo.instance.crystal.ToString();
+            moneyListText[2].text = GamePlayerInfo.instance.contractTicket.ToString();
+        }
     }
 }
