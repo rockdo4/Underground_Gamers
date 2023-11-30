@@ -66,7 +66,7 @@ public class RecruitTable : DataTable
         foreach (var item in results)
         {
             probability += item.Item2;
-            if (probability >= ratioVal)
+            if (probability > ratioVal)
             {
                 result = item.Item1;
                 break;
