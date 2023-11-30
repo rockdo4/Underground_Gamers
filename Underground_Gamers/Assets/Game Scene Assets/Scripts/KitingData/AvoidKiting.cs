@@ -31,7 +31,9 @@ public class AvoidKiting : KitingData
                 kitingPos = hit.position;
                 ctrl.SetDestination(kitingPos);
                 ctrl.kitingPos = kitingPos;
-                Instantiate(point, kitingPos, Quaternion.identity);
+                GameObject debugPoint = Instantiate(point, kitingPos, Quaternion.identity);
+                Destroy(debugPoint, 2f);
+
                 return;
             }
 

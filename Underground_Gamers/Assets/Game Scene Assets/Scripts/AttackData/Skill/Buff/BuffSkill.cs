@@ -15,6 +15,7 @@ public class BuffSkill : AttackDefinition
     public float coolTime;
     public float duration;
     public BuffType type;
+    public GameObject effectPrefab;
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
 

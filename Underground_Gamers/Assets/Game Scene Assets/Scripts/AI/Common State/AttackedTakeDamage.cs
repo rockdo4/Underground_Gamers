@@ -16,20 +16,22 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         //}
         if (!status.IsLive)
             return;
-
-        if(controller.isInvalid)
+        if(controller != null)
         {
-            foreach (var buff in controller.appliedBuffs)
+            if (controller.isInvalid)
             {
-                if (buff is InvalidAttackBuff)
+                foreach (var buff in controller.appliedBuffs)
                 {
-                    InvalidAttackBuff invalidAttackBuff = buff as InvalidAttackBuff;
-                    invalidAttackBuff.invalidAttackCount--;
-                    if (invalidAttackBuff.invalidAttackCount <= 0)
+                    if (buff is InvalidAttackBuff)
                     {
-                        invalidAttackBuff.RemoveBuff(controller);
+                        InvalidAttackBuff invalidAttackBuff = buff as InvalidAttackBuff;
+                        invalidAttackBuff.invalidAttackCount--;
+                        if (invalidAttackBuff.invalidAttackCount <= 0)
+                        {
+                            invalidAttackBuff.RemoveBuff(controller);
+                        }
+                        return;
                     }
-                    return;
                 }
             }
         }
@@ -60,12 +62,6 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
                     respawnable.ExecuteRespawn(transform.gameObject);
                 }
             }
-
-            //Destroy(transform.gameObject);
         }
-    }
-
-    public void InvalidAttack(AIController controller)
-    {
     }
 }

@@ -20,8 +20,8 @@ public enum States
 public enum SkillTypes
 {
     Base,                    // 기본공격
-    General,                // 공용스킬
     Original,                // 고유스킬
+    General,                // 공용스킬
     Count
 }
 

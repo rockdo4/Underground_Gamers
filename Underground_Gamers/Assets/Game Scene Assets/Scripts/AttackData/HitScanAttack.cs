@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HitScanAttack.Asset", menuName = "AttackData/HitScanAttack")]
 public class HitScanAttack : AttackDefinition
 {
+    public GameObject muzzlePrefab;
     public GameObject hitScanLine;
     public float lineWidth;
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
@@ -26,6 +27,8 @@ public class HitScanAttack : AttackDefinition
 
         lineRen.SetPosition(0, attackPos);
         lineRen.SetPosition(1, hitPos);
+        GameObject muzzleEffect = Instantiate(muzzlePrefab, attackPos, attackAI.firePos.rotation);
+        Destroy(muzzleEffect, 1f);
 
         var attackStatus = attacker.GetComponent<CharacterStatus>();
         var defendStatus = defender.GetComponent<CharacterStatus>();

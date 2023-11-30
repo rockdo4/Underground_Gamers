@@ -7,6 +7,7 @@ public class IncreaseAttackDamageBuff : BuffSkill
 {
     public float increaseAttackDamageRate;
     public float increaseReactionSpeedRate;
+
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
         AIController buffAi = type switch
@@ -14,7 +15,8 @@ public class IncreaseAttackDamageBuff : BuffSkill
             BuffType.Self => attacker.GetComponent<AIController>(),
             BuffType.Other => defender.GetComponent<AIController>(),
             _ => attacker.GetComponent<AIController>()
-        };
+        };        
+        
         AttackBuff attackBuff = new AttackBuff();
         attackBuff.duration = duration;
         attackBuff.increaseDamageRate = increaseAttackDamageRate;
@@ -25,5 +27,8 @@ public class IncreaseAttackDamageBuff : BuffSkill
 
         attackBuff.ApplyBuff(buffAi);
         reactionSpeedBuff.ApplyBuff(buffAi);
+
+        GameObject buffEffect = Instantiate(effectPrefab, buffAi.transform);
+        Destroy(buffEffect, duration);
     }
 }
