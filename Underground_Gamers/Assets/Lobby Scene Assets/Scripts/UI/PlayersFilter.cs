@@ -27,22 +27,28 @@ public class PlayersFilter : MonoBehaviour
     public void Filtering()
     {
         List<Player> list = new List<Player>();
-        list.AddRange(GamePlayerInfo.instance.usingPlayers);
+        List<Player> usingPlayers = GamePlayerInfo.instance.usingPlayers;
+        foreach (var item in usingPlayers)
+        {
+            if (item.code != -1)
+            {
+                list.Add(item);
+            }
+        }
         switch (SortStandard.value)
         {
             case 0:
-                list = GamePlayerInfo.instance.CopyOfSortPlayersWithLevel(OrderByToggle.isOn);
+                list.AddRange(GamePlayerInfo.instance.CopyOfSortPlayersWithLevel(OrderByToggle.isOn));
                 break;
             case 1:
-                list = GamePlayerInfo.instance.CopyOfSortPlayersWithGrade(OrderByToggle.isOn);
+                list.AddRange(GamePlayerInfo.instance.CopyOfSortPlayersWithGrade(OrderByToggle.isOn));
                 break;
             default:
-                list = GamePlayerInfo.instance.CopyOfSortPlayersWithID(OrderByToggle.isOn);
+                list.AddRange(GamePlayerInfo.instance.CopyOfSortPlayersWithID(OrderByToggle.isOn));
                 break;
         }
 
         List<Player> players = new List<Player>();
-        List<Player> usingPlayers = GamePlayerInfo.instance.usingPlayers;
         foreach (var item in usingPlayers)
         {
             if (item.code != -1)
