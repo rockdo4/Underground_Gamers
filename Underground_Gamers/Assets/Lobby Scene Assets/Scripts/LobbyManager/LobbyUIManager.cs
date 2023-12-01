@@ -125,6 +125,12 @@ public class LobbyUIManager : MonoBehaviour
         isUsingPlayer = isUsing;
         playerInfo.SetActive(on);
     }
+    public void ActiveOnPlayerInfoInSquad(int index)
+    {
+        PlayerInfoIndex = index;
+        isUsingPlayer = true;
+        playerInfo.SetActive(true);
+    }
 
     public void PresetChange()
     {

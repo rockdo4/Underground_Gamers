@@ -14,6 +14,8 @@ public class EntryFilter : MonoBehaviour
     public List<Toggle> TypeToggles;
     public TMP_Dropdown SortStandard;
     public Toggle OrderByToggle;
+    public Image filterButton;
+    public TMP_Text filterButtonText;
 
     private StringTable st;
     private void Start()
@@ -64,6 +66,9 @@ public class EntryFilter : MonoBehaviour
 
     public bool CanActiveWithFilter(Player player)
     {
+        filterButton.color = Color.yellow;
+        filterButtonText.text = st.Get("filter");
+
         //Grade
         bool isOnLevel = true;
         foreach (var LevelToggle in LevelToggles)
@@ -125,7 +130,16 @@ public class EntryFilter : MonoBehaviour
             }
         }
 
-        return isOnLevel && isOnBreak && isOnType;
+        if (isOnLevel && isOnBreak && isOnType)
+        {
+            filterButton.color = Color.white;
+            filterButtonText.text = st.Get("all");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void ResetToggleList()

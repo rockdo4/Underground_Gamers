@@ -50,7 +50,7 @@ public class PlayerInfoDrawer : MonoBehaviour
 
         PlayerInfo playerInfo = pt.playerDatabase[currPlayer.code];
 
-        PlayerImage.sprite = pt.playerSprites[currPlayer.code];
+        PlayerImage.sprite = pt.GetPlayerFullSprite(currPlayer.code);
         PlayerName.text = currPlayer.name;
         breakThrough.text = $"{st.Get("break")}: {currPlayer.breakthrough}";
         XpVal.text = $"{currPlayer.level}/{currPlayer.maxLevel}";

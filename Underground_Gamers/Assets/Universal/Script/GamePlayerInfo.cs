@@ -127,6 +127,7 @@ public class GamePlayerInfo : MonoBehaviour
         newPlayer.type = info.type;
         newPlayer.grade = info.grade;
         newPlayer.ID = IDPrinter();
+        newPlayer.cost = info.cost;
         havePlayers.Add(newPlayer);
         return newPlayer;
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,9 @@ public class PlayerChanger : MonoBehaviour
     public List<GameObject> olds = new List<GameObject>();
     [HideInInspector]
     public List<GameObject> oldsPlayerList = new List<GameObject>();
+    [SerializeField]
+    private TMP_Text playerCounter;
+
     public static PlayerChanger instance
     {
         get
@@ -76,6 +80,7 @@ public class PlayerChanger : MonoBehaviour
                     slot.skillNameText.text = st.Get($"skillName{player.gearCode}");
                     slot.skillLevelText.text = $"Lv.{player.gearLevel}";
                     slot.xpGauge.value = player.xp / player.maxXp;
+                    slot.costText.text = player.cost.ToString();
                 }
             }
             
@@ -168,6 +173,8 @@ public class PlayerChanger : MonoBehaviour
             pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
             oldsPlayerList.Add(bt);
         }
+
+        playerCounter.text = $"{oldsPlayerList.Count} / 200";
     }
 
     public void ToUse(int index)
