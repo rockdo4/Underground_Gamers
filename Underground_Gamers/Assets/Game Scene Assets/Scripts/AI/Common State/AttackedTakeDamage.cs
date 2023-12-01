@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class AttackedTakeDamage : MonoBehaviour, IAttackable
@@ -16,7 +17,7 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         //}
         if (!status.IsLive)
             return;
-        if(controller != null)
+        if (controller != null)
         {
             if (controller.isInvalid)
             {
@@ -43,8 +44,17 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         if (status.Hp <= 0)
         {
             status.IsLive = false;
-
-
+            TeamIdentifier identity = transform.GetComponent<TeamIdentifier>();
+            if (identity.teamLayer == LayerMask.GetMask("PC"))
+            {
+                var text = GameObject.FindGameObjectWithTag("NPC_Score").GetComponent<TMP_Text>();
+                text.text = (int.Parse(text.text) + 1).ToString();
+            }
+            else
+            {
+                var text = GameObject.FindGameObjectWithTag("PC_Score").GetComponent<TMP_Text>();
+                text.text = (int.Parse(text.text) + 1).ToString();
+            }
 
             var destroyables = transform.GetComponents<IDestroyable>();
             var respawnables = transform.GetComponents<IRespawnable>();

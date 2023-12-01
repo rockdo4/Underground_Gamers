@@ -42,7 +42,7 @@ public class CommandManager : MonoBehaviour
     private void CreateCommands()
     {
         commands.Add(new SwitchLineCommand());
-        commands.Add(new DefendCommand());
+        //commands.Add(new DefendCommand());
     }
 
     private void CreateCommandUI()

@@ -24,10 +24,6 @@ public class SettingAIID : MonoBehaviour
             ai.aiType.color = colors[pcID - 1];
             ai.colorIndex = pcID - 1;
             ai.aiType.text = $"PC{pcID++}";
-            if (pcID >= 5)
-            {
-                break;
-            }
         }
         foreach (var ai in aiManager.npc)
         {
@@ -36,10 +32,6 @@ public class SettingAIID : MonoBehaviour
             ai.aiType.color = colors[npcID - 1];
             ai.colorIndex = npcID - 1;
             ai.aiType.text = $"NPC{npcID++}";
-            if (npcID >= 5)
-            {
-                break;
-            }
         }
     }
 }

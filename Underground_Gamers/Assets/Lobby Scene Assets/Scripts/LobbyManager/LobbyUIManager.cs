@@ -55,6 +55,7 @@ public class LobbyUIManager : MonoBehaviour
         UpdateMoneyInfo();
         filter = GetComponent<EntryFilter>();
         GameInfo.instance.DeletePlayers();
+        Time.timeScale = 1;
     }
     public void UpdateMoneyInfo()
     {
