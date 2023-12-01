@@ -6,7 +6,10 @@ public class SwitchLineCommand : Command
 {
     public override void ExecuteCommand(AIController ai, WayPoint wayPoint)
     {
-        Debug.Log($"{ai.aiType.text} : SwitchLine Command Execute");
+        if (!ai.status.IsLive)
+        {
+            return;
+        }
 
         int line = (int)ai.currentLine;
         line++;

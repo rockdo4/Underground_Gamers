@@ -6,6 +6,6 @@ public class DefendCommand : Command
 {
     public override void ExecuteCommand(AIController ai, WayPoint wayPoint)
     {
-        Debug.Log($"{ai.aiType.text} : Defend Command Execute");
+        //Debug.Log($"{ai.aiType.text} : Defend Command Execute");
     }
 }
