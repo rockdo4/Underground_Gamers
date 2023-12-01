@@ -291,4 +291,19 @@ public class AIController : MonoBehaviour
             }
         }
     }
+
+    public void SetCoolTime()
+    {
+        if (attackInfos[(int)SkillTypes.Base] != null)
+            baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
+        lastBaseAttackTime = Time.time - baseAttackCoolTime;
+
+        if (attackInfos[(int)SkillTypes.Original] != null)
+            originalSkillCoolTime = attackInfos[(int)SkillTypes.Original].cooldown;
+        lastOriginalSkillTime = Time.time - originalSkillCoolTime;
+
+        if (attackInfos[(int)SkillTypes.General] != null)
+            generalSkillCoolTime = attackInfos[(int)SkillTypes.General].cooldown;
+        lastGeneralSkillTime = Time.time - generalSkillCoolTime;
+    }
 }

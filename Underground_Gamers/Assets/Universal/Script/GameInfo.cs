@@ -68,8 +68,11 @@ public class GameInfo : MonoBehaviour
                 ai.firePos = ai.rightHand;
             }
             AttackDefinition atkDef = stateDefines.attackDefs.Find(a => a.code == playerInfo.atkType).value;
+            AttackDefinition skillDef = stateDefines.skillDatas.Find(a => a.code == playerInfo.UniqueSkillCode).value;
             ai.attackInfos[0] = atkDef;
+            ai.attackInfos[1] = skillDef;
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
+            ai.SetCoolTime();
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
             stat.Hp = playerInfo.hp;

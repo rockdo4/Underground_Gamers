@@ -23,7 +23,6 @@ public class HitScanAttack : AttackDefinition
         var attackPos = attackAI.firePos.position;
         var hitPos = attackAI.hitInfoPos;
         hitPos.y = attackPos.y;
-        //attackPos.y += 0.6f;
 
         lineRen.SetPosition(0, attackPos);
         lineRen.SetPosition(1, hitPos);
