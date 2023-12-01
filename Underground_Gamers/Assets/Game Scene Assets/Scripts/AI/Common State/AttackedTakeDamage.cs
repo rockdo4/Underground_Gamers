@@ -39,13 +39,6 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         status.Hp -= attack.Damage;
         status.Hp = Mathf.Min(status.Hp, status.maxHp);
         status.Hp = Mathf.Max(0, status.Hp);
-        TeamIdentifier identity = transform.GetComponent<TeamIdentifier>();
-        if (identity.teamLayer == LayerMask.GetMask("NPC"))
-        {
-            Debug.Log($"DMG : {attack.Damage}");
-            Debug.Log($"Name : {identity.name}");
-            Debug.Log($"HP : {status.Hp}");
-        }
 
         if (status.Hp <= 0)
         {
