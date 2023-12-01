@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5dbfeafc7398f441a865a4ed0c05b48, type: 3}
   m_Name: DummyPCHitScanAttack 2
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 0
   maxDamageRate: 1
   minDamageRate: 0.8
   cooldown: 0.5
@@ -20,8 +20,8 @@ MonoBehaviour:
   chargeCount: 0
   accuracyRate: 0
   spreadRate: 0
-  criticalRate: 0
-  criticalMultiplier: 0
+  criticalRate: 1
+  criticalMultiplier: 1.5
   skillType: 0
   muzzlePrefab: {fileID: 170240697534959389, guid: bc8d0bd41b7f209488ce901f6299dfa0, type: 3}
   hitScanLine: {fileID: 3871961344305757358, guid: 1b73f526688c9ec4780aad0c4f3ae80d, type: 3}
