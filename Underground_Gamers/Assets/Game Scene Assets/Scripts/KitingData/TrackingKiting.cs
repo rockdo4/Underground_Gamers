@@ -26,7 +26,8 @@ public class TrackingKiting : KitingData
                 kitingRandomPoint = hit.position;
                 ctrl.SetDestination(kitingRandomPoint);
                 ctrl.kitingPos = kitingRandomPoint;
-                Instantiate(point, kitingRandomPoint, Quaternion.identity);
+                GameObject debugPoint = Instantiate(point, kitingRandomPoint, Quaternion.identity);
+                Destroy(debugPoint,  2f);
                 return;
             }
 

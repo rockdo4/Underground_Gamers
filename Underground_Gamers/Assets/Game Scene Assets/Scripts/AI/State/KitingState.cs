@@ -38,7 +38,9 @@ public class KitingState : AIState
             aiController.SetState(States.Idle);
         }
 
-        if(aiController.isOnCoolBaseAttack)
+        if(aiController.isOnCoolBaseAttack 
+            || aiController.isOnCoolOriginalSkill 
+            || aiController.isOnCoolGeneralSkill)
         {
             aiController.SetState(States.AimSearch);
             return;

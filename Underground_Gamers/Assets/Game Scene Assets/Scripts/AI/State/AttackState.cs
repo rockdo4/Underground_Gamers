@@ -43,6 +43,14 @@ public class AttackState : AIState
             RotateToTarget();
         }
 
+        if (aiController.attackInfos[(int)SkillTypes.Original] != null
+            && aiController.target != null && aiController != null
+            && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget)
+        {
+            aiController.isOnCoolOriginalSkill = false;
+            aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
+        }
+
         if (aiController.attackInfos[(int)SkillTypes.Base] != null 
             && aiController.target != null && aiController != null 
             && aiController.isOnCoolBaseAttack && aiController.RaycastToTarget)

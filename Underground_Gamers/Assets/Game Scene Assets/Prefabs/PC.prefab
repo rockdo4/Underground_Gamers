@@ -341,6 +341,7 @@ GameObject:
   - component: {fileID: -6158067953069640075}
   - component: {fileID: 2064359598527298224}
   - component: {fileID: 5988317614649542852}
+  - component: {fileID: 3028054041942505503}
   m_Layer: 6
   m_Name: PC
   m_TagString: Untagged
@@ -423,6 +424,7 @@ MonoBehaviour:
   lastBaseAttackTime: 0
   baseAttackCoolTime: 0
   isOnCoolBaseAttack: 0
+  isInvalid: 0
   teamLayer: 0
   enemyLayer: 0
   obstacleLayer: 0
@@ -530,3 +532,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawner: {fileID: 7707049715390412, guid: 10348f86f87073c4598154a32663860e, type: 3}
+--- !u!114 &3028054041942505503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281770148374587240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d6c7f57c55a95479014c182aa43fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128

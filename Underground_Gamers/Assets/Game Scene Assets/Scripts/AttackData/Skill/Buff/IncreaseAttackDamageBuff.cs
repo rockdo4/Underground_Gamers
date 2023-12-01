@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "IncreaseAttackDamageBuff.Asset", menuName = "BuffSkill/IncreaseAttackDamageBuff")]
@@ -7,6 +8,7 @@ public class IncreaseAttackDamageBuff : BuffSkill
 {
     public float increaseAttackDamageRate;
     public float increaseReactionSpeedRate;
+
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
         AIController buffAi = type switch
@@ -15,6 +17,13 @@ public class IncreaseAttackDamageBuff : BuffSkill
             BuffType.Other => defender.GetComponent<AIController>(),
             _ => attacker.GetComponent<AIController>()
         };
+
+        Vector3 textPos = attacker.transform.position;
+        textPos.y += offsetText;
+        TextMeshPro text = Instantiate(scrollingBuffText, textPos, Quaternion.identity);
+        text.text = "ATK UP!";
+        text.color = new Color(1, 0.6f, 0);
+
         AttackBuff attackBuff = new AttackBuff();
         attackBuff.duration = duration;
         attackBuff.increaseDamageRate = increaseAttackDamageRate;
@@ -25,5 +34,8 @@ public class IncreaseAttackDamageBuff : BuffSkill
 
         attackBuff.ApplyBuff(buffAi);
         reactionSpeedBuff.ApplyBuff(buffAi);
+
+        GameObject buffEffect = Instantiate(effectPrefab, buffAi.transform);
+        Destroy(buffEffect, duration);
     }
 }

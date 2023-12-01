@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public enum BuffType
@@ -15,6 +16,10 @@ public class BuffSkill : AttackDefinition
     public float coolTime;
     public float duration;
     public BuffType type;
+    public GameObject effectPrefab;
+    public TextMeshPro scrollingBuffText;
+    public float offsetText;
+
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
 
