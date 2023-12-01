@@ -12,27 +12,13 @@ public class SpeedBuff : Buff
     }
     public override void ApplyBuff(AIController ai)
     {
-        ai.status.damage += Mathf.RoundToInt(ai.status.damage * increasedSpeedRate);
-        foreach (var attackInfo in ai.attackInfos)
-        {
-            if (attackInfo != null)
-            {
-                attackInfo.damage += Mathf.RoundToInt(attackInfo.damage * increasedSpeedRate);
-            }
-        }
+        ai.status.speed += Mathf.RoundToInt(ai.status.speed * increasedSpeedRate);
         ai.appliedBuffs.Add(this);
     }
 
     public override void RemoveBuff(AIController ai)
     {
-        ai.status.damage -= Mathf.RoundToInt(ai.status.damage * increasedSpeedRate);
-        foreach (var attackInfo in ai.attackInfos)
-        {
-            if (attackInfo != null)
-            {
-                attackInfo.damage -= Mathf.RoundToInt(attackInfo.damage * increasedSpeedRate);
-            }
-        }
+        ai.status.speed -= Mathf.RoundToInt(ai.status.speed * increasedSpeedRate);
         ai.removedBuffs.Add(this);
     }
 }
