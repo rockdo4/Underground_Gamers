@@ -119,6 +119,16 @@ public class RecruitManager : MonoBehaviour
         int needCrystal = info.crystal * recruitCount;
         int needTicket = info.contractTicket * recruitCount;
 
+        int usingList = 0;
+        List<Player> used = GamePlayerInfo.instance.usingPlayers;
+        foreach (var item in used)
+        {
+            if (item.code < 0)
+            {
+                usingList++;
+            }
+        }
+
         if (!GamePlayerInfo.instance.CheckMoney(needMoney, needCrystal, needTicket))
         {
             string messege = "";
@@ -144,7 +154,7 @@ public class RecruitManager : MonoBehaviour
             moneyWarning.SetActive(true);
             return;
         }
-        else if (GamePlayerInfo.instance.havePlayers.Count + count > 200)
+        else if (GamePlayerInfo.instance.havePlayers.Count + count + usingList > 200)
         {
             spaceLackWarning.SetActive(true);
             return;

@@ -12,7 +12,10 @@ public class Test : MonoBehaviour
             for (int i = 0; i < 1; i++)
             {
                 var pl = GamePlayerInfo.instance.AddPlayer(0);
-                pl.xp = 10;
+                pl.xp = 30;
+                pl.level = 1;
+                var pl1 = GamePlayerInfo.instance.AddPlayer(0);
+                pl1.xp = 10;
                 pl.level = 4;
                 var pl2 = GamePlayerInfo.instance.AddPlayer(1);
                 pl2.xp = 50;
