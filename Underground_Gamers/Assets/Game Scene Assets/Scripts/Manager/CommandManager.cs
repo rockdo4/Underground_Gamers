@@ -20,7 +20,8 @@ public class CommandManager : MonoBehaviour
 
     [Header("Ä¿¸àµå UI")]
     public CommandInfo commandInfoPrefab;
-    public Transform commandInfoParent;
+    public Transform commandInfoTopParent;
+    public Transform commandInfoBottomParent;
     public Button commandButtonPrefab;
 
 
@@ -30,7 +31,7 @@ public class CommandManager : MonoBehaviour
 
     private List<CommandInfo> commandInfos = new List<CommandInfo>();
     private CommandInfo currentCommandInfo = null;
-    private bool isCheckInfo = false;
+    public bool isCheckInfo = false;
 
 
     private void Awake()
@@ -51,7 +52,7 @@ public class CommandManager : MonoBehaviour
 
         foreach (var ai in aiManager.pc)
         {
-            CommandInfo info = Instantiate(commandInfoPrefab, commandInfoParent);
+            CommandInfo info = Instantiate(commandInfoPrefab, commandInfoTopParent);
             ai.aiCommandInfo = info;
             info.aiController = ai;
             info.name = $"{info.name}{pcNum}";
@@ -84,11 +85,24 @@ public class CommandManager : MonoBehaviour
 
     public void OnCommadns(CommandInfo commandInfo)
     {
+        DragAndDrop dragAndDrop = commandInfo.GetComponent<DragAndDrop>();
+
         OffAllCommands();
-        if (currentCommandInfo == commandInfo)
-            isCheckInfo = true;
+        if (dragAndDrop != null)
+        {
+            if (currentCommandInfo == commandInfo && !dragAndDrop.isDragging)
+                isCheckInfo = true;
+            else if(currentCommandInfo != commandInfo && !dragAndDrop.isDragging)
+                isCheckInfo = false;
+        }
         else
-            isCheckInfo = false;
+        {
+            if (currentCommandInfo == commandInfo)
+                isCheckInfo = true;
+            else
+                isCheckInfo = false;
+        }
+
 
         currentCommandInfo = commandInfo;
         foreach (var button in currentCommandInfo.commandButtons)
