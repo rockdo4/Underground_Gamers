@@ -15,8 +15,30 @@ public class PlayerButtons : MonoBehaviour
     [HideInInspector]
     public int index;
     public float ID;
+    public List<GameObject> releaseEffects;
+    public bool willRelease = false;
+    public void Awake()
+    {
+        willRelease = false;
+    }
     public void SetImage(Sprite spr)
     {
         image.sprite = spr;
+    }
+    public void SetReleaseSelect(bool on)
+    {
+        foreach (GameObject obj in releaseEffects) 
+        {
+            obj.SetActive(on);
+            willRelease = on;
+        }
+    }
+    public void SetReleaseSelect()
+    {
+        willRelease = !willRelease;
+        foreach (GameObject obj in releaseEffects)
+        {
+            obj.SetActive(willRelease);
+        }
     }
 }

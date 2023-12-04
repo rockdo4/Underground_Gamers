@@ -146,7 +146,7 @@ public class PlayerChanger : MonoBehaviour
                 var bt = Instantiate(playerButtons, havePlayerListSpace.transform);
                 var pb = bt.GetComponent<PlayerButtons>();
                 pb.SetImage(pt.playerSprites[pt.PlayerIndexSearch(player.code)]);
-                pb.GetComponent<Button>().onClick.AddListener(() => lobbyUIManager.ActivePlayerInfo(true, currIndex, true));
+                pb.GetComponent<Button>().onClick.AddListener(() => PlayerListButtonFunc(true, currIndex, true,pb));
                 pb.index = index++;
                 pb.playerNameCard.text = st.Get($"playerName{player.code}");
                 pb.Level.text = $"Lv.{player.level}";
@@ -164,7 +164,7 @@ public class PlayerChanger : MonoBehaviour
             var bt = Instantiate(playerButtons, havePlayerListSpace.transform);
             var pb = bt.GetComponent<PlayerButtons>();
             pb.SetImage(pt.playerSprites[pt.PlayerIndexSearch(player.code)]);
-            pb.GetComponent<Button>().onClick.AddListener(() => lobbyUIManager.ActivePlayerInfo(true, currIndex, false));
+            pb.GetComponent<Button>().onClick.AddListener(() => PlayerListButtonFunc(true, currIndex, false,pb));
             pb.index = index++;
             pb.playerNameCard.text = st.Get($"playerName{player.code}");
             pb.Level.text = $"Lv.{player.level}";
@@ -212,4 +212,16 @@ public class PlayerChanger : MonoBehaviour
         return true;
     }
 
+    //Release
+    public void PlayerListButtonFunc(bool on, int index, bool isOnUsingPlayer, PlayerButtons self)
+    {
+        if (PlayerReleaser.instance.isReleaseMod)
+        {
+            PlayerReleaser.instance.SelectForReleaseFunc(self);
+        }
+        else
+        {
+            lobbyUIManager.ActivePlayerInfo(on, index, isOnUsingPlayer);
+        }
+    }
 }
