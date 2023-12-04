@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 750b3a63bf9f88e41a0eea158e0c07d0, type: 3}
+  m_Name: ArcProjectileAttack
+  m_EditorClassIdentifier: 
+  damage: 0
+  maxDamageRate: 1
+  minDamageRate: 0.8
+  cooldown: 5
+  reloadCooldown: 0
+  chargeCount: 0
+  accuracyRate: 0
+  spreadRate: 0
+  criticalRate: 0
+  criticalMultiplier: 1.2
+  skillType: 1
+  projectilePrefab: {fileID: 5749555771562840255, guid: c3492fe614b228c4b95a5a46e8cee912, type: 3}
+  colEffectPrefab: {fileID: 7008104911578311927, guid: 563e002f54aafcd44abde04062dc9ba0, type: 3}
+  speed: 10
+  lifeCycle: 2.5
+  explosionRange: 5
+  isAreaAttack: 1
+  damageRate: 2
+  fireAngle: 40

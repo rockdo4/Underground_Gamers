@@ -10,7 +10,6 @@ public class SwitchLineCommand : Command
         {
             return;
         }
-
         int line = (int)ai.currentLine;
         line++;
         ai.currentLine = (Line)(line % (int)Line.Count);

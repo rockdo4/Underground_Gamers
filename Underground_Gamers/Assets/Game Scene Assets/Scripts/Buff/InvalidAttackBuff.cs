@@ -11,6 +11,7 @@ public class InvalidAttackBuff : Buff
     }
     public override void ApplyBuff(AIController ai)
     {
+        timer = Time.time;
         ai.isInvalid = true;
         ai.appliedBuffs.Add(this);
     }

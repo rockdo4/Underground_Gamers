@@ -29,32 +29,34 @@ public class Projectile : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
-        if(timer > status.lifeCycle)
+        if (timer > status.lifeCycle)
             Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        GameObject colEffect = Instantiate(colEffectPrefab, other.transform.position, Quaternion.identity);
-        Destroy(colEffect, 1f);
-
-        TeamIdentifier identity = other.GetComponent<TeamIdentifier>();
-        if(identity != null)
+        if (ai.enemyLayer == 1 << other.gameObject.layer)
         {
-            if (ai.enemyLayer == identity.teamLayer)
+            if (status.isAreaAttack)
+                AreaAttack(other);
+
+            if (!status.isAreaAttack)
+                SingleAttack(other);
+
+            if (!status.isPenetrating && !status.isAreaAttack)
             {
-                CharacterStatus dStatus = other.GetComponent<CharacterStatus>();
-                var attackables = other.GetComponents<IAttackable>();
-                Attack attack = CreateAttack(status, dStatus);
-                foreach (var attackable in attackables)
-                {
-                    attackable.OnAttack(gameObject, attack);
-                }
+                Destroy(gameObject);
             }
         }
-        else
+
+        if (ai.teamLayer != 1 << other.gameObject.layer
+            && ai.enemyLayer != 1 << other.gameObject.layer)
         {
-            Destroy(gameObject);
+            if (status.isAreaAttack)
+                AreaAttack(other);
+
+            if (!status.isAreaAttack)
+                Destroy(gameObject);
         }
     }
 
@@ -77,5 +79,42 @@ public class Projectile : MonoBehaviour
         }
 
         return new Attack((int)damage, isCritical);
+    }
+    public void SingleAttack(Collider other)
+    {
+        GameObject colEffect = Instantiate(colEffectPrefab, other.transform.position, Quaternion.identity);
+        Destroy(colEffect, 1f);
+
+        CharacterStatus dStatus = other.GetComponent<CharacterStatus>();
+        var attackables = other.GetComponents<IAttackable>();
+        Attack attack = CreateAttack(status, dStatus);
+        foreach (var attackable in attackables)
+        {
+            attackable.OnAttack(gameObject, attack);
+        }
+    }
+
+    public void AreaAttack(Collider other)
+    {
+        GameObject colEffect = Instantiate(colEffectPrefab, other.transform.position, Quaternion.identity);
+        Destroy(colEffect, 1f);
+
+        var cols = Physics.OverlapSphere(transform.position, status.explosionRange, ai.enemyLayer);
+
+        foreach (var col in cols)
+        {
+            GameObject explosionEffect = Instantiate(colEffectPrefab, col.transform.position, Quaternion.identity);
+            Destroy(colEffect, 1f);
+
+            CharacterStatus dStatus = col.GetComponent<CharacterStatus>();
+            var attackables = col.GetComponents<IAttackable>();
+            Attack attack = CreateAttack(status, dStatus);
+            foreach (var attackable in attackables)
+            {
+                attackable.OnAttack(gameObject, attack);
+            }
+        }
+
+        Destroy(gameObject);
     }
 }

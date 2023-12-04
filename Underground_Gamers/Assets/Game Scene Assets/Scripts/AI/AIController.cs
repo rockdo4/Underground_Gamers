@@ -207,11 +207,22 @@ public class AIController : MonoBehaviour
             isOnCoolBaseAttack = true;
         }
 
+        foreach(var buff in appliedBuffs)
+        {
+            buff.UpdateBuff(this);
+        }
+
         foreach(var buff in removedBuffs)
         {
             appliedBuffs.Remove(buff);
         }
-        removedBuffs.Clear();
+
+        if(removedBuffs.Count > 0)
+        {
+            removedBuffs.Clear();
+
+        }
+
 
         spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
         //최대 속도일때 0.5f가 되어야 함으로 2로나눔
