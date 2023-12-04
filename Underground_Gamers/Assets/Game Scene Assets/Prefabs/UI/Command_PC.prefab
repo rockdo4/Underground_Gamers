@@ -360,6 +360,7 @@ GameObject:
   - component: {fileID: 4667889887314544827}
   - component: {fileID: 7484950529826701904}
   - component: {fileID: 71773527734897424}
+  - component: {fileID: 4295873553720648261}
   m_Layer: 5
   m_Name: Command_PC
   m_TagString: Untagged
@@ -491,6 +492,20 @@ MonoBehaviour:
   respawnTimeText: {fileID: 579975810596537048}
   respawnCoolTime: {fileID: 7292954594754738110}
   respawner: {fileID: 4641540718254134826, guid: 10348f86f87073c4598154a32663860e, type: 3}
+  commandButtons: []
+--- !u!114 &4295873553720648261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8888185046220272517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f9bcf6d0ae04349a14b31970d141bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDragging: 0
 --- !u!1 &9109944589503177879
 GameObject:
   m_ObjectHideFlags: 0

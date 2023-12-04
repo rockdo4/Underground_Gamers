@@ -342,6 +342,7 @@ GameObject:
   - component: {fileID: 2064359598527298224}
   - component: {fileID: 5988317614649542852}
   - component: {fileID: 3028054041942505503}
+  - component: {fileID: 1005251339509606251}
   m_Layer: 6
   m_Name: PC
   m_TagString: Untagged
@@ -424,6 +425,12 @@ MonoBehaviour:
   lastBaseAttackTime: 0
   baseAttackCoolTime: 0
   isOnCoolBaseAttack: 0
+  lastOriginalSkillTime: 0
+  originalSkillCoolTime: 0
+  isOnCoolOriginalSkill: 0
+  lastGeneralSkillTime: 0
+  generalSkillCoolTime: 0
+  isOnCoolGeneralSkill: 0
   isInvalid: 0
   teamLayer: 0
   enemyLayer: 0
@@ -550,3 +557,15 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &1005251339509606251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281770148374587240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3776c305463e3f84c864d91c88bfcad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
