@@ -49,6 +49,7 @@ public class GameInfo : MonoBehaviour
             madePlayer.AddComponent<DontDestroy>();
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{player.code}")), madePlayer.transform);
             madePlayerCharactor.AddComponent<LookCameraRect>();
+            float charactorScale = madePlayerCharactor.transform.localScale.x;
 
             var ai = madePlayer.GetComponent<AIController>();
             ai.spum = madePlayerCharactor.GetComponent<SPUM_Prefabs>();
@@ -78,8 +79,8 @@ public class GameInfo : MonoBehaviour
             stat.Hp = playerInfo.hp;
             stat.maxHp = playerInfo.hp;
             stat.speed = playerInfo.moveSpeed;
-            stat.sight = playerInfo.sight;
-            stat.range = playerInfo.range/2f;
+            stat.sight = playerInfo.sight * charactorScale;
+            stat.range = playerInfo.range * charactorScale;
             stat.reactionSpeed = playerInfo.reactionSpeed * 15;
             stat.damage = playerInfo.atk;
             stat.cooldown = playerInfo.atkRate;
@@ -87,6 +88,7 @@ public class GameInfo : MonoBehaviour
             stat.chargeCount = playerInfo.magazine;
             stat.reloadCooldown = playerInfo.reloadingSpeed;
             stat.accuracyRate = playerInfo.Accuracy;
+            stat.detectionRange = playerInfo.detectionRange * charactorScale;
 
             madePlayer.SetActive(false);
             players.Add(madePlayer);
@@ -97,6 +99,8 @@ public class GameInfo : MonoBehaviour
     {
         var startPos = GameObject.FindGameObjectsWithTag("PlayerStartPos");
         var endPos = GameObject.FindGameObjectsWithTag("EnemyStartPos");
+
+        // 수정 할 곳
         var playerDestinations = GameObject.FindGameObjectsWithTag("NPCTower");
 
         if (startPos.Length < 1)

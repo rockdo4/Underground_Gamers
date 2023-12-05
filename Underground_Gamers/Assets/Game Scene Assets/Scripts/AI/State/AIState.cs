@@ -14,19 +14,19 @@ public abstract class AIState : BaseState
 
     protected float lastDetectTime = 0f;
 
-    public float DistanceToTarget
-    {
-        get
-        {
-            if (aiController.target == null)
-            {
-                return 0f;
-            }
-            Vector3 targetPos = aiController.target.transform.position;
-            targetPos.y = aiController.transform.position.y;
-            return Vector3.Distance(aiController.transform.position, targetPos);
-        }
-    }
+    //public float DistanceToTarget
+    //{
+    //    get
+    //    {
+    //        if (aiController.target == null)
+    //        {
+    //            return 0f;
+    //        }
+    //        Vector3 targetPos = aiController.target.transform.position;
+    //        targetPos.y = aiController.transform.position.y;
+    //        return Vector3.Distance(aiController.transform.position, targetPos);
+    //    }
+    //}
 
     public AIState(AIController aiController)
     {

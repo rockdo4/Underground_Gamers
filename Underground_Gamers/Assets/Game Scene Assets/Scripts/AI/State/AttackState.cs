@@ -33,7 +33,7 @@ public class AttackState : AIState
             return;
         }
 
-        if (DistanceToTarget > aiStatus.range)
+        if (aiController.DistanceToTarget > aiStatus.range)
         {
             aiController.SetState(States.MissionExecution);
             return;

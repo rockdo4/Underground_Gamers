@@ -5,7 +5,6 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.GraphicsBuffer;
 
 public enum States
 {
@@ -109,27 +108,32 @@ public class AIController : MonoBehaviour
             if (this.target == null)
                 return false;
             var origin = transform.position;
-            origin.y += 0.6f;
             var target = this.target.position;
-            //target.y = transform.position.y;
-            target.y = origin.y;
+
+            var sightOrigin = transform.position;
+            var sightTarget = this.target.position;
+            sightTarget.y = sightOrigin.y;
+
+            var sightDirection = sightTarget - sightOrigin;
+            sightDirection.Normalize();
+
             var direction = target - origin;
             direction.Normalize();
 
-            //var layer = 0xFFFF ^ LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
-
-            //int mask = LayerMask.GetMask(
-            //LayerMask.LayerToName(gameObject.layer),
-            //    LayerMask.LayerToName(this.target.gameObject.layer));
-            //var layer = Physics.AllLayers ^ mask;
+            float sightDot = Vector3.Dot(sightDirection, transform.forward);
 
             float dot = Vector3.Dot(direction, transform.forward);
-            float dotAngle = 1f - (status.sightAngle / 2) * 0.01f;
+            float angleInRadians = Mathf.Acos(dot);
+            float angleInDegrees = angleInRadians * Mathf.Rad2Deg;
+            float cosineValue = Mathf.Abs(Mathf.Cos(angleInDegrees));
+            float attackRange = status.range / cosineValue;
+
+            float sightAngle = 1f - (status.sightAngle / 2) * 0.01f;
 
             bool isCol = false;
-            if (dot > dotAngle)
+            if (sightDot > sightAngle)
             {
-                isCol = Physics.Raycast(origin, direction, out RaycastHit hitInfo, status.range, enemyLayer);
+                isCol = Physics.Raycast(origin, direction, out RaycastHit hitInfo, attackRange, enemyLayer);
                 if (isCol)
                 {
                     hitInfoPos = hitInfo.point;
@@ -139,7 +143,19 @@ public class AIController : MonoBehaviour
             return isCol;
         }
     }
-
+    public float DistanceToTarget
+    {
+        get
+        {
+            if (target == null)
+            {
+                return 0f;
+            }
+            Vector3 targetPos = target.transform.position;
+            targetPos.y = transform.position.y;
+            return Vector3.Distance(transform.position, targetPos);
+        }
+    }
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -207,21 +223,8 @@ public class AIController : MonoBehaviour
             isOnCoolBaseAttack = true;
         }
 
-        foreach(var buff in appliedBuffs)
-        {
-            buff.UpdateBuff(this);
-        }
+        UpdateBuff();
 
-        foreach(var buff in removedBuffs)
-        {
-            appliedBuffs.Remove(buff);
-        }
-
-        if(removedBuffs.Count > 0)
-        {
-            removedBuffs.Clear();
-
-        }
 
 
         spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
@@ -267,6 +270,24 @@ public class AIController : MonoBehaviour
     {
         statusName = $"{debugAIStatusInfo.aiType}{debugAIStatusInfo.aiNum} : {debug}";
         debugAIStatusInfo.GetComponentInChildren<TextMeshProUGUI>().text = statusName;
+    }
+
+    private void UpdateBuff()
+    {
+        foreach (var buff in appliedBuffs)
+        {
+            buff.UpdateBuff(this);
+        }
+
+        foreach (var buff in removedBuffs)
+        {
+            appliedBuffs.Remove(buff);
+        }
+
+        if (removedBuffs.Count > 0)
+        {
+            removedBuffs.Clear();
+        }
     }
 
 

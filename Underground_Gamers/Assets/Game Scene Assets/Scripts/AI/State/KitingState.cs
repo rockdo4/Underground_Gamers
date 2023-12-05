@@ -10,14 +10,14 @@ public class KitingState : AIState
     public KitingState(AIController aiController) : base(aiController)
     {
         //kitingCoolTime = aiController.kitingInfo.kitingCoolTime;
-        lastKitingTime = Time.time - kitingCoolTime;
+
         agent.speed = aiController.kitingInfo.kitingSpeed;
     }
 
     public override void Enter()
     {
         aiController.RefreshDebugAIStatus(this.ToString());
-
+        lastKitingTime = Time.time - kitingCoolTime;
         agent.isStopped = false;
         agent.speed = aiController.kitingInfo.kitingSpeed;
     }

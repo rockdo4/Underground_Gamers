@@ -41,7 +41,7 @@ public class TraceState : AIState
             aiController.SetDestination(aiController.target.position);
         }
 
-        if(DistanceToTarget < aiStatus.range)
+        if(aiController.DistanceToTarget < aiStatus.range)
         {
             aiController.SetState(States.AimSearch);
             return;
