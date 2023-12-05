@@ -33,6 +33,7 @@ public class GamePlayerInfo : MonoBehaviour
     public int crystal = 1000;
     public int contractTicket = 0;
     public int stamina = 0;
+    public List<int> XpItem;
 
     [HideInInspector]
     public int IDcode = 0;
@@ -51,6 +52,7 @@ public class GamePlayerInfo : MonoBehaviour
         Presets = new List<List<float>>();
         for (int i = 0; i < 4; i++)
         {
+            XpItem.Add(0);
             Presets.Add(new List<float>());
             for (int j = 0; j < 8; j++)
             {
@@ -273,5 +275,18 @@ public class GamePlayerInfo : MonoBehaviour
             return sortedPeople.ToList();
         }
 
+    }
+
+    public List<Player> GetUsingPlayers()
+    {
+        List<Player> list = new List<Player>();
+        foreach (var item in havePlayers)
+        {
+            if (item.code >= 0)
+            {
+                list.Add(item);
+            }
+        }
+        return list;
     }
 }

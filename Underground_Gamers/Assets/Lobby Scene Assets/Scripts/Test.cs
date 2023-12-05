@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Test : MonoBehaviour
 {
@@ -26,6 +27,11 @@ public class Test : MonoBehaviour
                 var pl4 = GamePlayerInfo.instance.AddPlayer(3);
                 pl4.xp = 90;
                 pl4.level = 1;
+            }
+
+            for (int i = 0; i < GamePlayerInfo.instance.XpItem.Count; i++)
+            {
+                GamePlayerInfo.instance.XpItem[i] += 1;
             }
             init = false;
         }
