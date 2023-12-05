@@ -73,7 +73,7 @@ public class GameInfo : MonoBehaviour
             ai.attackInfos[0] = atkDef;
             ai.attackInfos[1] = skillDef;
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
-            ai.SetCoolTime();
+            ai.SetInitialization();
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
             stat.Hp = playerInfo.hp;

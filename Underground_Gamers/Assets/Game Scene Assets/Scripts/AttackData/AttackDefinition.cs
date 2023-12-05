@@ -16,7 +16,7 @@ public class AttackDefinition : ScriptableObject
     public float reloadCooldown;
 
     [Tooltip("장전 수")]
-    public float chargeCount;
+    public int chargeCount;
     [Tooltip("명중률")]
     public float accuracyRate;
     [Tooltip("집탄율")]

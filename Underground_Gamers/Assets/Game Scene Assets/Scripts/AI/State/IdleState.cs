@@ -12,6 +12,7 @@ public class IdleState : AIState
     public override void Enter()
     {
         aiController.RefreshDebugAIStatus(this.ToString());
+        agent.angularSpeed = aiStatus.reactionSpeed;
 
         //agent.isStopped = true;
         //agent.angularSpeed = 0;

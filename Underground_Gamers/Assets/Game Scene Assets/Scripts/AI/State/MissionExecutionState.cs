@@ -19,13 +19,11 @@ public class MissionExecutionState : AIState
 
         if(aiController.point != null && aiController.target == null)
             aiController.SetTarget(aiController.point);
-        //else if(aiController.target != null)
-        //    aiController.SetTarget(aiController.target);
 
-        lastDetectTime -= aiController.detectTime;
+        lastDetectTime = Time.time - aiController.detectTime;
         agent.isStopped = false;
-        agent.angularSpeed = aiStatus.reactionSpeed;
         agent.speed = aiStatus.speed;
+        agent.angularSpeed = aiStatus.reactionSpeed;
 
     }
 
@@ -36,7 +34,6 @@ public class MissionExecutionState : AIState
 
     public override void Update()
     {
-        //Debug.Log("Trace State");
         if (!aiStatus.IsLive)
         {
             return;
@@ -48,7 +45,8 @@ public class MissionExecutionState : AIState
             return;
         }
 
-        if(Vector3.Distance(aiTr.position, aiController.target.position) < 1f)
+        // 수정 필요, 포인트 변경점 필요
+        if(Vector3.Distance(aiTr.position, aiController.target.position) < 2f)
         {
             aiController.SetTarget(aiController.point);
         }
@@ -57,6 +55,7 @@ public class MissionExecutionState : AIState
         {
             lastDetectTime = Time.time;
 
+            // 탐색 및 타겟 설정
             SearchTargetInDetectionRange();
             SearchTargetInSector();
 

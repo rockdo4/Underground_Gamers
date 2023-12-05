@@ -42,7 +42,7 @@ public class CharacterStatus : MonoBehaviour
         {
             aIController.isOnCoolBaseAttack = true;
             aIController.isOnCoolOriginalSkill = true;
-            aIController.isOnCoolGeneralSkill = true;
+            //aIController.isOnCoolGeneralSkill = true;
 
             //aIController.isKiting = false;
         }

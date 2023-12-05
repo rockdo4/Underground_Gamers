@@ -14,6 +14,7 @@ public enum States
     AimSearch,
     Attack,
     Kiting,
+    Reloading,
 }
 
 public enum SkillTypes
@@ -56,6 +57,7 @@ public class AIController : MonoBehaviour
 
     public AttackDefinition[] attackInfos = new AttackDefinition[(int)SkillTypes.Count];
     public KitingData kitingInfo;
+    public KitingData reloadingKitingInfo;
 
     [Tooltip("탐지 딜레이 시간")]
     public float detectTime = 0.1f;
@@ -77,8 +79,16 @@ public class AIController : MonoBehaviour
     public float lastGeneralSkillTime;
     [Tooltip("공용스킬 딜레이 타임")]
     public float generalSkillCoolTime;
-    public bool isOnCoolGeneralSkill;
+    public bool isOnCoolGeneralSkill;    
+    
+    [Tooltip("마지막 장전 시점")]
+    public float lastReloadTime;
+    [Tooltip("장전 타임")]
+    public float reloadCoolTime;
+    public bool isReloading;
 
+    public int maxAmmo;
+    public int currentAmmo;
 
     [Header("버프")]
     public List<Buff> appliedBuffs = new List<Buff>();
@@ -99,7 +109,6 @@ public class AIController : MonoBehaviour
 
     public Transform[] tops;
     public Transform[] bottoms;
-
 
     public bool RaycastToTarget
     {
@@ -163,18 +172,7 @@ public class AIController : MonoBehaviour
         status = GetComponent<CharacterStatus>();
         target = point;
 
-        if (attackInfos[(int)SkillTypes.Base] != null)
-            baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
-        lastBaseAttackTime = Time.time - baseAttackCoolTime;
-
-        if (attackInfos[(int)SkillTypes.Original] != null)
-            originalSkillCoolTime = attackInfos[(int)SkillTypes.Original].cooldown;
-        lastOriginalSkillTime = Time.time - originalSkillCoolTime;
-
-        if (attackInfos[(int)SkillTypes.General] != null)
-            generalSkillCoolTime = attackInfos[(int)SkillTypes.General].cooldown;
-        lastGeneralSkillTime = Time.time - generalSkillCoolTime;
-
+        SetInitialization();
 
         teamLayer = layer;
 
@@ -197,6 +195,7 @@ public class AIController : MonoBehaviour
         states.Add(new AimSearchState(this));
         states.Add(new AttackState(this));
         states.Add(new KitingState(this));
+        states.Add(new ReloadingState(this));
 
         agent.speed = status.speed;
         //agent.SetDestination(point.position);
@@ -221,6 +220,13 @@ public class AIController : MonoBehaviour
         {
             lastBaseAttackTime = Time.time;
             isOnCoolBaseAttack = true;
+        }
+
+        if(lastReloadTime + reloadCoolTime < Time.time && isReloading)
+        {
+            isReloading = false;
+            Reload();
+            Debug.Log("Reload");
         }
 
         UpdateBuff();
@@ -264,6 +270,17 @@ public class AIController : MonoBehaviour
     {
         if (target != null)
             kitingInfo.UpdateKiting(target, this);
+    }
+
+    public void UpdateReloadKiting()
+    {
+        if (target != null)
+            reloadingKitingInfo.UpdateKiting(target, this);
+    }
+
+    private void Reload()
+    {
+        currentAmmo = maxAmmo;
     }
 
     public void RefreshDebugAIStatus(string debug)
@@ -324,10 +341,16 @@ public class AIController : MonoBehaviour
         }
     }
 
-    public void SetCoolTime()
+    public void SetInitialization()
     {
         if (attackInfos[(int)SkillTypes.Base] != null)
+        {
             baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
+            reloadCoolTime = attackInfos[(int)SkillTypes.Base].reloadCooldown;
+            maxAmmo = attackInfos[(int)SkillTypes.Base].chargeCount;
+            currentAmmo = maxAmmo;
+        }
+        lastReloadTime = Time.time - reloadCoolTime;
         lastBaseAttackTime = Time.time - baseAttackCoolTime;
 
         if (attackInfos[(int)SkillTypes.Original] != null)
@@ -337,5 +360,7 @@ public class AIController : MonoBehaviour
         if (attackInfos[(int)SkillTypes.General] != null)
             generalSkillCoolTime = attackInfos[(int)SkillTypes.General].cooldown;
         lastGeneralSkillTime = Time.time - generalSkillCoolTime;
+
+
     }
 }

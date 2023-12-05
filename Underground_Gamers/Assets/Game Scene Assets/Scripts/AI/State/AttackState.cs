@@ -43,6 +43,11 @@ public class AttackState : AIState
             RotateToTarget();
         }
 
+        AttackByOriginSkill();
+        AttackByBase();
+    }
+    private void AttackByOriginSkill()
+    {
         if (aiController.attackInfos[(int)SkillTypes.Original] != null
             && aiController.target != null && aiController != null
             && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget)
@@ -50,34 +55,35 @@ public class AttackState : AIState
             aiController.isOnCoolOriginalSkill = false;
             aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
         }
+    }
 
-        if (aiController.attackInfos[(int)SkillTypes.Base] != null 
-            && aiController.target != null && aiController != null 
+    private void AttackByBase()
+    {
+        if (aiController.attackInfos[(int)SkillTypes.Base] != null
+            && aiController.target != null && aiController != null
             && aiController.isOnCoolBaseAttack && aiController.RaycastToTarget)
         {
             aiController.isOnCoolBaseAttack = false;
             aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
+            UseAmmo();
+            if(aiController.isReloading)
+            {
+                aiController.SetState(States.Reloading);
+                return;
+            }
             aiController.SetState(States.Kiting);
             return;
         }
-        //Debug.Log("Attack State");
-        //RotateToTarget();
+    }
 
-        //if (aiController.RaycastToTarget)
-        //{
-        //    if (aiController.attackInfos[(int)SkillTypes.Base] != null)
-        //    {
-        //        aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
-        //        aiController.SetState(States.Kiting);
-        //    }
-
-        //    //if (aiController.lastAttackTime + aiController.attackCoolTime < Time.time)
-        //    //{
-        //    //    aiController.lastAttackTime = Time.time;
-        //    //    if (aiController.attackInfos[(int)SkillTypes.Base] != null)
-        //    //        aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
-
-        //    //}
-        //}
+    private void UseAmmo()
+    {
+        aiController.currentAmmo--;
+        aiController.currentAmmo = Mathf.Min(0, aiController.currentAmmo);
+        if (aiController.currentAmmo <= 0)
+        {
+            aiController.isReloading = true;
+            aiController.lastReloadTime = Time.time;
+        }
     }
 }

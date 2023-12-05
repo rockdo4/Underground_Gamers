@@ -57,7 +57,6 @@ public abstract class AIState : BaseState
         var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.sight, aiController.enemyLayer);
         if (enemyCols.Length == 0 && aiController.target == null)
         {
-            //Debug.Log("Not Founded");
             aiController.SetTarget(aiController.point);
             aiController.SetState(States.MissionExecution);
             return;
@@ -98,7 +97,6 @@ public abstract class AIState : BaseState
         var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.detectionRange, aiController.enemyLayer);
         if (enemyCols.Length == 0 && aiController.target == null)
         {
-            //Debug.Log("Not Founded");
             aiController.SetTarget(aiController.point);
             aiController.SetState(States.MissionExecution);
             return;

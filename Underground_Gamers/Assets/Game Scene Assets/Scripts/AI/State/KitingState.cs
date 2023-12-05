@@ -9,9 +9,9 @@ public class KitingState : AIState
 
     public KitingState(AIController aiController) : base(aiController)
     {
-        //kitingCoolTime = aiController.kitingInfo.kitingCoolTime;
+        kitingCoolTime = aiController.kitingInfo.kitingCoolTime;
 
-        agent.speed = aiController.kitingInfo.kitingSpeed;
+        //agent.speed = aiController.kitingInfo.kitingSpeed;
     }
 
     public override void Enter()
