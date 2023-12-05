@@ -8,16 +8,28 @@ using UnityEngine.UI;
 
 public class ManagerTrainingAnalyze : ManagerTraining
 {
+    [Header("Left")]
+    [SerializeField]
+    private TMP_Text slotType;
+    [SerializeField]
+    private Image slotImage;
+    [SerializeField]
+    private TMP_Text slotName;
+    [SerializeField]
+    private Button slotCover;
+
+    [Space(10f)]
+    [Header("Right")]
     [SerializeField]
     private Transform charCardTransform;
     [SerializeField]
     private GameObject charCardPrefab;
     [SerializeField]
-    private GameObject charSlotImage;
-    [SerializeField]
     private GameObject growInfoArea;
     [SerializeField]
     private List<TMP_Text> growInfoDatas = new List<TMP_Text>();
+    [SerializeField]
+    private Slider xpBar;
     [SerializeField]
     private List<Button> growItems = new List<Button>();
     [SerializeField]
@@ -34,6 +46,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
     private Button analyzeStartB;
 
     private PlayerTable pt;
+    private StringTable st;
     private List<GameObject> MadeList = new List<GameObject>();
     private List<Player> sortedPlayerList = new List<Player>();
 
@@ -42,6 +55,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
     private void Start()
     {
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        st = DataTableManager.instance.Get<StringTable>(DataType.String);
     }
     public override void OnEnter()
     {
@@ -56,6 +70,9 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
     private void LoadPlayers() 
     {
+        slotCover.gameObject.SetActive(true);
+        growInfoArea.SetActive(false);
+
         List<Player> playerList = new List<Player>();
         List<Player> usingPlayers = GamePlayerInfo.instance.GetUsingPlayers();
         foreach (var item in usingPlayers)
@@ -91,6 +108,21 @@ public class ManagerTrainingAnalyze : ManagerTraining
     {
         growInfoArea.SetActive(true);
         Player player = sortedPlayerList[index];
+
+        slotType.text = st.Get($"type{player.type}");
+        slotImage.sprite = pt.GetPlayerSprite(player.code);
+        slotName.text = player.name;
+        slotCover.gameObject.SetActive(false);
+
+        currXp = player.xp;
+        currMaxXp = player.maxXp;
+
+        growInfoDatas[0].text = $"Lv.{player.level}";
+        growInfoDatas[1].text = $"Lv.{player.level}";
+        growInfoDatas[2].text = $"{player.xp}/{player.maxXp}";
+        xpBar.value = player.xp / player.maxXp;
+        
+
         var xpItems = GamePlayerInfo.instance.XpItem;
         for (int i = 0; i < xpItems.Count; i++)
         {
@@ -105,10 +137,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
             }
         }
 
-        currXp = player.xp;
-        currMaxXp = player.maxXp;
-
-        growInfoDatas[0].text = $"Lv.{player.level}";
+        analyzeStartB.interactable = false;
     }
 
     public void ExitPlayerGrowInfo()

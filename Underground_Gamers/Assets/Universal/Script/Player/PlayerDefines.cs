@@ -59,6 +59,17 @@ public struct PlayerInfo
 
     public int atkType;
     public int kitingType;
+
+    public int maxHp;
+    public int maxAtk;
+    public float maxAtkRate;
+    public float maxSpeed;
+    public float maxSight;
+    public float maxRange;
+    public float maxCritical;
+    public float maxAccuracy;
+    public float maxReaction;
+    public float maxDetection;
 }
 
 public struct RecruitInfo

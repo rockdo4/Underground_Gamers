@@ -34,17 +34,18 @@ public class PlayerTable : DataTable
             playerInfo.info = player["Info"];
             playerInfo.cost = int.Parse(player["Cost"]);
             playerInfo.weaponType = int.Parse(player["WeaponType"]);
-            playerInfo.hp = int.Parse(player["Hp"]);
-            playerInfo.atk = int.Parse(player["Atk"]);
-            playerInfo.atkRate = float.Parse(player["AtkRate"]);
-            playerInfo.moveSpeed = float.Parse(player["Speed"]);
-            playerInfo.sight = float.Parse(player["Sight"]);
-            playerInfo.range = float.Parse(player["Range"]);
-            playerInfo.criticalChance = float.Parse(player["Critical"]);
+            playerInfo.hp = int.Parse(player["minHP"]);
+            playerInfo.atk = int.Parse(player["minAtk"]);
+            playerInfo.atkRate = float.Parse(player["minAtkRate"]);
+            playerInfo.moveSpeed = float.Parse(player["minSpeed"]);
+            playerInfo.sight = float.Parse(player["minSight"]);
+            playerInfo.range = float.Parse(player["minRange"]);
+            playerInfo.criticalChance = float.Parse(player["minCritical"]);
             playerInfo.magazine = int.Parse(player["Mag"]);
             playerInfo.reloadingSpeed = float.Parse(player["Reload"]);
-            playerInfo.Accuracy = float.Parse(player["Accuracy"]);
-            playerInfo.reactionSpeed = float.Parse(player["Reaction"]);
+            playerInfo.Accuracy = float.Parse(player["minAccuracy"]);
+            playerInfo.reactionSpeed = float.Parse(player["minReaction"]);
+            playerInfo.detectionRange = float.Parse(player["minDetection"]);
             playerInfo.atkType = int.Parse(player["AtkType"]);
             playerInfo.kitingType = int.Parse(player["KitingType"]);
 
