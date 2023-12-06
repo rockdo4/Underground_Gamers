@@ -125,6 +125,5 @@ public abstract class AIState : BaseState
             aiController.SetState(States.Trace);
             return;
         }
-
     }
 }
