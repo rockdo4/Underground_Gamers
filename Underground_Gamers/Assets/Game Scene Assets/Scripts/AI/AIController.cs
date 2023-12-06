@@ -348,7 +348,6 @@ public class AIController : MonoBehaviour
             baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
             reloadCoolTime = attackInfos[(int)SkillTypes.Base].reloadCooldown;
             maxAmmo = attackInfos[(int)SkillTypes.Base].chargeCount;
-            currentAmmo = maxAmmo;
         }
         lastReloadTime = Time.time - reloadCoolTime;
         lastBaseAttackTime = Time.time - baseAttackCoolTime;
@@ -362,5 +361,6 @@ public class AIController : MonoBehaviour
         lastGeneralSkillTime = Time.time - generalSkillCoolTime;
 
 
+        Reload();
     }
 }

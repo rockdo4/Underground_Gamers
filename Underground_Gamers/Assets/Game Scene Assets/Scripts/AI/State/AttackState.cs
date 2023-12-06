@@ -79,7 +79,8 @@ public class AttackState : AIState
     private void UseAmmo()
     {
         aiController.currentAmmo--;
-        aiController.currentAmmo = Mathf.Min(0, aiController.currentAmmo);
+        Debug.Log($"{aiController.name}{aiController.currentAmmo}");
+        aiController.currentAmmo = Mathf.Max(0, aiController.currentAmmo);
         if (aiController.currentAmmo <= 0)
         {
             aiController.isReloading = true;

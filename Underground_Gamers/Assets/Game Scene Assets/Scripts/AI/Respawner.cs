@@ -28,7 +28,8 @@ public class Respawner : MonoBehaviour
 
                 //aiManager.pc.Add(pcRespawnTimers[i].Item1);
                 pcRespawnTimers[i].Item1.status.Respawn();
-                pcRespawnTimers[i].Item1.SetState(States.Idle);             
+                pcRespawnTimers[i].Item1.SetState(States.Idle);
+                pcRespawnTimers[i].Item1.SetInitialization();
                 pcRespawnTimers[i].Item1.gameObject.SetActive(true);
                 ParticleSystem effect = aiParticlePrefabs[pcRespawnTimers[i].Item1.colorIndex];
                 if (effect != null)
@@ -55,6 +56,7 @@ public class Respawner : MonoBehaviour
 
                 npcRespawnTimers[i].Item1.status.Respawn();
                 npcRespawnTimers[i].Item1.SetState(States.Idle);
+                npcRespawnTimers[i].Item1.SetInitialization();
                 npcRespawnTimers[i].Item1.gameObject.SetActive(true);
                 ParticleSystem effect = aiParticlePrefabs[npcRespawnTimers[i].Item1.colorIndex];
                 if (effect != null)
