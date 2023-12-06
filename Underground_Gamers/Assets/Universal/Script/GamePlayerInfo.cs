@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.Rendering;
+using static UnityEngine.GraphicsBuffer;
 
 public class GamePlayerInfo : MonoBehaviour
 {
@@ -208,7 +212,22 @@ public class GamePlayerInfo : MonoBehaviour
             havePlayers.Remove(item);
         }
     }
-
+    public bool AddMoney(int money, int crystal, int contractTicket)
+    {
+        if (this.money + money > 999999999||
+            this.crystal + crystal > 999999999 ||
+            this.contractTicket + contractTicket > 99999)
+        {
+            this.money = Mathf.Min(this.money+money, 999999999);
+            this.money = Mathf.Min(this.crystal + crystal, 999999999);
+            this.money = Mathf.Min(this.contractTicket + contractTicket, 99999);
+            return false;
+        }
+        this.money += money;
+        this.crystal += crystal;
+        this.contractTicket += contractTicket;
+        return true;
+    }
     public bool UseMoney(int money, int crystal, int contractTicket)
     {
         if (this.money < money ||
@@ -314,6 +333,27 @@ public class GamePlayerInfo : MonoBehaviour
             }
         }
         Debug.Log("Can't find Char");
+    }
+
+    public bool GetXpItems(int one,int two, int three, int four)
+    {
+
+        if (XpItem[0] + one > 9999 ||
+            XpItem[1] + two > 9999 ||
+            XpItem[2] + three > 9999 ||
+            XpItem[3] + four > 9999)
+        {
+            XpItem[0] = Math.Min(XpItem[0] + one , 9999);
+            XpItem[1] = Math.Min(XpItem[1] + two, 9999);
+            XpItem[2] = Math.Min(XpItem[2] + three, 9999);
+            XpItem[3] = Math.Min(XpItem[3] + four, 9999);
+            return false;
+        }
+        XpItem[0] += one;
+        XpItem[1] += two;
+        XpItem[2] += three;
+        XpItem[3] += four;
+        return true;
     }
 
     public void TrainPlayer(Player player, List<int>train,int potential)

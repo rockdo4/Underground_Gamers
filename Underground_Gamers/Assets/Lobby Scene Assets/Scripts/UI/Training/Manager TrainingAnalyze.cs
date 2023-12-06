@@ -253,10 +253,10 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
         currXp += type switch
         {
-            0 => 1,
-            1 => 5,
-            2 => 10,
-            3 => 50,
+            0 => 50,
+            1 => 400,
+            2 => 2000,
+            3 => 10000,
             _ => 1
         };
 
