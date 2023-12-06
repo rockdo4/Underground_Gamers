@@ -6,12 +6,12 @@ using UnityEngine;
 public class TargetPriority : ScriptableObject
 {
     // 탐색에 사용, 반격에 사용, 시야 공유는 사용 X
-    public virtual bool SetTargetByPriority(AIController ai, AIController target)
+    public virtual bool SetTargetByPriority(AIController ai, TeamIdentifier targetIdentity)
     {
-        float targetDistance = Vector3.Distance(ai.transform.position, target.transform.position);
+        float targetDistance = Vector3.Distance(ai.transform.position, targetIdentity.transform.position);
         if (ai.DistanceToTarget > targetDistance)
         {
-            ai.target = target.transform;
+            ai.target = targetIdentity.transform;
             return true;
         }
         return false;

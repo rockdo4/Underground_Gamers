@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2272,6 +2272,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: distancePriorityType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: bottoms.Array.data[0]
       value: 
       objectReference: {fileID: 254282387}
@@ -2540,6 +2544,10 @@ PrefabInstance:
       propertyPath: reloadingKitingInfo
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: distancePriorityType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: bottoms.Array.data[0]
       value: 
@@ -10427,6 +10435,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: distancePriorityType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: bottoms.Array.data[0]
       value: 
       objectReference: {fileID: 254282387}
@@ -12224,6 +12236,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: priorityByDistance
+      value: 
+      objectReference: {fileID: 11400000, guid: ff699dea83f775f4295ccdfbe7092183, type: 2}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: tops.Array.data[0]
       value: 
       objectReference: {fileID: 683439522}
@@ -12235,6 +12251,10 @@ PrefabInstance:
       propertyPath: reloadingKitingInfo
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: distancePriorityType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: bottoms.Array.data[0]
       value: 
@@ -14448,9 +14468,17 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: priorityByDistance
+      value: 
+      objectReference: {fileID: 11400000, guid: ff699dea83f775f4295ccdfbe7092183, type: 2}
+    - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: reloadingKitingInfo
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
+    - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: distancePriorityType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: maxHp
       value: 250
@@ -16203,9 +16231,17 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: priorityByDistance
+      value: 
+      objectReference: {fileID: 11400000, guid: ff699dea83f775f4295ccdfbe7092183, type: 2}
+    - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: reloadingKitingInfo
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
+    - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: distancePriorityType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: maxHp
       value: 250
@@ -16529,6 +16565,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: priorityByDistance
+      value: 
+      objectReference: {fileID: 11400000, guid: ff699dea83f775f4295ccdfbe7092183, type: 2}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: tops.Array.data[0]
       value: 
       objectReference: {fileID: 683439522}
@@ -16540,6 +16580,10 @@ PrefabInstance:
       propertyPath: reloadingKitingInfo
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: distancePriorityType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: bottoms.Array.data[0]
       value: 

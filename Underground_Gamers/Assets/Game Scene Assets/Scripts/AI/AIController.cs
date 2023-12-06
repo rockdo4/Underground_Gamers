@@ -16,6 +16,15 @@ public enum OccupationType
     Count
 }
 
+public enum DistancePriorityType
+{
+    None,
+    Closer,     // 가까운
+    Far,        // 먼
+    Count
+}
+
+
 public enum States
 {
     Idle,
@@ -70,13 +79,18 @@ public class AIController : MonoBehaviour
     public bool isBattle = false;
     public bool isTower = false;
 
+    [Header("공격 & 카이팅 상태")]
     public AttackDefinition[] attackInfos = new AttackDefinition[(int)SkillTypes.Count];
     public KitingData kitingInfo;
     public KitingData reloadingKitingInfo;
 
     [Header("우선 순위 설정")]
     public OccupationType occupationType = OccupationType.None;
-    public List<TargetPriority> priority = new List<TargetPriority>();
+    public DistancePriorityType distancePriorityType = DistancePriorityType.None;
+    public TargetPriority priorityByDistance;
+
+    public List<TargetPriority> priorityByOccupation = new List<TargetPriority>();
+    public List<TeamIdentifier> filteredByOccupation = new List<TeamIdentifier>();
 
     [Tooltip("탐지 딜레이 시간")]
     public float detectTime = 0.1f;

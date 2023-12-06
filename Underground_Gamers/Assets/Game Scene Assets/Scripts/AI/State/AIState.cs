@@ -103,21 +103,41 @@ public abstract class AIState : BaseState
         }
 
         Transform target = null;
-        var targetToDis = float.MaxValue;
+        //var targetToDis = float.MaxValue;
 
         foreach (var col in enemyCols)
         {
+            TeamIdentifier colIdentity = col.GetComponent<TeamIdentifier>();
             var dirToTarget = col.transform.position - aiTr.position;
             dirToTarget.Normalize();
             if (Physics.Raycast(aiTr.position, dirToTarget, aiStatus.sight, aiController.obstacleLayer))
                 continue;
 
-            var dis = Vector3.Distance(col.transform.position, aiTr.position);
-            if (targetToDis > dis)
+            // 타워인 경우 생각
+            foreach(var priority in aiController.priorityByOccupation)
             {
-                targetToDis = dis;
-                target = col.transform;
+                // 여기서 거리랑 직업 우선순위 비교 같이 하는것 생각
+                if(priority.SetTargetByPriority(aiController, colIdentity))
+                {
+                    aiController.filteredByOccupation.Add(colIdentity);
+                    //target = col.transform;
+                }
             }
+
+            foreach(var filterdIdentity in aiController.filteredByOccupation)
+            {
+                if(aiController.priorityByDistance.SetTargetByPriority(aiController, filterdIdentity))
+                {
+
+                }
+            }
+            aiController.filteredByOccupation.Clear();
+            //var dis = Vector3.Distance(col.transform.position, aiTr.position);
+            //if (targetToDis > dis)
+            //{
+            //    targetToDis = dis;
+            //    target = col.transform;
+            //}
         }
         if (target != null)
         {
