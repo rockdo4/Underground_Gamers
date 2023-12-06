@@ -34,6 +34,7 @@ public class GamePlayerInfo : MonoBehaviour
     public int contractTicket = 0;
     public int stamina = 0;
     public List<int> XpItem;
+    public int mileage;
 
     [HideInInspector]
     public int IDcode = 0;
@@ -280,7 +281,7 @@ public class GamePlayerInfo : MonoBehaviour
     public List<Player> GetUsingPlayers()
     {
         List<Player> list = new List<Player>();
-        foreach (var item in havePlayers)
+        foreach (var item in usingPlayers)
         {
             if (item.code >= 0)
             {
@@ -288,5 +289,51 @@ public class GamePlayerInfo : MonoBehaviour
             }
         }
         return list;
+    }
+
+    public void AnalyzePlayer(Player player, int level, float xp, float maxXp)
+    {
+        foreach (var item in usingPlayers) 
+        {
+            if (item.code != -1 && item.ID == player.ID)
+            {
+                item.level = level;
+                item.xp = xp;
+                item.maxXp = maxXp;
+                return;
+            }
+        }
+        foreach (var item in havePlayers)
+        {
+            if (item.ID == player.ID)
+            {
+                item.level = level;
+                item.xp = xp;
+                item.maxXp = maxXp;
+                return;
+            }
+        }
+        Debug.Log("Can't find Char");
+    }
+
+    public void TrainPlayer(Player player, List<int>train)
+    {
+        foreach (var item in usingPlayers)
+        {
+            if (item.code != -1 && item.ID == player.ID)
+            {
+                item.training.AddRange(train);
+                return;
+            }
+        }
+        foreach (var item in havePlayers)
+        {
+            if (item.ID == player.ID)
+            {
+                item.training.AddRange(train);
+                return;
+            }
+        }
+        Debug.Log("Can't find Char");
     }
 }

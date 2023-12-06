@@ -24,7 +24,8 @@ public class TrainingUIManager : MonoBehaviour
 
     private static TrainingUIManager trainingUIManager;
 
-    List<ManagerTraining> trainingManagers = new List<ManagerTraining>();
+    [SerializeField]
+    private List<ManagerTraining> trainingManagers = new List<ManagerTraining>();
 
     public void SetTraining(int code)
     {

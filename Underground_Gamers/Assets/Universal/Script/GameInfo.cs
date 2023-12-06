@@ -75,18 +75,18 @@ public class GameInfo : MonoBehaviour
             ai.SetCoolTime();
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
-            stat.Hp = playerInfo.hp;
-            stat.maxHp = playerInfo.hp;
-            stat.speed = playerInfo.moveSpeed;
-            stat.sight = playerInfo.sight;
-            stat.range = playerInfo.range/2f;
-            stat.reactionSpeed = playerInfo.reactionSpeed * 15;
-            stat.damage = playerInfo.atk;
-            stat.cooldown = playerInfo.atkRate;
-            stat.critical = playerInfo.criticalChance;
+            stat.Hp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
+            stat.maxHp = stat.Hp;
+            stat.speed = pt.CalculateCurrStats(playerInfo.moveSpeed, player.level);
+            stat.sight = pt.CalculateCurrStats(playerInfo.sight, player.level);
+            stat.range = pt.CalculateCurrStats(playerInfo.range, player.level);
+            stat.reactionSpeed = pt.CalculateCurrStats(playerInfo.reactionSpeed, player.level) * 15;
+            stat.damage = pt.CalculateCurrStats(playerInfo.atk, player.level);
+            stat.cooldown = pt.CalculateCurrStats(playerInfo.atkRate, player.level);
+            stat.critical = pt.CalculateCurrStats(playerInfo.critical, player.level);
             stat.chargeCount = playerInfo.magazine;
             stat.reloadCooldown = playerInfo.reloadingSpeed;
-            stat.accuracyRate = playerInfo.Accuracy;
+            stat.accuracyRate = pt.CalculateCurrStats(playerInfo.accuracy, player.level);
 
             madePlayer.SetActive(false);
             players.Add(madePlayer);

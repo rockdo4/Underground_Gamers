@@ -53,7 +53,6 @@ public class DataTableManager : MonoBehaviour
                 return (T)Convert.ChangeType(table.Value, typeof(T));
             }
         }
-
         return default;
     }
 }
