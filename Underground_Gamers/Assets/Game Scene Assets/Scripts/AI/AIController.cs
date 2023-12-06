@@ -6,6 +6,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum OccupationType
+{
+    None,
+    Normal,     // 일반형
+    Assault,    // 돌격형
+    Sniper,     // 저격형
+    Support,     // 지원형
+    Count
+}
+
 public enum States
 {
     Idle,
@@ -63,6 +73,10 @@ public class AIController : MonoBehaviour
     public AttackDefinition[] attackInfos = new AttackDefinition[(int)SkillTypes.Count];
     public KitingData kitingInfo;
     public KitingData reloadingKitingInfo;
+
+    [Header("우선 순위 설정")]
+    public OccupationType occupationType = OccupationType.None;
+    public List<TargetPriority> priority = new List<TargetPriority>();
 
     [Tooltip("탐지 딜레이 시간")]
     public float detectTime = 0.1f;
