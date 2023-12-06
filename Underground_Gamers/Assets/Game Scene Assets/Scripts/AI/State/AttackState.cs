@@ -68,6 +68,7 @@ public class AttackState : AIState
             UseAmmo();
             if(aiController.isReloading)
             {
+                aiController.TryReloading();
                 aiController.SetState(States.Reloading);
                 return;
             }
@@ -79,7 +80,6 @@ public class AttackState : AIState
     private void UseAmmo()
     {
         aiController.currentAmmo--;
-        Debug.Log($"{aiController.name}{aiController.currentAmmo}");
         aiController.currentAmmo = Mathf.Max(0, aiController.currentAmmo);
         if (aiController.currentAmmo <= 0)
         {

@@ -31,7 +31,16 @@ public class AimSearchState : AIState
         }
         RotateToTarget();
 
+        if (lastDetectTime + aiController.detectTime < Time.time)
+        {
+            lastDetectTime = Time.time;
 
+            // Å½»ö ¹× Å¸°Ù ¼³Á¤
+            SearchTargetInDetectionRange();
+            SearchTargetInSector();
+
+            agent.SetDestination(aiController.target.position);
+        }
 
 
         if (aiController.target == null)
@@ -49,15 +58,6 @@ public class AimSearchState : AIState
             return;
         }
 
-        //if (lastDetectTime + aiController.detectTime < Time.time)
-        //{
-        //    lastDetectTime = Time.time;
 
-        //    // Å½»ö ¹× Å¸°Ù ¼³Á¤
-        //    SearchTargetInDetectionRange();
-        //    SearchTargetInSector();
-
-        //    agent.SetDestination(aiController.target.position);
-        //}
     }
 }

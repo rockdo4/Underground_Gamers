@@ -55,6 +55,11 @@ public class AIController : MonoBehaviour
     public Vector3 kitingPos;
     public bool isKiting = false;
 
+
+    [Header("전투 상태")]
+    public bool isBattle = false;
+    public bool isTower = false;
+
     public AttackDefinition[] attackInfos = new AttackDefinition[(int)SkillTypes.Count];
     public KitingData kitingInfo;
     public KitingData reloadingKitingInfo;
@@ -79,7 +84,7 @@ public class AIController : MonoBehaviour
     public float lastGeneralSkillTime;
     [Tooltip("공용스킬 딜레이 타임")]
     public float generalSkillCoolTime;
-    public bool isOnCoolGeneralSkill;    
+    public bool isOnCoolGeneralSkill = false;    
     
     [Tooltip("마지막 장전 시점")]
     public float lastReloadTime;
@@ -106,6 +111,8 @@ public class AIController : MonoBehaviour
     public CommandInfo aiCommandInfo;
     public TextMeshProUGUI aiType;
     public int colorIndex;
+
+    public AICanvas canvas;
 
     public Transform[] tops;
     public Transform[] bottoms;
@@ -222,11 +229,16 @@ public class AIController : MonoBehaviour
             isOnCoolBaseAttack = true;
         }
 
+        if(isReloading)
+        {
+            float time = (1 - (Time.time - lastReloadTime ) / reloadCoolTime);
+            GetReloadTime(time);
+        }
+
         if(lastReloadTime + reloadCoolTime < Time.time && isReloading)
         {
             isReloading = false;
             Reload();
-            Debug.Log("Reload");
         }
 
         UpdateBuff();
@@ -239,10 +251,18 @@ public class AIController : MonoBehaviour
 
     public void SetTarget(Transform target)
     {
+        Transform prevTarget = this.target;
         this.target = target;
         CharacterStatus status = target.GetComponent<CharacterStatus>();
         if (status != null)
+        {
+            if(prevTarget != null)
+            {
+                CharacterStatus prevTargetStatus = prevTarget.GetComponent<CharacterStatus>();
+                TargetEventBus.Unsubscribe(prevTargetStatus, ReleaseTarget);
+            }
             TargetEventBus.Subscribe(status, ReleaseTarget);
+        }
         SetDestination(this.target.position);
     }
 
@@ -278,9 +298,20 @@ public class AIController : MonoBehaviour
             reloadingKitingInfo.UpdateKiting(target, this);
     }
 
-    private void Reload()
+    public void GetReloadTime(float time)
+    {
+        canvas.reloadBar.value = time;
+    }
+
+    public void TryReloading()
+    {
+        canvas.reloadBar.gameObject.SetActive(true);
+    }
+
+    public void Reload()
     {
         currentAmmo = maxAmmo;
+        canvas.reloadBar.gameObject.SetActive(false);
     }
 
     public void RefreshDebugAIStatus(string debug)

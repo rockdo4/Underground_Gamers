@@ -47,31 +47,10 @@ public class KitingState : AIState
         }
 
 
-        if (lastKitingTime + kitingCoolTime < Time.time/* && !aiController.isKiting*/)
+        if (lastKitingTime + kitingCoolTime < Time.time)
         {
-            //aiController.isKiting = true;
             lastKitingTime = Time.time;
             aiController.UpdateKiting();
         }
-
-        //float dis = Vector3.Distance(aiController.kitingPos, aiTr.position);
-        //if (Vector3.Distance(aiController.kitingPos, aiTr.position) < 0.1f)
-        //{
-        //    //aiController.isKiting = false;
-        //    if (DistanceToTarget < aiStatus.range)
-        //        aiController.SetState(States.AimSearch);
-        //    else
-        //        aiController.SetState(States.MissionExecution);
-
-        //    return;
-        //}
-
-
-        //if (aiController.lastAttackTime + aiController.attackCoolTime < Time.time)
-        //{
-        //    aiController.lastAttackTime = Time.time;
-        //    //aiController.SetState(States.Trace);
-        //    return;
-        //}
     }
 }

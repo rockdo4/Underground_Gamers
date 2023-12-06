@@ -1559,6 +1559,7 @@ MonoBehaviour:
   sightAngle: 0
   detectionRange: 0
   range: 0
+  sharedSightRange: 0
   evasionRate: 0
   reactionSpeed: 0
   damage: 0
@@ -1787,6 +1788,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2145997666081014935, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2145997666081014935, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2973730541297755366, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_Radius
       value: 0.2
@@ -1836,6 +1845,10 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sightSharedRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: reloadingKitingInfo
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
@@ -1845,7 +1858,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: range
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: sight
@@ -1865,7 +1878,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: detectionRange
-      value: 5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sharedSightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTimeIncreaseRate
@@ -2044,7 +2061,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: range
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: sight
@@ -2064,11 +2081,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: detectionRange
-      value: 6
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: sharedSightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: respawnTimeIncreaseRate
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3222138293648805733, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389530300890688308, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389530300890688308, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780883843722411074, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_Radius
@@ -2086,6 +2123,10 @@ PrefabInstance:
       propertyPath: m_ObstacleAvoidanceType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5352802761183900162, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5988317614649542852, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: reSpawner
       value: 
@@ -2101,6 +2142,14 @@ PrefabInstance:
     - target: {fileID: 6281770148374587240, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7401030894400534115, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7401030894400534115, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalScale.x
@@ -2158,6 +2207,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8831226339104481520, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: spum
       value: 
@@ -2193,6 +2246,10 @@ PrefabInstance:
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: tops.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: sightSharedRange
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: bottoms.Array.size
@@ -2273,7 +2330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: range
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: sight
@@ -2293,11 +2350,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: detectionRange
-      value: 6
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: sharedSightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: respawnTimeIncreaseRate
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3222138293648805733, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389530300890688308, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389530300890688308, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780883843722411074, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_Radius
@@ -2315,6 +2392,10 @@ PrefabInstance:
       propertyPath: m_ObstacleAvoidanceType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5352802761183900162, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5988317614649542852, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: reSpawner
       value: 
@@ -2330,6 +2411,14 @@ PrefabInstance:
     - target: {fileID: 6281770148374587240, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7401030894400534115, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7401030894400534115, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalScale.x
@@ -2387,6 +2476,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8831226339104481520, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: spum
       value: 
@@ -2422,6 +2515,10 @@ PrefabInstance:
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: tops.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: sightSharedRange
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: bottoms.Array.size
@@ -2952,6 +3049,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2145997666081014935, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2145997666081014935, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2973730541297755366, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_Radius
       value: 0.2
@@ -3001,6 +3106,10 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sightSharedRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: reloadingKitingInfo
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
@@ -3010,7 +3119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: range
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: sight
@@ -3030,7 +3139,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: detectionRange
-      value: 5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sharedSightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTimeIncreaseRate
@@ -4233,6 +4346,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2145997666081014935, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2145997666081014935, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2973730541297755366, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_Radius
       value: 0.2
@@ -4282,6 +4403,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sightSharedRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: reloadingKitingInfo
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
@@ -4291,7 +4416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: range
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: sight
@@ -4311,7 +4436,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: detectionRange
-      value: 5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sharedSightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTimeIncreaseRate
@@ -10079,7 +10208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: range
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: sight
@@ -10099,11 +10228,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: detectionRange
-      value: 6
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: sharedSightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: respawnTimeIncreaseRate
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3222138293648805733, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389530300890688308, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389530300890688308, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780883843722411074, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_Radius
@@ -10121,6 +10270,10 @@ PrefabInstance:
       propertyPath: m_ObstacleAvoidanceType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5352802761183900162, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5988317614649542852, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: reSpawner
       value: 
@@ -10136,6 +10289,14 @@ PrefabInstance:
     - target: {fileID: 6281770148374587240, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7401030894400534115, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7401030894400534115, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalScale.x
@@ -10193,6 +10354,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8831226339104481520, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: spum
       value: 
@@ -10228,6 +10393,10 @@ PrefabInstance:
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: tops.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: sightSharedRange
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: bottoms.Array.size
@@ -11877,7 +12046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: range
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: sight
@@ -11897,11 +12066,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: detectionRange
-      value: 6
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: sharedSightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: respawnTimeIncreaseRate
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3222138293648805733, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389530300890688308, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389530300890688308, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780883843722411074, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_Radius
@@ -11919,6 +12108,10 @@ PrefabInstance:
       propertyPath: m_ObstacleAvoidanceType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5352802761183900162, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5988317614649542852, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: reSpawner
       value: 
@@ -11934,6 +12127,14 @@ PrefabInstance:
     - target: {fileID: 6281770148374587240, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7401030894400534115, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7401030894400534115, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalScale.x
@@ -11991,6 +12192,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8831226339104481520, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: spum
       value: 
@@ -12026,6 +12231,10 @@ PrefabInstance:
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: tops.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: sightSharedRange
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: bottoms.Array.size
@@ -12528,6 +12737,7 @@ MonoBehaviour:
   sightAngle: 0
   detectionRange: 0
   range: 0
+  sharedSightRange: 0
   evasionRate: 0
   reactionSpeed: 0
   damage: 0
@@ -12683,6 +12893,7 @@ MonoBehaviour:
   sightAngle: 0
   detectionRange: 0
   range: 0
+  sharedSightRange: 0
   evasionRate: 0
   reactionSpeed: 0
   damage: 0
@@ -13520,6 +13731,7 @@ MonoBehaviour:
   sightAngle: 0
   detectionRange: 0
   range: 0
+  sharedSightRange: 0
   evasionRate: 0
   reactionSpeed: 0
   damage: 0
@@ -13876,6 +14088,7 @@ MonoBehaviour:
   sightAngle: 0
   detectionRange: 0
   range: 0
+  sharedSightRange: 0
   evasionRate: 0
   reactionSpeed: 0
   damage: 0
@@ -14209,6 +14422,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2145997666081014935, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2145997666081014935, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2973730541297755366, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_Radius
       value: 0.2
@@ -14258,6 +14479,10 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sightSharedRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: reloadingKitingInfo
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
@@ -14267,7 +14492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: range
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: sight
@@ -14287,7 +14512,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: detectionRange
-      value: 5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sharedSightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTimeIncreaseRate
@@ -14992,6 +15221,7 @@ MonoBehaviour:
   sightAngle: 0
   detectionRange: 0
   range: 0
+  sharedSightRange: 0
   evasionRate: 0
   reactionSpeed: 0
   damage: 0
@@ -15971,6 +16201,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2145997666081014935, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2145997666081014935, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2973730541297755366, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: m_Radius
       value: 0.2
@@ -16020,6 +16258,10 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sightSharedRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691062370849856382, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: reloadingKitingInfo
       value: 
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
@@ -16029,7 +16271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: range
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: sight
@@ -16049,7 +16291,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: detectionRange
-      value: 5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
+      propertyPath: sharedSightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5619921147084294796, guid: 9b110d50c06f6fb419ab60889aa1c5ab, type: 3}
       propertyPath: respawnTimeIncreaseRate
@@ -16135,7 +16381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: range
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: sight
@@ -16155,11 +16401,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: detectionRange
-      value: 6
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: sharedSightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: respawnTimeIncreaseRate
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3222138293648805733, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389530300890688308, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389530300890688308, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780883843722411074, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4745340300516590824, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_Speed
@@ -16181,6 +16447,10 @@ PrefabInstance:
       propertyPath: m_ObstacleAvoidanceType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5352802761183900162, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5988317614649542852, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: reSpawner
       value: 
@@ -16196,6 +16466,18 @@ PrefabInstance:
     - target: {fileID: 6281770148374587240, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109526056832437652, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7401030894400534115, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7401030894400534115, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_LocalScale.x
@@ -16253,6 +16535,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8831226339104481520, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: spum
       value: 
@@ -16290,6 +16576,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+      propertyPath: sightSharedRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: bottoms.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -16323,6 +16613,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a08476b03b79eac46afbddfec31577c1, type: 2}
     m_RemovedComponents:
     - {fileID: 5380978509213074266, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
+    - {fileID: 5275402891458630731, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}

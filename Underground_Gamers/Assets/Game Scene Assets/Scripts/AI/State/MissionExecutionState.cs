@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MissionExecutionState : AIState
 {
+    private float reloadTime;
+    private float reloadCoolTime = 3f;
+
     public MissionExecutionState(AIController aiController) : base(aiController)
     {
 
@@ -21,6 +24,7 @@ public class MissionExecutionState : AIState
             aiController.SetTarget(aiController.point);
 
         lastDetectTime = Time.time - aiController.detectTime;
+        reloadTime = Time.time;
         agent.isStopped = false;
         agent.speed = aiStatus.speed;
         agent.angularSpeed = aiStatus.reactionSpeed;
@@ -43,6 +47,13 @@ public class MissionExecutionState : AIState
         {
             aiController.SetState(States.Idle);
             return;
+        }
+
+        // 전투 중이 아닌, 작전 수행 중 총알이 모자르다면 장전
+        if(reloadTime + reloadCoolTime < Time.time && aiController.currentAmmo < aiController.maxAmmo)
+        {
+            reloadTime = Time.time;
+            aiController.Reload();
         }
 
         // 수정 필요, 포인트 변경점 필요
