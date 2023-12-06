@@ -316,13 +316,14 @@ public class GamePlayerInfo : MonoBehaviour
         Debug.Log("Can't find Char");
     }
 
-    public void TrainPlayer(Player player, List<int>train)
+    public void TrainPlayer(Player player, List<int>train,int potential)
     {
         foreach (var item in usingPlayers)
         {
             if (item.code != -1 && item.ID == player.ID)
             {
                 item.training.AddRange(train);
+                item.potential = potential;
                 return;
             }
         }
@@ -331,6 +332,7 @@ public class GamePlayerInfo : MonoBehaviour
             if (item.ID == player.ID)
             {
                 item.training.AddRange(train);
+                item.potential = potential;
                 return;
             }
         }

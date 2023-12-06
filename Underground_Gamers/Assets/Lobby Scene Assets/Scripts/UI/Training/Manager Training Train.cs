@@ -234,7 +234,7 @@ public class ManagerTrainingTrain : ManagerTraining
             currPotential += tt.cost;
         }
 
-        int level = 0;
+        int level = 1;
         foreach (var item in levelToggles)
         {
             if (item.isOn)
@@ -248,16 +248,16 @@ public class ManagerTrainingTrain : ManagerTraining
 
     public void ResetToggles()
     {
+        foreach (var toggle in trainToggles)
+        {
+            toggle.GetComponent<Toggle>().isOn = false;
+        }
         currPotential = currPlayer.potential;
 
         potentialTexts[0].text = currPlayer.potential.ToString();
         potentialTexts[1].text = potentialTexts[0].text;
 
         trainStartB.interactable = false;
-        foreach (var toggle in trainToggles)
-        {
-            toggle.GetComponent<Toggle>().enabled = false;
-        }
     }
 
     public void StartTraining() 
@@ -281,7 +281,20 @@ public class ManagerTrainingTrain : ManagerTraining
             }
         }
 
-        GamePlayerInfo.instance.TrainPlayer(currPlayer,ids);
+        GamePlayerInfo.instance.TrainPlayer(currPlayer,ids,currPotential);
+
+        List<Player> playerList = new List<Player>();
+        List<Player> usingPlayers = GamePlayerInfo.instance.GetUsingPlayers();
+        foreach (var item in usingPlayers)
+        {
+            if (item.code != -1)
+            {
+                playerList.Add(item);
+            }
+        }
+        playerList.AddRange(GamePlayerInfo.instance.havePlayers);
+        sortedPlayerList = playerList.OrderByDescending(p => p.level).ToList();
+
         trainResultArea.SetActive(true);
     }
 
