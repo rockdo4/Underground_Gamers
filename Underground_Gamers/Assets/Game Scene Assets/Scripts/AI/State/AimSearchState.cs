@@ -39,11 +39,11 @@ public class AimSearchState : AIState
             SearchTargetInDetectionRange();
             SearchTargetInSector();
 
-            agent.SetDestination(aiController.target.position);
+            //agent.SetDestination(aiController.battleTarget.position);
         }
 
 
-        if (aiController.target == null)
+        if (aiController.battleTarget == null)
             aiController.SetState(States.Idle);
 
         if (aiController.RaycastToTarget)
@@ -52,7 +52,7 @@ public class AimSearchState : AIState
             return;
         }
 
-        if(aiController.DistanceToTarget > aiStatus.range)
+        if(aiController.DistanceToBattleTarget > aiStatus.range)
         {
             aiController.SetState(States.MissionExecution);
             return;

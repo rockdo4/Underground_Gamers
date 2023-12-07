@@ -13,6 +13,8 @@ public class TraceState : AIState
     {
         aiController.RefreshDebugAIStatus(this.ToString());
 
+        aiController.isBattle = true;
+
         lastDetectTime = Time.time - aiController.detectTime;
 
         agent.isStopped = false;
@@ -31,20 +33,34 @@ public class TraceState : AIState
         {
             return;
         }
-        if (aiController.target == null)
+
+
+
+        if (aiController.battleTarget == null)
         {
             aiController.SetState(States.MissionExecution);
         }
 
-        if(lastDetectTime + aiController.detectTime < Time.time && aiController.target != null)
+        if(lastDetectTime + aiController.detectTime < Time.time && aiController.battleTarget != null)
         {
-            aiController.SetDestination(aiController.target.position);
+            aiController.SetDestination(aiController.battleTarget.position);
         }
 
-        if(aiController.DistanceToTarget < aiStatus.range)
+        if(aiController.DistanceToBattleTarget < aiStatus.range)
         {
             aiController.SetState(States.AimSearch);
             return;
+        }
+
+        if (lastDetectTime + aiController.detectTime < Time.time)
+        {
+            lastDetectTime = Time.time;
+
+            // Å½»ö ¹× Å¸°Ù ¼³Á¤
+            SearchTargetInDetectionRange();
+            SearchTargetInSector();
+
+            agent.SetDestination(aiController.battleTarget.position);
         }
 
         //if (lastDetectTime + aiController.detectTime < Time.time)

@@ -6,20 +6,20 @@ using UnityEngine;
 public class PriorityByDistance : TargetPriority
 {
     public bool IsCloser;
-    public override bool SetTargetByPriority(AIController ai, TeamIdentifier targetIdentity)
+    public override bool SetTargetByPriority(AIController ai, CharacterStatus target)
     {
-        float targetDistance = Vector3.Distance(ai.transform.position, targetIdentity.transform.position);
+        float targetDistance = Vector3.Distance(ai.transform.position, target.transform.position);
 
         if (IsCloser)
         {
-            if (ai.DistanceToTarget > targetDistance)
+            if (ai.DistanceToBattleTarget > targetDistance)
             {
                 return true;
             }
         }
         else
         {
-            if (ai.DistanceToTarget < targetDistance)
+            if (ai.DistanceToBattleTarget < targetDistance)
             {
                 return true;
             }

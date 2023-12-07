@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class CharacterStatus : MonoBehaviour
 {
+    [Header("우선 순위 설정")]
+    public OccupationType occupationType = OccupationType.None;
+    public DistancePriorityType distancePriorityType = DistancePriorityType.None;
+
+    [Header("스텟")]
     public int maxHp = 50;
     public float speed;
     public float sight;                 // 시야

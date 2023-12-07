@@ -20,8 +20,12 @@ public class MissionExecutionState : AIState
         }
         aiController.RefreshDebugAIStatus(this.ToString());
 
-        if(aiController.point != null && aiController.target == null)
-            aiController.SetTarget(aiController.point);
+        //if(aiController.point != null && aiController.missionTarget == null)
+        //    aiController.SetMissionTarget(aiController.point);
+
+        aiController.isBattle = false;
+
+        aiController.SetMissionTarget(aiController.point);
 
         lastDetectTime = Time.time - aiController.detectTime;
         reloadTime = Time.time;
@@ -43,7 +47,7 @@ public class MissionExecutionState : AIState
             return;
         }
 
-        if (aiController.target == null)
+        if (aiController.missionTarget == null)
         {
             aiController.SetState(States.Idle);
             return;
@@ -57,12 +61,13 @@ public class MissionExecutionState : AIState
         }
 
         // 수정 필요, 포인트 변경점 필요 / 넥서스, 타워 변경
-        if(Vector3.Distance(aiTr.position, aiController.target.position) < 2f)
+        if(Vector3.Distance(aiTr.position, aiController.missionTarget.position) < 2f)
         {
             // currentPoint로, 현재 포인트 저장. List<Transform>을 이용하고, EventBus로 current지점 변경
             // 주의 사항, 탑라인 바텀라인 구분
-            aiController.SetTarget(aiController.point);
+            aiController.SetMissionTarget(aiController.point);
         }
+
 
         if (lastDetectTime + aiController.detectTime < Time.time)
         {
@@ -72,7 +77,7 @@ public class MissionExecutionState : AIState
             SearchTargetInDetectionRange();
             SearchTargetInSector();
 
-            agent.SetDestination(aiController.target.position);
+            agent.SetDestination(aiController.missionTarget.position);
         }
     }
 }

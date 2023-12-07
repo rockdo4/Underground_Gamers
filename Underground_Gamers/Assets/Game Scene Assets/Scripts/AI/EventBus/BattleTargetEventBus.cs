@@ -4,7 +4,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TargetEventBus : MonoBehaviour
+public class BattleTargetEventBus : MonoBehaviour
 {
     private static readonly
     IDictionary<CharacterStatus, UnityEvent>

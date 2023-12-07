@@ -90,7 +90,7 @@ public class Projectile : MonoBehaviour
         Attack attack = CreateAttack(status, dStatus);
         foreach (var attackable in attackables)
         {
-            attackable.OnAttack(gameObject, attack);
+            attackable.OnAttack(ai.gameObject, attack);
         }
     }
 
@@ -111,7 +111,7 @@ public class Projectile : MonoBehaviour
             Attack attack = CreateAttack(status, dStatus);
             foreach (var attackable in attackables)
             {
-                attackable.OnAttack(gameObject, attack);
+                attackable.OnAttack(ai.gameObject, attack);
             }
         }
 

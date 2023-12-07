@@ -14,20 +14,6 @@ public abstract class AIState : BaseState
 
     protected float lastDetectTime = 0f;
 
-    //public float DistanceToTarget
-    //{
-    //    get
-    //    {
-    //        if (aiController.target == null)
-    //        {
-    //            return 0f;
-    //        }
-    //        Vector3 targetPos = aiController.target.transform.position;
-    //        targetPos.y = aiController.transform.position.y;
-    //        return Vector3.Distance(aiController.transform.position, targetPos);
-    //    }
-    //}
-
     public AIState(AIController aiController)
     {
         this.aiController = aiController.GetComponent<AIController>();
@@ -37,17 +23,11 @@ public abstract class AIState : BaseState
         aiTr = aiController.GetComponent<Transform>();
     }
 
-    //public void SetTarget(Transform target)
-    //{
-    //    aiController.target = target;
-    //    agent.SetDestination(aiController.target.position);
-    //    //Debug.Log(this.target);
-    //}
     protected void RotateToTarget()
     {
-        if (aiController.target == null || aiTr == null)
+        if (aiController.battleTarget == null || aiTr == null)
             return;
-        Quaternion targetRotation = Quaternion.LookRotation(aiController.target.position - aiTr.position);
+        Quaternion targetRotation = Quaternion.LookRotation(aiController.battleTarget.position - aiTr.position);
         aiTr.rotation = Quaternion.RotateTowards(aiTr.rotation, targetRotation, aiStatus.reactionSpeed * Time.deltaTime);
     }
 
@@ -55,14 +35,14 @@ public abstract class AIState : BaseState
     protected void SearchTargetInSector()
     {
         var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.sight, aiController.enemyLayer);
-        if (enemyCols.Length == 0 && aiController.target == null)
+        if (enemyCols.Length == 0 && aiController.battleTarget == null)
         {
-            aiController.SetTarget(aiController.point);
+            //aiController.SetBattleTarget(aiController.point);
             aiController.SetState(States.MissionExecution);
             return;
         }
         Transform target = null;
-        var targetToDis = float.MaxValue;
+        //var targetToDis = float.MaxValue;
         foreach (var col in enemyCols)
         {
             var dirToTarget = col.transform.position - aiTr.position;
@@ -75,17 +55,42 @@ public abstract class AIState : BaseState
 
             if (dot < dotAngle)
                 return;
+           // Debug.Log($"Col : {col.name}");
 
-            var dis = Vector3.Distance(col.transform.position, aiTr.position);
-            if (targetToDis > dis)
+            CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
+            for (int i = 0; i < aiController.priorityByOccupation.Count; ++i)
             {
-                targetToDis = dis;
-                target = col.transform;
+                if (aiController.priorityByOccupation[i].SetTargetByPriority(aiController, colStatus))
+                {
+                    aiController.occupationIndex = Mathf.Min(aiController.occupationIndex, i);
+                    break;
+                }
+            }
+        }
+
+        foreach (var col in enemyCols)
+        {
+            CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
+            if (aiController.priorityByOccupation[aiController.occupationIndex].SetTargetByPriority(aiController, colStatus))
+            {
+                //Debug.Log($"Filterd : {col.name}");
+
+                if (aiController.battleTarget == null)
+                {
+                    aiController.battleTarget = col.transform;
+                    target = col.transform;
+                }
+
+                if (aiController.priorityByDistance.SetTargetByPriority(aiController, colStatus))
+                {
+                    target = col.transform;
+                }
             }
         }
         if (target != null)
         {
-            aiController.SetTarget(target);
+            //Debug.Log($"Result : {target.name}");
+            aiController.SetBattleTarget(target);
             aiController.SetState(States.Trace);
             return;
         }
@@ -95,53 +100,61 @@ public abstract class AIState : BaseState
     protected void SearchTargetInDetectionRange()
     {
         var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.detectionRange, aiController.enemyLayer);
-        if (enemyCols.Length == 0 && aiController.target == null)
+        if (enemyCols.Length == 0 && aiController.battleTarget == null)
         {
-            aiController.SetTarget(aiController.point);
+            //aiController.SetBattleTarget(aiController.point);
             aiController.SetState(States.MissionExecution);
             return;
         }
 
         Transform target = null;
-        //var targetToDis = float.MaxValue;
 
         foreach (var col in enemyCols)
         {
-            TeamIdentifier colIdentity = col.GetComponent<TeamIdentifier>();
             var dirToTarget = col.transform.position - aiTr.position;
             dirToTarget.Normalize();
             if (Physics.Raycast(aiTr.position, dirToTarget, aiStatus.sight, aiController.obstacleLayer))
                 continue;
 
-            // 타워인 경우 생각
-            foreach(var priority in aiController.priorityByOccupation)
+            //Debug.Log($"Col : {col.name}");
+
+
+            CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
+            for (int i = 0; i < aiController.priorityByOccupation.Count; ++i)
             {
-                // 여기서 거리랑 직업 우선순위 비교 같이 하는것 생각
-                if(priority.SetTargetByPriority(aiController, colIdentity))
+                if (aiController.priorityByOccupation[i].SetTargetByPriority(aiController, colStatus))
                 {
-                    aiController.filteredByOccupation.Add(colIdentity);
-                    //target = col.transform;
+                    aiController.occupationIndex = Mathf.Min(aiController.occupationIndex, i);
+                    break;
                 }
             }
 
-            foreach(var filterdIdentity in aiController.filteredByOccupation)
-            {
-                if(aiController.priorityByDistance.SetTargetByPriority(aiController, filterdIdentity))
-                {
-
-                }
-            }
-            aiController.filteredByOccupation.Clear();
-            //var dis = Vector3.Distance(col.transform.position, aiTr.position);
-            //if (targetToDis > dis)
-            //{
-            //    targetToDis = dis;
-            //    target = col.transform;
-            //}
         }
+
+        foreach (var col in enemyCols)
+        {
+            CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
+            if (aiController.priorityByOccupation[aiController.occupationIndex].SetTargetByPriority(aiController, colStatus))
+            {
+                //Debug.Log($"Filterd : {col.name}");
+
+                if (aiController.battleTarget == null)
+                {
+                    aiController.battleTarget = col.transform;
+                    target = col.transform;
+                }
+
+                if (aiController.priorityByDistance.SetTargetByPriority(aiController, colStatus))
+                {
+                    target = col.transform;
+                }
+            }
+        }
+
         if (target != null)
         {
-            aiController.SetTarget(target);
+            //Debug.Log($"Result : {target.name}");
+            aiController.SetBattleTarget(target);
             aiController.SetState(States.Trace);
             return;
         }

@@ -6,14 +6,12 @@ using UnityEngine;
 public class PriorityByOccupation : TargetPriority
 {
     public OccupationType compareType;
-    public override bool SetTargetByPriority(AIController ai, TeamIdentifier targetIdentity)
+    public override bool SetTargetByPriority(AIController ai, CharacterStatus target)
     {
-        AIController target = targetIdentity.GetComponent<AIController>();
         if (target != null)
         {
             if (target.occupationType == compareType)
             {
-                ai.target = target.transform;
                 return true;
             }
         }

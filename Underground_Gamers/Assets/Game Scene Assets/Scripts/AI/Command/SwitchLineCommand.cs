@@ -24,7 +24,7 @@ public class SwitchLineCommand : Command
         Transform lineWayPoint = Utils.FindNearestPoint(ai, wayPoints);
         if(lineWayPoint != null )
         {
-            ai.SetTarget(lineWayPoint);
+            ai.SetMissionTarget(lineWayPoint);
         }
     }
 }

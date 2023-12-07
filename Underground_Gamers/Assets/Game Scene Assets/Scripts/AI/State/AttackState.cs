@@ -27,13 +27,13 @@ public class AttackState : AIState
             return;
         }
 
-        if (aiController.target == null)
+        if (aiController.battleTarget == null)
         {
             aiController.SetState(States.Idle);
             return;
         }
 
-        if (aiController.DistanceToTarget > aiStatus.range)
+        if (aiController.DistanceToBattleTarget > aiStatus.range)
         {
             aiController.SetState(States.MissionExecution);
             return;
@@ -49,22 +49,22 @@ public class AttackState : AIState
     private void AttackByOriginSkill()
     {
         if (aiController.attackInfos[(int)SkillTypes.Original] != null
-            && aiController.target != null && aiController != null
+            && aiController.battleTarget != null && aiController != null
             && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget)
         {
             aiController.isOnCoolOriginalSkill = false;
-            aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
+            aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
         }
     }
 
     private void AttackByBase()
     {
         if (aiController.attackInfos[(int)SkillTypes.Base] != null
-            && aiController.target != null && aiController != null
+            && aiController.battleTarget != null && aiController != null
             && aiController.isOnCoolBaseAttack && aiController.RaycastToTarget)
         {
             aiController.isOnCoolBaseAttack = false;
-            aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
+            aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
             UseAmmo();
             if(aiController.isReloading)
             {

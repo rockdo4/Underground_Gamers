@@ -17,7 +17,7 @@ public class TrackingKiting : KitingData
 
         while (attempt < 30)
         {
-            kitingRandomPoint = Utils.RandomPointInCircle(trackingKitingRange, ctrl.target);
+            kitingRandomPoint = Utils.RandomPointInCircle(trackingKitingRange, ctrl.battleTarget);
             kitingRandomPoint.y = ctrl.transform.position.y;
 
             NavMeshHit hit;

@@ -33,7 +33,7 @@ public class KitingState : AIState
         {
             return;
         }
-        if (aiController.target == null)
+        if (aiController.battleTarget == null)
         {
             aiController.SetState(States.Idle);
         }

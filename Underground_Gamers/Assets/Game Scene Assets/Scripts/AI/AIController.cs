@@ -58,7 +58,8 @@ public class AIController : MonoBehaviour
     private List<BaseState> states = new List<BaseState>();
 
     public Transform point;
-    public Transform target;
+    public Transform missionTarget;
+    public Transform battleTarget;
     public Transform firePos;
     public Line currentLine = Line.Bottom;
 
@@ -77,20 +78,29 @@ public class AIController : MonoBehaviour
 
     [Header("전투 상태")]
     public bool isBattle = false;
-    public bool isTower = false;
 
     [Header("공격 & 카이팅 상태")]
     public AttackDefinition[] attackInfos = new AttackDefinition[(int)SkillTypes.Count];
     public KitingData kitingInfo;
     public KitingData reloadingKitingInfo;
 
-    [Header("우선 순위 설정")]
-    public OccupationType occupationType = OccupationType.None;
-    public DistancePriorityType distancePriorityType = DistancePriorityType.None;
-    public TargetPriority priorityByDistance;
+    // 지원 범위는 캐릭터의 시야 범위
+    [Header("지원 상태")]
+    public float supportTime = 0.5f;
+    public float lastSupportTime;
 
+    // 이것을 통해 지원의 형태가 결정
+    [Header("명령 상태")]
+    public bool isAttack = true;
+    public bool isDefend;
+
+    [Header("우선 순위 설정")]
+    //public OccupationType occupationType = OccupationType.None;
+    //public DistancePriorityType distancePriorityType = DistancePriorityType.None;
+    public int occupationIndex = int.MaxValue;
+    //public List<CharacterStatus> filterdPriorityList = new List<CharacterStatus>();
+    public TargetPriority priorityByDistance;
     public List<TargetPriority> priorityByOccupation = new List<TargetPriority>();
-    public List<TeamIdentifier> filteredByOccupation = new List<TeamIdentifier>();
 
     [Tooltip("탐지 딜레이 시간")]
     public float detectTime = 0.1f;
@@ -112,8 +122,8 @@ public class AIController : MonoBehaviour
     public float lastGeneralSkillTime;
     [Tooltip("공용스킬 딜레이 타임")]
     public float generalSkillCoolTime;
-    public bool isOnCoolGeneralSkill = false;    
-    
+    public bool isOnCoolGeneralSkill = false;
+
     [Tooltip("마지막 장전 시점")]
     public float lastReloadTime;
     [Tooltip("장전 타임")]
@@ -149,13 +159,13 @@ public class AIController : MonoBehaviour
     {
         get
         {
-            if (this.target == null)
+            if (this.battleTarget == null)
                 return false;
             var origin = transform.position;
-            var target = this.target.position;
+            var target = this.battleTarget.position;
 
             var sightOrigin = transform.position;
-            var sightTarget = this.target.position;
+            var sightTarget = this.battleTarget.position;
             sightTarget.y = sightOrigin.y;
 
             var sightDirection = sightTarget - sightOrigin;
@@ -187,15 +197,29 @@ public class AIController : MonoBehaviour
             return isCol;
         }
     }
-    public float DistanceToTarget
+    public float DistanceToMissionTarget
     {
         get
         {
-            if (target == null)
+            if (missionTarget == null)
             {
                 return 0f;
             }
-            Vector3 targetPos = target.transform.position;
+            Vector3 targetPos = missionTarget.transform.position;
+            targetPos.y = transform.position.y;
+            return Vector3.Distance(transform.position, targetPos);
+        }
+    }
+
+    public float DistanceToBattleTarget
+    {
+        get
+        {
+            if (battleTarget == null)
+            {
+                return 0f;
+            }
+            Vector3 targetPos = battleTarget.transform.position;
             targetPos.y = transform.position.y;
             return Vector3.Distance(transform.position, targetPos);
         }
@@ -205,7 +229,7 @@ public class AIController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         // 데이터 테이블에 따라서 정보를 가져올 수 있음, 레벨 정보는 세이브 데이터
         status = GetComponent<CharacterStatus>();
-        target = point;
+        missionTarget = point;
 
         SetInitialization();
 
@@ -239,12 +263,7 @@ public class AIController : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            agent.SetDestination(point.position);
-        }
-
-        if(lastOriginalSkillTime + originalSkillCoolTime < Time.time 
+        if (lastOriginalSkillTime + originalSkillCoolTime < Time.time
             && attackInfos[(int)SkillTypes.Original] != null)
         {
             lastOriginalSkillTime = Time.time;
@@ -257,16 +276,22 @@ public class AIController : MonoBehaviour
             isOnCoolBaseAttack = true;
         }
 
-        if(isReloading)
+        if (isReloading)
         {
-            float time = (1 - (Time.time - lastReloadTime ) / reloadCoolTime);
+            float time = (1 - (Time.time - lastReloadTime) / reloadCoolTime);
             GetReloadTime(time);
         }
 
-        if(lastReloadTime + reloadCoolTime < Time.time && isReloading)
+        if (lastReloadTime + reloadCoolTime < Time.time && isReloading)
         {
             isReloading = false;
             Reload();
+        }
+
+        if (!isBattle && lastSupportTime + supportTime < Time.time)
+        {
+            lastSupportTime = Time.time;
+            SupportTeam();
         }
 
         UpdateBuff();
@@ -277,26 +302,46 @@ public class AIController : MonoBehaviour
         //최대 속도일때 0.5f가 되어야 함으로 2로나눔
     }
 
-    public void SetTarget(Transform target)
+    public void SetBattleTarget(Transform target)
     {
-        Transform prevTarget = this.target;
-        this.target = target;
+        Transform prevTarget = this.battleTarget;
+        this.battleTarget = target;
         CharacterStatus status = target.GetComponent<CharacterStatus>();
         if (status != null)
         {
-            if(prevTarget != null)
+            if (prevTarget != null)
             {
                 CharacterStatus prevTargetStatus = prevTarget.GetComponent<CharacterStatus>();
-                TargetEventBus.Unsubscribe(prevTargetStatus, ReleaseTarget);
+                BattleTargetEventBus.Unsubscribe(prevTargetStatus, ReleaseTarget);
             }
-            TargetEventBus.Subscribe(status, ReleaseTarget);
+            BattleTargetEventBus.Subscribe(status, ReleaseTarget);
         }
-        SetDestination(this.target.position);
+        SetDestination(this.battleTarget.position);
+    }
+
+    public void SetMissionTarget(Transform target)
+    {
+        //Transform prevTarget = this.missionTarget;
+        //this.missionTarget = target;
+
+        //CharacterStatus status = target.GetComponent<CharacterStatus>();
+        //if (status != null)
+        //{
+        //    if(prevTarget != null)
+        //    {
+        //        // 이 부분 수정해야함
+        //        CharacterStatus prevTargetStatus = prevTarget.GetComponent<CharacterStatus>();
+        //        BattleTargetEventBus.Unsubscribe(prevTargetStatus, ReleaseTarget);
+        //    }
+        //    BattleTargetEventBus.Subscribe(status, ReleaseTarget);
+        //}
+        SetDestination(this.missionTarget.position);
     }
 
     public void ReleaseTarget()
     {
-        target = null;
+        occupationIndex = int.MaxValue;
+        battleTarget = null;
     }
 
     public void SetDestination(Vector3 vector3)
@@ -316,14 +361,14 @@ public class AIController : MonoBehaviour
 
     public void UpdateKiting()
     {
-        if (target != null)
-            kitingInfo.UpdateKiting(target, this);
+        if (battleTarget != null)
+            kitingInfo.UpdateKiting(battleTarget, this);
     }
 
     public void UpdateReloadKiting()
     {
-        if (target != null)
-            reloadingKitingInfo.UpdateKiting(target, this);
+        if (battleTarget != null)
+            reloadingKitingInfo.UpdateKiting(battleTarget, this);
     }
 
     public void GetReloadTime(float time)
@@ -340,6 +385,61 @@ public class AIController : MonoBehaviour
     {
         currentAmmo = maxAmmo;
         canvas.reloadBar.gameObject.SetActive(false);
+    }
+
+    private void SupportTeam()
+    {
+        Transform target = null;
+        var cols = Physics.OverlapSphere(transform.position, status.sight, teamLayer);
+        float distance = float.MaxValue;
+        foreach (var col in cols)
+        {
+            if (col.gameObject == this)
+                continue;
+            AIController controller = col.GetComponent<AIController>();
+
+            if (isAttack)
+            {
+                if (controller != null && controller.isBattle)
+                {
+                    float colDistance = Vector3.Distance(transform.position, col.transform.position);
+                    if (colDistance < distance)
+                    {
+                        target = controller.battleTarget;
+                        distance = colDistance;
+                    }
+                }
+            }
+
+            if(isDefend)
+            {
+                TeamIdentifier colIdentity = col.GetComponent<TeamIdentifier>();
+                if (controller != null && controller.isBattle)
+                {
+                    float colDistance = Vector3.Distance(transform.position, col.transform.position);
+                    if (colDistance < distance)
+                    {
+                        target = controller.battleTarget;
+                        distance = colDistance;
+                    }
+                }
+                else if(colIdentity != null && colIdentity.isBuilding)
+                {
+                    float colDistance = Vector3.Distance(transform.position, col.transform.position);
+                    if (colDistance < distance)
+                    {
+                        target = col.transform;
+                        distance = colDistance;
+                    }
+                }
+            }
+        }
+
+        if (target != null)
+        {
+            SetState(States.Trace);
+            SetBattleTarget(target);
+        }
     }
 
     public void RefreshDebugAIStatus(string debug)
@@ -390,7 +490,7 @@ public class AIController : MonoBehaviour
         Gizmos.DrawLine(newV, newV + viewAngleA * viewRadius);
         Gizmos.DrawLine(newV, newV + viewAngleB * viewRadius);
 
-        if (firePos != null && target != null)
+        if (firePos != null && battleTarget != null)
         {
             if (RaycastToTarget)
             {
@@ -419,6 +519,7 @@ public class AIController : MonoBehaviour
             generalSkillCoolTime = attackInfos[(int)SkillTypes.General].cooldown;
         lastGeneralSkillTime = Time.time - generalSkillCoolTime;
 
+        lastSupportTime = Time.time - supportTime;
 
         Reload();
     }
