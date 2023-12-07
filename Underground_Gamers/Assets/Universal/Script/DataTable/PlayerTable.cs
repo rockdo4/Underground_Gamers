@@ -8,6 +8,7 @@ public class PlayerTable : DataTable
 {
     public List<PlayerInfo> playerDatabase = null;
     public List<TrainingInfo> trainingDatabase = null;
+    public List<LevelUpCost> levelUpCostDatabase = null;
     public List<Sprite> playerSprites;
     public List<Sprite> playerFullSprites;
 
@@ -22,6 +23,7 @@ public class PlayerTable : DataTable
         List<Dictionary<string, string>> players = CSVReader.Read(Path.Combine("CSV", "PlayerStats"));
         playerDatabase = new List<PlayerInfo>();
         trainingDatabase = new List<TrainingInfo>();
+        levelUpCostDatabase = new List<LevelUpCost>();
         playerSprites = new List<Sprite>();
         playerFullSprites = new List<Sprite>();
 
@@ -86,7 +88,7 @@ public class PlayerTable : DataTable
                 "반응속도" => TrainingType.ReactionSpeed,
                 "공격속도" => TrainingType.AtkRate,
                 "크리티컬 확률" => TrainingType.Critical,
-                "공력력" => TrainingType.Atk,
+                "공격력" => TrainingType.Atk,
                 "최대 체력" => TrainingType.Hp,
                 _ => TrainingType.Hp
             };
@@ -96,6 +98,18 @@ public class PlayerTable : DataTable
 
             trainingDatabase.Add(newTrain);
         }
+
+        List<Dictionary<string, string>> levelCost = CSVReader.Read(Path.Combine("CSV", "UpgradeCostTable"));
+        foreach (var item in levelCost)
+        {
+            LevelUpCost newTrain = new LevelUpCost();
+            newTrain.level = int.Parse(item["Level"]);
+            newTrain.xp = int.Parse(item["Xp"]);
+            newTrain.cost = int.Parse(item["Cost"]);
+
+            levelUpCostDatabase.Add(newTrain);
+        }
+
     }
     
     public int PlayerIndexSearch(int code)
@@ -125,5 +139,15 @@ public class PlayerTable : DataTable
     public TrainingInfo GetTrainingInfo(int id)
     {
         return trainingDatabase.Find(train => train.id == id);
+    }
+
+    public int GetLevelUpXp(int level)
+    {
+        return levelUpCostDatabase.Find(a => a.level == level).xp;
+    }
+
+    public int GetLevelUpCost(int level)
+    {
+        return levelUpCostDatabase.Find(a => a.level == level).cost;
     }
 }

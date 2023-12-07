@@ -21,10 +21,11 @@ public class Player
     public int maxLevel = 35;
     public int breakthrough = 0;
 
+    public int skillLevel = 1;
     public int gearCode = -1;
     public int gearLevel = 0;
     public float xp = 0;
-    public float maxXp = 100;
+    public float maxXp = 10;
     public int condition = 0;
     public int cost = 0;
     public int potential = 10;
@@ -148,6 +149,13 @@ public struct RecruitInfo
     public int money;
     public int crystal;
     public int contractTicket;
+}
+
+public struct LevelUpCost
+{
+    public int level;
+    public int xp;
+    public int cost;
 }
 
 [System.Serializable]

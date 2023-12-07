@@ -378,4 +378,29 @@ public class GamePlayerInfo : MonoBehaviour
         }
         Debug.Log("Can't find Char");
     }
+
+    public void BreakPlayer(Player player, List<Player> delete)
+    {
+        foreach (var item in delete)
+        {
+            if (usingPlayers.Contains(item))
+            {
+                RemoveUsePlayer(usingPlayers.IndexOf(item));
+            }
+            else if (havePlayers.Contains(item))
+            {
+                havePlayers.Remove(item);
+            }
+        }
+
+        player.breakthrough++;
+        player.maxLevel += 5;
+        player.skillLevel = player.breakthrough switch
+        {
+            1 => 1,
+            2 => 2,
+            3 => 3,
+            _ => 1,
+        };
+    }
 }

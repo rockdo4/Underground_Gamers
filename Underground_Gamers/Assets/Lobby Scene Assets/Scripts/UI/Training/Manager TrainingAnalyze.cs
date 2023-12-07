@@ -1,4 +1,4 @@
-using System.Collections;
+//using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -50,6 +50,8 @@ public class ManagerTrainingAnalyze : ManagerTraining
     private List<TMP_Text> playerInfoDatas = new List<TMP_Text>();
     [SerializeField]
     private Button analyzeStartB;
+    [SerializeField]
+    private GameObject popupFullLevel;
 
     private PlayerTable pt;
     private StringTable st;
@@ -64,6 +66,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
     private float currXp = 0;
     private float currMaxXp = 100;
     private int currlevel = 0;
+    private int currCost = 0;
     private List<int> currXpItemUse = new List<int>();
     private void Start()
     {
@@ -108,12 +111,18 @@ public class ManagerTrainingAnalyze : ManagerTraining
         List<Player> usingPlayers = GamePlayerInfo.instance.GetUsingPlayers();
         foreach (var item in usingPlayers)
         {
-            if (item.code != -1)
+            if (item.code != -1 && item.level < item.maxLevel)
             {
                 playerList.Add(item);
             }
         }
-        playerList.AddRange(GamePlayerInfo.instance.havePlayers);
+        foreach (var item in GamePlayerInfo.instance.havePlayers)
+        {
+            if (item.level < item.maxLevel)
+            {
+                playerList.Add(item);
+            }
+        }
 
         sortedPlayerList = playerList.OrderByDescending(p => p.level).ToList();
 
@@ -148,6 +157,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
         currXp = currPlayer.xp;
         currMaxXp = currPlayer.maxXp;
         currlevel = currPlayer.level;
+        currCost = 0;
         for (int i = 0; i < currXpItemUse.Count; i++)
         {
             currXpItemUse[i] = 0;
@@ -163,6 +173,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
         growInfoDatas[0].text = $"Lv.{currPlayer.level.ToString("F0")}";
         growInfoDatas[1].text = $"Lv.{currPlayer.level.ToString("F0")}";
+        growInfoDatas[1].color = Color.black;
         growInfoDatas[2].text = $"{currPlayer.xp.ToString("F0")}/{currPlayer.maxXp.ToString("F0")}";
         xpBar.value = currPlayer.xp / currPlayer.maxXp;
         growInfoDatas[3].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp,currPlayer.level).ToString("F0")}";
@@ -187,7 +198,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
                 growItems[i].interactable = true;
             }
         }
-        growItemUseMoneyText.text = "0";
+        growItemUseMoneyText.text = currCost.ToString();
 
         analyzeStartB.interactable = false;
     }
@@ -262,13 +273,37 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
         while (currXp >= currMaxXp)
         {
-            currXp = currXp - currMaxXp;
-            //아래 식은 나중에 테이블에 따라 변경
-            currMaxXp *= 2;
             currlevel++;
+            if (currlevel >= currPlayer.maxLevel)
+            {
+                currXp = 0;
+                growInfoDatas[1].color = Color.red;
+                foreach (var item in growItems)
+                {
+                    item.interactable = false;
+                }
+                if (currPlayer.maxLevel >= 50)
+                {
+                    currMaxXp = 0;
+                    currCost = pt.GetLevelUpCost(50);
+                    break;
+                }
+                else
+                {
+                    currMaxXp = pt.GetLevelUpXp(currlevel+1);
+                    currCost = pt.GetLevelUpCost(currlevel);
+                }
+            }
+            else
+            {
+                currXp = currXp - currMaxXp;
+                currMaxXp = pt.GetLevelUpXp(currlevel + 1);
+                currCost = pt.GetLevelUpCost(currlevel);
+            }
+            growItemUseMoneyText.text = currCost.ToString();
         }
 
-        
+
         growInfoDatas[1].text = $"Lv.{currlevel.ToString("F0")}";
         growInfoDatas[2].text = $"{currXp.ToString("F0")}/{currMaxXp.ToString("F0")}";
         xpBar.value = currXp / currMaxXp;
@@ -288,6 +323,13 @@ public class ManagerTrainingAnalyze : ManagerTraining
         }
         LoadPlayers();
         currIndex = sortedPlayerList.IndexOf(sortedPlayerList.Find(a => a.ID == currPlayer.ID));
-        OpenPlayerGrowInfo(currIndex);
+        if (currlevel < currPlayer.maxLevel)
+        {
+            OpenPlayerGrowInfo(currIndex);
+        }
+        else
+        {
+            popupFullLevel.SetActive(true);
+        }
     }
 }
