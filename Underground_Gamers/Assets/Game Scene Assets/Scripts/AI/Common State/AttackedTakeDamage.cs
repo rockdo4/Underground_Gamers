@@ -39,24 +39,29 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         status.Hp = Mathf.Max(0, status.Hp);
 
         // 반격
-        if (controller != null)
+        if (controller != null && controller.battleTarget != null)
         {
             TeamIdentifier targetIdentity = controller.battleTarget.GetComponent<TeamIdentifier>();
-            if (controller.battleTarget != null)
+
+            if (!controller.isBattle && !controller.isReloading/* || controller.battleTarget == null || targetIdentity.isBuilding*/)
             {
-                if (!controller.isBattle || controller.battleTarget == null || targetIdentity.isBuilding)
-                {
-                    controller.SetState(States.Trace);
-                    controller.SetBattleTarget(attacker.transform);
-                }
+                controller.SetBattleTarget(attacker.transform);
+                controller.SetState(States.Trace);
             }
+        }
+
+        TeamIdentifier identity = transform.GetComponent<TeamIdentifier>();
+
+        // 건물 타겟 처리
+        if (identity != null && identity.isBuilding)
+        {
+            identity.SetBuildingTarget(attacker.transform);
         }
 
         // 사망 처리
         if (status.Hp <= 0)
         {
             status.IsLive = false;
-            TeamIdentifier identity = transform.GetComponent<TeamIdentifier>();
             if (identity.teamLayer == LayerMask.GetMask("PC"))
             {
                 var text = GameObject.FindGameObjectWithTag("NPC_Score").GetComponent<TMP_Text>();

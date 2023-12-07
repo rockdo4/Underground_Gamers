@@ -394,12 +394,13 @@ public class AIController : MonoBehaviour
         float distance = float.MaxValue;
         foreach (var col in cols)
         {
-            if (col.gameObject == this)
+            if (col.gameObject == this.gameObject)
                 continue;
             AIController controller = col.GetComponent<AIController>();
 
             if (isAttack)
             {
+                // 전투중인 아군 검사
                 if (controller != null && controller.isBattle)
                 {
                     float colDistance = Vector3.Distance(transform.position, col.transform.position);
@@ -410,10 +411,21 @@ public class AIController : MonoBehaviour
                     }
                 }
             }
-
-            if(isDefend)
+            else if(isDefend)
             {
                 TeamIdentifier colIdentity = col.GetComponent<TeamIdentifier>();
+                // 구조물이 여러개일 경우가 있을까?
+                // 구조물 검사
+                if (colIdentity != null && colIdentity.isBuilding)
+                {
+                    if(colIdentity.buildingTarget)
+                    {
+                        target = colIdentity.buildingTarget;
+                        break;
+                    }
+                }
+
+                // 전투중인 아군 검사
                 if (controller != null && controller.isBattle)
                 {
                     float colDistance = Vector3.Distance(transform.position, col.transform.position);
@@ -423,22 +435,14 @@ public class AIController : MonoBehaviour
                         distance = colDistance;
                     }
                 }
-                else if(colIdentity != null && colIdentity.isBuilding)
-                {
-                    float colDistance = Vector3.Distance(transform.position, col.transform.position);
-                    if (colDistance < distance)
-                    {
-                        target = col.transform;
-                        distance = colDistance;
-                    }
-                }
+
             }
         }
 
         if (target != null)
         {
-            SetState(States.Trace);
             SetBattleTarget(target);
+            SetState(States.Trace);
         }
     }
 

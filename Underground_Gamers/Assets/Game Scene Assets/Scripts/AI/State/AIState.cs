@@ -57,6 +57,7 @@ public abstract class AIState : BaseState
                 return;
            // Debug.Log($"Col : {col.name}");
 
+            // 우선순위 기준 선택
             CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
             for (int i = 0; i < aiController.priorityByOccupation.Count; ++i)
             {
@@ -68,9 +69,14 @@ public abstract class AIState : BaseState
             }
         }
 
+        // 우선순위로 타겟 필터링
         foreach (var col in enemyCols)
         {
             CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
+            TeamIdentifier colIdentity = col.GetComponent<TeamIdentifier>();
+            // 전투중일때는 건물 탐색 제외
+            if (colIdentity != null && colIdentity.isBuilding && aiController.isBattle)
+                continue;
             if (aiController.priorityByOccupation[aiController.occupationIndex].SetTargetByPriority(aiController, colStatus))
             {
                 //Debug.Log($"Filterd : {col.name}");
@@ -118,6 +124,7 @@ public abstract class AIState : BaseState
 
             //Debug.Log($"Col : {col.name}");
 
+            // 우선순위 기준 선택
 
             CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
             for (int i = 0; i < aiController.priorityByOccupation.Count; ++i)
@@ -131,9 +138,15 @@ public abstract class AIState : BaseState
 
         }
 
+        // 우선순위로 타겟 필터링
         foreach (var col in enemyCols)
         {
             CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
+            TeamIdentifier colIdentity = col.GetComponent<TeamIdentifier>();
+            // 전투중일때는 건물 탐색 제외
+            if (colIdentity != null && colIdentity.isBuilding && aiController.isBattle)
+                continue;
+
             if (aiController.priorityByOccupation[aiController.occupationIndex].SetTargetByPriority(aiController, colStatus))
             {
                 //Debug.Log($"Filterd : {col.name}");

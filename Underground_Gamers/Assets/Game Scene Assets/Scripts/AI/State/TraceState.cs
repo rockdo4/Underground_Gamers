@@ -12,8 +12,13 @@ public class TraceState : AIState
     public override void Enter()
     {
         aiController.RefreshDebugAIStatus(this.ToString());
-
-        aiController.isBattle = true;
+        if(aiController.battleTarget != null)
+        {
+            if (!aiController.battleTarget.GetComponent<TeamIdentifier>().isBuilding)
+                aiController.isBattle = true;
+            else
+                aiController.isBattle = false;
+        }
 
         lastDetectTime = Time.time - aiController.detectTime;
 

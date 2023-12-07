@@ -8,13 +8,26 @@ public class TeamIdentifier : MonoBehaviour
     public LayerMask enemyLayer;
 
     public bool isBuilding;
-    public Transform target;
+    public Transform buildingTarget;
 
-    public void SetBuildingTarget(Transform target)
+    private float targetReleaseTime = 3f;
+    private float lastTargetReleaseTime;
+
+    private void Update()
     {
-        Transform prevTarget = this.target;
-        this.target = target;
-        CharacterStatus status = target.GetComponent<CharacterStatus>();
+        if(isBuilding && buildingTarget != null && targetReleaseTime + lastTargetReleaseTime < Time.time)
+        {
+            lastTargetReleaseTime = Time.time;
+            buildingTarget = null;
+        }
+    }
+
+    public void SetBuildingTarget(Transform attacker)
+    {
+        lastTargetReleaseTime = Time.time;
+        Transform prevTarget = this.buildingTarget;
+        this.buildingTarget = attacker;
+        CharacterStatus status = attacker.GetComponent<CharacterStatus>();
 
         if(prevTarget != null )
         {
@@ -30,6 +43,7 @@ public class TeamIdentifier : MonoBehaviour
 
     private void ReleaseTarget()
     {
-        target = null;
+        lastTargetReleaseTime = Time.time;
+        buildingTarget = null;
     }
 }
