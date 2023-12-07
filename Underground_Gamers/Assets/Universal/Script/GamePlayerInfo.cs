@@ -46,6 +46,9 @@ public class GamePlayerInfo : MonoBehaviour
     public int PresetCode = 0;
     public List<List<float>> Presets;
 
+    public List<int> tradeCenter = new List<int>();
+    public DateTime lastRecruitTime = DateTime.MinValue;
+
     private PlayerTable pt;
     private void Awake()
     {
@@ -63,6 +66,10 @@ public class GamePlayerInfo : MonoBehaviour
             {
                 Presets[i].Add(-1f);
             }
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            tradeCenter.Add(1);
         }
     }
 

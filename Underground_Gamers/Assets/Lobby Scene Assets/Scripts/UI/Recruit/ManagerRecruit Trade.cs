@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -5,29 +6,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RecruitManager : MonoBehaviour
+public class ManagerRecruitTrade : ManagerRecruit
 {
     [SerializeField]
-    private GameObject moneyList;
-    [SerializeField]
     private List<TMP_Text> moneyListText;
-    [Space(5f)]
-    [Header("Recruit")]
-    [SerializeField]
-    private GameObject recruitList;
-    private List<Toggle> recruitListToggles = new List<Toggle>();
-    public Image recruitImage;
-    public TMP_Text recruitInfo;
+  
     [SerializeField]
     private int defaultRecruitCode = 0;
     private int currCode = 0;
     private int currCount = 0;
     private int maxCount = 1;
     private List<int> outPut;
-    [SerializeField]
-    private TMP_Text MoneyText1;
-    [SerializeField]
-    private TMP_Text MoneyText10;
     [SerializeField]
     private GameObject recruitCheckWindow;
     [SerializeField]
@@ -42,6 +31,11 @@ public class RecruitManager : MonoBehaviour
     private TMP_Text moneyWarningWindowMoney;
     [SerializeField]
     private TMP_Text moneyWarningWindowMoneyCurr;
+
+    [SerializeField]
+    private List<RecruitTradeCard> recruitTradeCards;
+    [SerializeField]
+    private TMP_Text storeTimer;
 
     [Space(5f)]
     [Header("RecruitEffect")]
@@ -72,52 +66,83 @@ public class RecruitManager : MonoBehaviour
     [SerializeField]
     private GameObject recruitCardEffetUnique;
 
-    private int recruitCount = 0;
     private RecruitTable rt;
     private PlayerTable pt;
     private StringTable st;
     private void Awake()
     {
-        var toggles = recruitList.GetComponentsInChildren<Toggle>();
-        foreach (Toggle toggle in toggles)
-        {
-            recruitListToggles.Add(toggle);
-        }
         oldRecruitCards = new List<GameObject>();
     }
 
-    public void ResetIndex()
+    public override void OnEnter()
     {
-        currCode = defaultRecruitCode;
-        ShowIndex(defaultRecruitCode);
-        recruitListToggles[0].isOn = true;
         UpdateMoneyInfo();
+        MakeCards();
+        gameObject.SetActive(true);
     }
 
-    public void ShowIndex(int code)
+    public override void OnExit()
     {
-        currCode = code;
-        if (rt == null || pt == null || st == null)
+        gameObject.SetActive(false);
+    }
+
+
+    private void MakeCards()
+    {
+        if (GamePlayerInfo.instance.lastRecruitTime.AddDays(1) 
+            < DateTime.Now)
         {
-            rt = DataTableManager.instance.Get<RecruitTable>(DataType.Recruit);
-            pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
-            st = DataTableManager.instance.Get<StringTable>(DataType.String);
+            ShuffleCards();
         }
+    }
+
+    private void ShuffleCards()
+    {
         RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
 
-        recruitImage.sprite = Resources.Load<Sprite>(Path.Combine("RecruitSprite", currCode.ToString()));
-        recruitInfo.text = info.info;
-        MoneyText1.text = $"{info.money} {info.crystal} {info.contractTicket}";
-        MoneyText10.text = $"{info.money * 10} {info.crystal * 10} {info.contractTicket * 10}";
-    }
+        outPut = rt.RecruitRandomNoDuples(currCode, recruitTradeCards.Count);
+        bool isHaveUnique = false;
+        foreach (int i in outPut)
+        {
+            GamePlayerInfo.instance.AddPlayer(i);
+            GamePlayerInfo.instance.AddMoney(0, 0, 1);
 
+            var card = Instantiate(recruitCardPrefab, recruitCardPos);
+            card.GetComponent<RecruitCards>().image.sprite = pt.GetPlayerSprite(i);
+            int grade = pt.GetPlayerInfo(i).grade;
+            if (grade >= 5)
+            {
+                var effect = Instantiate(recruitCardEffetUnique, card.transform);
+                effect.transform.SetSiblingIndex(0);
+                isHaveUnique = true;
+            }
+            else if (grade >= 4)
+            {
+                var effect = Instantiate(recruitCardEffetRare, card.transform);
+                effect.transform.SetSiblingIndex(0);
+            }
+            oldRecruitCards.Add(card);
+        }
+
+        if (isHaveUnique)
+        {
+            Instantiate(recruitEffrctPrefabRare, recruitEffrctPos);
+        }
+        else
+        {
+            Instantiate(recruitEffrctPrefabNomal, recruitEffrctPos);
+        }
+
+        RecruitEffrctNextPlayer();
+
+        recruitCardBoard.SetActive(true);
+        recruitEffect.SetActive(true);
+        UpdateMoneyInfo();
+        LobbyUIManager.instance.UpdateMoneyInfo();
+    }
     public void TryRecruit(int count)
     {
-        recruitCount = count;
         RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
-        int needMoney = info.money * recruitCount;
-        int needCrystal = info.crystal * recruitCount;
-        int needTicket = info.contractTicket * recruitCount;
 
         int usingList = 0;
         List<Player> used = GamePlayerInfo.instance.usingPlayers;
@@ -133,9 +158,9 @@ public class RecruitManager : MonoBehaviour
         {
             string messege = "";
             string submessege = st.Get("recruitMoneyLackMessegeCurr");
-            if (needMoney - GamePlayerInfo.instance.money> 0)
+            if (needMoney - GamePlayerInfo.instance.money > 0)
             {
-                messege += $" {st.Get("money")} {needMoney - GamePlayerInfo.instance.money}{st.Get("count")}" ;
+                messege += $" {st.Get("money")} {needMoney - GamePlayerInfo.instance.money}{st.Get("count")}";
                 submessege += $"{st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")} ";
             }
             if (needCrystal - GamePlayerInfo.instance.crystal > 0)
@@ -168,7 +193,7 @@ public class RecruitManager : MonoBehaviour
                 messege += $" {st.Get("money")} {needMoney}{st.Get("count")}";
                 submessege += $"{st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")} ";
             }
-            if (needCrystal> 0)
+            if (needCrystal > 0)
             {
                 messege += $" {st.Get("crystal")} {needCrystal}{st.Get("count")}";
                 submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
@@ -199,12 +224,12 @@ public class RecruitManager : MonoBehaviour
         }
         oldRecruitCards.Clear();
 
-        
+
 
         outPut = rt.RecruitRandom(currCode, recruitCount);
         currCount = recruitCount;
         bool isHaveUnique = false;
-        foreach (int i in outPut) 
+        foreach (int i in outPut)
         {
             GamePlayerInfo.instance.AddPlayer(i);
             GamePlayerInfo.instance.AddMoney(0, 0, 1);
@@ -234,12 +259,11 @@ public class RecruitManager : MonoBehaviour
         {
             Instantiate(recruitEffrctPrefabNomal, recruitEffrctPos);
         }
-       
+
         RecruitEffrctNextPlayer();
 
         recruitCardBoard.SetActive(true);
         recruitEffect.SetActive(true);
-        moneyList.SetActive(false);
         UpdateMoneyInfo();
         LobbyUIManager.instance.UpdateMoneyInfo();
     }
@@ -261,12 +285,7 @@ public class RecruitManager : MonoBehaviour
 
     public void UpdateMoneyInfo()
     {
-        if (moneyListText.Count >= 3)
-        {
-            moneyListText[0].text = GamePlayerInfo.instance.money.ToString();
-            moneyListText[1].text = GamePlayerInfo.instance.crystal.ToString();
-            moneyListText[2].text = GamePlayerInfo.instance.contractTicket.ToString();
-        }
+        moneyListText[0].text = GamePlayerInfo.instance.crystal.ToString();
+        moneyListText[1].text = GamePlayerInfo.instance.contractTicket.ToString();
     }
-
 }
