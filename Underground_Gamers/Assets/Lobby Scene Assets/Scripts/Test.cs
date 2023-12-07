@@ -33,6 +33,7 @@ public class Test : MonoBehaviour
             {
                 GamePlayerInfo.instance.XpItem[i] += 5;
             }
+            GamePlayerInfo.instance.contractTicket += 300;
             init = false;
         }
     }

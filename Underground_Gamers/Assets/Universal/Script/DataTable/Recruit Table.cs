@@ -46,6 +46,24 @@ public class RecruitTable : DataTable
         return result;
     }
 
+    public List<int> RecruitRandomNoDuples(int code, int count)
+    {
+        List<int> result = new List<int>();
+        Dictionary<string, string> data = gatchaData.Find(data => data["ID"] == code.ToString());
+        int addCount = 0;
+        while (addCount < count)
+        {
+            int gatcha = DoGatcha(data);
+            if (!result.Contains(gatcha))
+            {
+                result.Add(gatcha);
+                addCount++;
+            }
+        }
+
+        return result;
+    }
+
     public int DoGatcha(Dictionary<string, string> data)
     {
         int count = 1;
