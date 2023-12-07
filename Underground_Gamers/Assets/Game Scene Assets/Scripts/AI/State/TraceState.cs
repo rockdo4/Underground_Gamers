@@ -12,6 +12,13 @@ public class TraceState : AIState
     public override void Enter()
     {
         aiController.RefreshDebugAIStatus(this.ToString());
+        if(aiController.battleTarget != null)
+        {
+            if (!aiController.battleTarget.GetComponent<TeamIdentifier>().isBuilding)
+                aiController.isBattle = true;
+            else
+                aiController.isBattle = false;
+        }
 
         lastDetectTime = Time.time - aiController.detectTime;
 
@@ -31,20 +38,34 @@ public class TraceState : AIState
         {
             return;
         }
-        if (aiController.target == null)
+
+
+
+        if (aiController.battleTarget == null)
         {
             aiController.SetState(States.MissionExecution);
         }
 
-        if(lastDetectTime + aiController.detectTime < Time.time && aiController.target != null)
+        if(lastDetectTime + aiController.detectTime < Time.time && aiController.battleTarget != null)
         {
-            aiController.SetDestination(aiController.target.position);
+            aiController.SetDestination(aiController.battleTarget.position);
         }
 
-        if(DistanceToTarget < aiStatus.range)
+        if(aiController.DistanceToBattleTarget < aiStatus.range)
         {
             aiController.SetState(States.AimSearch);
             return;
+        }
+
+        if (lastDetectTime + aiController.detectTime < Time.time)
+        {
+            lastDetectTime = Time.time;
+
+            // Å½»ö ¹× Å¸°Ù ¼³Á¤
+            SearchTargetInDetectionRange();
+            SearchTargetInSector();
+
+            agent.SetDestination(aiController.battleTarget.position);
         }
 
         //if (lastDetectTime + aiController.detectTime < Time.time)

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class CharacterStatus : MonoBehaviour
 {
+    [Header("우선 순위 설정")]
+    public OccupationType occupationType = OccupationType.None;
+    public DistancePriorityType distancePriorityType = DistancePriorityType.None;
+
+    [Header("스텟")]
     public int maxHp = 50;
     public float speed;
     public float sight;                 // 시야
@@ -11,6 +16,7 @@ public class CharacterStatus : MonoBehaviour
     public float detectionRange;    // 탐지범위
 
     public float range;         // 공격 사정거리
+    //public float sharedSightRange;
 
     public float evasionRate;       // 회피율
     public float reactionSpeed;     // 반응속도
@@ -37,12 +43,23 @@ public class CharacterStatus : MonoBehaviour
 
     public void Respawn()
     {
-        AIController aIController = GetComponent<AIController>();
-        if (aIController != null)
+        AIController aiController = GetComponent<AIController>();
+        if (aiController != null)
         {
-            aIController.isOnCoolBaseAttack = true;
-            aIController.isOnCoolOriginalSkill = true;
-            aIController.isOnCoolGeneralSkill = true;
+            if (aiController.attackInfos[(int)SkillTypes.Base] != null)
+                aiController.isOnCoolBaseAttack = true;
+            else
+                aiController.isOnCoolBaseAttack = false;
+
+            if (aiController.attackInfos[(int)SkillTypes.Original] != null)
+                aiController.isOnCoolOriginalSkill = true;
+            else
+                aiController.isOnCoolOriginalSkill = false;
+
+            if (aiController.attackInfos[(int)SkillTypes.General] != null)
+                aiController.isOnCoolGeneralSkill = true;
+            else
+                aiController.isOnCoolGeneralSkill = false;
 
             //aIController.isKiting = false;
         }

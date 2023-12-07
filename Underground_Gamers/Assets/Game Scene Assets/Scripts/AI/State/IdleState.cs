@@ -12,6 +12,7 @@ public class IdleState : AIState
     public override void Enter()
     {
         aiController.RefreshDebugAIStatus(this.ToString());
+        agent.angularSpeed = aiStatus.reactionSpeed;
 
         //agent.isStopped = true;
         //agent.angularSpeed = 0;
@@ -31,13 +32,14 @@ public class IdleState : AIState
         {
             return;
         }
-        if (aiController.target == null)
+        if (aiController.missionTarget == null)
         {
-            aiController.target = aiController.point;
+            aiController.missionTarget = aiController.point;
+            aiController.SetMissionTarget(aiController.missionTarget);
             return;
         }
 
-        if(aiController.target != null)
+        if(aiController.missionTarget != null)
         {
             aiController.SetState(States.MissionExecution);
         }

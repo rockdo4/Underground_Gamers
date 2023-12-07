@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ArcProjectileAttack.Asset", menuName = "ProjectileAttack/ArcProjectileAttack")]
-public class ArcProjectileAttack : AttackDefinition
+public class ArcProjectileAttack : ProjectileAttack
 {
     [Header("포물선 투사체")]
-    public ArcProjectile arcProjectilePrefab;
-    public GameObject explosionEffectPrefab;
     public float damageRate;
-    public float explosionRange;
-    public float speed;
-    public float lifeCycle;
     public float fireAngle;
 
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
@@ -20,11 +15,23 @@ public class ArcProjectileAttack : AttackDefinition
         CharacterStatus aStatus = attacker.GetComponent<CharacterStatus>();
         CharacterStatus dStatus = defender.GetComponent<CharacterStatus>();
         Transform firePos = null;
-        Quaternion fireRotation = Quaternion.Euler(fireAngle, 0, 0);
+        Quaternion fireRotation = Quaternion.Euler(-fireAngle, 0, 0);
         if(ai != null)
         {
             firePos = ai.firePos;
-            ArcProjectile arcProjectile = Instantiate(arcProjectilePrefab, firePos.position, fireRotation);
+            Projectile arcrojectile = Instantiate(projectilePrefab, firePos.position, fireRotation);
+            ProjectileStatus projectileStatus = arcrojectile.GetComponent<ProjectileStatus>();
+            arcrojectile.ai = ai;
+
+            if (aStatus != null)
+                projectileStatus.damage = aStatus.damage * damageRate;
+            projectileStatus.speed = speed;
+            projectileStatus.lifeCycle = lifeCycle;
+            //projectileStatus.isPenetrating = isPenetrating;
+            projectileStatus.isAreaAttack = isAreaAttack;
+            projectileStatus.explosionRange = explosionRange;
+
+            arcrojectile.colEffectPrefab = colEffectPrefab;
         }
 
     }

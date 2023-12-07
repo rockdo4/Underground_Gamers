@@ -9,14 +9,11 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
     {
         CharacterStatus status = transform.GetComponent<CharacterStatus>();
         AIController controller = transform.GetComponent<AIController>();
-        //AIController attackerAI = null;
 
-        //if (attacker != null)
-        //{
-        //    attackerAI = attacker.GetComponent<AIController>();
-        //}
         if (!status.IsLive)
             return;
+
+        // 막기 버프 적용
         if (controller != null)
         {
             if (controller.isInvalid)
@@ -41,10 +38,30 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         status.Hp = Mathf.Min(status.Hp, status.maxHp);
         status.Hp = Mathf.Max(0, status.Hp);
 
+        // 반격
+        if (controller != null && controller.battleTarget != null)
+        {
+            TeamIdentifier targetIdentity = controller.battleTarget.GetComponent<TeamIdentifier>();
+
+            if (!controller.isBattle && !controller.isReloading/* || controller.battleTarget == null || targetIdentity.isBuilding*/)
+            {
+                controller.SetBattleTarget(attacker.transform);
+                controller.SetState(States.Trace);
+            }
+        }
+
+        TeamIdentifier identity = transform.GetComponent<TeamIdentifier>();
+
+        // 건물 타겟 처리
+        if (identity != null && identity.isBuilding)
+        {
+            identity.SetBuildingTarget(attacker.transform);
+        }
+
+        // 사망 처리
         if (status.Hp <= 0)
         {
             status.IsLive = false;
-            TeamIdentifier identity = transform.GetComponent<TeamIdentifier>();
             if (identity.teamLayer == LayerMask.GetMask("PC"))
             {
                 var text = GameObject.FindGameObjectWithTag("NPC_Score").GetComponent<TMP_Text>();

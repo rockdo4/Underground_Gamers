@@ -49,6 +49,7 @@ public class GameInfo : MonoBehaviour
             madePlayer.AddComponent<DontDestroy>();
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{player.code}")), madePlayer.transform);
             madePlayerCharactor.AddComponent<LookCameraRect>();
+            float charactorScale = madePlayerCharactor.transform.localScale.x;
 
             var ai = madePlayer.GetComponent<AIController>();
             ai.spum = madePlayerCharactor.GetComponent<SPUM_Prefabs>();
@@ -72,9 +73,10 @@ public class GameInfo : MonoBehaviour
             ai.attackInfos[0] = atkDef;
             ai.attackInfos[1] = skillDef;
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
-            ai.SetCoolTime();
+            ai.SetInitialization();
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
+
             stat.Hp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
             stat.maxHp = stat.Hp;
             stat.speed = pt.CalculateCurrStats(playerInfo.moveSpeed, player.level);
@@ -87,6 +89,7 @@ public class GameInfo : MonoBehaviour
             stat.chargeCount = playerInfo.magazine;
             stat.reloadCooldown = playerInfo.reloadingSpeed;
             stat.accuracyRate = pt.CalculateCurrStats(playerInfo.accuracy, player.level);
+            stat.detectionRange = pt.CalculateCurrStats(playerInfo.detectionRange, player.level) * charactorScale;
 
             madePlayer.SetActive(false);
             players.Add(madePlayer);
@@ -97,6 +100,8 @@ public class GameInfo : MonoBehaviour
     {
         var startPos = GameObject.FindGameObjectsWithTag("PlayerStartPos");
         var endPos = GameObject.FindGameObjectsWithTag("EnemyStartPos");
+
+        // 수정 할 곳
         var playerDestinations = GameObject.FindGameObjectsWithTag("NPCTower");
 
         if (startPos.Length < 1)

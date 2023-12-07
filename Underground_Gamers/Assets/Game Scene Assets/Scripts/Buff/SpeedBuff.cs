@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpeedBuff : Buff
 {
     public float increasedSpeedRate;
+    private float prevSpeed;
 
     public override void UpdateBuff(AIController ai)
     {
@@ -12,13 +13,15 @@ public class SpeedBuff : Buff
     }
     public override void ApplyBuff(AIController ai)
     {
-        ai.status.speed += Mathf.RoundToInt(ai.status.speed * increasedSpeedRate);
+        timer = Time.time;
+        prevSpeed = ai.status.speed;
+        ai.status.speed += (prevSpeed * increasedSpeedRate);
         ai.appliedBuffs.Add(this);
     }
 
     public override void RemoveBuff(AIController ai)
     {
-        ai.status.speed -= Mathf.RoundToInt(ai.status.speed * increasedSpeedRate);
+        ai.status.speed -= (prevSpeed * increasedSpeedRate);
         ai.removedBuffs.Add(this);
     }
 }

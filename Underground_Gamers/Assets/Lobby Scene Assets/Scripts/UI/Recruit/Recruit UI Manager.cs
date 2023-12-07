@@ -31,6 +31,7 @@ public class RecruitUIManager : MonoBehaviour
     [SerializeField]
     private List<Toggle> recruitToggles = new List<Toggle>();
 
+
     private void Awake()
     {
         int index = 0;

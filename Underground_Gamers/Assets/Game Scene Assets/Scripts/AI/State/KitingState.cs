@@ -9,15 +9,15 @@ public class KitingState : AIState
 
     public KitingState(AIController aiController) : base(aiController)
     {
-        //kitingCoolTime = aiController.kitingInfo.kitingCoolTime;
-        lastKitingTime = Time.time - kitingCoolTime;
-        agent.speed = aiController.kitingInfo.kitingSpeed;
+        kitingCoolTime = aiController.kitingInfo.kitingCoolTime;
+
+        //agent.speed = aiController.kitingInfo.kitingSpeed;
     }
 
     public override void Enter()
     {
         aiController.RefreshDebugAIStatus(this.ToString());
-
+        lastKitingTime = Time.time - kitingCoolTime;
         agent.isStopped = false;
         agent.speed = aiController.kitingInfo.kitingSpeed;
     }
@@ -33,7 +33,7 @@ public class KitingState : AIState
         {
             return;
         }
-        if (aiController.target == null)
+        if (aiController.battleTarget == null)
         {
             aiController.SetState(States.Idle);
         }
@@ -47,31 +47,10 @@ public class KitingState : AIState
         }
 
 
-        if (lastKitingTime + kitingCoolTime < Time.time/* && !aiController.isKiting*/)
+        if (lastKitingTime + kitingCoolTime < Time.time)
         {
-            //aiController.isKiting = true;
             lastKitingTime = Time.time;
             aiController.UpdateKiting();
         }
-
-        //float dis = Vector3.Distance(aiController.kitingPos, aiTr.position);
-        //if (Vector3.Distance(aiController.kitingPos, aiTr.position) < 0.1f)
-        //{
-        //    //aiController.isKiting = false;
-        //    if (DistanceToTarget < aiStatus.range)
-        //        aiController.SetState(States.AimSearch);
-        //    else
-        //        aiController.SetState(States.MissionExecution);
-
-        //    return;
-        //}
-
-
-        //if (aiController.lastAttackTime + aiController.attackCoolTime < Time.time)
-        //{
-        //    aiController.lastAttackTime = Time.time;
-        //    //aiController.SetState(States.Trace);
-        //    return;
-        //}
     }
 }

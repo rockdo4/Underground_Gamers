@@ -22,7 +22,7 @@ public class DestroyedObject : MonoBehaviour, IDestroyable
         //Destroy(gameObject);
         if (status != null)
         {
-            TargetEventBus.Publish(status);
+            BattleTargetEventBus.Publish(status);
         }
         if(particlePrefab != null)
         {

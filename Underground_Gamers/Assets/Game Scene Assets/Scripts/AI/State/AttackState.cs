@@ -27,13 +27,13 @@ public class AttackState : AIState
             return;
         }
 
-        if (aiController.target == null)
+        if (aiController.battleTarget == null)
         {
             aiController.SetState(States.Idle);
             return;
         }
 
-        if (DistanceToTarget > aiStatus.range)
+        if (aiController.DistanceToBattleTarget > aiStatus.range)
         {
             aiController.SetState(States.MissionExecution);
             return;
@@ -43,41 +43,48 @@ public class AttackState : AIState
             RotateToTarget();
         }
 
+        AttackByOriginSkill();
+        AttackByBase();
+    }
+    private void AttackByOriginSkill()
+    {
         if (aiController.attackInfos[(int)SkillTypes.Original] != null
-            && aiController.target != null && aiController != null
+            && aiController.battleTarget != null && aiController != null
             && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget)
         {
             aiController.isOnCoolOriginalSkill = false;
-            aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
+            aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
         }
+    }
 
-        if (aiController.attackInfos[(int)SkillTypes.Base] != null 
-            && aiController.target != null && aiController != null 
+    private void AttackByBase()
+    {
+        if (aiController.attackInfos[(int)SkillTypes.Base] != null
+            && aiController.battleTarget != null && aiController != null
             && aiController.isOnCoolBaseAttack && aiController.RaycastToTarget)
         {
             aiController.isOnCoolBaseAttack = false;
-            aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
+            aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
+            UseAmmo();
+            if(aiController.isReloading)
+            {
+                aiController.TryReloading();
+                aiController.SetState(States.Reloading);
+                return;
+            }
             aiController.SetState(States.Kiting);
             return;
         }
-        //Debug.Log("Attack State");
-        //RotateToTarget();
+    }
 
-        //if (aiController.RaycastToTarget)
-        //{
-        //    if (aiController.attackInfos[(int)SkillTypes.Base] != null)
-        //    {
-        //        aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
-        //        aiController.SetState(States.Kiting);
-        //    }
-
-        //    //if (aiController.lastAttackTime + aiController.attackCoolTime < Time.time)
-        //    //{
-        //    //    aiController.lastAttackTime = Time.time;
-        //    //    if (aiController.attackInfos[(int)SkillTypes.Base] != null)
-        //    //        aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.target.gameObject);
-
-        //    //}
-        //}
+    private void UseAmmo()
+    {
+        aiController.currentAmmo--;
+        aiController.currentAmmo = Mathf.Max(0, aiController.currentAmmo);
+        if (aiController.currentAmmo <= 0)
+        {
+            aiController.isReloading = true;
+            aiController.lastReloadTime = Time.time;
+        }
     }
 }

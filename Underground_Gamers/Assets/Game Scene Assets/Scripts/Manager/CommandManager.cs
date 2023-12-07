@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -81,6 +82,11 @@ public class CommandManager : MonoBehaviour
                 info.commandButtons.Add(commandButton);
             }
         }
+    }
+
+    public void ExecuteSwitchLine(int aiIndex)
+    {
+        commands[(int)CommandType.SwitchLine].ExecuteCommand(aiManager.pc[aiIndex], wayPoint);
     }
 
     public void OnCommadns(CommandInfo commandInfo)

@@ -10,7 +10,6 @@ public class SwitchLineCommand : Command
         {
             return;
         }
-
         int line = (int)ai.currentLine;
         line++;
         ai.currentLine = (Line)(line % (int)Line.Count);
@@ -25,7 +24,7 @@ public class SwitchLineCommand : Command
         Transform lineWayPoint = Utils.FindNearestPoint(ai, wayPoints);
         if(lineWayPoint != null )
         {
-            ai.SetTarget(lineWayPoint);
+            ai.SetMissionTarget(lineWayPoint);
         }
     }
 }

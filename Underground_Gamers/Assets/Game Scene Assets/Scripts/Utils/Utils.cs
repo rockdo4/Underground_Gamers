@@ -17,7 +17,7 @@ public static class Utils
 
     public static Transform FindNearestPoint(AIController ai, Transform[] paths)
     {
-        Transform target = ai.target;
+        Transform target = ai.battleTarget;
         Transform wayPoint = null;
         float nearestDistance = float.MaxValue;
 

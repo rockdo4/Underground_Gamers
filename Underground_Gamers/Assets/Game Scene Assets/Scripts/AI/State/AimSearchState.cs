@@ -15,6 +15,7 @@ public class AimSearchState : AIState
         agent.isStopped = true;
         agent.speed = 0f;
 
+        lastDetectTime = Time.time - aiController.detectTime;
     }
 
     public override void Exit()
@@ -30,7 +31,19 @@ public class AimSearchState : AIState
         }
         RotateToTarget();
 
-        if (aiController.target == null)
+        if (lastDetectTime + aiController.detectTime < Time.time)
+        {
+            lastDetectTime = Time.time;
+
+            // Å½»ö ¹× Å¸°Ù ¼³Á¤
+            SearchTargetInDetectionRange();
+            SearchTargetInSector();
+
+            //agent.SetDestination(aiController.battleTarget.position);
+        }
+
+
+        if (aiController.battleTarget == null)
             aiController.SetState(States.Idle);
 
         if (aiController.RaycastToTarget)
@@ -39,10 +52,12 @@ public class AimSearchState : AIState
             return;
         }
 
-        if(DistanceToTarget > aiStatus.range)
+        if(aiController.DistanceToBattleTarget > aiStatus.range)
         {
             aiController.SetState(States.MissionExecution);
             return;
         }
+
+
     }
 }
