@@ -207,6 +207,7 @@ public class RecruitManager : MonoBehaviour
         foreach (int i in outPut) 
         {
             GamePlayerInfo.instance.AddPlayer(i);
+            GamePlayerInfo.instance.AddMoney(0, 0, 1);
 
             var card = Instantiate(recruitCardPrefab, recruitCardPos);
             card.GetComponent<RecruitCards>().image.sprite = pt.GetPlayerSprite(i);
@@ -224,7 +225,7 @@ public class RecruitManager : MonoBehaviour
             }
             oldRecruitCards.Add(card);
         }
-        //레어 이펙트시 여기서 조건문 처리
+
         if (isHaveUnique)
         {
             Instantiate(recruitEffrctPrefabRare, recruitEffrctPos);

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class PlayerTable : DataTable
 {
     public List<PlayerInfo> playerDatabase = null;
+    public List<TrainingInfo> trainingDatabase = null;
+    public List<LevelUpCost> levelUpCostDatabase = null;
     public List<Sprite> playerSprites;
     public List<Sprite> playerFullSprites;
 
@@ -20,8 +22,11 @@ public class PlayerTable : DataTable
 
         List<Dictionary<string, string>> players = CSVReader.Read(Path.Combine("CSV", "PlayerStats"));
         playerDatabase = new List<PlayerInfo>();
+        trainingDatabase = new List<TrainingInfo>();
+        levelUpCostDatabase = new List<LevelUpCost>();
         playerSprites = new List<Sprite>();
         playerFullSprites = new List<Sprite>();
+
         foreach (var player in players)
         {
             PlayerInfo playerInfo = new PlayerInfo();
@@ -34,19 +39,32 @@ public class PlayerTable : DataTable
             playerInfo.info = player["Info"];
             playerInfo.cost = int.Parse(player["Cost"]);
             playerInfo.weaponType = int.Parse(player["WeaponType"]);
-            playerInfo.hp = int.Parse(player["Hp"]);
-            playerInfo.atk = int.Parse(player["Atk"]);
-            playerInfo.atkRate = float.Parse(player["AtkRate"]);
-            playerInfo.moveSpeed = float.Parse(player["Speed"]);
-            playerInfo.sight = float.Parse(player["Sight"]);
-            playerInfo.range = float.Parse(player["Range"]);
-            playerInfo.criticalChance = float.Parse(player["Critical"]);
+            playerInfo.hp.min = int.Parse(player["minHP"]);
+            playerInfo.atk.min = int.Parse(player["minAtk"]);
+            playerInfo.atkRate.min = float.Parse(player["minAtkRate"]);
+            playerInfo.moveSpeed.min = float.Parse(player["minSpeed"]);
+            playerInfo.sight.min = float.Parse(player["minSight"]);
+            playerInfo.range.min = float.Parse(player["minRange"]);
+            playerInfo.critical.min = float.Parse(player["minCritical"]);
             playerInfo.magazine = int.Parse(player["Mag"]);
             playerInfo.reloadingSpeed = float.Parse(player["Reload"]);
-            playerInfo.Accuracy = float.Parse(player["Accuracy"]);
-            playerInfo.reactionSpeed = float.Parse(player["Reaction"]);
+            playerInfo.accuracy.min = float.Parse(player["minAccuracy"]);
+            playerInfo.reactionSpeed.min = float.Parse(player["minReaction"]);
+            playerInfo.detectionRange.min = float.Parse(player["minDetection"]);
             playerInfo.atkType = int.Parse(player["AtkType"]);
             playerInfo.kitingType = int.Parse(player["KitingType"]);
+
+            playerInfo.hp.max = int.Parse(player["maxHP"]);
+            playerInfo.atk.max = int.Parse(player["maxAtk"]);
+            playerInfo.atkRate.max = float.Parse(player["maxAtkRate"]);
+            playerInfo.moveSpeed.max = float.Parse(player["maxSpeed"]);
+            playerInfo.sight.max = float.Parse(player["maxSight"]);
+            playerInfo.range.max = float.Parse(player["maxRange"]);
+            playerInfo.critical.max = float.Parse(player["maxCritical"]);
+            playerInfo.accuracy.max = float.Parse(player["maxAccuracy"]);
+            playerInfo.reactionSpeed.max = float.Parse(player["maxReaction"]);
+            playerInfo.detectionRange.max = float.Parse(player["maxDetection"]);
+
 
             playerDatabase.Add(playerInfo);
             playerSprites.Add(Resources.Load<Sprite>(
@@ -54,6 +72,44 @@ public class PlayerTable : DataTable
             playerFullSprites.Add(Resources.Load<Sprite>(
                 Path.Combine("PlayerFullSprite", playerInfo.code.ToString())));
         }
+
+        List<Dictionary<string, string>> training = CSVReader.Read(Path.Combine("CSV", "TrainingStatTable"));
+        foreach (var item in training)
+        {
+            TrainingInfo newTrain = new TrainingInfo();
+            newTrain.id = int.Parse(item["ID"]);
+            newTrain.type = item["Type"] switch
+            {
+                "이동속도" => TrainingType.MoveSpeed,
+                "시야거리" => TrainingType.Sight,
+                "사정거리" => TrainingType.Range,
+                "감지범위" => TrainingType.DetectionRange,
+                "명중률" => TrainingType.Accuracy,
+                "반응속도" => TrainingType.ReactionSpeed,
+                "공격속도" => TrainingType.AtkRate,
+                "크리티컬 확률" => TrainingType.Critical,
+                "공격력" => TrainingType.Atk,
+                "최대 체력" => TrainingType.Hp,
+                _ => TrainingType.Hp
+            };
+            newTrain.level = int.Parse(item["Level"]);
+            newTrain.value = float.Parse(item["Value"]);
+            newTrain.needPotential = int.Parse(item["Potential"]);
+
+            trainingDatabase.Add(newTrain);
+        }
+
+        List<Dictionary<string, string>> levelCost = CSVReader.Read(Path.Combine("CSV", "UpgradeCostTable"));
+        foreach (var item in levelCost)
+        {
+            LevelUpCost newTrain = new LevelUpCost();
+            newTrain.level = int.Parse(item["Level"]);
+            newTrain.xp = int.Parse(item["Xp"]);
+            newTrain.cost = int.Parse(item["Cost"]);
+
+            levelUpCostDatabase.Add(newTrain);
+        }
+
     }
     
     public int PlayerIndexSearch(int code)
@@ -73,5 +129,25 @@ public class PlayerTable : DataTable
     public Sprite GetPlayerFullSprite(int code)
     {
         return playerFullSprites[PlayerIndexSearch(code)];
+    }
+
+    public float CalculateCurrStats(GrowableStats stats,int level)
+    {
+        return stats.min + (stats.gap * level);
+    }
+
+    public TrainingInfo GetTrainingInfo(int id)
+    {
+        return trainingDatabase.Find(train => train.id == id);
+    }
+
+    public int GetLevelUpXp(int level)
+    {
+        return levelUpCostDatabase.Find(a => a.level == level).xp;
+    }
+
+    public int GetLevelUpCost(int level)
+    {
+        return levelUpCostDatabase.Find(a => a.level == level).cost;
     }
 }
