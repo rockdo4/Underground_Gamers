@@ -10,13 +10,11 @@ public class ManagerRecruitTrade : ManagerRecruit
 {
     [SerializeField]
     private List<TMP_Text> moneyListText;
-  
+    [SerializeField]
+    private int resetCost = 50;
+
     [SerializeField]
     private int defaultRecruitCode = 0;
-    private int currCode = 0;
-    private int currCount = 0;
-    private int maxCount = 1;
-    private List<int> outPut;
     [SerializeField]
     private GameObject recruitCheckWindow;
     [SerializeField]
@@ -37,48 +35,41 @@ public class ManagerRecruitTrade : ManagerRecruit
     [SerializeField]
     private TMP_Text storeTimer;
 
-    [Space(5f)]
-    [Header("RecruitEffect")]
     [SerializeField]
-    private GameObject recruitCardBoard;
+    private GameObject popupCompleteRecruit;
     [SerializeField]
-    private GameObject recruitEffect;
-    public GameObject recruitEffrctPrefabNomal;
-    public GameObject recruitEffrctPrefabRare;
+    private List<TMP_Text> popupCompleteTexts;
     [SerializeField]
-    private Image recruitEffrctCharImage;
+    private List<Image> popupCompleteImages;
     [SerializeField]
-    private Image recruitEffrctTypeImage;
+    private GameObject popupResetList;
     [SerializeField]
-    private Transform recruitEffrctPos;
+    private TMP_Text popupResetListMoney;
     [SerializeField]
-    public GameObject recruitEffrctWindow;
-    private Image recruitEffrctStars;
-    [SerializeField]
-    private TMP_Text recruitEffrctName;
-    [SerializeField]
-    private Transform recruitCardPos;
-    public GameObject recruitCardPrefab;
-
-    private List<GameObject> oldRecruitCards;
-    [SerializeField]
-    private GameObject recruitCardEffetRare;
-    [SerializeField]
-    private GameObject recruitCardEffetUnique;
+    private TMP_Text popupResetListMoneyCurr;
 
     private RecruitTable rt;
     private PlayerTable pt;
     private StringTable st;
-    private void Awake()
-    {
-        oldRecruitCards = new List<GameObject>();
-    }
+
+    private TimeSpan timer;
+    private DateTime lastResetTime;
+
+    private int currIndex = 0;
+    private int currcost = 0;
 
     public override void OnEnter()
     {
+        if (rt == null)
+        {
+            rt = DataTableManager.instance.Get<RecruitTable>(DataType.Recruit);
+            pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+            st = DataTableManager.instance.Get<StringTable>(DataType.String);
+        }
         UpdateMoneyInfo();
         MakeCards();
         gameObject.SetActive(true);
+
     }
 
     public override void OnExit()
@@ -93,57 +84,79 @@ public class ManagerRecruitTrade : ManagerRecruit
             < DateTime.Now)
         {
             ShuffleCards();
+            DateTime now = DateTime.Now;
+            GamePlayerInfo.instance.lastRecruitTime = new DateTime(now.Year, now.Month, now.Day, 10, 0, 0);
+        }
+
+        lastResetTime = GamePlayerInfo.instance.lastRecruitTime;
+        
+        int count = 0;
+        foreach (var card in recruitTradeCards)
+        {
+            int code = GamePlayerInfo.instance.tradeCenter[count];
+            if (code >= 0)
+            {
+                card.SetCards(code);
+            }
+            else
+            {
+                card.CloseCards();
+            }
+            count++;
         }
     }
 
-    private void ShuffleCards()
+    public void ShuffleCards()
     {
-        RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
+        var outPut = rt.RecruitRandomNoDuples(defaultRecruitCode, recruitTradeCards.Count);
+        GamePlayerInfo.instance.SetTradeCenter(outPut);
+    }
 
-        outPut = rt.RecruitRandomNoDuples(currCode, recruitTradeCards.Count);
-        bool isHaveUnique = false;
-        foreach (int i in outPut)
+    public void TryResetList()
+    {
+        if (!GamePlayerInfo.instance.CheckMoney(0, resetCost, 0))
         {
-            GamePlayerInfo.instance.AddPlayer(i);
-            GamePlayerInfo.instance.AddMoney(0, 0, 1);
+            string messege = "";
+            string submessege = st.Get("recruitMoneyLackMessegeCurr");
 
-            var card = Instantiate(recruitCardPrefab, recruitCardPos);
-            card.GetComponent<RecruitCards>().image.sprite = pt.GetPlayerSprite(i);
-            int grade = pt.GetPlayerInfo(i).grade;
-            if (grade >= 5)
-            {
-                var effect = Instantiate(recruitCardEffetUnique, card.transform);
-                effect.transform.SetSiblingIndex(0);
-                isHaveUnique = true;
-            }
-            else if (grade >= 4)
-            {
-                var effect = Instantiate(recruitCardEffetRare, card.transform);
-                effect.transform.SetSiblingIndex(0);
-            }
-            oldRecruitCards.Add(card);
-        }
+            messege += $" {st.Get("crystal")} {resetCost - GamePlayerInfo.instance.crystal}{st.Get("count")}";
+            submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}";
 
-        if (isHaveUnique)
-        {
-            Instantiate(recruitEffrctPrefabRare, recruitEffrctPos);
+            messege += st.Get("recruitMoneyLackMessege");
+            moneyWarningWindowMoney.text = messege;
+            moneyWarningWindowMoneyCurr.text = submessege;
+            moneyWarning.SetActive(true);
+            return;
         }
         else
         {
-            Instantiate(recruitEffrctPrefabNomal, recruitEffrctPos);
+            string messege = "";
+            string submessege = st.Get("recruitCheckCurrMessege");
+
+            messege += $" {st.Get("crystal")} {resetCost}{st.Get("count")}";
+            submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
+
+            messege += st.Get("reset_list_check");
+            popupResetListMoney.text = messege;
+            popupResetListMoneyCurr.text = submessege;
+            popupResetList.SetActive(true);
+            return;
         }
-
-        RecruitEffrctNextPlayer();
-
-        recruitCardBoard.SetActive(true);
-        recruitEffect.SetActive(true);
-        UpdateMoneyInfo();
-        LobbyUIManager.instance.UpdateMoneyInfo();
     }
-    public void TryRecruit(int count)
-    {
-        RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
 
+    public void DoReset()
+    {
+        if (!GamePlayerInfo.instance.UseMoney(0, resetCost, 0))
+        {
+            return;
+        }
+        UpdateMoneyInfo();
+        ShuffleCards();
+        MakeCards();
+    }
+
+    public void TryTrade(int index)
+    {
         int usingList = 0;
         List<Player> used = GamePlayerInfo.instance.usingPlayers;
         foreach (var item in used)
@@ -153,56 +166,36 @@ public class ManagerRecruitTrade : ManagerRecruit
                 usingList++;
             }
         }
+        int cost = recruitTradeCards[index].cost;
 
-        if (!GamePlayerInfo.instance.CheckMoney(needMoney, needCrystal, needTicket))
+
+        if (!GamePlayerInfo.instance.CheckMoney(0, 0, cost))
         {
             string messege = "";
             string submessege = st.Get("recruitMoneyLackMessegeCurr");
-            if (needMoney - GamePlayerInfo.instance.money > 0)
-            {
-                messege += $" {st.Get("money")} {needMoney - GamePlayerInfo.instance.money}{st.Get("count")}";
-                submessege += $"{st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")} ";
-            }
-            if (needCrystal - GamePlayerInfo.instance.crystal > 0)
-            {
-                messege += $" {st.Get("crystal")} {needCrystal - GamePlayerInfo.instance.crystal}{st.Get("count")}";
-                submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
-            }
-            if (needTicket - GamePlayerInfo.instance.contractTicket > 0)
-            {
-                messege += $" {st.Get("ticket")} {needTicket - GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
-                submessege += $" {st.Get("ticket")} {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
-            }
+
+            messege += $" {st.Get("ticket")} {cost - GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
+            submessege += $" {st.Get("ticket")} {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
+
             messege += st.Get("recruitMoneyLackMessege");
             moneyWarningWindowMoney.text = messege;
             moneyWarningWindowMoneyCurr.text = submessege;
             moneyWarning.SetActive(true);
             return;
         }
-        else if (GamePlayerInfo.instance.havePlayers.Count + count + usingList > 200)
+        else if (GamePlayerInfo.instance.havePlayers.Count + 1 + usingList > 200)
         {
             spaceLackWarning.SetActive(true);
             return;
         }
         else
         {
+            currcost = cost;
+            currIndex = index;
             string messege = "";
             string submessege = st.Get("recruitCheckCurrMessege");
-            if (needMoney > 0)
-            {
-                messege += $" {st.Get("money")} {needMoney}{st.Get("count")}";
-                submessege += $"{st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")} ";
-            }
-            if (needCrystal > 0)
-            {
-                messege += $" {st.Get("crystal")} {needCrystal}{st.Get("count")}";
-                submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
-            }
-            if (needTicket > 0)
-            {
-                messege += $" {st.Get("ticket")} {needTicket}{st.Get("count")}";
-                submessege += $" {st.Get("ticket")} {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
-            }
+            messege += $" {st.Get("ticket")} {cost}{st.Get("count")}";
+            submessege += $" {st.Get("ticket")} {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
             messege += st.Get("recruitCheckMessege");
             recruitCheckWindowMoney.text = messege;
             recruitCheckWindowMoneyCurr.text = submessege;
@@ -211,81 +204,44 @@ public class ManagerRecruitTrade : ManagerRecruit
         }
     }
 
-    public void StartRecruit()
+    public void DoTrade()
     {
-        RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
-        if (!GamePlayerInfo.instance.UseMoney(info.money * recruitCount, info.crystal * recruitCount, info.contractTicket * recruitCount))
+        if (!GamePlayerInfo.instance.UseMoney(0,0, currcost))
         {
             return;
         }
-        foreach (var card in oldRecruitCards)
-        {
-            Destroy(card.gameObject);
-        }
-        oldRecruitCards.Clear();
+        GamePlayerInfo.instance.AddPlayer(GamePlayerInfo.instance.tradeCenter[currIndex]);
+        var info = pt.GetPlayerInfo(GamePlayerInfo.instance.tradeCenter[currIndex]);
+        GamePlayerInfo.instance.tradeCenter[currIndex] = -1;
 
+        recruitCheckWindow.SetActive(false);
+        popupCompleteTexts[0].text = info.name;
+        popupCompleteTexts[1].text = $"{info.name}{st.Get("with1")} {currcost}{st.Get("recruit_with_tradepoint")}";
+        popupCompleteImages[0].sprite = pt.GetPlayerSprite(info.code);
 
-
-        outPut = rt.RecruitRandom(currCode, recruitCount);
-        currCount = recruitCount;
-        bool isHaveUnique = false;
-        foreach (int i in outPut)
-        {
-            GamePlayerInfo.instance.AddPlayer(i);
-            GamePlayerInfo.instance.AddMoney(0, 0, 1);
-
-            var card = Instantiate(recruitCardPrefab, recruitCardPos);
-            card.GetComponent<RecruitCards>().image.sprite = pt.GetPlayerSprite(i);
-            int grade = pt.GetPlayerInfo(i).grade;
-            if (grade >= 5)
-            {
-                var effect = Instantiate(recruitCardEffetUnique, card.transform);
-                effect.transform.SetSiblingIndex(0);
-                isHaveUnique = true;
-            }
-            else if (grade >= 4)
-            {
-                var effect = Instantiate(recruitCardEffetRare, card.transform);
-                effect.transform.SetSiblingIndex(0);
-            }
-            oldRecruitCards.Add(card);
-        }
-
-        if (isHaveUnique)
-        {
-            Instantiate(recruitEffrctPrefabRare, recruitEffrctPos);
-        }
-        else
-        {
-            Instantiate(recruitEffrctPrefabNomal, recruitEffrctPos);
-        }
-
-        RecruitEffrctNextPlayer();
-
-        recruitCardBoard.SetActive(true);
-        recruitEffect.SetActive(true);
+        MakeCards();
         UpdateMoneyInfo();
-        LobbyUIManager.instance.UpdateMoneyInfo();
+        popupCompleteRecruit.SetActive(true);
     }
-
-    public void RecruitEffrctNextPlayer()
-    {
-        if (currCount == 0)
-        {
-            recruitEffrctWindow.SetActive(false);
-            return;
-        }
-        currCount--;
-        int currMakeCode = outPut[currCount];
-        PlayerInfo pi = pt.GetPlayerInfo(currMakeCode);
-        recruitEffrctCharImage.sprite = pt.GetPlayerFullSprite(currMakeCode);
-        recruitEffrctTypeImage.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", pi.type.ToString()));
-        recruitEffrctName.text = pi.name;
-    }
-
+    
     public void UpdateMoneyInfo()
     {
         moneyListText[0].text = GamePlayerInfo.instance.crystal.ToString();
         moneyListText[1].text = GamePlayerInfo.instance.contractTicket.ToString();
+    }
+
+    public void Update()
+    {
+        timer = lastResetTime.AddDays(1) - DateTime.Now;
+        if (timer < TimeSpan.Zero)
+        {
+            DateTime now = DateTime.Now;
+            GamePlayerInfo.instance.lastRecruitTime = new DateTime(now.Year, now.Month, now.Day, 10, 0, 0);
+            lastResetTime = GamePlayerInfo.instance.lastRecruitTime;
+            timer = lastResetTime.AddDays(1) - DateTime.Now;
+            ShuffleCards();
+            MakeCards();
+        }
+        storeTimer.text = $"{timer.Hours} : {timer.Minutes} : {timer.Seconds}";
     }
 }

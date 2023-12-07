@@ -410,4 +410,9 @@ public class GamePlayerInfo : MonoBehaviour
             _ => 1,
         };
     }
+
+    public void SetTradeCenter(List<int> setValue)
+    {
+        tradeCenter = setValue;
+    }
 }

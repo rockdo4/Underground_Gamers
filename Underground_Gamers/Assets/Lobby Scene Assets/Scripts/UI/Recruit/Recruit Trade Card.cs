@@ -24,6 +24,10 @@ public class RecruitTradeCard : MonoBehaviour
     }
     public void SetCards(int playerID)
     {
+        if (bt == null)
+        {
+            bt = GetComponent<Button>();
+        }
         bt.interactable = true;
         cover.SetActive(false);
         PlayerTable pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);

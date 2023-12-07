@@ -46,6 +46,7 @@ public class RecruitUIManager : MonoBehaviour
             }
             );
         }
+        SetRecruitMode(0);
     }
     public void SetRecruitMode(int code)
     {

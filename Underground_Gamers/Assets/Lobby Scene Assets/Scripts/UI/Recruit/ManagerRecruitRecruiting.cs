@@ -63,7 +63,7 @@ public class ManagerRecruitRecruiting : ManagerRecruit
     private Transform recruitCardPos;
     public GameObject recruitCardPrefab;
 
-    private List<GameObject> oldRecruitCards;
+    private List<GameObject> oldRecruitCards = new List<GameObject>();
     [SerializeField]
     private GameObject recruitCardEffetRare;
     [SerializeField]
@@ -73,9 +73,16 @@ public class ManagerRecruitRecruiting : ManagerRecruit
     private RecruitTable rt;
     private PlayerTable pt;
     private StringTable st;
-    private void Awake()
+
+    public override void OnEnter()
     {
-        oldRecruitCards = new List<GameObject>();
+        gameObject.SetActive(true);
+        ResetIndex();
+    }
+
+    public override void OnExit()
+    {
+        gameObject.SetActive(false);
     }
 
     public void ResetIndex()
@@ -258,16 +265,5 @@ public class ManagerRecruitRecruiting : ManagerRecruit
             moneyListText[1].text = GamePlayerInfo.instance.crystal.ToString();
             moneyListText[2].text = GamePlayerInfo.instance.contractTicket.ToString();
         }
-    }
-
-    public override void OnEnter()
-    {
-        gameObject.SetActive(true);
-        ResetIndex();
-    }
-
-    public override void OnExit()
-    {
-        gameObject.SetActive(false);
     }
 }
