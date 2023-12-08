@@ -390,6 +390,8 @@ GameObject:
   - component: {fileID: 3163457359775540961}
   - component: {fileID: 2468475296841524799}
   - component: {fileID: 4494870755969772782}
+  - component: {fileID: 3023383994762638817}
+  - component: {fileID: 3634509330820221609}
   m_Layer: 7
   m_Name: NPC
   m_TagString: Untagged
@@ -450,7 +452,8 @@ MonoBehaviour:
   agent: {fileID: 0}
   status: {fileID: 0}
   point: {fileID: 0}
-  target: {fileID: 0}
+  missionTarget: {fileID: 0}
+  battleTarget: {fileID: 0}
   firePos: {fileID: 0}
   currentLine: 1
   layer:
@@ -463,12 +466,20 @@ MonoBehaviour:
   hitInfoPos: {x: 0, y: 0, z: 0}
   kitingPos: {x: 0, y: 0, z: 0}
   isKiting: 0
+  isBattle: 0
   attackInfos:
   - {fileID: 11400000, guid: b503aaf37a9007645be6aca63eafbc51, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   kitingInfo: {fileID: 11400000, guid: 84d27bfc7ac76c247822d2827c2dff26, type: 2}
   reloadingKitingInfo: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
+  supportTime: 0.5
+  lastSupportTime: 0
+  isAttack: 1
+  isDefend: 0
+  occupationIndex: 2147483647
+  priorityByDistance: {fileID: 0}
+  priorityByOccupation: []
   detectTime: 0.1
   lastBaseAttackTime: 0
   baseAttackCoolTime: 0
@@ -508,6 +519,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5902c83002db7449b4874d91b248be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupationType: 0
+  distancePriorityType: 0
   maxHp: 5
   speed: 1
   sight: 3
@@ -611,6 +624,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  isBuilding: 0
+  buildingTarget: {fileID: 0}
 --- !u!114 &4494870755969772782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,6 +638,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3776c305463e3f84c864d91c88bfcad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3023383994762638817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378083268255723418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464f720b2ecf9144197c0869f18fc0c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageText: {fileID: 3413788427445076640, guid: 7d2431464ac41a44091c713e5128f161, type: 3}
+  OffsetText: 5
+--- !u!114 &3634509330820221609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378083268255723418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f630e2a05e6b7eb439fbbc72bf48514a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.3
 --- !u!1 &7964492262612399490
 GameObject:
   m_ObjectHideFlags: 0

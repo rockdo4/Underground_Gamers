@@ -12,7 +12,13 @@ GameObject:
   - component: {fileID: 6541270128298469086}
   - component: {fileID: 7728427638455790909}
   - component: {fileID: 8839921970312270196}
-  m_Layer: 0
+  - component: {fileID: 3085833959774793329}
+  - component: {fileID: 7974335420721694690}
+  - component: {fileID: 370107371931992386}
+  - component: {fileID: 1939932745807315877}
+  - component: {fileID: 5465968351616910825}
+  - component: {fileID: 1250156033548493875}
+  m_Layer: 6
   m_Name: AngelTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +33,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 334130864156256545}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.258819, z: -0, w: 0.9659259}
+  m_LocalRotation: {x: 0, y: -0.258819, z: 0, w: 0.9659259}
   m_LocalPosition: {x: 15.620001, y: -3.223607, z: -0.54999924}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -107,3 +113,111 @@ CapsuleCollider:
   m_Height: 5.4739094
   m_Direction: 1
   m_Center: {x: -0.0148427375, y: 0.27184057, z: 0.34187248}
+--- !u!114 &3085833959774793329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334130864156256545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb5902c83002db7449b4874d91b248be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  occupationType: 0
+  distancePriorityType: 0
+  maxHp: 500
+  speed: 0
+  sight: 0
+  sightAngle: 0
+  detectionRange: 0
+  range: 0
+  evasionRate: 0
+  reactionSpeed: 0
+  damage: 0
+  cooldown: 0
+  critical: 0
+  chargeCount: 0
+  reloadCooldown: 0
+  accuracyRate: 0
+  armor: 0
+  deathCount: 0
+  respawnTime: 0
+  respawnTimeIncreaseRate: 0
+--- !u!114 &7974335420721694690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334130864156256545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0236d73d4811af43bd2cb3a5c4cbef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &370107371931992386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334130864156256545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad6da4e85dec64f44bf8d7f713f47dec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particlePrefab: {fileID: 2407849614386759806, guid: 1b901813f2b10fe4fb4986526e315caa, type: 3}
+  aiParticlePrefabs: []
+--- !u!114 &1939932745807315877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334130864156256545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d6c7f57c55a95479014c182aa43fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  isBuilding: 1
+  buildingTarget: {fileID: 0}
+--- !u!208 &5465968351616910825
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334130864156256545}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.2490001, y: 1.5560001, z: 0.99700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.007, y: 1.516, z: 0.47500002}
+  m_TimeToStationary: 0.5
+--- !u!114 &1250156033548493875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334130864156256545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464f720b2ecf9144197c0869f18fc0c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageText: {fileID: 3413788427445076640, guid: 7d2431464ac41a44091c713e5128f161, type: 3}
+  OffsetText: 5
