@@ -11,6 +11,9 @@ public class PlayerTable : DataTable
     public List<LevelUpCost> levelUpCostDatabase = null;
     public List<Sprite> playerSprites;
     public List<Sprite> playerFullSprites;
+    public List<Sprite> starsSprites = new List<Sprite>();
+    public List<Sprite> berakSprites = new List<Sprite>();
+    public List<Sprite> playerTypeSprites = new List<Sprite>();
 
     public PlayerTable() : base(DataType.Player)
     {
@@ -108,6 +111,19 @@ public class PlayerTable : DataTable
             newTrain.cost = int.Parse(item["Cost"]);
 
             levelUpCostDatabase.Add(newTrain);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            starsSprites.Add(Resources.Load<Sprite>(Path.Combine("Stars", i.ToString())));
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            berakSprites.Add(Resources.Load<Sprite>(Path.Combine("Break", i.ToString())));
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            playerTypeSprites.Add(Resources.Load<Sprite>(Path.Combine("PlayerType", (i+1).ToString())));
         }
 
     }

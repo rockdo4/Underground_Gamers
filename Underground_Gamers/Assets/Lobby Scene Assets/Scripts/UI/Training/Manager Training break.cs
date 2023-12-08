@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -122,6 +123,22 @@ public class ManagerTrainingbreak : ManagerTraining
             var card = bt.GetComponent<PlayerLevelCard>();
             card.image.sprite = pt.GetPlayerSprite(player.code);
             card.level.text = $"Lv. {player.level.ToString("F0")}";
+            if (player.breakthrough <= 0)
+            {
+                card.breakImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                card.breakImage.gameObject.SetActive(true);
+                card.breakImage.sprite = player.breakthrough switch
+                {
+                    1 => pt.berakSprites[0],
+                    2 => pt.berakSprites[1],
+                    3 => pt.berakSprites[2],
+                    _ => pt.berakSprites[0],
+                };
+            }
+           
 
             int index = count++;
             bt.GetComponent<Button>().onClick.AddListener(() => OpenPlayerBreakInfo(index));

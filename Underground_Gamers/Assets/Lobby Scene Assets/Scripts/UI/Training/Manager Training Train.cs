@@ -118,6 +118,21 @@ public class ManagerTrainingTrain : ManagerTraining
 
             int index = count++;
             bt.GetComponent<Button>().onClick.AddListener(() => OpenPlayerGrowInfo(index));
+            if (player.breakthrough <= 0)
+            {
+                card.breakImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                card.breakImage.gameObject.SetActive(true);
+                card.breakImage.sprite = player.breakthrough switch
+                {
+                    1 => pt.berakSprites[0],
+                    2 => pt.berakSprites[1],
+                    3 => pt.berakSprites[2],
+                    _ => pt.berakSprites[0],
+                };
+            }
             MadeBList.Add(bt);
         }
 

@@ -54,10 +54,21 @@ public class RecruitTradeCard : MonoBehaviour
         }
         costText.text = cost.ToString();
         image.sprite = pt.GetPlayerSprite(playerID);
+        stars.sprite = pi.grade switch
+        {
+            3 => pt.starsSprites[0],
+            4 => pt.starsSprites[1],
+            5 => pt.starsSprites[2],
+            _ => pt.starsSprites[0],
+        };
     }
 
     public void CloseCards()
     {
+        if (bt == null)
+        {
+            bt = GetComponent<Button>();
+        }
         bt.interactable = false;
         cover.SetActive(true);
     }

@@ -72,6 +72,7 @@ public class ManagerRecruitTryout : ManagerRecruit
     private Transform recruitEffrctPos;
     [SerializeField]
     public GameObject recruitEffrctWindow;
+    [SerializeField]
     private Image recruitEffrctStars;
     [SerializeField]
     private TMP_Text recruitEffrctName;
@@ -211,7 +212,17 @@ public class ManagerRecruitTryout : ManagerRecruit
         foreach (int i in outPut)
         {
             var card = Instantiate(tryoutCardPrefab, tryoutUpperPos);
-            card.GetComponent<RecruitCards>().image.sprite = pt.GetPlayerSprite(i);
+            var rc = card.GetComponent<RecruitCards>();
+            rc.image.sprite = pt.GetPlayerSprite(i);
+            PlayerInfo playerInfo = pt.playerDatabase[i];
+            rc.stars.sprite = playerInfo.grade switch
+            {
+                3 => pt.starsSprites[0],
+                4 => pt.starsSprites[1],
+                5 => pt.starsSprites[2],
+                _ => pt.starsSprites[0],
+            };
+
             int grade = pt.GetPlayerInfo(i).grade;
             if (grade >= 5)
             {
@@ -284,6 +295,16 @@ public class ManagerRecruitTryout : ManagerRecruit
 
        var card = Instantiate(recruitCardPrefab, recruitCardPos);
         card.GetComponent<RecruitCards>().image.sprite = pt.GetPlayerSprite(playerCode);
+        var rc = card.GetComponent<RecruitCards>();
+        rc.image.sprite = pt.GetPlayerSprite(playerCode);
+        PlayerInfo playerInfo = pt.playerDatabase[playerCode];
+        rc.stars.sprite = playerInfo.grade switch
+        {
+            3 => pt.starsSprites[0],
+            4 => pt.starsSprites[1],
+            5 => pt.starsSprites[2],
+            _ => pt.starsSprites[0],
+        };
         int grade = pt.GetPlayerInfo(playerCode).grade;
         if (grade >= 5)
         {
@@ -314,6 +335,13 @@ public class ManagerRecruitTryout : ManagerRecruit
         recruitEffrctCharImage.sprite = pt.GetPlayerFullSprite(currMakeCode);
         recruitEffrctTypeImage.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", pi.type.ToString()));
         recruitEffrctName.text = pi.name;
+        recruitEffrctStars.sprite = pi.grade switch
+        {
+            3 => pt.starsSprites[0],
+            4 => pt.starsSprites[1],
+            5 => pt.starsSprites[2],
+            _ => pt.starsSprites[0],
+        };
     }
 
     public void UpdateMoneyInfo()

@@ -220,7 +220,13 @@ public class ManagerRecruitTrade : ManagerRecruit
         popupCompleteTexts[0].text = info.name;
         popupCompleteTexts[1].text = $"{info.name}{st.Get("with1")} {currcost}{st.Get("recruit_with_tradepoint")}";
         popupCompleteImages[0].sprite = pt.GetPlayerSprite(info.code);
-
+        popupCompleteImages[1].sprite = info.grade switch
+        {
+            3 => pt.starsSprites[0],
+            4 => pt.starsSprites[1],
+            5 => pt.starsSprites[2],
+            _ => pt.starsSprites[0],
+        };
         MakeCards();
         UpdateMoneyInfo();
         popupCompleteRecruit.SetActive(true);

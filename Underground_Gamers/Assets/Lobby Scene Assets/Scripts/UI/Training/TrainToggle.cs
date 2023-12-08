@@ -39,6 +39,6 @@ public class TrainToggle : MonoBehaviour
             statText.text += $" + {ti.value.ToString("F0")}";
         }
         cost = ti.needPotential;
-        PotentialText.text = $"{st.Get("potential")} + {ti.needPotential}";
+        PotentialText.text = $"{st.Get("potential")} - {ti.needPotential}";
     }
 }

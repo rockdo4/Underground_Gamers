@@ -8,4 +8,5 @@ public class PlayerLevelCard : MonoBehaviour
 {
     public Image image;
     public TMP_Text level;
+    public Image breakImage;
 }
