@@ -155,7 +155,7 @@ public class GameInfo : MonoBehaviour
             var ai = player.GetComponent<AIController>();
             if (playerDestinations != null)
                 ai.point = playerDestinations[Random.Range(0, playerDestinations.Length - 1)].transform;
-            ai.SetDestination(ai.point.position);
+            ai.SetDestination(ai.point);
 
 
             player.GetComponent<LookCameraByScale>().SetPlayer();

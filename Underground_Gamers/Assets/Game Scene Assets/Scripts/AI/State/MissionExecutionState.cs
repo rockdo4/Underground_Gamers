@@ -53,6 +53,13 @@ public class MissionExecutionState : AIState
             return;
         }
 
+        if(aiController.battleTarget != null)
+        {
+            aiController.SetBattleTarget(aiController.battleTarget);
+            aiController.SetState(States.Trace);
+            return;
+        }
+
         // 전투 중이 아닌, 작전 수행 중 총알이 모자르다면 장전
         if(reloadTime + reloadCoolTime < Time.time && aiController.currentAmmo < aiController.maxAmmo)
         {
@@ -77,7 +84,7 @@ public class MissionExecutionState : AIState
             SearchTargetInDetectionRange();
             SearchTargetInSector();
 
-            agent.SetDestination(aiController.missionTarget.position);
+            aiController.SetDestination(aiController.missionTarget);
         }
     }
 }

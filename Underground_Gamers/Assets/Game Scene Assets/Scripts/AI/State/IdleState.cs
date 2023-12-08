@@ -32,16 +32,26 @@ public class IdleState : AIState
         {
             return;
         }
+
+        if(aiController.battleTarget != null)
+        {
+            aiController.SetBattleTarget(aiController.battleTarget);
+            aiController.SetState(States.Trace);
+            return;
+        }
+
         if (aiController.missionTarget == null)
         {
             aiController.missionTarget = aiController.point;
             aiController.SetMissionTarget(aiController.missionTarget);
+            aiController.SetState(States.MissionExecution);
             return;
         }
 
         if(aiController.missionTarget != null)
         {
             aiController.SetState(States.MissionExecution);
+            return;
         }
     }
 }

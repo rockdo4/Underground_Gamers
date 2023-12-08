@@ -35,7 +35,8 @@ public class KitingState : AIState
         }
         if (aiController.battleTarget == null)
         {
-            aiController.SetState(States.Idle);
+            aiController.SetState(States.MissionExecution);
+            return;
         }
 
         if(aiController.isOnCoolBaseAttack 

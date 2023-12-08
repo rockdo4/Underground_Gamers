@@ -316,7 +316,7 @@ public class AIController : MonoBehaviour
             }
             BattleTargetEventBus.Subscribe(status, ReleaseTarget);
         }
-        SetDestination(this.battleTarget.position);
+        SetDestination(this.battleTarget);
     }
 
     public void SetMissionTarget(Transform target)
@@ -335,7 +335,7 @@ public class AIController : MonoBehaviour
         //    }
         //    BattleTargetEventBus.Subscribe(status, ReleaseTarget);
         //}
-        SetDestination(this.missionTarget.position);
+        SetDestination(this.missionTarget);
     }
 
     public void ReleaseTarget()
@@ -344,9 +344,24 @@ public class AIController : MonoBehaviour
         battleTarget = null;
     }
 
-    public void SetDestination(Vector3 vector3)
+    public void SetDestination(Transform target)
     {
-        agent.SetDestination(vector3);
+        Collider col = target.GetComponent<Collider>();
+        Vector3 destination = target.position;
+
+        if (col != null)
+        {
+            var colDir = transform.position - target.position;
+            colDir.Normalize();
+            var colDis = colDir * col.bounds.extents.x;
+            destination += colDis;
+        }
+        agent.SetDestination(destination);
+    }
+
+    public void SetDestination(Vector3 destination)
+    {
+        agent.SetDestination(destination);
     }
 
     public void SetState(States newState)

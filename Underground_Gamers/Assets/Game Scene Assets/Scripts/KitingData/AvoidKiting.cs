@@ -11,6 +11,7 @@ public class AvoidKiting : KitingData
     {
         int attempt = 0;
 
+        // 적이 나를 보는 시야
         Vector3 enemyLook = ctrl.transform.position - target.position;
         enemyLook.Normalize();
 
@@ -28,18 +29,27 @@ public class AvoidKiting : KitingData
             NavMeshHit hit;
             if (NavMesh.SamplePosition(kitingPos, out hit, 1.0f, NavMesh.AllAreas)) // 생성된 위치가 네비메시에 있는지 확인
             {
-                kitingPos = hit.position;
-                ctrl.SetDestination(kitingPos);
-                ctrl.kitingPos = kitingPos;
-                GameObject debugPoint = Instantiate(point, kitingPos, Quaternion.identity);
-                Destroy(debugPoint, 2f);
-
-                return;
+                // SamplePosition으로 네비게이션 매쉬 상에 위치가 확인됨
+                NavMeshPath path = new NavMeshPath();
+                if (NavMesh.CalculatePath(ctrl.transform.position, kitingPos, NavMesh.AllAreas, path))
+                {
+                    // CalculatePath로 경로를 계산하여 이동 가능 여부를 확인
+                    if (path.status == NavMeshPathStatus.PathComplete)
+                    {
+                        // 이동 가능한 경로가 있는 경우
+                        kitingPos = hit.position;
+                        ctrl.SetDestination(kitingPos);
+                        ctrl.kitingPos = kitingPos;
+                        GameObject debugPoint = Instantiate(point, kitingPos, Quaternion.identity);
+                        Destroy(debugPoint, 2f);
+                        return;
+                    }
+                }
             }
 
             attempt++;
         }
 
-        ctrl.SetState(States.Idle);
+        ctrl.SetState(States.Kiting);
     }
 }

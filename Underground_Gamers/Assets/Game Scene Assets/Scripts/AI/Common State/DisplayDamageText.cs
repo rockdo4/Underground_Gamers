@@ -15,7 +15,6 @@ public class DisplayDamageText : MonoBehaviour, IAttackable
         {
             text.color = Color.yellow;
             text.fontSize += 8f;
-            Debug.Log("Critical");
         }
         text.text = attack.Damage.ToString();
     }
