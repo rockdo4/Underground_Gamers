@@ -146,7 +146,7 @@ public abstract class AIState : BaseState
             // 전투중일때는 건물 탐색 제외
             if (colIdentity != null && colIdentity.isBuilding && aiController.isBattle)
                 continue;
-
+            Debug.Log(aiController.occupationIndex);
             if (aiController.priorityByOccupation[aiController.occupationIndex].SetTargetByPriority(aiController, colStatus))
             {
                 //Debug.Log($"Filterd : {col.name}");

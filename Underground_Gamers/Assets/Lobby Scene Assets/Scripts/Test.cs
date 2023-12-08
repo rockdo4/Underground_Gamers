@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
-
 public class Test : MonoBehaviour
 {
     bool init = true;
@@ -12,12 +8,9 @@ public class Test : MonoBehaviour
         {
             for (int i = 0; i < 9; i++)
             {
-                var pl = GamePlayerInfo.instance.AddPlayer(0);
-                pl.xp = 9;
-                pl.level = 1;
                 var pl1 = GamePlayerInfo.instance.AddPlayer(0);
                 pl1.xp = 1;
-                pl.level = 4;
+                pl1.level = 4;
                 var pl2 = GamePlayerInfo.instance.AddPlayer(1);
                 pl2.xp = 3;
                 pl2.level = 3;
@@ -34,6 +27,7 @@ public class Test : MonoBehaviour
                 GamePlayerInfo.instance.XpItem[i] += 5;
             }
             GamePlayerInfo.instance.contractTicket += 300;
+            GamePlayerInfo.instance.crystal += 5000;
             init = false;
         }
     }

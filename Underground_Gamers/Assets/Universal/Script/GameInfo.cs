@@ -90,6 +90,43 @@ public class GameInfo : MonoBehaviour
             stat.reloadCooldown = playerInfo.reloadingSpeed;
             stat.accuracyRate = pt.CalculateCurrStats(playerInfo.accuracy, player.level);
             stat.detectionRange = pt.CalculateCurrStats(playerInfo.detectionRange, player.level) * charactorScale;
+            stat.occupationType = (OccupationType)playerInfo.type;
+            stat.distancePriorityType = DistancePriorityType.Closer;
+
+            switch (stat.occupationType)
+            {
+                case OccupationType.Normal:
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
+                    break;                                   
+                case OccupationType.Assault:                 
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
+                    break;                                   
+                case OccupationType.Sniper:                  
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
+                    break;                                   
+                case OccupationType.Support:                 
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
+                    break;
+                default:
+                    break;
+            }
+            ai.priorityByDistance = stateDefines.distanceTargetPriorityDatas.Find(a => a.code == 0).value;
 
             madePlayer.SetActive(false);
             players.Add(madePlayer);
@@ -120,6 +157,8 @@ public class GameInfo : MonoBehaviour
                 ai.point = playerDestinations[Random.Range(0, playerDestinations.Length - 1)].transform;
             ai.SetDestination(ai.point.position);
 
+
+            player.GetComponent<LookCameraByScale>().SetPlayer();
             player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();
         }
 

@@ -171,3 +171,10 @@ public class KitingDefinitionData
     public int code;
     public KitingData value;
 }
+
+[System.Serializable]
+public class TargetPriorityDefinitionData
+{
+    public int code;
+    public TargetPriority value;
+}
