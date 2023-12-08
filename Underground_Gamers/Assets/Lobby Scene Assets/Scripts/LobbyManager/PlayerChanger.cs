@@ -82,11 +82,17 @@ public class PlayerChanger : MonoBehaviour
                     slot.xpGauge.value = player.xp / player.maxXp;
                     slot.costText.text = player.cost.ToString();
                 }
+                slot.star.sprite = player.grade switch
+                {
+                    3 => pt.starsSprites[0],
+                    4 => pt.starsSprites[1],
+                    5 => pt.starsSprites[2],
+                    _ => pt.starsSprites[0],
+                };
             }
-            
         }
-
     }
+
     public void StartChange(int slotIndex)
     {
         currentSlotIndex = slotIndex;
@@ -119,6 +125,14 @@ public class PlayerChanger : MonoBehaviour
             pb.playerNameCard.text = st.Get($"playerName{player.code}");
             pb.Level.text = $"Lv.{player.level}";
             pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
+            pb.isUsing.gameObject.SetActive(false);
+            pb.stars.sprite = player.grade switch
+            {
+                3 => pt.starsSprites[0],
+                4 => pt.starsSprites[1],
+                5 => pt.starsSprites[2],
+                _ => pt.starsSprites[0],
+            };
             olds.Add(bt);
         }
 
@@ -153,6 +167,13 @@ public class PlayerChanger : MonoBehaviour
                 pb.isUsing.color = Color.green;
                 pb.ID = player.ID;
                 pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
+                pb.stars.sprite = player.grade switch
+                {
+                    3 => pt.starsSprites[0],
+                    4 => pt.starsSprites[1],
+                    5 => pt.starsSprites[2],
+                    _ => pt.starsSprites[0],
+                };
                 oldsPlayerList.Add(bt);
             }
         }
@@ -171,6 +192,13 @@ public class PlayerChanger : MonoBehaviour
             pb.isUsing.color = Color.red;
             pb.ID = player.ID;
             pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
+            pb.stars.sprite = player.grade switch
+            {
+                3 => pt.starsSprites[0],
+                4 => pt.starsSprites[1],
+                5 => pt.starsSprites[2],
+                _ => pt.starsSprites[0],
+            };
             oldsPlayerList.Add(bt);
         }
 

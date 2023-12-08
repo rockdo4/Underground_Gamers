@@ -183,6 +183,8 @@ public class PlayersFilter : MonoBehaviour
         {
             toggles.isOn = false;
         }
+        filterButton.color = Color.white;
+        filterButtonText.text = st.Get("all");
     }
 
     public void ResetSortStandard()

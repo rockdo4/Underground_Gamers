@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerInfoDrawer : MonoBehaviour
 {
+    public GameObject training;
+
     public Image PlayerImage;
     public Image TypeIcon;
     public TMP_Text PlayerName;
@@ -15,6 +18,7 @@ public class PlayerInfoDrawer : MonoBehaviour
 
     public TMP_Text XpVal;
     public Slider XpBar;
+    public Button growB;
     public Transform PlayerCharPos;
     [HideInInspector]
     public GameObject PlayerChar;
@@ -49,6 +53,11 @@ public class PlayerInfoDrawer : MonoBehaviour
         }
 
         PlayerInfo playerInfo = pt.playerDatabase[currPlayer.code];
+        foreach (var item in currPlayer.training)
+        {
+            var ti = pt.GetTrainingInfo(item);
+            ti.AddStats(playerInfo);
+        }
 
         PlayerImage.sprite = pt.GetPlayerFullSprite(currPlayer.code);
         PlayerName.text = currPlayer.name;
@@ -59,22 +68,66 @@ public class PlayerInfoDrawer : MonoBehaviour
         PlayerChar.layer = 10;
         PlayerChar.GetComponent<RectTransform>().localScale = Vector3.one*170;
         PlayerChar.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0,-57,0);
-        StatsInfo[0].text = pt.CalculateCurrStats(playerInfo.hp, currPlayer.level).ToString();
-        StatsInfo[1].text = pt.CalculateCurrStats(playerInfo.atk, currPlayer.level).ToString();
-        StatsInfo[2].text = pt.CalculateCurrStats(playerInfo.atkRate, currPlayer.level).ToString();
-        StatsInfo[3].text = pt.CalculateCurrStats(playerInfo.critical, currPlayer.level).ToString();
-        StatsInfo[4].text = pt.CalculateCurrStats(playerInfo.accuracy, currPlayer.level).ToString();
-        StatsInfo[5].text = pt.CalculateCurrStats(playerInfo.range, currPlayer.level).ToString();
+        StatsInfo[0].text = pt.CalculateCurrStats(playerInfo.hp, currPlayer.level).ToString("F0");
+        StatsInfo[1].text = pt.CalculateCurrStats(playerInfo.atk, currPlayer.level).ToString("F0");
+        StatsInfo[2].text = pt.CalculateCurrStats(playerInfo.atkRate, currPlayer.level).ToString("F1");
+        StatsInfo[3].text = pt.CalculateCurrStats(playerInfo.critical, currPlayer.level).ToString("F1");
+        StatsInfo[4].text = pt.CalculateCurrStats(playerInfo.accuracy, currPlayer.level).ToString("F1");
+        StatsInfo[5].text = pt.CalculateCurrStats(playerInfo.range, currPlayer.level).ToString("F0");
         StatsInfo[6].text = playerInfo.magazine.ToString();
-        StatsInfo[7].text = playerInfo.reloadingSpeed.ToString();
-        StatsInfo[8].text = pt.CalculateCurrStats(playerInfo.moveSpeed, currPlayer.level).ToString();
-        StatsInfo[9].text = pt.CalculateCurrStats(playerInfo.reactionSpeed, currPlayer.level).ToString();
+        StatsInfo[7].text = playerInfo.reloadingSpeed.ToString("F0");
+        StatsInfo[8].text = pt.CalculateCurrStats(playerInfo.moveSpeed, currPlayer.level).ToString("F0");
+        StatsInfo[9].text = pt.CalculateCurrStats(playerInfo.reactionSpeed, currPlayer.level).ToString("F0");
+        Stars.sprite = playerInfo.grade switch
+        {
+            3 => pt.starsSprites[0],
+            4 => pt.starsSprites[1],
+            5 => pt.starsSprites[2],
+            _ => pt.starsSprites[0],
+        };
         TypeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", playerInfo.type.ToString()));
+        if (currPlayer.level <currPlayer.maxLevel)
+        {
+            growB.interactable = true;
+        }
+        else 
+        {
+            growB.interactable = false;
+        }
     }
 
     private void OnDisable()
     {
         Destroy(PlayerChar);
         PlayerChar = null;
+    }
+
+    public void ToPlayerAnalyze()
+    {
+        LobbyUIManager.instance.ActivePlayerListAnyway(false);
+        training.SetActive(true);
+        TrainingUIManager.instance.SetTraining(0);
+
+        List<Player> playerList = new List<Player>();
+        List<Player> usingPlayers = GamePlayerInfo.instance.GetUsingPlayers();
+        foreach (var item in usingPlayers)
+        {
+            if (item.code != -1 && item.level < item.maxLevel)
+            {
+                playerList.Add(item);
+            }
+        }
+        foreach (var item in GamePlayerInfo.instance.havePlayers)
+        {
+            if (item.level < item.maxLevel)
+            {
+                playerList.Add(item);
+            }
+        }
+
+        var sortedPlayerList = playerList.OrderByDescending(p => p.level).ToList();
+        var mta = TrainingUIManager.instance.trainingManagers[0] as ManagerTrainingAnalyze;
+        mta.OpenPlayerGrowInfo(sortedPlayerList.IndexOf(currPlayer));
+        gameObject.SetActive(false);
     }
 }

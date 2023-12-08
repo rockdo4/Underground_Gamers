@@ -67,6 +67,7 @@ public class ManagerRecruitTrade : ManagerRecruit
             st = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
         UpdateMoneyInfo();
+        UpdateMoneyInfo();
         MakeCards();
         gameObject.SetActive(true);
 
@@ -75,6 +76,7 @@ public class ManagerRecruitTrade : ManagerRecruit
     public override void OnExit()
     {
         gameObject.SetActive(false);
+        LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
 
@@ -218,7 +220,13 @@ public class ManagerRecruitTrade : ManagerRecruit
         popupCompleteTexts[0].text = info.name;
         popupCompleteTexts[1].text = $"{info.name}{st.Get("with1")} {currcost}{st.Get("recruit_with_tradepoint")}";
         popupCompleteImages[0].sprite = pt.GetPlayerSprite(info.code);
-
+        popupCompleteImages[1].sprite = info.grade switch
+        {
+            3 => pt.starsSprites[0],
+            4 => pt.starsSprites[1],
+            5 => pt.starsSprites[2],
+            _ => pt.starsSprites[0],
+        };
         MakeCards();
         UpdateMoneyInfo();
         popupCompleteRecruit.SetActive(true);
@@ -228,6 +236,7 @@ public class ManagerRecruitTrade : ManagerRecruit
     {
         moneyListText[0].text = GamePlayerInfo.instance.crystal.ToString();
         moneyListText[1].text = GamePlayerInfo.instance.contractTicket.ToString();
+        LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
     public void Update()

@@ -45,6 +45,11 @@ public class GameInfo : MonoBehaviour
         {
             var player = usePlayer[i];
             PlayerInfo playerInfo = pt.GetPlayerInfo(player.code);
+            foreach (var item in player.training)
+            {
+                var ti = pt.GetTrainingInfo(item);
+                ti.AddStats(playerInfo);
+            }
             var madePlayer = Instantiate(playerObj);
             madePlayer.AddComponent<DontDestroy>();
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{player.code}")), madePlayer.transform);

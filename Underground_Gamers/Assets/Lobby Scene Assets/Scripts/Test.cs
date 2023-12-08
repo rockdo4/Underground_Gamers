@@ -26,6 +26,7 @@ public class Test : MonoBehaviour
             {
                 GamePlayerInfo.instance.XpItem[i] += 5;
             }
+            GamePlayerInfo.instance.money += 30000;
             GamePlayerInfo.instance.contractTicket += 300;
             GamePlayerInfo.instance.crystal += 5000;
             init = false;

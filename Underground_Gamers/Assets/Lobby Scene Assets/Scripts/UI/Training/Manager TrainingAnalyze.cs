@@ -10,6 +10,10 @@ public class ManagerTrainingAnalyze : ManagerTraining
 {
     [SerializeField]
     private SwipeDetector swipeDetector;
+    [SerializeField]
+    private GameObject popupMoneyWarning;
+    [SerializeField]
+    private List<TMP_Text> popupMoneyWarningTexts;
 
     [Space(10f)]
     [Header("Left")]
@@ -136,6 +140,21 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
             int index = count++;
             bt.GetComponent<Button>().onClick.AddListener(() => OpenPlayerGrowInfo(index));
+            if (player.breakthrough <= 0)
+            {
+                card.breakImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                card.breakImage.gameObject.SetActive(true);
+                card.breakImage.sprite = player.breakthrough switch
+                {
+                    1 => pt.berakSprites[0],
+                    2 => pt.berakSprites[1],
+                    3 => pt.berakSprites[2],
+                    _ => pt.berakSprites[0],
+                };
+            }
             MadeBList.Add(bt);
         }
 
@@ -313,6 +332,28 @@ public class ManagerTrainingAnalyze : ManagerTraining
         growInfoDatas[10].text = $"{pt.CalculateCurrStats(currPlayerInfo.accuracy, currlevel).ToString("F0")}";
     }
 
+    public void TryAnalyze()
+    {
+        if(!GamePlayerInfo.instance.UseMoney(currCost, 0, 0))
+        {
+            string messege = "";
+            string submessege = st.Get("recruitMoneyLackMessegeCurr");
+
+            messege += $" {st.Get("money")} {currCost - GamePlayerInfo.instance.money}{st.Get("count")}";
+            submessege += $" {st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")}";
+
+            messege += st.Get("recruitMoneyLackMessege");
+            popupMoneyWarningTexts[0].text = messege;
+            popupMoneyWarningTexts[1].text = submessege;
+            popupMoneyWarning.SetActive(true);
+            return;
+        }
+        else
+        {
+            StartAnalyze();
+        }
+    }
+
     public void StartAnalyze()
     {
         GamePlayerInfo.instance.AnalyzePlayer(currPlayer, currlevel, currXp, currMaxXp);
@@ -331,5 +372,6 @@ public class ManagerTrainingAnalyze : ManagerTraining
         {
             popupFullLevel.SetActive(true);
         }
+        LobbyUIManager.instance.UpdateMoneyInfo();
     }
 }

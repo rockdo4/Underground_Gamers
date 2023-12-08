@@ -8,9 +8,11 @@ using UnityEngine.UI;
 public class ManagerRecruitRecruiting : ManagerRecruit
 {
     [SerializeField]
+    private List<Toggle> toggleList;
+    [SerializeField]
     private GameObject moneyList;
     [SerializeField]
-    private List<TMP_Text> moneyListText;
+    private TMP_Text moneyListText;
     [Space(5f)]
     [Header("Recruit")]
     public Image recruitImage;
@@ -56,6 +58,7 @@ public class ManagerRecruitRecruiting : ManagerRecruit
     private Transform recruitEffrctPos;
     [SerializeField]
     public GameObject recruitEffrctWindow;
+    [SerializeField]
     private Image recruitEffrctStars;
     [SerializeField]
     private TMP_Text recruitEffrctName;
@@ -76,19 +79,22 @@ public class ManagerRecruitRecruiting : ManagerRecruit
 
     public override void OnEnter()
     {
+        currCode = defaultRecruitCode;
         gameObject.SetActive(true);
+        toggleList[0].isOn = true;
         ResetIndex();
+        UpdateMoneyInfo();
     }
 
     public override void OnExit()
     {
         gameObject.SetActive(false);
+        LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
     public void ResetIndex()
     {
-        currCode = defaultRecruitCode;
-        ShowIndex(defaultRecruitCode);
+        ShowIndex(currCode);
         UpdateMoneyInfo();
     }
 
@@ -105,8 +111,8 @@ public class ManagerRecruitRecruiting : ManagerRecruit
 
         recruitImage.sprite = Resources.Load<Sprite>(Path.Combine("RecruitSprite", currCode.ToString()));
         recruitInfo.text = info.info;
-        MoneyText1.text = $"{info.money} {info.crystal} {info.contractTicket}";
-        MoneyText10.text = $"{info.money * 10} {info.crystal * 10} {info.contractTicket * 10}";
+        MoneyText1.text = $"{info.crystal}";
+        MoneyText10.text = $"{info.crystal * 10}";
     }
 
     public void TryRecruit(int count)
@@ -208,7 +214,16 @@ public class ManagerRecruitRecruiting : ManagerRecruit
             GamePlayerInfo.instance.AddMoney(0, 0, 1);
 
             var card = Instantiate(recruitCardPrefab, recruitCardPos);
-            card.GetComponent<RecruitCards>().image.sprite = pt.GetPlayerSprite(i);
+            var rc = card.GetComponent<RecruitCards>();
+            rc.image.sprite = pt.GetPlayerSprite(i);
+            PlayerInfo playerInfo = pt.playerDatabase[i];
+            rc.stars.sprite = playerInfo.grade switch
+            {
+                3 => pt.starsSprites[0],
+                4 => pt.starsSprites[1],
+                5 => pt.starsSprites[2],
+                _ => pt.starsSprites[0],
+            };
             int grade = pt.GetPlayerInfo(i).grade;
             if (grade >= 5)
             {
@@ -255,15 +270,18 @@ public class ManagerRecruitRecruiting : ManagerRecruit
         recruitEffrctCharImage.sprite = pt.GetPlayerFullSprite(currMakeCode);
         recruitEffrctTypeImage.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", pi.type.ToString()));
         recruitEffrctName.text = pi.name;
+        recruitEffrctStars.sprite = pi.grade switch
+        {
+            3 => pt.starsSprites[0],
+            4 => pt.starsSprites[1],
+            5 => pt.starsSprites[2],
+            _ => pt.starsSprites[0],
+        };
     }
 
     public void UpdateMoneyInfo()
     {
-        if (moneyListText.Count >= 3)
-        {
-            moneyListText[0].text = GamePlayerInfo.instance.money.ToString();
-            moneyListText[1].text = GamePlayerInfo.instance.crystal.ToString();
-            moneyListText[2].text = GamePlayerInfo.instance.contractTicket.ToString();
-        }
+        moneyListText.text = GamePlayerInfo.instance.crystal.ToString();
+        LobbyUIManager.instance.UpdateMoneyInfo();
     }
 }
