@@ -313,6 +313,10 @@ public class ManagerTrainingAnalyze : ManagerTraining
         growInfoDatas[10].text = $"{pt.CalculateCurrStats(currPlayerInfo.accuracy, currlevel).ToString("F0")}";
     }
 
+    public void TryAnalyze()
+    {
+
+    }
     public void StartAnalyze()
     {
         GamePlayerInfo.instance.AnalyzePlayer(currPlayer, currlevel, currXp, currMaxXp);

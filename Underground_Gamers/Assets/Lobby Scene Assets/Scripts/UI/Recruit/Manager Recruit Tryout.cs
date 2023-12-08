@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class ManagerRecruitTryout : ManagerRecruit
 {
     [SerializeField]
+    private List<Toggle> toggleList;
+    [SerializeField]
     private GameObject moneyList;
     [SerializeField]
     private TMP_Text moneyListText;
@@ -99,19 +101,22 @@ public class ManagerRecruitTryout : ManagerRecruit
     }
     public override void OnEnter()
     {
+        UpdateMoneyInfo();
+        currCode = defaultRecruitCode;
         gameObject.SetActive(true);
+        toggleList[0].isOn = true;
         ResetIndex();
     }
 
     public override void OnExit()
     {
         gameObject.SetActive(false);
+        LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
     public void ResetIndex()
     {
-        currCode = defaultRecruitCode;
-        ShowIndex(defaultRecruitCode);
+        ShowIndex(currCode);
         UpdateMoneyInfo();
     }
 
@@ -129,7 +134,7 @@ public class ManagerRecruitTryout : ManagerRecruit
         recruitImage.sprite = Resources.Load<Sprite>(Path.Combine("RecruitSprite", currCode.ToString()));
         recruitInfo.text = info.info;
         MoneyText5.text = $"{info.crystal}";
-        ticketRewardText.text = currReward.ToString();
+        ticketRewardText.text = GamePlayerInfo.instance.contractTicket.ToString();
     }
 
     public void TryTryout()
@@ -314,6 +319,8 @@ public class ManagerRecruitTryout : ManagerRecruit
     public void UpdateMoneyInfo()
     {
         moneyListText.text = GamePlayerInfo.instance.crystal.ToString();
+        ticketRewardText.text = GamePlayerInfo.instance.contractTicket.ToString();
+        LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
 }

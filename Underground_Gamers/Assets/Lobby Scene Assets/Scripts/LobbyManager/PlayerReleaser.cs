@@ -22,6 +22,8 @@ public class PlayerReleaser : MonoBehaviour
     private static PlayerReleaser playerReleaser;
 
     [SerializeField]
+    private List<int> releaseCost;
+    [SerializeField]
     private TMP_Text selectCountText;
     [SerializeField]
     private TMP_Text releaseRewardText;
@@ -47,6 +49,9 @@ public class PlayerReleaser : MonoBehaviour
     private List<Player> usingReleasePlayers = new List<Player>();
     private List<Player> releasePlayers = new List<Player>();
 
+    private StringTable st;
+
+    private int rewardSum = 0;
     private void Awake()
     {
         isReleaseMod = false;
@@ -55,18 +60,29 @@ public class PlayerReleaser : MonoBehaviour
         usingReleasePlayers = new List<Player>();
         releasePlayers = new List<Player>();
     }
+
+    private void Start()
+    {
+        st = DataTableManager.instance.Get<StringTable>(DataType.String);
+    }
     public void StartReleaseMod()
     {
+        if (st == null)
+        {
+            st = DataTableManager.instance.Get<StringTable>(DataType.String);
+        }
         isReleaseMod = true;
+        selectCountText.text = st.Get("curr_selected_player") + ": 0/10";
     }
     public void EndReleaseMod()
     {
         isReleaseMod = false;
+        PlayerChanger.instance.SlotChecker();
         CancelSelect();
     }
     public void SelectForReleaseFunc(PlayerButtons playerButtons)
     {
-        if (!isReleaseMod || btList.Count >= 10) { return; }
+        if (!isReleaseMod || (btList.Count >= 10 && !playerButtons.willRelease)) { return; }
         playerButtons.SetReleaseSelect();
         if (playerButtons.willRelease) 
         {
@@ -84,6 +100,7 @@ public class PlayerReleaser : MonoBehaviour
         bool isAvailableButtons = btList.Count > 0;
         relesaseAllButton.interactable = isAvailableButtons;
         relesaseStartButton.interactable = isAvailableButtons;
+        selectCountText.text = st.Get("curr_selected_player") + $": {btList.Count}/10";
     }
 
     public void SelectAllForRelease()
@@ -93,6 +110,7 @@ public class PlayerReleaser : MonoBehaviour
         {
             if (btList.Count>=10)
             {
+                ButtonChecker();
                 return;
             }
             if (item.willRelease)
@@ -114,12 +132,47 @@ public class PlayerReleaser : MonoBehaviour
         btList.Clear();
         relesaseAllButton.interactable = false;
         relesaseStartButton.interactable= false;
+        if (st == null)
+        {
+            st = DataTableManager.instance.Get<StringTable>(DataType.String);
+        }
+        selectCountText.text = st.Get("curr_selected_player") + ": 0/10";
     }
 
     public void MakeReleaseCheckCards(bool on)
     {
         if (on)
         {
+            rewardSum = 0;
+            var pl1 = from a in GamePlayerInfo.instance.havePlayers
+                      join b in btList on a.ID equals b.ID
+                      select a;
+            var pl2 = from a in GamePlayerInfo.instance.usingPlayers
+                      join b in btList on a.ID equals b.ID
+                      select a;
+            releasePlayers = pl1.ToList();
+            usingReleasePlayers = pl2.ToList();
+
+            foreach (var player in releasePlayers)
+            {
+                rewardSum += player.grade switch
+                {
+                    3 => releaseCost[0],
+                    4 => releaseCost[1],
+                    5 => releaseCost[2],
+                    _ => releaseCost[1],
+                };
+            }
+            foreach (var player in usingReleasePlayers)
+            {
+                rewardSum += player.grade switch
+                {
+                    3 => releaseCost[0],
+                    4 => releaseCost[1],
+                    5 => releaseCost[2],
+                    _ => releaseCost[1],
+                };
+            }
             foreach (var item in btList)
             {
                 var copyB = Instantiate(item, relesaseCheckCardsPos);
@@ -127,6 +180,7 @@ public class PlayerReleaser : MonoBehaviour
                 copyB.gameObject.SetActive(true);
                 buttonCopys.Add(copyB.gameObject);
             }
+            releaseRewardText.text = rewardSum.ToString();
         }
         else
         {
@@ -135,21 +189,13 @@ public class PlayerReleaser : MonoBehaviour
                 Destroy(item);
             }
             buttonCopys.Clear();
+
         }
     }
 
     public void TryRelease()
     {
         bool isHighLevel = false;
-        var pl1 = from a in GamePlayerInfo.instance.havePlayers
-                  join b in btList on a.ID equals b.ID
-                 select a;
-        var pl2 = from a in GamePlayerInfo.instance.usingPlayers
-                  join b in btList on a.ID equals b.ID
-                  select a;
-        releasePlayers = pl1.ToList();
-        usingReleasePlayers = pl2.ToList();
-
         foreach (var player in releasePlayers)
         {
             if (player.grade > 3 || player.level > 1)
@@ -196,6 +242,8 @@ public class PlayerReleaser : MonoBehaviour
         }
         buttonCopys.Clear();
         releasePlayers.Clear();
+        GamePlayerInfo.instance.AddMoney(0, 0, rewardSum);
+        LobbyUIManager.instance.UpdateMoneyInfo();
         ButtonChecker();
     }
 }

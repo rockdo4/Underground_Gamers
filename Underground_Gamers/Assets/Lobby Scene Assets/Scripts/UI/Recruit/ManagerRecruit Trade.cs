@@ -67,6 +67,7 @@ public class ManagerRecruitTrade : ManagerRecruit
             st = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
         UpdateMoneyInfo();
+        UpdateMoneyInfo();
         MakeCards();
         gameObject.SetActive(true);
 
@@ -75,6 +76,7 @@ public class ManagerRecruitTrade : ManagerRecruit
     public override void OnExit()
     {
         gameObject.SetActive(false);
+        LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
 
@@ -228,6 +230,7 @@ public class ManagerRecruitTrade : ManagerRecruit
     {
         moneyListText[0].text = GamePlayerInfo.instance.crystal.ToString();
         moneyListText[1].text = GamePlayerInfo.instance.contractTicket.ToString();
+        LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
     public void Update()
