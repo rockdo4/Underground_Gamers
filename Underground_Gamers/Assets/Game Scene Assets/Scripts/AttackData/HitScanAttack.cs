@@ -26,6 +26,7 @@ public class HitScanAttack : AttackDefinition
 
         lineRen.SetPosition(0, attackPos);
         lineRen.SetPosition(1, hitPos);
+        lineRen.GetComponent<HitScan>().SetHitScan(attackPos, hitPos);
         GameObject muzzleEffect = Instantiate(muzzlePrefab, attackPos, attackAI.firePos.rotation);
         Destroy(muzzleEffect, 1f);
 
