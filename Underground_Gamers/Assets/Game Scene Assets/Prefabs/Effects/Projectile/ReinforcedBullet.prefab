@@ -29725,7 +29725,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.202, z: 0.373}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1547181434463385298}
@@ -29748,6 +29748,7 @@ MonoBehaviour:
   criticalMultiplier: 1.3
   minDamageRate: 0.8
   maxDamageRate: 1.2
+  colEffectPrefab: {fileID: 0}
   status: {fileID: -8406716739506422023}
 --- !u!114 &-8406716739506422023
 MonoBehaviour:
@@ -29761,6 +29762,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925a18db92d81504cbbfe988d8db1823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupationType: 0
+  distancePriorityType: 0
   maxHp: 0
   speed: 0
   sight: 0
@@ -29781,6 +29784,8 @@ MonoBehaviour:
   respawnTimeIncreaseRate: 0
   lifeCycle: 0
   isPenetrating: 0
+  isAreaAttack: 0
+  explosionRange: 0
 --- !u!136 &5901197406574711692
 CapsuleCollider:
   m_ObjectHideFlags: 0

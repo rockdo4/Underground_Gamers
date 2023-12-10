@@ -64,7 +64,7 @@ public class TraceState : AIState
             SearchTargetInDetectionRange();
             SearchTargetInSector();
 
-            aiController.SetDestination(aiController.battleTarget);
+            //aiController.SetDestination(aiController.battleTarget);
         }
 
         //if (lastDetectTime + aiController.detectTime < Time.time)

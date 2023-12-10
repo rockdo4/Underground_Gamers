@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public enum OccupationType
 {
@@ -219,8 +220,19 @@ public class AIController : MonoBehaviour
             {
                 return 0f;
             }
+
+
             Vector3 targetPos = battleTarget.transform.position;
             targetPos.y = transform.position.y;
+
+            Collider col = battleTarget.GetComponent<Collider>();
+            if (col != null)
+            {
+                var colDir = transform.position - targetPos;
+                colDir.Normalize();
+                var colDis = colDir * col.bounds.extents.x;
+                targetPos += colDis;
+            }
             return Vector3.Distance(transform.position, targetPos);
         }
     }
@@ -288,7 +300,7 @@ public class AIController : MonoBehaviour
             Reload();
         }
 
-        if (!isBattle && lastSupportTime + supportTime < Time.time)
+        if (!isBattle && lastSupportTime + supportTime < Time.time && !isReloading)
         {
             lastSupportTime = Time.time;
             SupportTeam();
@@ -348,10 +360,10 @@ public class AIController : MonoBehaviour
     {
         Collider col = target.GetComponent<Collider>();
         Vector3 destination = target.position;
-
+        destination.y = transform.position.y;
         if (col != null)
         {
-            var colDir = transform.position - target.position;
+            var colDir = transform.position - destination;
             colDir.Normalize();
             var colDis = colDir * col.bounds.extents.x;
             destination += colDis;
