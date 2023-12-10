@@ -407,6 +407,7 @@ public class AIController : MonoBehaviour
         canvas.reloadBar.value = time;
     }
 
+
     public void TryReloading()
     {
         canvas.reloadBar.gameObject.SetActive(true);

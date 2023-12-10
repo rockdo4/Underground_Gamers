@@ -6,8 +6,5 @@ using UnityEngine.UI;
 public class AICanvas : MonoBehaviour
 {
     public Slider reloadBar;
-    public void GetReloadTime(float time)
-    {
-        
-    }
+    public Slider hpBar;
 }
