@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public bool IsPlaying {  get; set; }
+    public bool IsPlaying { get; set; }
+    public bool IsTimeOut { get; set; }
     public bool IsPaused { get; set; }
     public bool IsPlayerWin { get; set; }
     public AIManager aiManager;
@@ -15,14 +16,54 @@ public class GameManager : MonoBehaviour
     public float timer;
     public float endTime;
 
+    public float gameTimer;
+    public float gameTime;
+    public TextMeshProUGUI gameTimeText;
+    public CharacterStatus pcNexus;
+    public CharacterStatus npcNexus;
+
     private void Awake()
     {
         PlayingGame();
+
+    }
+
+    private void DisplayGameTimer(float time)
+    {
+        int min = Mathf.RoundToInt(time) / 60;
+        int second = Mathf.RoundToInt(time) % 60;
+        gameTimeText.text = $"{min:D2} : {second:D2}";
     }
 
     private void Update()
     {
-        if(!IsPlaying)
+        if (IsPlaying)
+        {
+            gameTimer -= Time.deltaTime;
+            DisplayGameTimer(gameTimer);
+        }
+
+        if (gameTimer < 0f)
+        {
+            IsTimeOut = true;
+        }
+
+        if (IsTimeOut)
+        {
+            // 같은 경우는?
+            if (pcNexus.Hp > npcNexus.Hp)
+            {
+                IsPlayerWin = true;
+            }
+            else
+            {
+                IsPlayerWin = false;
+            }
+
+            EndGame();
+        }
+
+        if (!IsPlaying && !IsTimeOut)
         {
             if (timer + endTime < Time.time)
                 EndGame();
@@ -32,14 +73,17 @@ public class GameManager : MonoBehaviour
     public void PlayingGame()
     {
         IsPlaying = true;
+        IsTimeOut = false;
         gameEndPannel.gameObject.SetActive(false);
         Time.timeScale = 1f;
+        gameTimer = gameTime;
+
     }
 
     public void EndGame()
     {
         IsPlaying = false;
-        if(IsPlayerWin)
+        if (IsPlayerWin)
         {
             gameEndPannel.winText.gameObject.SetActive(true);
             gameEndPannel.LoseText.gameObject.SetActive(false);

@@ -139,7 +139,7 @@ public class GameInfo : MonoBehaviour
         var endPos = GameObject.FindGameObjectsWithTag("EnemyStartPos");
 
         // 수정 할 곳
-        var playerDestinations = GameObject.FindGameObjectsWithTag("NPCTower");
+        var buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
 
         if (startPos.Length < 1)
         {
@@ -152,11 +152,16 @@ public class GameInfo : MonoBehaviour
             player.transform.position = spawnPos;
             player.SetActive(true);
 
-            var ai = player.GetComponent<AIController>();
-            if (playerDestinations != null)
-                ai.point = playerDestinations[Random.Range(0, playerDestinations.Length - 1)].transform;
-            ai.SetDestination(ai.point);
+            // 이곳에서 할당 안하도록 구성
+            //var ai = player.GetComponent<AIController>();
+            //if (buildingManager != null)
+            //    ai.point = buildingManager[Random.Range(0, buildingManager.Length - 1)].transform;
+            //ai.SetDestination(ai.point);
 
+            var ai = player.GetComponent<AIController>();
+            if (buildingManager != null)
+                ai.point = buildingManager.GetPoint(Line.Bottom, TeamType.PC);
+            ai.SetDestination(ai.point);
 
             player.GetComponent<LookCameraByScale>().SetPlayer();
             player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();

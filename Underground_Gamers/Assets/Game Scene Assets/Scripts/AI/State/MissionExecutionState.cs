@@ -84,7 +84,7 @@ public class MissionExecutionState : AIState
             SearchTargetInDetectionRange();
             SearchTargetInSector();
 
-            aiController.SetDestination(aiController.missionTarget);
+            aiController.SetDestination(aiController.missionTarget.position);
         }
     }
 }

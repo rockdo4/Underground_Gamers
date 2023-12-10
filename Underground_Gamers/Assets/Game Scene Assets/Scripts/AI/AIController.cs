@@ -50,6 +50,7 @@ public enum SkillActionTypes
     Active,
     Passive,
 }
+
 public class AIController : MonoBehaviour
 {
     public NavMeshAgent agent;
@@ -347,7 +348,10 @@ public class AIController : MonoBehaviour
         //    }
         //    BattleTargetEventBus.Subscribe(status, ReleaseTarget);
         //}
-        SetDestination(this.missionTarget);
+
+        this.missionTarget = target;
+
+        SetDestination(this.missionTarget.position);
     }
 
     public void ReleaseTarget()

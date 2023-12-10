@@ -11,20 +11,16 @@ public enum Line
 
 public class WayPoint : MonoBehaviour
 {
-    public GameObject bottomWayPoint;
-    public GameObject topWayPoint;
+    public GameObject topZone;
+    public GameObject bottomZone;
+    [Tooltip("0번째 인덱스 제외")]
 
-    [Tooltip("0번 인덱스 제외")]
     public Transform[] bottomWayPoints;
-    [Tooltip("0번 인덱스 제외")]
     public Transform[] topWayPoints;
 
     private void Awake()
     {
-        bottomWayPoint = transform.GetChild(1).gameObject;
-        topWayPoint = transform.GetChild(0).gameObject;
-
-        bottomWayPoints = bottomWayPoint.GetComponentsInChildren<Transform>();
-        topWayPoints = topWayPoint.GetComponentsInChildren<Transform>();
+        topWayPoints = topZone.GetComponentsInChildren<Transform>();
+        bottomWayPoints = bottomZone.GetComponentsInChildren<Transform>();
     }
 }

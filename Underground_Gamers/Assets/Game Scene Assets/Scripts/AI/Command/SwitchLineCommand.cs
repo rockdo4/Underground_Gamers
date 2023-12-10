@@ -13,7 +13,7 @@ public class SwitchLineCommand : Command
         int line = (int)ai.currentLine;
         line++;
         ai.currentLine = (Line)(line % (int)Line.Count);
-        
+
         Transform[] wayPoints = ai.currentLine switch
         {
             Line.Bottom => wayPoint.bottomWayPoints,
@@ -22,7 +22,7 @@ public class SwitchLineCommand : Command
         };
 
         Transform lineWayPoint = Utils.FindNearestPoint(ai, wayPoints);
-        if(lineWayPoint != null )
+        if (lineWayPoint != null)
         {
             ai.SetMissionTarget(lineWayPoint);
         }
