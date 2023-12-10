@@ -79,7 +79,7 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
             {
                 foreach (var destroyable in destroyables)
                 {
-                    destroyable.DestoryObject();
+                    destroyable.DestoryObject(attacker);
                 }
             }
             if (respawnables != null)

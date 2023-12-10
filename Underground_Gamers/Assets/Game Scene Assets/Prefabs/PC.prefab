@@ -576,6 +576,8 @@ GameObject:
   - component: {fileID: 1005251339509606251}
   - component: {fileID: 2922528968906418525}
   - component: {fileID: 4849755931640836790}
+  - component: {fileID: 8397075612885911942}
+  - component: {fileID: 2944112252538899059}
   m_Layer: 6
   m_Name: PC
   m_TagString: Untagged
@@ -849,6 +851,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 0.3
+--- !u!114 &8397075612885911942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281770148374587240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337f83062b3fcb542b6d59da449ade31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portrait: {fileID: 0}
+--- !u!114 &2944112252538899059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281770148374587240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e38ea21d70d24b1429d3fa03390db362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killLog: {fileID: 6949158583461082337, guid: 83023749b63dad14bb7b6278ad590b64, type: 3}
+  killerPortrait: {fileID: 0}
+  deadPortrait: {fileID: 0}
 --- !u!1 &8019700359432782058
 GameObject:
   m_ObjectHideFlags: 0

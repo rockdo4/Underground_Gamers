@@ -159,10 +159,12 @@ public class GameInfo : MonoBehaviour
             //ai.SetDestination(ai.point);
 
             var ai = player.GetComponent<AIController>();
+            var portrait = player.GetComponent<Portrait>();
             if (buildingManager != null)
                 ai.point = buildingManager.GetPoint(Line.Bottom, TeamType.PC);
             ai.SetDestination(ai.point);
 
+            portrait.SetPortrait(ai.spum);
             player.GetComponent<LookCameraByScale>().SetPlayer();
             player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();
         }

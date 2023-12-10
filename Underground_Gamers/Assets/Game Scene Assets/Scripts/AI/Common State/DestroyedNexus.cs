@@ -13,7 +13,7 @@ public class DestroyedNexus : MonoBehaviour, IDestroyable
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
-    public void DestoryObject()
+    public void DestoryObject(GameObject attacker)
     {
         if (identity != null)
         {

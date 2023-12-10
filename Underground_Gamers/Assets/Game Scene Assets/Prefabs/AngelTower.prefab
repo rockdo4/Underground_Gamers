@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 1939932745807315877}
   - component: {fileID: 5465968351616910825}
   - component: {fileID: 1250156033548493875}
+  - component: {fileID: 9216465213051420074}
+  - component: {fileID: 1318933723596326106}
   m_Layer: 6
   m_Name: AngelTower
   m_TagString: Untagged
@@ -221,3 +223,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageText: {fileID: 3413788427445076640, guid: 7d2431464ac41a44091c713e5128f161, type: 3}
   OffsetText: 5
+--- !u!114 &9216465213051420074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334130864156256545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337f83062b3fcb542b6d59da449ade31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portrait: {fileID: 0}
+--- !u!114 &1318933723596326106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334130864156256545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e38ea21d70d24b1429d3fa03390db362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killLogPanel: {fileID: 0}
+  killLog: {fileID: 1420138695407371432, guid: 83023749b63dad14bb7b6278ad590b64, type: 3}
+  killerPortrait: {fileID: 0}
+  deadPortrait: {fileID: 0}

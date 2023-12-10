@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 3488016278873408897}
   - component: {fileID: 3733484578026217263}
   - component: {fileID: 1920014213814198572}
+  - component: {fileID: 4376803256672012925}
+  - component: {fileID: 3023768620251760173}
   m_Layer: 6
   m_Name: KnightTower
   m_TagString: Untagged
@@ -205,3 +207,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageText: {fileID: 3413788427445076640, guid: 7d2431464ac41a44091c713e5128f161, type: 3}
   OffsetText: 5
+--- !u!114 &4376803256672012925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6793283866710443816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337f83062b3fcb542b6d59da449ade31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portrait: {fileID: 0}
+--- !u!114 &3023768620251760173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6793283866710443816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e38ea21d70d24b1429d3fa03390db362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killLog: {fileID: 6949158583461082337, guid: 83023749b63dad14bb7b6278ad590b64, type: 3}
+  killerPortrait: {fileID: 0}
+  deadPortrait: {fileID: 0}

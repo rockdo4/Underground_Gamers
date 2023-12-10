@@ -392,6 +392,8 @@ GameObject:
   - component: {fileID: 4494870755969772782}
   - component: {fileID: 3023383994762638817}
   - component: {fileID: 3634509330820221609}
+  - component: {fileID: 7999683682507929584}
+  - component: {fileID: 6207844426544422049}
   m_Layer: 7
   m_Name: NPC
   m_TagString: Untagged
@@ -665,6 +667,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 0.3
+--- !u!114 &7999683682507929584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378083268255723418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337f83062b3fcb542b6d59da449ade31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portrait: {fileID: 0}
+--- !u!114 &6207844426544422049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378083268255723418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e38ea21d70d24b1429d3fa03390db362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killLog: {fileID: 6949158583461082337, guid: 83023749b63dad14bb7b6278ad590b64, type: 3}
+  killerPortrait: {fileID: 0}
+  deadPortrait: {fileID: 0}
 --- !u!1 &7964492262612399490
 GameObject:
   m_ObjectHideFlags: 0
