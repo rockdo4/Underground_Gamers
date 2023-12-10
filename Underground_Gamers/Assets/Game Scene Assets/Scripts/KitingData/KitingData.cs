@@ -7,6 +7,7 @@ public class KitingData : ScriptableObject
 {
     public float kitingSpeed;
     public float kitingCoolTime;
+    public int attemp;
 
     public virtual void UpdateKiting(Transform target, AIController ctrl)
     {

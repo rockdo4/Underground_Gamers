@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public static class Utils
 {
-    public static Vector3 RandomPointInCircle(float radius, Transform target)
+    public static bool RandomPointInNav(Vector3 center, float range, int attemp, out Vector3 result)
     {
-        float randomAngle = Random.Range(0, Mathf.PI * 2f);
-        float x = radius * Mathf.Cos(randomAngle);
-        float z = radius * Mathf.Sin(randomAngle);
-
-        Vector3 randomPoint = new Vector3(x, 0, z);
-        randomPoint += target.transform.position;
-        return randomPoint;
+        for (int i = 0; i < attemp; i++)
+        {
+            Vector3 randomPoint = center + Random.insideUnitSphere * range;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+        }
+        result = center;
+        return false;
     }
 
     public static Transform FindNearestPoint(AIController ai, Transform[] paths)
@@ -22,7 +28,7 @@ public static class Utils
         float nearestDistance = float.MaxValue;
 
         // 0번째 path는 제외
-        for(int i = 1; i < paths.Length; ++i)
+        for (int i = 1; i < paths.Length; ++i)
         {
             //ai.SetDestination(paths[i].position);
             //if (nearestRemainingDistance > ai.agent.remainingDistance)
