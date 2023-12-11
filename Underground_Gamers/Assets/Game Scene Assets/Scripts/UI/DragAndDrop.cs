@@ -20,6 +20,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
+        
         isDragging = true;
         prevPos = transform.position;
         transform.position = eventData.position;

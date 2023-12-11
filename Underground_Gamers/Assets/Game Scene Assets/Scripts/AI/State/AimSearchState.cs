@@ -39,12 +39,14 @@ public class AimSearchState : AIState
             SearchTargetInDetectionRange();
             SearchTargetInSector();
 
-            //agent.SetDestination(aiController.battleTarget.position);
         }
-
-
+    
+        
         if (aiController.battleTarget == null)
-            aiController.SetState(States.Idle);
+        {
+            aiController.SetState(States.MissionExecution);
+            return;
+        }
 
         if (aiController.RaycastToTarget)
         {
@@ -57,7 +59,5 @@ public class AimSearchState : AIState
             aiController.SetState(States.MissionExecution);
             return;
         }
-
-
     }
 }

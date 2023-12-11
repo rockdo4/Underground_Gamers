@@ -7,7 +7,7 @@ public class DestroyedObject : MonoBehaviour, IDestroyable
     public ParticleSystem particlePrefab;
     public ParticleSystem[] aiParticlePrefabs;
 
-    public void DestoryObject()
+    public void DestoryObject(GameObject attacker)
     {
         GameManager gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         if (!gameManager.IsPlaying && gameManager != null)

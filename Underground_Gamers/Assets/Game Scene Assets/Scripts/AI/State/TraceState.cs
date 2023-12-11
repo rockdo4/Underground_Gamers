@@ -39,17 +39,16 @@ public class TraceState : AIState
             return;
         }
 
-
-
         if (aiController.battleTarget == null)
         {
             aiController.SetState(States.MissionExecution);
+            return;
         }
 
-        if(lastDetectTime + aiController.detectTime < Time.time && aiController.battleTarget != null)
-        {
-            aiController.SetDestination(aiController.battleTarget.position);
-        }
+        //if(lastDetectTime + aiController.detectTime < Time.time && aiController.battleTarget != null)
+        //{
+        //    aiController.SetDestination(aiController.battleTarget);
+        //}
 
         if(aiController.DistanceToBattleTarget < aiStatus.range)
         {
@@ -57,7 +56,7 @@ public class TraceState : AIState
             return;
         }
 
-        if (lastDetectTime + aiController.detectTime < Time.time)
+        if (lastDetectTime + aiController.detectTime < Time.time && aiController.battleTarget != null)
         {
             lastDetectTime = Time.time;
 
@@ -65,7 +64,7 @@ public class TraceState : AIState
             SearchTargetInDetectionRange();
             SearchTargetInSector();
 
-            agent.SetDestination(aiController.battleTarget.position);
+            //aiController.SetDestination(aiController.battleTarget);
         }
 
         //if (lastDetectTime + aiController.detectTime < Time.time)

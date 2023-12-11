@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDestroyable
 {
-    public void DestoryObject();
+    public void DestoryObject(GameObject attacker);
 }

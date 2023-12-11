@@ -35,12 +35,12 @@ public abstract class AIState : BaseState
     protected void SearchTargetInSector()
     {
         var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.sight, aiController.enemyLayer);
-        if (enemyCols.Length == 0 && aiController.battleTarget == null)
-        {
-            //aiController.SetBattleTarget(aiController.point);
-            aiController.SetState(States.MissionExecution);
-            return;
-        }
+        //if (enemyCols.Length == 0 && aiController.battleTarget == null)
+        //{
+        //    //aiController.SetBattleTarget(aiController.point);
+        //    aiController.SetState(States.MissionExecution);
+        //    return;
+        //}
         Transform target = null;
         //var targetToDis = float.MaxValue;
         foreach (var col in enemyCols)
@@ -93,6 +93,9 @@ public abstract class AIState : BaseState
                 }
             }
         }
+
+        aiController.occupationIndex = int.MaxValue;
+
         if (target != null)
         {
             //Debug.Log($"Result : {target.name}");
@@ -106,12 +109,12 @@ public abstract class AIState : BaseState
     protected void SearchTargetInDetectionRange()
     {
         var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.detectionRange, aiController.enemyLayer);
-        if (enemyCols.Length == 0 && aiController.battleTarget == null)
-        {
-            //aiController.SetBattleTarget(aiController.point);
-            aiController.SetState(States.MissionExecution);
-            return;
-        }
+        //if (enemyCols.Length == 0 && aiController.battleTarget == null)
+        //{
+        //    //aiController.SetBattleTarget(aiController.point);
+        //    aiController.SetState(States.MissionExecution);
+        //    return;
+        //}
 
         Transform target = null;
 
@@ -146,7 +149,6 @@ public abstract class AIState : BaseState
             // 전투중일때는 건물 탐색 제외
             if (colIdentity != null && colIdentity.isBuilding && aiController.isBattle)
                 continue;
-            Debug.Log(aiController.occupationIndex);
             if (aiController.priorityByOccupation[aiController.occupationIndex].SetTargetByPriority(aiController, colStatus))
             {
                 //Debug.Log($"Filterd : {col.name}");
@@ -163,6 +165,8 @@ public abstract class AIState : BaseState
                 }
             }
         }
+
+        aiController.occupationIndex = int.MaxValue;
 
         if (target != null)
         {

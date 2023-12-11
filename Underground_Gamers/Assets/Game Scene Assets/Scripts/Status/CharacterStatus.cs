@@ -65,5 +65,15 @@ public class CharacterStatus : MonoBehaviour
         }
         IsLive = true;
         Hp = maxHp;
+        GetHp();
+    }
+
+    public void GetHp()
+    {
+        var aiCanvas = GetComponentInChildren<AICanvas>();
+        if (aiCanvas != null)
+        {
+            aiCanvas.hpBar.value = (float)Hp / (float)maxHp;
+        }
     }
 }

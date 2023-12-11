@@ -12,7 +12,14 @@ GameObject:
   - component: {fileID: 3990002302854399600}
   - component: {fileID: 3785136149940845433}
   - component: {fileID: 5021306264959045819}
-  m_Layer: 0
+  - component: {fileID: 5764746829101540920}
+  - component: {fileID: 5433075569598262135}
+  - component: {fileID: 3488016278873408897}
+  - component: {fileID: 3733484578026217263}
+  - component: {fileID: 1920014213814198572}
+  - component: {fileID: 4376803256672012925}
+  - component: {fileID: 3023768620251760173}
+  m_Layer: 6
   m_Name: KnightTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +34,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6793283866710443816}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.38268343, z: -0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 7.2900004, y: -6.3036075, z: 23.62}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -104,7 +111,127 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.2834244
-  m_Height: 5.197668
+  m_Radius: 1.5295987
+  m_Height: 6.595083
   m_Direction: 1
-  m_Center: {x: 0.015080448, y: 0.13371992, z: 0.056146856}
+  m_Center: {x: 0.015080448, y: -0.56498766, z: 0.03973508}
+--- !u!114 &5764746829101540920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6793283866710443816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb5902c83002db7449b4874d91b248be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  occupationType: 0
+  distancePriorityType: 0
+  maxHp: 500
+  speed: 0
+  sight: 0
+  sightAngle: 0
+  detectionRange: 0
+  range: 0
+  evasionRate: 0
+  reactionSpeed: 0
+  damage: 0
+  cooldown: 0
+  critical: 0
+  chargeCount: 0
+  reloadCooldown: 0
+  accuracyRate: 0
+  armor: 0
+  deathCount: 0
+  respawnTime: 0
+  respawnTimeIncreaseRate: 0
+--- !u!114 &5433075569598262135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6793283866710443816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0236d73d4811af43bd2cb3a5c4cbef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3488016278873408897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6793283866710443816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad6da4e85dec64f44bf8d7f713f47dec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particlePrefab: {fileID: 2407849614386759806, guid: 1b901813f2b10fe4fb4986526e315caa, type: 3}
+  aiParticlePrefabs: []
+--- !u!114 &3733484578026217263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6793283866710443816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d6c7f57c55a95479014c182aa43fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  isBuilding: 1
+  buildingTarget: {fileID: 0}
+--- !u!114 &1920014213814198572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6793283866710443816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464f720b2ecf9144197c0869f18fc0c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageText: {fileID: 3413788427445076640, guid: 7d2431464ac41a44091c713e5128f161, type: 3}
+  OffsetText: 5
+--- !u!114 &4376803256672012925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6793283866710443816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337f83062b3fcb542b6d59da449ade31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portrait: {fileID: 0}
+--- !u!114 &3023768620251760173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6793283866710443816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e38ea21d70d24b1429d3fa03390db362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killLog: {fileID: 6949158583461082337, guid: 83023749b63dad14bb7b6278ad590b64, type: 3}
+  killerPortrait: {fileID: 0}
+  deadPortrait: {fileID: 0}

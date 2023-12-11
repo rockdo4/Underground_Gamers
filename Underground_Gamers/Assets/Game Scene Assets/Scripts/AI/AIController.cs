@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public enum OccupationType
 {
@@ -49,6 +50,7 @@ public enum SkillActionTypes
     Active,
     Passive,
 }
+
 public class AIController : MonoBehaviour
 {
     public NavMeshAgent agent;
@@ -219,8 +221,19 @@ public class AIController : MonoBehaviour
             {
                 return 0f;
             }
+
+
             Vector3 targetPos = battleTarget.transform.position;
             targetPos.y = transform.position.y;
+
+            Collider col = battleTarget.GetComponent<Collider>();
+            if (col != null)
+            {
+                var colDir = transform.position - targetPos;
+                colDir.Normalize();
+                var colDis = colDir * col.bounds.extents.x;
+                targetPos += colDis;
+            }
             return Vector3.Distance(transform.position, targetPos);
         }
     }
@@ -288,7 +301,7 @@ public class AIController : MonoBehaviour
             Reload();
         }
 
-        if (!isBattle && lastSupportTime + supportTime < Time.time)
+        if (!isBattle && lastSupportTime + supportTime < Time.time && !isReloading)
         {
             lastSupportTime = Time.time;
             SupportTeam();
@@ -316,7 +329,7 @@ public class AIController : MonoBehaviour
             }
             BattleTargetEventBus.Subscribe(status, ReleaseTarget);
         }
-        SetDestination(this.battleTarget.position);
+        SetDestination(this.battleTarget);
     }
 
     public void SetMissionTarget(Transform target)
@@ -335,6 +348,9 @@ public class AIController : MonoBehaviour
         //    }
         //    BattleTargetEventBus.Subscribe(status, ReleaseTarget);
         //}
+
+        this.missionTarget = target;
+
         SetDestination(this.missionTarget.position);
     }
 
@@ -344,9 +360,24 @@ public class AIController : MonoBehaviour
         battleTarget = null;
     }
 
-    public void SetDestination(Vector3 vector3)
+    public void SetDestination(Transform target)
     {
-        agent.SetDestination(vector3);
+        Collider col = target.GetComponent<Collider>();
+        Vector3 destination = target.position;
+        destination.y = transform.position.y;
+        if (col != null)
+        {
+            var colDir = transform.position - destination;
+            colDir.Normalize();
+            var colDis = colDir * col.bounds.extents.x;
+            destination += colDis;
+        }
+        agent.SetDestination(destination);
+    }
+
+    public void SetDestination(Vector3 destination)
+    {
+        agent.SetDestination(destination);
     }
 
     public void SetState(States newState)
@@ -375,6 +406,7 @@ public class AIController : MonoBehaviour
     {
         canvas.reloadBar.value = time;
     }
+
 
     public void TryReloading()
     {

@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TeamType
+{
+    PC,
+    NPC
+}
+
 public class TeamIdentifier : MonoBehaviour
 {
     public LayerMask teamLayer;
@@ -15,6 +21,7 @@ public class TeamIdentifier : MonoBehaviour
 
     private void Update()
     {
+        // 일정시간 동안 타겟이 갱신안되면 해제 / 빌딩이 공격당하지 않으면
         if(isBuilding && buildingTarget != null && targetReleaseTime + lastTargetReleaseTime < Time.time)
         {
             lastTargetReleaseTime = Time.time;
@@ -22,6 +29,7 @@ public class TeamIdentifier : MonoBehaviour
         }
     }
 
+    // 건물을 때리는 타겟 설정, 타겟 죽으면 해제
     public void SetBuildingTarget(Transform attacker)
     {
         lastTargetReleaseTime = Time.time;
