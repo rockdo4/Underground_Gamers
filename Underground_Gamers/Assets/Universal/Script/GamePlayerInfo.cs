@@ -22,6 +22,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     private static GamePlayerInfo gamePlayerInfo;
 
+    public int representativePlayer = -1;
     public List<Player> havePlayers = new List<Player>();
     public List<Player> usingPlayers = new List<Player>();
 
@@ -30,6 +31,8 @@ public class GamePlayerInfo : MonoBehaviour
 
     [HideInInspector]
     public int cleardStage = 0;
+
+    public string playername = "¿Ã∞®µ∂";
 
     [Space(10f)]
     [Header("Resource")]
@@ -415,4 +418,21 @@ public class GamePlayerInfo : MonoBehaviour
     {
         tradeCenter = setValue;
     }
+
+    public void CheckRepresentPlayers()
+    {
+        List<Player> playerList = new List<Player>();
+        playerList.AddRange(GetUsingPlayers());
+        playerList.AddRange(havePlayers);
+        List<int> distinctCodeList = playerList
+  .Select(item => item.code)
+  .Distinct()
+  .ToList();
+
+        if (!distinctCodeList.Contains(representativePlayer))
+        {
+            representativePlayer = -1;
+        }
+    }
+
 }

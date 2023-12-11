@@ -9,6 +9,7 @@ public class LobbyUIManager : MonoBehaviour
 {
     [Header("UIGroup : Lobby")]
     public GameObject lobby;
+    public BaseUIManager baseUIManager;
     public List<GameObject> lobbyNoMoney;
     public GameObject money;
     public GameObject playerList;
@@ -21,6 +22,7 @@ public class LobbyUIManager : MonoBehaviour
 
     [Space(10f)]
     [Header("UIGroup : Schedule")]
+    public ScheduleUIManager scheduleUIManager;
     public GameObject schedule;
     public GameObject stage;
     public GameObject playerCountLackWarning;
@@ -59,16 +61,18 @@ public class LobbyUIManager : MonoBehaviour
     }
     public void UpdateMoneyInfo()
     {
-        if (MoneyList.Count >= 3)
-        {
-            MoneyList[0].text = GamePlayerInfo.instance.money.ToString();
-            MoneyList[1].text = GamePlayerInfo.instance.crystal.ToString();
-        }
+        MoneyList[0].text = GamePlayerInfo.instance.money.ToString();
+        MoneyList[1].text = GamePlayerInfo.instance.crystal.ToString();
     }
 
     public void ActiveLobby(bool on)
     {
         lobby.SetActive(on);
+        if (on)
+        {
+            baseUIManager.InitBaseUIWithMotion();
+            UpdateMoneyInfo();
+        }
     }
 
     public void ActiveLobyWithoutMoney(bool on)
@@ -155,6 +159,10 @@ public class LobbyUIManager : MonoBehaviour
     public void ActiveSchedule(bool on)
     {
         schedule.SetActive(on);
+        if (on)
+        {
+            scheduleUIManager.OnEnter();
+        }
     }
 
     public void ActiveStage(bool on)
