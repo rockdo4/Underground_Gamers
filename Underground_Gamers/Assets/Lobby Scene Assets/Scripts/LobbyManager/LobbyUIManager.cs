@@ -63,7 +63,6 @@ public class LobbyUIManager : MonoBehaviour
         {
             MoneyList[0].text = GamePlayerInfo.instance.money.ToString();
             MoneyList[1].text = GamePlayerInfo.instance.crystal.ToString();
-            MoneyList[2].text = GamePlayerInfo.instance.contractTicket.ToString();
         }
     }
 
