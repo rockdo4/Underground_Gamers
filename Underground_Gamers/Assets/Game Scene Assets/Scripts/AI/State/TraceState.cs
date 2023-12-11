@@ -59,7 +59,8 @@ public class TraceState : AIState
             SearchTargetInDetectionRange();
             SearchTargetInSector();
 
-            aiController.SetDestination(aiController.battleTarget);
+            // 수정해야할까?
+            aiController.SetDestination(aiController.battleTarget.position);
         }
     }
 }
