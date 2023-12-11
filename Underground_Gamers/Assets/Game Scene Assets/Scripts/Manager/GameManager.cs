@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         if (IsTimeOut)
         {
             // 같은 경우는?
-            if (pcNexus.Hp > npcNexus.Hp)
+            if (pcNexus.Hp >= npcNexus.Hp)
             {
                 IsPlayerWin = true;
             }
