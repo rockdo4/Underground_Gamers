@@ -140,6 +140,8 @@ public class GameInfo : MonoBehaviour
 
         // 수정 할 곳
         var buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
+        var aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
+
 
         if (startPos.Length < 1)
         {
@@ -173,9 +175,11 @@ public class GameInfo : MonoBehaviour
         {
             foreach (var player in players)
             {
-                GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc.Add(player.GetComponent<AIController>());
+                aiManager.pc.Add(player.GetComponent<AIController>());
             }
         }
+
+        aiManager.RegisterMissionTargetEvent();
     }
 
     public void DeletePlayers()

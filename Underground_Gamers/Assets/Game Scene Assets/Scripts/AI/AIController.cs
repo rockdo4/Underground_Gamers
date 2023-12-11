@@ -56,6 +56,10 @@ public class AIController : MonoBehaviour
     public NavMeshAgent agent;
     public CharacterStatus status;
 
+    private AIManager aiManager;
+    private BuildingManager buildingManager;
+    public TeamIdentifier teamIdentity;
+
     private StateManager stateManager;
     private List<BaseState> states = new List<BaseState>();
 
@@ -212,7 +216,6 @@ public class AIController : MonoBehaviour
             return Vector3.Distance(transform.position, targetPos);
         }
     }
-
     public float DistanceToBattleTarget
     {
         get
@@ -240,10 +243,12 @@ public class AIController : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        // 데이터 테이블에 따라서 정보를 가져올 수 있음, 레벨 정보는 세이브 데이터
         status = GetComponent<CharacterStatus>();
-        missionTarget = point;
+        aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
+        buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
+        teamIdentity = GetComponent<TeamIdentifier>();
 
+        missionTarget = point;
         SetInitialization();
 
         teamLayer = layer;
@@ -273,6 +278,9 @@ public class AIController : MonoBehaviour
         //agent.SetDestination(point.position);
 
         SetState(States.Idle);
+        point = buildingManager.GetPoint(currentLine, teamIdentity.teamType);
+        missionTarget = point;
+        MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
     }
     private void Update()
     {
@@ -334,24 +342,17 @@ public class AIController : MonoBehaviour
 
     public void SetMissionTarget(Transform target)
     {
-        //Transform prevTarget = this.missionTarget;
-        //this.missionTarget = target;
-
-        //CharacterStatus status = target.GetComponent<CharacterStatus>();
-        //if (status != null)
-        //{
-        //    if(prevTarget != null)
-        //    {
-        //        // 이 부분 수정해야함
-        //        CharacterStatus prevTargetStatus = prevTarget.GetComponent<CharacterStatus>();
-        //        BattleTargetEventBus.Unsubscribe(prevTargetStatus, ReleaseTarget);
-        //    }
-        //    BattleTargetEventBus.Subscribe(status, ReleaseTarget);
-        //}
-
         this.missionTarget = target;
-
+        Building building = this.missionTarget.GetComponent<Building>();
+        if (building != null)
+            building.AddAIController(this);
         SetDestination(this.missionTarget.position);
+    }
+
+    public void RefreshBuilding()
+    {
+        point = buildingManager.GetPoint(currentLine, teamIdentity.teamType);
+        missionTarget = point;
     }
 
     public void ReleaseTarget()
@@ -443,14 +444,14 @@ public class AIController : MonoBehaviour
                     }
                 }
             }
-            else if(isDefend)
+            else if (isDefend)
             {
                 TeamIdentifier colIdentity = col.GetComponent<TeamIdentifier>();
                 // 구조물이 여러개일 경우가 있을까?
                 // 구조물 검사
                 if (colIdentity != null && colIdentity.isBuilding)
                 {
-                    if(colIdentity.buildingTarget)
+                    if (colIdentity.buildingTarget)
                     {
                         target = colIdentity.buildingTarget;
                         break;

@@ -28,7 +28,7 @@ public class DestroyedObject : MonoBehaviour, IDestroyable
         {
             ParticleSystem effect = Instantiate(particlePrefab, transform.position, particlePrefab.transform.rotation);
             effect.Play();
-            //Destroy(effect, 2f);
+            Destroy(effect, 2f);
         }
         gameObject.SetActive(false);
     }

@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         PlayingGame();
-
     }
 
     private void DisplayGameTimer(float time)
