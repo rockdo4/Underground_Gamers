@@ -60,7 +60,7 @@ public class TraceState : AIState
             SearchTargetInSector();
 
             // 수정해야할까?
-            aiController.SetDestination(aiController.battleTarget.position);
+            //aiController.SetDestination(aiController.battleTarget.position);
         }
     }
 }
