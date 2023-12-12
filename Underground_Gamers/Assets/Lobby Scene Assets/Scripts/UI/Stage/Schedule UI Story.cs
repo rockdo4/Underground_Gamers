@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScheduleUIStory : ScheduleUISubscriber
 {
@@ -8,6 +9,16 @@ public class ScheduleUIStory : ScheduleUISubscriber
     private List<ChapterTabs> chapterTabs;
     [SerializeField]
     private GameObject PrefabStageToggles;
+    [SerializeField]
+    private GameObject[] rewardItems = new GameObject[3];
+    [SerializeField]
+    private Image stageTypeImage;
+    [SerializeField]
+    private StageEnemyInfoImage[] enemyImages = new StageEnemyInfoImage[5];
+    [SerializeField]
+    private Button startButton;
+    [SerializeField]
+    private GameObject popUpEnemyInfo;
     [SerializeField]
     private Transform toggleTransform;
 
