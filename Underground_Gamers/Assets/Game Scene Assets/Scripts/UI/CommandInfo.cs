@@ -18,9 +18,13 @@ public class CommandInfo : MonoBehaviour
 
     public List<Button> commandButtons = new List<Button>();
 
+    public GameObject aiSelectImage;
+    public Image portrait; 
+
     private void Start()
     {
         respawnTimeUI.SetActive(false);
+        aiSelectImage.SetActive(false);
     }
 
     public void OnRespawnUI(float time)
@@ -42,5 +46,15 @@ public class CommandInfo : MonoBehaviour
     public void RefreshRespawnCoolTime(float coolTime)
     {
         respawnCoolTime.fillAmount = coolTime;
+    }
+
+    public void SelectAI()
+    {
+        aiSelectImage.SetActive(true);
+    }
+
+    public void UnSelectAI()
+    {
+        aiSelectImage.SetActive(false);
     }
 }

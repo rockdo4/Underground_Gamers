@@ -63,12 +63,22 @@ public class CommandManager : MonoBehaviour
     public void SelectNewAI(AIController newAI)
     {
         prevAI = currentAI;
-        if(prevAI != null)
+
+        // 같은 거 선택
+        if (prevAI == newAI && newAI != null)
+        {
+            UnSelect();
+            return;
+        }
+
+        if (prevAI != null)
         {
             prevAI.UnSelectAI();
         }
         currentAI = newAI;
         currentAI.SelectAI();
+
+        // 투명도 0 터치를 위한 패널
         selectPanel.SetActive(true);
 
         // 카메라 무빙
@@ -99,7 +109,7 @@ public class CommandManager : MonoBehaviour
             var text = info.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
             text.text = $"{info.aiType}{info.aiNum}";
             // 초상화 생성
-            var portrait = info.transform.GetChild(3).GetComponent<Image>();
+            var portrait = info.portrait.GetComponent<Image>();
             portrait.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(pcNum);
 
             // 텍스트 입히기
