@@ -39,10 +39,11 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         status.Hp = Mathf.Max(0, status.Hp);
         status.GetHp();
 
-        // 반격
-        if (controller != null && controller.battleTarget != null)
+        // 반격, 수정
+        if (controller != null && controller.battleTarget == null)
         {
-            TeamIdentifier targetIdentity = controller.battleTarget.GetComponent<TeamIdentifier>();
+            //controller.battleTarget = attacker.transform;
+            //TeamIdentifier targetIdentity = controller.battleTarget.GetComponent<TeamIdentifier>();
 
             if (!controller.isBattle && !controller.isReloading/* || controller.battleTarget == null || targetIdentity.isBuilding*/)
             {

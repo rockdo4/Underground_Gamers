@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 using static UnityEngine.GraphicsBuffer;
 
 public enum OccupationType
@@ -76,6 +77,11 @@ public class AIController : MonoBehaviour
     public Transform rightHand;
     public Transform leftHand;
     public AIManager manager;
+
+    [Header("AI 선택")]
+    public GameObject selectEffect;
+    public int selectSortOrder = 5;
+    public int originSortOrder = 0;
 
     public Vector3 hitInfoPos;
     public Vector3 kitingPos;
@@ -317,10 +323,34 @@ public class AIController : MonoBehaviour
 
         UpdateBuff();
 
-
-
-        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
         //최대 속도일때 0.5f가 되어야 함으로 2로나눔
+        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
+    }
+
+    public void UnSelectAI()
+    {
+        SortingGroup sort = spum.GetComponentInChildren<SortingGroup>();
+        Canvas canvas = transform.GetComponentInChildren<Canvas>();
+        var particleRenderer = transform.GetComponentInChildren<ParticleSystem>().GetComponent<Renderer>();
+
+        canvas.sortingOrder = originSortOrder;
+        sort.sortingOrder = originSortOrder;
+        particleRenderer.sortingOrder = originSortOrder;
+
+        selectEffect.SetActive(false);
+    }
+
+    public void SelectAI()
+    {
+        SortingGroup sort = spum.GetComponentInChildren<SortingGroup>();
+        Canvas canvas = transform.GetComponentInChildren<Canvas>();
+        var particleRenderer = transform.GetComponentInChildren<ParticleSystem>(true).GetComponent<Renderer>();
+
+        canvas.sortingOrder = selectSortOrder;
+        sort.sortingOrder = selectSortOrder;
+        particleRenderer.sortingOrder = selectSortOrder;
+
+        selectEffect.SetActive(true);
     }
 
     public void SetBattleTarget(Transform target)
@@ -502,7 +532,6 @@ public class AIController : MonoBehaviour
             removedBuffs.Clear();
         }
     }
-
 
     private void OnDrawGizmos()
     {

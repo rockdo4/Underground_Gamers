@@ -5,6 +5,7 @@ using UnityEngine;
 public class Portrait : MonoBehaviour
 {
     public GameObject portrait;
+    private float scale = 100f;
 
     private void Awake()
     {
