@@ -16,6 +16,7 @@ public class DestroyedObject : MonoBehaviour, IDestroyable
         AIController controller = GetComponent<AIController>();
         if(controller != null)
         {
+            controller.battleTarget = null;
             particlePrefab = aiParticlePrefabs[controller.colorIndex];
         }
 
