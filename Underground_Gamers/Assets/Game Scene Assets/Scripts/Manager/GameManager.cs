@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public CharacterStatus pcNexus;
     public CharacterStatus npcNexus;
 
+    public CameraManager cameraManager;
+
     private void Awake()
     {
         PlayingGame();

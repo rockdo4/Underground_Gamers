@@ -329,26 +329,28 @@ public class AIController : MonoBehaviour
 
     public void UnSelectAI()
     {
-        SortingGroup sort = spum.GetComponentInChildren<SortingGroup>();
-        Canvas canvas = transform.GetComponentInChildren<Canvas>();
-        var particleRenderer = transform.GetComponentInChildren<ParticleSystem>().GetComponent<Renderer>();
+        // 패널 아래로 내리기 / 레이어 재설정
+        //SortingGroup sort = spum.GetComponentInChildren<SortingGroup>();
+        //Canvas canvas = transform.GetComponentInChildren<Canvas>();
+        //var particleRenderer = transform.GetComponentInChildren<ParticleSystem>().GetComponent<Renderer>();
 
-        canvas.sortingOrder = originSortOrder;
-        sort.sortingOrder = originSortOrder;
-        particleRenderer.sortingOrder = originSortOrder;
+        //canvas.sortingOrder = originSortOrder;
+        //sort.sortingOrder = originSortOrder;
+        //particleRenderer.sortingOrder = originSortOrder;
 
         selectEffect.SetActive(false);
     }
 
     public void SelectAI()
     {
-        SortingGroup sort = spum.GetComponentInChildren<SortingGroup>();
-        Canvas canvas = transform.GetComponentInChildren<Canvas>();
-        var particleRenderer = transform.GetComponentInChildren<ParticleSystem>(true).GetComponent<Renderer>();
+        // 패널 위에 띄우기
+        //SortingGroup sort = spum.GetComponentInChildren<SortingGroup>();
+        //Canvas canvas = transform.GetComponentInChildren<Canvas>();
+        //var particleRenderer = transform.GetComponentInChildren<ParticleSystem>(true).GetComponent<Renderer>();
 
-        canvas.sortingOrder = selectSortOrder;
-        sort.sortingOrder = selectSortOrder;
-        particleRenderer.sortingOrder = selectSortOrder;
+        //canvas.sortingOrder = selectSortOrder;
+        //sort.sortingOrder = selectSortOrder;
+        //particleRenderer.sortingOrder = selectSortOrder;
 
         selectEffect.SetActive(true);
     }

@@ -5,6 +5,11 @@ using UnityEngine.AI;
 
 public static class Utils
 {
+    public static float GetEaseOutQuint(float t)
+    {
+        return 1f + (--t) * t * t * t * t;
+    }
+
     public static bool RandomPointInNav(Vector3 center, float range, int attemp, out Vector3 result)
     {
         for (int i = 0; i < attemp; i++)

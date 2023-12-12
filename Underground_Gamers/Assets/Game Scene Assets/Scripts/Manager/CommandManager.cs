@@ -41,6 +41,8 @@ public class CommandManager : MonoBehaviour
     private CommandInfo currentCommandInfo = null;
     public bool isCheckInfo = false;
 
+    public GameManager gameManager;
+
 
     private void Awake()
     {
@@ -68,14 +70,20 @@ public class CommandManager : MonoBehaviour
         currentAI = newAI;
         currentAI.SelectAI();
         selectPanel.SetActive(true);
-        Time.timeScale = selectTime;
+
+        // Ä«¸Þ¶ó ¹«ºù
+        gameManager.cameraManager.StartZoomIn();
+
+        //Time.timeScale = selectTime;
     }
 
     public void UnSelect()
     {
+        currentAI.UnSelectAI();
         currentAI = null;
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         selectPanel.SetActive(false);
+        gameManager.cameraManager.StartZoomOut();
     }
 
     private void CreateCommandUI()
