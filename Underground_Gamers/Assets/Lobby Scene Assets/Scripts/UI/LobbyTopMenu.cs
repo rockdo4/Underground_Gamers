@@ -31,11 +31,23 @@ public class LobbyTopMenu : MonoBehaviour
 
     public void ExecuteFunction()
     {
+        if (functionStack.Count == 0)
+        {
+            LobbySceneUIManager.instance.EmergencyOut();
+            Debug.Log("Execute Nothing!");
+            return;
+        }
         Action function = functionStack.Pop();
         function.Invoke();
     }
     public void ExecuteFunction(int count)
     {
+        if (functionStack.Count == 0)
+        {
+            LobbySceneUIManager.instance.EmergencyOut();
+            Debug.Log("Execute Nothing!");
+            return;
+        }
         int executedCount = 0;
 
         while (functionStack.Count > 0 && executedCount < count)
@@ -47,6 +59,13 @@ public class LobbyTopMenu : MonoBehaviour
     }
     public void ExecuteAllFunction()
     {
+        if (functionStack.Count == 0)
+        {
+            LobbySceneUIManager.instance.EmergencyOut();
+            Debug.Log("Execute Nothing!");
+            return;
+        }
+
         while (functionStack.Count > 0)
         {
             Action function = functionStack.Pop();

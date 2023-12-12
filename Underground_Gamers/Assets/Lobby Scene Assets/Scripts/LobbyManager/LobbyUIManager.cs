@@ -50,7 +50,7 @@ public class LobbyUIManager : MonoBehaviour
     }
 
     private static LobbyUIManager lobbyUIManager;
-  
+
 
     private void Start()
     {
@@ -88,7 +88,7 @@ public class LobbyUIManager : MonoBehaviour
         money.SetActive(on);
     }
 
-    public void ActivePlayerList(bool on)
+    public bool ActivePlayerList(bool on)
     {
         if (on)
         {
@@ -96,12 +96,13 @@ public class LobbyUIManager : MonoBehaviour
             PlayerChanger.instance.SlotChecker();
             playerlistLeftToggles[0].isOn = true;
         }
-        else if(!PlayerChanger.instance.IsFullSquad())
+        else if (!PlayerChanger.instance.IsFullSquad())
         {
             playerSlotLackWarning.SetActive(true);
-            return;
+            return false;
         }
         playerList.SetActive(on);
+        return true;
     }
 
     public void ActivePlayerListAnyway(bool on)

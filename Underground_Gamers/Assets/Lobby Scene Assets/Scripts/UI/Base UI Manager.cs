@@ -29,7 +29,8 @@ public class BaseUIManager : LobbySceneSubscriber
     public override void OnEnter()
     {
         base.OnEnter();
-        lobbySceneUIManager.lobbyTopMenu.ActiveTop(false);
+        LobbyUIManager.instance.ActiveLobby(true);
+        lobbyTopMenu.ActiveTop(false);
     }
 
     public override void OnExit()
@@ -47,7 +48,7 @@ public class BaseUIManager : LobbySceneSubscriber
         UIanimator.DoOpen();
         InitBaseUI();
     }
-   public void InitBaseUI()
+    public void InitBaseUI()
     {
         currIndex = 0;
         if (pt == null)
@@ -63,7 +64,7 @@ public class BaseUIManager : LobbySceneSubscriber
             bool enables = players.Count != 1;
             sideBts[0].gameObject.SetActive(enables);
             sideBts[1].gameObject.SetActive(enables);
-           
+
         }
         else
         {
@@ -76,7 +77,7 @@ public class BaseUIManager : LobbySceneSubscriber
 
     public void LobbyCharLeft()
     {
-        currIndex = (currIndex - 1 +players.Count) % players.Count;
+        currIndex = (currIndex - 1 + players.Count) % players.Count;
         charImage.sprite = pt.GetPlayerSprite(players[currIndex].code);
     }
     public void LobbyCharRight()

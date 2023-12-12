@@ -14,6 +14,7 @@ public class LobbySceneSubscriber : MonoBehaviour
     protected virtual void Awake()
     {
         lobbySceneUIManager.Subscribe(this, lobbyType);
+        lobbyTopMenu = lobbySceneUIManager.lobbyTopMenu;
     }
     public virtual void OnEnter()
     {
