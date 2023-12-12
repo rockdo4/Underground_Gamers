@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
@@ -31,7 +32,6 @@ public class GamePlayerInfo : MonoBehaviour
 
     [HideInInspector]
     public int cleardStage = 0;
-
     public string playername = "¿Ã∞®µ∂";
 
     [Space(10f)]
@@ -53,6 +53,8 @@ public class GamePlayerInfo : MonoBehaviour
     public DateTime lastRecruitTime = DateTime.MinValue;
 
     private PlayerTable pt;
+    [HideInInspector]
+    public List<Sprite> itemSpriteList = new List<Sprite>();    
     private void Awake()
     {
         for (int i = 0; i < 8; i++)
@@ -73,6 +75,11 @@ public class GamePlayerInfo : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             tradeCenter.Add(1);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            itemSpriteList.Add(Resources.Load<Sprite>(
+              Path.Combine("Items", i.ToString())));
         }
     }
 

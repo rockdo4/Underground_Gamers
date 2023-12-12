@@ -8,7 +8,7 @@ public enum TrainType
     Train,
     Break
 }
-public class TrainingUIManager : MonoBehaviour
+public class TrainingUIManager : LobbySceneSubscriber
 {
     public static TrainingUIManager instance
     {
@@ -25,7 +25,17 @@ public class TrainingUIManager : MonoBehaviour
     private static TrainingUIManager trainingUIManager;
 
     public List<ManagerTraining> trainingManagers = new List<ManagerTraining>();
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        lobbySceneUIManager.lobbyTopMenu.ActiveTop(true);
+    }
 
+    public override void OnExit()
+    {
+        base.OnExit();
+        lobbySceneUIManager.lobbyTopMenu.ActiveTop(false);
+    }
     public void SetTraining(int code)
     {
         if (code > 2)

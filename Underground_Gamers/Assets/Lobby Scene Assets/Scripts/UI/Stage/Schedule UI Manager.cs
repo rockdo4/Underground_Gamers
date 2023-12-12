@@ -3,18 +3,50 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ScheduleUIManager : MonoBehaviour
+public enum ScheduleType
 {
-    [Header("Schedule")]
-    [SerializeField]
-    private TMP_Text[] moneyT = new TMP_Text[2];
-    public void OnEnter()
+    None,
+    Buttons,
+    Story,
+}
+
+public class ScheduleUIManager : LobbySceneSubscriber
+{
+    private Dictionary<ScheduleType,ScheduleUISubscriber> scheduleUISubscribers;
+    private int currUIIndex = 1;
+    public override void OnEnter()
     {
-        UpdateScheduleMoney();
+        base.OnEnter();
+        LobbyTopMenu lobbyTopMenu = lobbySceneUIManager.lobbyTopMenu;
+        lobbyTopMenu.ActiveTop(true);
+        lobbyTopMenu.AddFunction(OnBack);
     }
-    public void UpdateScheduleMoney()
+
+    public override void OnExit()
     {
-        moneyT[0].text = GamePlayerInfo.instance.money.ToString();
-        moneyT[1].text = GamePlayerInfo.instance.crystal.ToString();
+        base.OnExit();
+        lobbySceneUIManager.lobbyTopMenu.ActiveTop(false);
+    }
+
+    private void OnBack()
+    {
+        lobbySceneUIManager.OpenWindow(1);
+    }
+
+    public void Subscribe(ScheduleUISubscriber scheduleUISubscriber, ScheduleType type)
+    {
+        if (scheduleUISubscribers == null)
+        {
+            scheduleUISubscribers = new Dictionary<ScheduleType, ScheduleUISubscriber>();
+        }
+        scheduleUISubscribers.Add(type, scheduleUISubscriber);
+    }
+
+    public void OpenWindow(int type)
+    {
+        scheduleUISubscribers[(ScheduleType)currUIIndex].OnExit();
+        currUIIndex = type;
+        scheduleUISubscribers[(ScheduleType)type].gameObject.SetActive(true);
+        scheduleUISubscribers[(ScheduleType)type].OnEnter();
     }
 }

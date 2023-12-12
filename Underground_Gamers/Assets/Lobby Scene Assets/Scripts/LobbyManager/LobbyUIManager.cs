@@ -159,10 +159,6 @@ public class LobbyUIManager : MonoBehaviour
     public void ActiveSchedule(bool on)
     {
         schedule.SetActive(on);
-        if (on)
-        {
-            scheduleUIManager.OnEnter();
-        }
     }
 
     public void ActiveStage(bool on)

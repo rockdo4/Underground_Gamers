@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.GraphView.GraphView;
-
-public class BaseUIManager : MonoBehaviour
+public class BaseUIManager : LobbySceneSubscriber
 {
     [Header("PlayerCard")]
     [SerializeField]
@@ -27,13 +25,21 @@ public class BaseUIManager : MonoBehaviour
     private PlayerTable pt;
     private StringTable st;
     private MainUIAnimator UIanimator;
-    
+
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        lobbySceneUIManager.lobbyTopMenu.ActiveTop(false);
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+    }
     void Start()
     {
         InitBaseUI();
         UIanimator = GetComponent<MainUIAnimator>();
-        
-
     }
 
     public void InitBaseUIWithMotion()

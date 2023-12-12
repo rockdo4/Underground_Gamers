@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 enum PlayerClass
 {
@@ -177,4 +179,21 @@ public class TargetPriorityDefinitionData
 {
     public int code;
     public TargetPriority value;
+}
+
+public static class ToggleExtensions
+{
+    public static void SetSingleListener(this Toggle toggle, UnityAction<bool> listener)
+    {
+        toggle.onValueChanged.RemoveAllListeners();
+        toggle.onValueChanged.AddListener(listener);
+    }
+}
+
+public struct StageInfo
+{
+    public int code;
+    public int type;
+    public List<int> enemys;
+    public List<int> rewards;
 }

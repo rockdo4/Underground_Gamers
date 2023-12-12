@@ -10,7 +10,7 @@ public enum RecruitType
     Tryout,
     Trade
 }
-public class RecruitUIManager : MonoBehaviour
+public class RecruitUIManager : LobbySceneSubscriber
 {
     public static RecruitUIManager instance
     {
@@ -32,8 +32,9 @@ public class RecruitUIManager : MonoBehaviour
     private List<Toggle> recruitToggles = new List<Toggle>();
 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         int index = 0;
         foreach (var tog in recruitToggles)
         {
@@ -48,6 +49,18 @@ public class RecruitUIManager : MonoBehaviour
             );
         }
         SetRecruitMode(0);
+    }
+
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        lobbySceneUIManager.lobbyTopMenu.ActiveTop(true);
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+        lobbySceneUIManager.lobbyTopMenu.ActiveTop(false);
     }
     public void SetRecruitMode(int code)
     {

@@ -31,6 +31,7 @@ public class Test : MonoBehaviour
             GamePlayerInfo.instance.crystal += 5000;
             init = false;
             LobbyUIManager.instance.UpdateMoneyInfo();
+            Destroy(gameObject);
         }
     }
 }
