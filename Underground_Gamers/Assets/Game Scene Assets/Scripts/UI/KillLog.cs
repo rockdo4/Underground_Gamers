@@ -32,6 +32,8 @@ public class KillLog : MonoBehaviour
     {
         GameObject k_portrait = Instantiate(killerPortrait, killerPortraitParent);
         GameObject d_portrait = Instantiate(deadPortrait, deadPortraitParent);
+        k_portrait.SetActive(true);
+        d_portrait.SetActive(true);
         SetPortrait(k_portrait, killerPortraitParent);
         SetPortrait(d_portrait, deadPortraitParent);
     }

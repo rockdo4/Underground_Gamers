@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public CharacterStatus npcNexus;
 
     public CameraManager cameraManager;
+    public CommandManager commandManager;
 
     private void Awake()
     {

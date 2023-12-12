@@ -27,6 +27,7 @@ public class Portrait : MonoBehaviour
             if(child.name == "HeadSet")
             {
                 portrait = Instantiate(child.gameObject);
+                portrait.SetActive(false);
                 return;
             }
         }

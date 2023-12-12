@@ -4,12 +4,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using DG.Tweening;
+using DG.Tweening.Core.Easing;
 
 public class CameraManager : MonoBehaviour
 {
     private Camera mainCam;
     private Vector3 originPos;
     private float originFOV;
+
+    private Vector3 currentPos;
 
     private float zoomValue;
     public float zoomInValue;
@@ -20,9 +23,12 @@ public class CameraManager : MonoBehaviour
     private bool tryZoomOut;
 
     private float zoomTimer = 0f;
+    private float moveTimer = 0f;
 
     public float zoomTime;
-    public float followTime;
+    public float moveTime;
+
+    public GameManager gameManager;
 
     private void Awake()
     {
@@ -31,8 +37,18 @@ public class CameraManager : MonoBehaviour
         originPos = mainCam.transform.position;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
+        if(tryZoomIn)
+        {
+            Vector3 movePos = gameManager.commandManager.currentAI.transform.position;
+            FollowMove(movePos.z);
+        }
+
+        if(!tryZoomIn && tryZoomOut)
+        {
+            ReturnMove();
+        }
         if(tryZoomIn && !zoomIn)
         {
             ZoomIn();
@@ -47,41 +63,11 @@ public class CameraManager : MonoBehaviour
     private void ZoomIn()
     {
         mainCam.DOFieldOfView(40, 1f).SetEase(Ease.OutQuint);
-        //mainCam.transform.DOMoveX();
-        //zoomTimer += Time.deltaTime;
-        //float t = zoomTimer / zoomTime;
-        //t= Utils.GetEaseOutQuint(t);
-        //float zoomInFov = Mathf.Lerp(zoomValue, zoomInValue, t);
-        //mainCam.fieldOfView = zoomInFov;
-        //Debug.Log($"IN{t}");
-
-        //if (t > 1) 
-        //{
-        //    Debug.Log("ZOOMIN_END");
-        //    zoomTimer = 0f;
-        //    zoomIn = true;
-        //    tryZoomIn = false;
-        //    mainCam.fieldOfView = zoomInValue;
-        //}
     }
 
     private void ZoomOut()
     {
         mainCam.DOFieldOfView(60, 1f).SetEase(Ease.OutQuint);
-        //zoomTimer += Time.deltaTime;
-        //float t = zoomTimer / zoomTime;
-        //float zoomOutFov = Mathf.Lerp(zoomValue, originFOV, t);
-        //mainCam.fieldOfView = zoomOutFov;
-        //Debug.Log("Out");
-        //Debug.Log(t);
-
-        //if (t >= 1)
-        //{
-        //    zoomTimer = 0f;
-        //    zoomOut = true;
-        //    tryZoomOut = false;
-        //    mainCam.fieldOfView = originFOV;
-        //}
     }
 
     public void StartZoomIn()
@@ -91,22 +77,50 @@ public class CameraManager : MonoBehaviour
         zoomIn = false;
         tryZoomOut = false;
         zoomIn = false;
-        zoomTimer = 0f;
+        moveTimer = 0f;
     }
 
     public void StartZoomOut()
     {
+        currentPos = mainCam.transform.position;
         zoomValue = mainCam.fieldOfView;
+
+
+        tryZoomIn = false;
+
+
         tryZoomOut = true;
         zoomOut = false;
         tryZoomIn = false;
         zoomOut = false;
-        zoomTimer = 0f;
+        moveTimer = 0f;
     }
 
-    public void Move()
+    public void FollowMove(float zPos)
     {
+        moveTimer += Time.deltaTime;
+        float t = moveTimer / moveTime;
+        t = Utils.GetEaseOutQuint(t);
+        currentPos = mainCam.transform.position;
+        currentPos.z = zPos;
+        mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, currentPos, t);
+    }
 
+    public void ReturnMove()
+    {
+        moveTimer += Time.deltaTime;
+        float t = moveTimer / moveTime;
+        t = Utils.GetEaseOutQuint(t);
+        Vector3 zoomOutPos = Vector3.Lerp(currentPos, originPos, t);
+        mainCam.transform.position = zoomOutPos;
+
+        if (t >= 1)
+        {
+            moveTimer = 0f;
+            zoomOut = true;
+            tryZoomOut = false;
+            mainCam.transform.position = originPos;
+        }
     }
 
 
