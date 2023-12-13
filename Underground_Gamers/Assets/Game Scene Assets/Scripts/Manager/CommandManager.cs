@@ -33,6 +33,10 @@ public class CommandManager : MonoBehaviour
 
     public GameObject selectPanel;
 
+    [Header("공격 / 수비 선택")]
+    public CommandButton attackButton;
+    public CommandButton defendButton;
+
 
 
     private Queue<(Command, AIController)> records = new Queue<(Command, AIController)>();
@@ -60,6 +64,18 @@ public class CommandManager : MonoBehaviour
         commands.Add(new SwitchLineCommand());
         commands.Add(new DefendCommand());
         commands.Add(new AttackCommand());
+    }
+
+    public void SetActiveCommandButton(AIController ai)
+    {
+        attackButton.SetActiveButton(ai.isAttack);
+        defendButton.SetActiveButton(ai.isDefend);
+    }    
+    
+    public void ActiveAllCommandButton()
+    {
+        attackButton.SetActiveButton(false);
+        defendButton.SetActiveButton(false);
     }
 
     public void SelectNewAI(AIController newAI)
@@ -159,36 +175,10 @@ public class CommandManager : MonoBehaviour
     {
         commands[(int)CommandType.SwitchLine].ExecuteCommand(aiManager.pc[aiIndex], wayPoint);
     }
-    
-    //public void ExecuteAllAttack()
-    //{
-    //    if (currentAI != null)
-    //        return;
-    //    foreach(var ai in aiManager.pc)
-    //    {
-    //        ExecuteAttack(ai);
-    //    }
-    //}    
-    
-    //public void ExecuteAllDefend()
-    //{
-    //    if (currentAI != null)
-    //        return;
-    //    foreach (var ai in aiManager.pc)
-    //    {
-    //        ExecuteDefend(ai);
-    //    }
-    //}
-    
     public void ExecuteCommand(CommandType type , AIController ai)
     {
         commands[(int)type].ExecuteCommand(ai, wayPoint);
-    }    
-    
-    //public void ExecuteDefend(AIController ai)
-    //{
-    //    commands[(int)CommandType.Defend].ExecuteCommand(ai, wayPoint);
-    //}
+    }
 
     public void OnCommadns(CommandInfo commandInfo)
     {

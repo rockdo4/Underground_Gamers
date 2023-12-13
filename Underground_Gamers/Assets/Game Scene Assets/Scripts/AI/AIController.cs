@@ -340,6 +340,8 @@ public class AIController : MonoBehaviour
         //sort.sortingOrder = originSortOrder;
         //particleRenderer.sortingOrder = originSortOrder;
         //if (aiCommandInfo != null)
+
+        gameManager.commandManager.ActiveAllCommandButton();
         aiCommandInfo.UnSelectAI();
         selectEffect.SetActive(false);
     }
@@ -355,6 +357,8 @@ public class AIController : MonoBehaviour
         //sort.sortingOrder = selectSortOrder;
         //particleRenderer.sortingOrder = selectSortOrder;
         //if (aiCommandInfo != null)
+        //CommandManager commandManager = gameManager.commandManager;
+        //commandManager.SetActiveCommandButton(commandManager.currentAI);
         aiCommandInfo.SelectAI();
         selectEffect.SetActive(true);
     }

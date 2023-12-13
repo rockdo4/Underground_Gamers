@@ -9,6 +9,8 @@ public class CommandInfo : MonoBehaviour
     public string aiType;
     public int aiNum;
 
+    private GameManager gameManager;
+
     public AIController aiController;
     public GameObject respawnTimeUI;
     public TextMeshProUGUI respawnTimeText;
@@ -19,7 +21,12 @@ public class CommandInfo : MonoBehaviour
     public List<Button> commandButtons = new List<Button>();
 
     public GameObject aiSelectImage;
-    public Image portrait; 
+    public Image portrait;
+
+    private void Awake()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
 
     private void Start()
     {
@@ -50,6 +57,7 @@ public class CommandInfo : MonoBehaviour
 
     public void SelectAI()
     {
+        gameManager.commandManager.SetActiveCommandButton(aiController);
         aiSelectImage.SetActive(true);
     }
 
