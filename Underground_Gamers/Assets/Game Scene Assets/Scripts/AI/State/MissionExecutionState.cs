@@ -50,7 +50,7 @@ public class MissionExecutionState : AIState
             // ¼öÁ¤
             BuildingManager buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
             TeamIdentifier identity = aiController.teamIdentity;
-            aiController.missionTarget = buildingManager.GetPoint(aiController.currentLine, identity.teamType);
+            aiController.missionTarget = buildingManager.GetAttackPoint(aiController.currentLine, identity.teamType);
             aiController.SetMissionTarget(aiController.missionTarget);
             //aiController.SetState(States.Idle);
             return;

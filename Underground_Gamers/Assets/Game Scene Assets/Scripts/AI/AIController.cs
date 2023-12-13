@@ -58,6 +58,7 @@ public class AIController : MonoBehaviour
     public CharacterStatus status;
 
     private AIManager aiManager;
+    public GameManager gameManager;
     private BuildingManager buildingManager;
     public TeamIdentifier teamIdentity;
 
@@ -250,6 +251,7 @@ public class AIController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         status = GetComponent<CharacterStatus>();
+        gameManager =GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
         buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
         teamIdentity = GetComponent<TeamIdentifier>();
@@ -284,7 +286,7 @@ public class AIController : MonoBehaviour
         //agent.SetDestination(point.position);
 
         SetState(States.Idle);
-        point = buildingManager.GetPoint(currentLine, teamIdentity.teamType);
+        point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
         missionTarget = point;
         MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
     }
@@ -385,7 +387,7 @@ public class AIController : MonoBehaviour
 
     public void RefreshBuilding()
     {
-        point = buildingManager.GetPoint(currentLine, teamIdentity.teamType);
+        point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
         missionTarget = point;
     }
 

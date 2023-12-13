@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefendCommand : Command
+public class AttackCommand : Command
 {
     public override void ExecuteCommand(AIController ai, WayPoint wayPoint)
     {
@@ -21,12 +21,12 @@ public class DefendCommand : Command
 
             foreach (var aIController in aiManager.pc)
             {
-                Debug.Log($"{aIController.aiType.text} : Defend Command Execute");
+                Debug.Log($"{aIController.aiType.text} : Attack Command Execute");
             }
-        }         // 개별명령
+        }       // 개별명령
         else
         {
-            Debug.Log($"{ai.aiType.text} : Defend Command Execute");
+            Debug.Log($"{ai.aiType.text} : Attack Command Execute");
         }
     }
 }

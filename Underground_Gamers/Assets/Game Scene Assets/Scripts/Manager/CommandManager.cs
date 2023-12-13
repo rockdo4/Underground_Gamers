@@ -10,6 +10,7 @@ public enum CommandType
 {
     SwitchLine,
     Defend,
+    Attack,
     Count
 }
 
@@ -57,7 +58,8 @@ public class CommandManager : MonoBehaviour
     private void CreateCommands()
     {
         commands.Add(new SwitchLineCommand());
-        //commands.Add(new DefendCommand());
+        commands.Add(new DefendCommand());
+        commands.Add(new AttackCommand());
     }
 
     public void SelectNewAI(AIController newAI)
@@ -102,12 +104,18 @@ public class CommandManager : MonoBehaviour
 
         foreach (var ai in aiManager.pc)
         {
-            CommandInfo info = Instantiate(commandInfoPrefab, commandInfoTopParent);
+            Transform parent = ai.currentLine switch
+            {
+                Line.Bottom => commandInfoBottomParent,
+                Line.Top => commandInfoTopParent,
+                _ => commandInfoBottomParent
+            };
+            CommandInfo info = Instantiate(commandInfoPrefab, parent);
             ai.aiCommandInfo = info;
             info.aiController = ai;
 
-            var text = info.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-            text.text = $"{info.aiType}{info.aiNum}";
+            //var text = info.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+            //text.text = $"{info.aiType}{info.aiNum}";
             // 초상화 생성
             var portrait = info.portrait.GetComponent<Image>();
             portrait.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(pcNum);
@@ -151,6 +159,36 @@ public class CommandManager : MonoBehaviour
     {
         commands[(int)CommandType.SwitchLine].ExecuteCommand(aiManager.pc[aiIndex], wayPoint);
     }
+    
+    //public void ExecuteAllAttack()
+    //{
+    //    if (currentAI != null)
+    //        return;
+    //    foreach(var ai in aiManager.pc)
+    //    {
+    //        ExecuteAttack(ai);
+    //    }
+    //}    
+    
+    //public void ExecuteAllDefend()
+    //{
+    //    if (currentAI != null)
+    //        return;
+    //    foreach (var ai in aiManager.pc)
+    //    {
+    //        ExecuteDefend(ai);
+    //    }
+    //}
+    
+    public void ExecuteCommand(CommandType type , AIController ai)
+    {
+        commands[(int)type].ExecuteCommand(ai, wayPoint);
+    }    
+    
+    //public void ExecuteDefend(AIController ai)
+    //{
+    //    commands[(int)CommandType.Defend].ExecuteCommand(ai, wayPoint);
+    //}
 
     public void OnCommadns(CommandInfo commandInfo)
     {

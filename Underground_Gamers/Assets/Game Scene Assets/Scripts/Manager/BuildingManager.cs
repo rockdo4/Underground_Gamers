@@ -33,7 +33,7 @@ public class BuildingManager : MonoBehaviour
     }
 
     // 적군 포인트 반환
-    public Transform GetPoint(Line line, TeamType type)
+    public Transform GetAttackPoint(Line line, TeamType type)
     {
         List<Transform> points = null;
         switch (type)
@@ -62,8 +62,8 @@ public class BuildingManager : MonoBehaviour
         return points[0];
     }
 
-    // 적군 포인트 반환
-    public List<Transform> GetPoints(Line line, TeamType type)
+    // 적군 포인트s 반환
+    public List<Transform> GetAttackPoints(Line line, TeamType type)
     {
         List<Transform> points = null;
         switch (type)
@@ -84,6 +84,66 @@ public class BuildingManager : MonoBehaviour
                     Line.Bottom => pcBottomLineBuildings,
                     Line.Top => pcTopLineBuildings,
                     _ => pcBottomLineBuildings
+                };
+                points = pcPoints;
+                break;
+        }
+
+        return points;
+    }
+
+    // 아군 포인트 반환
+    public Transform GetDefendPoint(Line line, TeamType type)
+    {
+        List<Transform> points = null;
+        switch (type)
+        {
+            case TeamType.PC:
+                List<Transform> pcPoints = line switch
+                {
+                    Line.Bottom => pcBottomLineBuildings,
+                    Line.Top => pcTopLineBuildings,
+                    _ => pcBottomLineBuildings
+                };
+                points = pcPoints;
+                break;
+
+            case TeamType.NPC:
+                List<Transform> npcPoints = line switch
+                {
+                    Line.Bottom => npcBottomLineBuildings,
+                    Line.Top => npcTopLineBuildings,
+                    _ => npcBottomLineBuildings
+                };
+                points = npcPoints;
+                break;
+        }
+
+        return points[0];
+    }
+
+    // 아군 포인트s 반환
+    public List<Transform> GetDefendPoints(Line line, TeamType type)
+    {
+        List<Transform> points = null;
+        switch (type)
+        {
+            case TeamType.PC:
+                List<Transform> npcPoints = line switch
+                {
+                    Line.Bottom => pcBottomLineBuildings,
+                    Line.Top => pcTopLineBuildings,
+                    _ => pcBottomLineBuildings
+                };
+                points = npcPoints;
+                break;
+
+            case TeamType.NPC:
+                List<Transform> pcPoints = line switch
+                {
+                    Line.Bottom => npcBottomLineBuildings,
+                    Line.Top => npcTopLineBuildings,
+                    _ => npcBottomLineBuildings
                 };
                 points = pcPoints;
                 break;

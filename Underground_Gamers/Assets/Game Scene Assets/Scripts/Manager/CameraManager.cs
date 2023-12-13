@@ -85,9 +85,7 @@ public class CameraManager : MonoBehaviour
         currentPos = mainCam.transform.position;
         zoomValue = mainCam.fieldOfView;
 
-
         tryZoomIn = false;
-
 
         tryZoomOut = true;
         zoomOut = false;

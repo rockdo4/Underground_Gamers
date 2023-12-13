@@ -8,6 +8,8 @@ public class CharacterStatus : MonoBehaviour
     public OccupationType occupationType = OccupationType.None;
     public DistancePriorityType distancePriorityType = DistancePriorityType.None;
 
+    public string name;
+
     [Header("½ºÅÝ")]
     public int maxHp = 50;
     public float speed;

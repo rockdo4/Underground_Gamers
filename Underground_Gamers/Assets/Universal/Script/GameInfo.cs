@@ -77,6 +77,7 @@ public class GameInfo : MonoBehaviour
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
 
+            stat.name = playerInfo.name;
             stat.Hp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
             stat.maxHp = stat.Hp;
             stat.speed = pt.CalculateCurrStats(playerInfo.moveSpeed, player.level);
@@ -163,7 +164,7 @@ public class GameInfo : MonoBehaviour
             var ai = player.GetComponent<AIController>();
             var portrait = player.GetComponent<Portrait>();
             if (buildingManager != null)
-                ai.point = buildingManager.GetPoint(Line.Bottom, TeamType.PC);
+                ai.point = buildingManager.GetAttackPoint(Line.Bottom, TeamType.PC);
             ai.SetDestination(ai.point);
 
             portrait.SetPortrait(ai.spum);
