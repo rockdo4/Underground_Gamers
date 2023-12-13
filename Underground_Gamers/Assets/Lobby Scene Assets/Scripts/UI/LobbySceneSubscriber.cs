@@ -10,6 +10,8 @@ public class LobbySceneSubscriber : MonoBehaviour
     public LobbyTopMenu lobbyTopMenu;
     [SerializeField]
     public LobbyType lobbyType;
+    [SerializeField]
+    public string lobbyTypeNameID;
 
     protected virtual void Awake()
     {
@@ -19,6 +21,8 @@ public class LobbySceneSubscriber : MonoBehaviour
     public virtual void OnEnter()
     {
         gameObject.SetActive(true);
+        lobbyTopMenu.TabNameText.text = DataTableManager.instance
+            .Get<StringTable>(DataType.String).Get(lobbyTypeNameID);
     }
     public virtual void OnExit()
     {

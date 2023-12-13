@@ -9,7 +9,8 @@ public enum LobbyType
     Recruit,
     Upgrade,
     Management,
-    Schedule
+    Schedule,
+    PlayerList
 }
 public class LobbySceneUIManager : MonoBehaviour
 {

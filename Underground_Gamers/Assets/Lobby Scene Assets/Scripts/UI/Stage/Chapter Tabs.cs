@@ -7,52 +7,29 @@ using UnityEngine.UI;
 
 public class ChapterTabs : MonoBehaviour
 {
-    private ScheduleUIStory stageSelectManager;
+    public List<Toggle> stageTabs = new List<Toggle>();
     [SerializeField]
-    private int ChapterCode = 0;
+    private int LeagueType = 100;
+    private Toggle firstStage;
 
-    private List<GameObject> stageLists = new List<GameObject>();
-    private ToggleGroup toggleGroup;
-
-    private void Awake()
+    public void SetFirst()
     {
-        toggleGroup = gameObject.AddComponent<ToggleGroup>();
-        toggleGroup.allowSwitchOff = false;
-    }
-    public void OnEnter()
-    {
-        foreach (GameObject go in stageLists) 
+        firstStage = stageTabs[0];
+        int stageLevel = LeagueType - 1;
+        int currstage = GamePlayerInfo.instance.cleardStage;
+        foreach (var item in stageTabs)
         {
-            go.SetActive(true);
-        }
-    }
-    public void OnExit()
-    {
-        foreach (GameObject go in stageLists)
-        {
-            go.SetActive(false);
-        }
-    }
-
-    public void MakeButtons(GameObject buttonPrefab,Transform transform,ScheduleUIStory stageSelectManager)
-    {
-        for (int i = 0; i < 5; i++) 
-        { 
-            var toggleObj = Instantiate(buttonPrefab, transform);
-            var toggle = toggleObj.GetComponent<Toggle>();
-            toggle.group = toggleGroup;
-            toggle.isOn = false;
-            this.stageSelectManager = stageSelectManager;
-            toggle.onValueChanged.AddListener(value =>
+            if (currstage >= stageLevel++)
             {
-                if (value)
-                {
-                    this.stageSelectManager.SetStage(0);
-                }
+                item.interactable = true;
+                firstStage = item;
             }
-            );
-            toggleObj.SetActive(false);
-            stageLists.Add(toggleObj);
+            else
+            {
+                item.interactable = false;
+            }
         }
+        firstStage.interactable = true;
+        firstStage.isOn = true;
     }
 }

@@ -91,6 +91,15 @@ public class PlayerChanger : MonoBehaviour
                 };
             }
         }
+
+        if (IsFullSquad())
+        {
+            LobbySceneUIManager.instance.lobbyTopMenu.gameStartButton.interactable = true;
+        }
+        else
+        {
+            LobbySceneUIManager.instance.lobbyTopMenu.gameStartButton.interactable = false;
+        }
     }
 
     public void StartChange(int slotIndex)

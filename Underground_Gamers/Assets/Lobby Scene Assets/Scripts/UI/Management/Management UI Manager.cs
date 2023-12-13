@@ -10,6 +10,7 @@ public class ManagementUIManager : LobbySceneSubscriber
     private Transform lobbyTopMenuTransform;
     [SerializeField]
     private Transform originPos;
+    
     public override void OnEnter()
     {
         base.OnEnter();
@@ -26,7 +27,6 @@ public class ManagementUIManager : LobbySceneSubscriber
         LobbyUIManager.instance.ActiveLobby(true);
         LobbyUIManager.instance.ActivePlayerListAnyway(false);
         relesasePanel.SetActive(false);
-        PlayerReleaser.instance.EndReleaseMod();
         base.OnExit();
         lobbyTopMenu.transform.SetParent(originPos);
         lobbySceneUIManager.lobbyTopMenu.ActiveTop(false);
@@ -43,5 +43,27 @@ public class ManagementUIManager : LobbySceneSubscriber
         {
             lobbySceneUIManager.OpenWindow(1);
         }
+    }
+
+    public void OnEnterWithStart()
+    {
+         base.OnEnter();
+        lobbySceneUIManager.lobbyTopMenu.ActiveTop(true);
+        LobbyUIManager.instance.ActivePlayerList(true);
+        lobbyTopMenu.AddFunction(BackToStage);
+        originPos = lobbyTopMenu.transform.parent;
+        lobbyTopMenu.transform.SetParent(lobbyTopMenuTransform);
+        lobbyTopMenu.gameStartButton.gameObject.SetActive(true);
+    }
+
+    public void BackToStage()
+    {
+        LobbyUIManager.instance.ActivePlayerListAnyway(false);
+        relesasePanel.SetActive(false);
+        base.OnExit();
+        lobbyTopMenu.transform.SetParent(originPos);
+        lobbyTopMenu.TabNameText.text = DataTableManager.instance
+            .Get<StringTable>(DataType.String).Get("select_schedule");
+        lobbyTopMenu.gameStartButton.gameObject.SetActive(false);
     }
 }

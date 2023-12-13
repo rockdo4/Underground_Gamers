@@ -102,4 +102,9 @@ public class BaseUIManager : LobbySceneSubscriber
                      $"\n{st.Get("representative_player")} : {pt.GetPlayerInfo(code).name}";
         }
     }
+
+    public void OpenOption()
+    {
+        OptionUI.instance.OpenOption();
+    }
 }

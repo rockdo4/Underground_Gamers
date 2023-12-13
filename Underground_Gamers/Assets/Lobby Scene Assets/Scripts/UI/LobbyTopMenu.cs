@@ -11,6 +11,7 @@ public class LobbyTopMenu : MonoBehaviour
     public TMP_Text[] moneyText;
     public Button backButton;
     public Button homeButton;
+    public Button gameStartButton;
     public Stack<Action> functionStack = new Stack<Action>();
 
 
@@ -71,5 +72,10 @@ public class LobbyTopMenu : MonoBehaviour
             Action function = functionStack.Pop();
             function.Invoke();
         }
+    }
+
+    public void DeleteAllFunction()
+    {
+        functionStack.Clear();
     }
 }

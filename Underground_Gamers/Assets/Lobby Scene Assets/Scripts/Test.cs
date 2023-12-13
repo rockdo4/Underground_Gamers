@@ -6,7 +6,7 @@ public class Test : MonoBehaviour
     {
         if (init)
         {
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 50; i++)
             {
                 var pl1 = GamePlayerInfo.instance.AddPlayer(0);
                 pl1.xp = 1;

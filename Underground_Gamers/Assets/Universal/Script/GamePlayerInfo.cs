@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
-using static UnityEngine.GraphicsBuffer;
 
 public class GamePlayerInfo : MonoBehaviour
 {
@@ -27,10 +26,6 @@ public class GamePlayerInfo : MonoBehaviour
     public List<Player> havePlayers = new List<Player>();
     public List<Player> usingPlayers = new List<Player>();
 
-    public List<Gear> haveGears = new List<Gear>();
-    public List<Gear> usingGears = new List<Gear>();
-
-    [HideInInspector]
     public int cleardStage = 0;
     public string playername = "¿Ã∞®µ∂";
 
@@ -442,4 +437,166 @@ public class GamePlayerInfo : MonoBehaviour
         }
     }
 
+
+    private void OnApplicationQuit()
+    {
+        
+    }
+
+
+    public void Save(string fileName)
+    {
+        var saveData = new SaveData();
+
+        
+
+        var path = Path.Combine(Application.persistentDataPath, fileName + ".json");
+
+        var json = JsonConvert.SerializeObject(saveData, PlayerConverter);
+
+        File.WriteAllText(path, json);
+    }
+
+    public void Load(string fileName)
+    {
+        var path = Path.Combine(Application.persistentDataPath, fileName + ".json");
+        if (!File.Exists(path))
+        { return; }
+        int LoadCount = 0;
+        int LoadMoveLoopCount = 0;
+        int LoadRotateLoopCount = 0;
+        int LoadFireLoopCount = 0;
+        GameObject currentGroup = null;
+        int groupIndex = -1;
+
+        var json = File.ReadAllText(path);
+        var saveData = JsonConvert.DeserializeObject<SaveData>(json, new EditorObjInfoConverter(), new MoveLoopConverter(), new RotateLoopConverter(), new FireLoopConverter());
+
+        foreach (var loadedObj in saveData.objects)
+        {
+            GameObject obj = Instantiate(EditorObjs[loadedObj.code], loadedObj.pos, loadedObj.rot);
+            if (loadedObj.code == 10)
+            {
+                currentGroup = obj;
+                groupIndex++;
+            }
+            if (Defines.instance.isHaveElement(loadedObj.code))
+            {
+                DangerObject dangerObj = obj.GetComponent<DangerObject>();
+                dangerObj.element = (Element)loadedObj.element;
+                dangerObj.SetColor();
+            }
+            if (saveData.moveLoops != null && LoadMoveLoopCount < saveData.moveLoops.Count)
+            {
+                if (saveData.moveLoops[LoadMoveLoopCount].initCode == LoadCount)
+                {
+                    LoopBlocksList lbl = obj.AddComponent<LoopBlocksList>();
+                    lbl.moveLoopBlocks = new List<GameObject>();
+                    obj.AddComponent<MoveLoopData>().ml = new MoveLoop();
+                    MoveLoop newMl = obj.GetComponent<MoveLoopData>().ml;
+                    newMl.loopTime = saveData.moveLoops[LoadMoveLoopCount].loopTime;
+                    newMl.loopList = saveData.moveLoops[LoadMoveLoopCount].loopList;
+                    LoadMoveLoopCount++;
+                }
+            }
+            if (saveData.rotateLoops != null && LoadRotateLoopCount < saveData.rotateLoops.Count)
+            {
+                if (saveData.rotateLoops[LoadRotateLoopCount].initCode == LoadCount)
+                {
+                    LoopBlocksList lbl = obj.GetComponent<LoopBlocksList>();
+                    if (lbl == null)
+                    {
+                        lbl = obj.AddComponent<LoopBlocksList>();
+                    }
+                    lbl.rotateLoopBlocks = new List<GameObject>();
+                    obj.AddComponent<RotateLoopData>().rl = new RotateLoop();
+                    RotateLoop newRl = obj.GetComponent<RotateLoopData>().rl;
+                    newRl.loopTime = saveData.rotateLoops[LoadRotateLoopCount].loopTime;
+                    newRl.loopList = saveData.rotateLoops[LoadRotateLoopCount].loopList;
+                    LoadRotateLoopCount++;
+                }
+            }
+
+            if (saveData.fireLoops != null && LoadFireLoopCount < saveData.fireLoops.Count)
+            {
+                if (saveData.fireLoops[LoadFireLoopCount].initCode == LoadCount)
+                {
+                    LoopBlocksList lbl = obj.GetComponent<LoopBlocksList>();
+                    if (lbl == null)
+                    {
+                        lbl = obj.AddComponent<LoopBlocksList>();
+                    }
+                    lbl.fireLoopBlocks = new List<GameObject>();
+                    obj.AddComponent<FireLoopData>().fl = new FireLoop();
+                    FireLoop newFl = obj.GetComponent<FireLoopData>().fl;
+                    newFl.loopTime = saveData.fireLoops[LoadFireLoopCount].loopTime;
+                    newFl.loopList = saveData.fireLoops[LoadFireLoopCount].loopList;
+                    LoadFireLoopCount++;
+                }
+            }
+            if (groupIndex >= 0 && saveData.groupList != null && saveData.groupList[groupIndex].Contains(LoadCount))
+            {
+                obj.transform.SetParent(currentGroup.transform);
+                obj.tag = "GroupMember";
+            }
+            LoadCount++;
+        }
+    }
+}
+public class PlayerConverter : JsonConverter<Player>
+{
+    public override Player ReadJson(JsonReader reader, Type objectType, Player existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        var jobj = JObject.Load(reader);
+        var x = (float)jobj["x"];
+        var y = (float)jobj["y"];
+        return new Player();
+    }
+
+    public override void WriteJson(JsonWriter writer, Player value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+
+        writer.WritePropertyName("ID");
+        writer.WriteValue(value.ID);
+        writer.WritePropertyName("name");
+        writer.WriteValue(value.name);
+        writer.WritePropertyName("code");
+        writer.WriteValue(value.code);
+        writer.WritePropertyName("type");
+        writer.WriteValue(value.type);
+        writer.WritePropertyName("grade");
+        writer.WriteValue(value.grade);
+        writer.WritePropertyName("level");
+        writer.WriteValue(value.level);
+        writer.WritePropertyName("maxLevel");
+        writer.WriteValue(value.maxLevel);
+        writer.WritePropertyName("breakthrough");
+        writer.WriteValue(value.breakthrough);
+        writer.WritePropertyName("skillLevel");
+        writer.WriteValue(value.skillLevel);
+        writer.WritePropertyName("gearCode");
+        writer.WriteValue(value.gearCode);
+        writer.WritePropertyName("gearLevel");
+        writer.WriteValue(value.gearLevel);
+        writer.WritePropertyName("xp");
+        writer.WriteValue(value.xp);
+        writer.WritePropertyName("maxXp");
+        writer.WriteValue(value.maxXp);
+        writer.WritePropertyName("condition");
+        writer.WriteValue(value.condition);
+        writer.WritePropertyName("cost");
+        writer.WriteValue(value.cost);
+        writer.WritePropertyName("potential");
+        writer.WriteValue(value.potential);
+        writer.WritePropertyName("trainingCount");
+        writer.WriteValue(value.training.Count);
+        for (int i = 0; i < value.training.Count; i++)
+        {
+            writer.WritePropertyName($"trainingCount{i}");
+            writer.WriteValue(value.training[i]);
+        }
+
+        writer.WriteEndObject();
+    }
 }
