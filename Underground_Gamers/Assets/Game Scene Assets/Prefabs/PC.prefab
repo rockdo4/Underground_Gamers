@@ -364,7 +364,6 @@ GameObject:
   - component: {fileID: 4849755931640836790}
   - component: {fileID: 8397075612885911942}
   - component: {fileID: 2944112252538899059}
-  - component: {fileID: 2920727874916402096}
   m_Layer: 6
   m_Name: PC
   m_TagString: Untagged
@@ -485,8 +484,9 @@ MonoBehaviour:
   aiType: {fileID: 5357651350825094259}
   colorIndex: 0
   canvas: {fileID: 4409331017172970312}
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlinable: {fileID: 2920727874916402096}
+  selectOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  unselectOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  outlinable: {fileID: 0}
   tops: []
   bottoms: []
 --- !u!114 &2013940768982972327
@@ -679,47 +679,6 @@ MonoBehaviour:
   killLog: {fileID: 1420138695407371432, guid: 83023749b63dad14bb7b6278ad590b64, type: 3}
   killerPortrait: {fileID: 0}
   deadPortrait: {fileID: 0}
---- !u!114 &2920727874916402096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6281770148374587240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe91dc294731a9428c0941ea7579110, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  complexMaskingMode: 0
-  drawingMode: 1
-  outlineLayer: 0
-  outlineTargets: []
-  renderStyle: 1
-  outlineParameters:
-    enabled: 1
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 0}
-    dilateShift: 1
-    blurShift: 1
-    fillPass:
-      shader: {fileID: 0}
-      serializedProperties: []
-  backParameters:
-    enabled: 1
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    dilateShift: 1
-    blurShift: 1
-    fillPass:
-      shader: {fileID: 0}
-      serializedProperties: []
-  frontParameters:
-    enabled: 1
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    dilateShift: 1
-    blurShift: 1
-    fillPass:
-      shader: {fileID: 0}
-      serializedProperties: []
 --- !u!1001 &1723145406013783215
 PrefabInstance:
   m_ObjectHideFlags: 0

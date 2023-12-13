@@ -1,6 +1,7 @@
 using EPOOutline;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -304,7 +305,10 @@ public class AIController : MonoBehaviour
         missionTarget = point;
         MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
 
+        
+        outlinable = spum.AddComponent<Outlinable>();
         outlinable.AddAllChildRenderersToRenderingList();
+        outlinable.OutlineParameters.Color = unselectOutlineColor;
     }
     private void Update()
     {
@@ -378,7 +382,6 @@ public class AIController : MonoBehaviour
         //CommandManager commandManager = gameManager.commandManager;
         //commandManager.SetActiveCommandButton(commandManager.currentAI);
         selectEffect.SetActive(true);
-        outlinable.OutlineLayer = 5;
         outlinable.OutlineParameters.Color = selectOutlineColor;
         aiCommandInfo.SelectAI();
     }
