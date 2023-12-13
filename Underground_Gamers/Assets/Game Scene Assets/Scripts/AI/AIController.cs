@@ -397,7 +397,8 @@ public class AIController : MonoBehaviour
             }
             BattleTargetEventBus.Subscribe(status, ReleaseTarget);
         }
-        SetDestination(this.battleTarget);
+        if (this.status.IsLive)
+            SetDestination(this.battleTarget);
     }
 
     public void SetMissionTarget(Transform target)
@@ -406,7 +407,8 @@ public class AIController : MonoBehaviour
         Building building = this.missionTarget.GetComponent<Building>();
         if (building != null)
             building.AddAIController(this);
-        SetDestination(this.missionTarget.position);
+        if (status.IsLive)
+            SetDestination(this.missionTarget.position);
     }
 
     public void RefreshBuilding()

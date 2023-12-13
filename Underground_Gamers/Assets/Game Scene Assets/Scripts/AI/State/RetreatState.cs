@@ -10,6 +10,8 @@ public class RetreatState : AIState
 
     public override void Enter()
     {
+        if (!aiController.status.IsLive)
+            return;
         aiController.RefreshDebugAIStatus(this.ToString());
 
         agent.isStopped = false;

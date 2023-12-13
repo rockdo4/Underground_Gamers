@@ -68,6 +68,14 @@ public class CharacterStatus : MonoBehaviour
         IsLive = true;
         Hp = maxHp;
         GetHp();
+
+        // 상태 설정
+        if (aiController.isAttack)
+            aiController.SetState(States.MissionExecution);
+        if (aiController.isDefend)
+            aiController.SetState(States.Retreat);
+
+        // 카메라 설정
         GameManager gameManager = GetComponent<AIController>().gameManager;
         if(gameManager != null)
         {
