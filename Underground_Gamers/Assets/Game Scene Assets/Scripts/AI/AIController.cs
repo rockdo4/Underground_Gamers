@@ -1,12 +1,8 @@
-using System;
+using EPOOutline;
 using System.Collections.Generic;
-using System.Text;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
-using static UnityEngine.GraphicsBuffer;
 
 public enum OccupationType
 {
@@ -164,8 +160,11 @@ public class AIController : MonoBehaviour
     public CommandInfo aiCommandInfo;
     public TextMeshProUGUI aiType;
     public int colorIndex;
-
     public AICanvas canvas;
+    public Color selectOutlineColor;
+    public Color unselectOutlineColor;
+
+    public Outlinable outlinable;
 
     public Transform[] tops;
     public Transform[] bottoms;
@@ -260,11 +259,12 @@ public class AIController : MonoBehaviour
     }
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
-        status = GetComponent<CharacterStatus>();
-        gameManager =GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
         buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
+
+        agent = GetComponent<NavMeshAgent>();
+        status = GetComponent<CharacterStatus>();
         teamIdentity = GetComponent<TeamIdentifier>();
 
         missionTarget = point;
@@ -284,6 +284,7 @@ public class AIController : MonoBehaviour
 
     private void Start()
     {
+
         stateManager = new StateManager();
         states.Add(new IdleState(this));
         states.Add(new MissionExecutionState(this));
@@ -302,6 +303,8 @@ public class AIController : MonoBehaviour
         point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
         missionTarget = point;
         MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
+
+        outlinable.AddAllChildRenderersToRenderingList();
     }
     private void Update()
     {
@@ -354,6 +357,7 @@ public class AIController : MonoBehaviour
         //sort.sortingOrder = originSortOrder;
         //particleRenderer.sortingOrder = originSortOrder;
         //if (aiCommandInfo != null)
+        outlinable.OutlineParameters.Color = unselectOutlineColor;
 
         gameManager.commandManager.ActiveAllCommandButton();
         aiCommandInfo.UnSelectAI();
@@ -373,8 +377,10 @@ public class AIController : MonoBehaviour
         //if (aiCommandInfo != null)
         //CommandManager commandManager = gameManager.commandManager;
         //commandManager.SetActiveCommandButton(commandManager.currentAI);
-        aiCommandInfo.SelectAI();
         selectEffect.SetActive(true);
+        outlinable.OutlineLayer = 5;
+        outlinable.OutlineParameters.Color = selectOutlineColor;
+        aiCommandInfo.SelectAI();
     }
 
     public void SetBattleTarget(Transform target)
@@ -612,5 +618,7 @@ public class AIController : MonoBehaviour
         lastSupportTime = Time.time - supportTime;
 
         Reload();
+
+
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -64,5 +65,10 @@ public class CommandInfo : MonoBehaviour
     public void UnSelectAI()
     {
         aiSelectImage.SetActive(false);
+    }
+
+    public void SetPortraitInCommandInfo(int code)
+    {
+        portrait.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(code);
     }
 }

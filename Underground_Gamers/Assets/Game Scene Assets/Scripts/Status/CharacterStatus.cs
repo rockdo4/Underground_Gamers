@@ -68,6 +68,15 @@ public class CharacterStatus : MonoBehaviour
         IsLive = true;
         Hp = maxHp;
         GetHp();
+        GameManager gameManager = GetComponent<AIController>().gameManager;
+        if(gameManager != null)
+        {
+
+            if(gameManager.commandManager.currentAI == aiController)
+            {
+                gameManager.cameraManager.StartZoomIn();
+            }
+        }
     }
 
     public void GetHp()

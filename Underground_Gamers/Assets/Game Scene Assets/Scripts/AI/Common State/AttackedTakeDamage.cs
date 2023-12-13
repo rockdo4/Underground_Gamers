@@ -40,7 +40,7 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         status.GetHp();
 
         // 반격, 수정
-        if (controller != null && controller.battleTarget == null)
+        if (controller != null/* && controller.battleTarget == null*/)
         {
             //controller.battleTarget = attacker.transform;
             //TeamIdentifier targetIdentity = controller.battleTarget.GetComponent<TeamIdentifier>();

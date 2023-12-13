@@ -6,7 +6,6 @@ public class WayNode : MonoBehaviour
 {
     public float distance = 8f;
     public float enterDistance = 13f;
-    private bool isEnterTargetNode;
     private void OnTriggerStay(Collider other)
     {
         AIController controller = other.GetComponent<AIController>();
@@ -20,7 +19,10 @@ public class WayNode : MonoBehaviour
             {
                 controller.RefreshBuilding();
                 controller.SetMissionTarget(controller.missionTarget);
-                isEnterTargetNode = false;
+                if (controller.isAttack)
+                    controller.SetState(States.MissionExecution);
+                if (controller.isDefend)
+                    controller.SetState(States.Retreat);    
             }
         }
     }

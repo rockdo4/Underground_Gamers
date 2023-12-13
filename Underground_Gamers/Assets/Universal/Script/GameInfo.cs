@@ -1,3 +1,4 @@
+using EPOOutline;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -74,6 +75,7 @@ public class GameInfo : MonoBehaviour
             ai.attackInfos[1] = skillDef;
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
             ai.SetInitialization();
+            //ai.aiCommandInfo.SetPortraitInCommandInfo(player.code);
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
 
@@ -170,6 +172,8 @@ public class GameInfo : MonoBehaviour
             portrait.SetPortrait(ai.spum);
             player.GetComponent<LookCameraByScale>().SetPlayer();
             player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();
+            // 아웃라인 추가
+            player.AddComponent<Outlinable>();
         }
 
         if (players.Count > 0)

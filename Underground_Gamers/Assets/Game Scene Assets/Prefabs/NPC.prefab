@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 3634509330820221609}
   - component: {fileID: 7999683682507929584}
   - component: {fileID: 6207844426544422049}
+  - component: {fileID: 4687183793069776076}
   m_Layer: 7
   m_Name: NPC
   m_TagString: Untagged
@@ -290,6 +291,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   status: {fileID: 0}
+  gameManager: {fileID: 0}
+  buildingManager: {fileID: 0}
   teamIdentity: {fileID: 0}
   point: {fileID: 0}
   missionTarget: {fileID: 0}
@@ -304,6 +307,8 @@ MonoBehaviour:
   leftHand: {fileID: 0}
   manager: {fileID: 0}
   selectEffect: {fileID: 0}
+  selectSortOrder: 5
+  originSortOrder: 0
   hitInfoPos: {x: 0, y: 0, z: 0}
   kitingPos: {x: 0, y: 0, z: 0}
   isKiting: 0
@@ -346,6 +351,7 @@ MonoBehaviour:
   aiType: {fileID: 7521221403050446438}
   colorIndex: 0
   canvas: {fileID: 8875618295526777781}
+  outlinable: {fileID: 4687183793069776076}
   tops: []
   bottoms: []
 --- !u!114 &5619921147084294796
@@ -362,6 +368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupationType: 0
   distancePriorityType: 0
+  name: 
   maxHp: 5
   speed: 1
   sight: 3
@@ -537,6 +544,47 @@ MonoBehaviour:
   killLog: {fileID: 1420138695407371432, guid: 83023749b63dad14bb7b6278ad590b64, type: 3}
   killerPortrait: {fileID: 0}
   deadPortrait: {fileID: 0}
+--- !u!114 &4687183793069776076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378083268255723418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe91dc294731a9428c0941ea7579110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  complexMaskingMode: 0
+  drawingMode: 1
+  outlineLayer: 0
+  outlineTargets: []
+  renderStyle: 1
+  outlineParameters:
+    enabled: 1
+    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 0}
+    dilateShift: 1
+    blurShift: 1
+    fillPass:
+      shader: {fileID: 0}
+      serializedProperties: []
+  backParameters:
+    enabled: 1
+    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    dilateShift: 1
+    blurShift: 1
+    fillPass:
+      shader: {fileID: 0}
+      serializedProperties: []
+  frontParameters:
+    enabled: 1
+    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    dilateShift: 1
+    blurShift: 1
+    fillPass:
+      shader: {fileID: 0}
+      serializedProperties: []
 --- !u!1 &8472472119030048909
 GameObject:
   m_ObjectHideFlags: 0

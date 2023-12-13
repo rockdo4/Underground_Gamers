@@ -37,8 +37,6 @@ public class CommandManager : MonoBehaviour
     public CommandButton attackButton;
     public CommandButton defendButton;
 
-
-
     private Queue<(Command, AIController)> records = new Queue<(Command, AIController)>();
     private List<Command> commands = new List<Command>();
 
@@ -70,8 +68,8 @@ public class CommandManager : MonoBehaviour
     {
         attackButton.SetActiveButton(ai.isAttack);
         defendButton.SetActiveButton(ai.isDefend);
-    }    
-    
+    }
+
     public void ActiveAllCommandButton()
     {
         attackButton.SetActiveButton(false);
@@ -100,7 +98,8 @@ public class CommandManager : MonoBehaviour
         selectPanel.SetActive(true);
 
         // 카메라 무빙
-        gameManager.cameraManager.StartZoomIn();
+        if (newAI.status.IsLive)
+            gameManager.cameraManager.StartZoomIn();
 
         //Time.timeScale = selectTime;
     }
@@ -132,8 +131,11 @@ public class CommandManager : MonoBehaviour
 
             //var text = info.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
             //text.text = $"{info.aiType}{info.aiNum}";
+
             // 초상화 생성
             var portrait = info.portrait.GetComponent<Image>();
+
+            // 테스트 코드, 0~3, Lobby에서 받을때 사용 금지
             portrait.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(pcNum);
 
             // 텍스트 입히기
@@ -144,7 +146,7 @@ public class CommandManager : MonoBehaviour
 
             // 버튼 기능 부여, 캐릭터 선택
             var infoButton = info.GetComponent<Button>();
-            infoButton.onClick.AddListener(() =>SelectNewAI(info.aiController));
+            infoButton.onClick.AddListener(() => SelectNewAI(info.aiController));
             //infoButton.onClick.AddListener(info.aiController.SelectAI);
 
 
@@ -175,7 +177,7 @@ public class CommandManager : MonoBehaviour
     {
         commands[(int)CommandType.SwitchLine].ExecuteCommand(aiManager.pc[aiIndex], wayPoint);
     }
-    public void ExecuteCommand(CommandType type , AIController ai)
+    public void ExecuteCommand(CommandType type, AIController ai)
     {
         commands[(int)type].ExecuteCommand(ai, wayPoint);
     }
