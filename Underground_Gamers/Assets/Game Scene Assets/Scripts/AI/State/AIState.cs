@@ -176,4 +176,64 @@ public abstract class AIState : BaseState
             return;
         }
     }
+
+    protected void SearchTargetInPatrol()
+    {
+        var enemyCols = Physics.OverlapSphere(aiTr.position, aiStatus.sight, aiController.enemyLayer);
+
+        Transform target = null;
+
+        foreach (var col in enemyCols)
+        {
+            var dirToTarget = col.transform.position - aiTr.position;
+            dirToTarget.Normalize();
+            if (Physics.Raycast(aiTr.position, dirToTarget, aiStatus.sight, aiController.obstacleLayer))
+                continue;
+
+            // 우선순위 기준 선택
+            CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
+            for (int i = 0; i < aiController.priorityByOccupation.Count; ++i)
+            {
+                if (aiController.priorityByOccupation[i].SetTargetByPriority(aiController, colStatus))
+                {
+                    aiController.occupationIndex = Mathf.Min(aiController.occupationIndex, i);
+                    break;
+                }
+            }
+
+        }
+
+        // 우선순위로 타겟 필터링
+        foreach (var col in enemyCols)
+        {
+            CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
+            TeamIdentifier colIdentity = col.GetComponent<TeamIdentifier>();
+            // 전투중일때는 건물 탐색 제외
+            if (colIdentity != null && colIdentity.isBuilding && aiController.isBattle)
+                continue;
+            if (aiController.priorityByOccupation[aiController.occupationIndex].SetTargetByPriority(aiController, colStatus))
+            {
+                if (aiController.battleTarget == null)
+                {
+                    aiController.battleTarget = col.transform;
+                    target = col.transform;
+                }
+
+                if (aiController.priorityByDistance.SetTargetByPriority(aiController, colStatus))
+                {
+                    target = col.transform;
+                }
+            }
+        }
+
+        aiController.occupationIndex = int.MaxValue;
+
+        if (target != null)
+        {
+            aiController.SetBattleTarget(target);
+            aiController.SetState(States.Trace);
+            return;
+        }
+    }
+
 }

@@ -45,6 +45,12 @@ public class MissionExecutionState : AIState
             return;
         }
 
+        if(aiController.isDefend)
+        {
+            aiController.SetState(States.Retreat);
+            return;
+        }
+
         if (aiController.missionTarget == null)
         {
             // ¼öÁ¤

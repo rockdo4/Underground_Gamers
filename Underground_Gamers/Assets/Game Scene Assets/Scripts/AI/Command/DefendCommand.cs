@@ -20,18 +20,22 @@ public class DefendCommand : Command
             //    _ => ai.gameManager.aiManager.pc
             //};
 
-            foreach (var aIController in gameManager.aiManager.pc)
+            foreach (var aiController in gameManager.aiManager.pc)
             {
-                aIController.isDefend = true;
-                aIController.isAttack = false;
+                aiController.isDefend = true;
+                aiController.isAttack = false;
+                aiController.SetState(States.Retreat);
 
-                Debug.Log($"{aIController.aiType.text} : Defend Command Execute");
+                Debug.Log($"{aiController.aiType.text} : Defend Command Execute");
             }
         }         // 개별명령
         else
         {
             ai.isDefend = true;
             ai.isAttack = false;
+
+            ai.SetState(States.Retreat);
+
             gameManager.commandManager.SetActiveCommandButton(ai);
             Debug.Log($"{ai.aiType.text} : Defend Command Execute");
         }

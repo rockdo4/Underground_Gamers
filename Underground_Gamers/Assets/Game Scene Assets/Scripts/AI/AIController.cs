@@ -36,6 +36,8 @@ public enum States
     Attack,
     Kiting,
     Reloading,
+    Retreat,
+    Patrol
 }
 
 public enum SkillTypes
@@ -59,7 +61,7 @@ public class AIController : MonoBehaviour
 
     private AIManager aiManager;
     public GameManager gameManager;
-    private BuildingManager buildingManager;
+    public BuildingManager buildingManager;
     public TeamIdentifier teamIdentity;
 
     private StateManager stateManager;
@@ -220,9 +222,18 @@ public class AIController : MonoBehaviour
             }
             Vector3 targetPos = missionTarget.transform.position;
             targetPos.y = transform.position.y;
+            Collider col = missionTarget.GetComponent<Collider>();
+            if (col != null)
+            {
+                var colDir = transform.position - targetPos;
+                colDir.Normalize();
+                var colDis = colDir * col.bounds.extents.x;
+                targetPos += colDis;
+            }
             return Vector3.Distance(transform.position, targetPos);
         }
     }
+
     public float DistanceToBattleTarget
     {
         get
@@ -281,6 +292,8 @@ public class AIController : MonoBehaviour
         states.Add(new AttackState(this));
         states.Add(new KitingState(this));
         states.Add(new ReloadingState(this));
+        states.Add(new RetreatState(this));
+        states.Add(new PatrolState(this));
 
         agent.speed = status.speed;
         //agent.SetDestination(point.position);
@@ -305,6 +318,7 @@ public class AIController : MonoBehaviour
             isOnCoolBaseAttack = true;
         }
 
+        // 수비 소강 상태일때도 재장전
         if (isReloading)
         {
             float time = (1 - (Time.time - lastReloadTime) / reloadCoolTime);

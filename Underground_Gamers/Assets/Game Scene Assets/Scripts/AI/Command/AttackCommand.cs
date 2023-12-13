@@ -20,17 +20,30 @@ public class AttackCommand : Command
             //    _ => ai.gameManager.aiManager.pc
             //};
 
-            foreach (var aIController in gameManager.aiManager.pc)
+            foreach (var aiController in gameManager.aiManager.pc)
             {
-                aIController.isAttack = true;
-                aIController.isDefend = false;
-                Debug.Log($"{aIController.aiType.text} : Attack Command Execute");
+                aiController.isAttack = true;
+                aiController.isDefend = false;
+
+                Transform attackTarget = aiController.buildingManager.GetAttackPoint(aiController.currentLine, aiController.teamIdentity.teamType);
+                aiController.battleTarget = null;
+                aiController.SetMissionTarget(attackTarget);
+                aiController.SetState(States.MissionExecution);
+
+                Debug.Log($"{aiController.aiType.text} : Attack Command Execute");
             }
         }       // 개별명령
         else
         {
             ai.isAttack = true;
             ai.isDefend = false;
+            ai.SetState(States.MissionExecution);
+
+            Transform attackTarget = ai.buildingManager.GetAttackPoint(ai.currentLine, ai.teamIdentity.teamType);
+            ai.battleTarget = null;
+            ai.SetMissionTarget(attackTarget);
+            ai.SetState(States.MissionExecution);
+
             gameManager.commandManager.SetActiveCommandButton(ai);
             Debug.Log($"{ai.aiType.text} : Attack Command Execute");
         }

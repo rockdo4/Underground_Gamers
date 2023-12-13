@@ -38,10 +38,8 @@ public class AimSearchState : AIState
             // Å½»ö ¹× Å¸°Ù ¼³Á¤
             SearchTargetInDetectionRange();
             SearchTargetInSector();
-
         }
     
-        
         if (aiController.battleTarget == null)
         {
             aiController.SetState(States.MissionExecution);
