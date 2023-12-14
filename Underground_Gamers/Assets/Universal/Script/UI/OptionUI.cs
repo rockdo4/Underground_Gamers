@@ -32,5 +32,6 @@ public class OptionUI : MonoBehaviour
 #else
         Application.Quit();
 #endif
+        GamePlayerInfo.instance.SaveFile();
     }
 }

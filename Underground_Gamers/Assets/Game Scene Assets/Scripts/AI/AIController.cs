@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public enum OccupationType
 {
@@ -53,6 +54,7 @@ public enum SkillActionTypes
 
 public class AIController : MonoBehaviour
 {
+    public int code;
     public NavMeshAgent agent;
     public CharacterStatus status;
 
@@ -266,10 +268,6 @@ public class AIController : MonoBehaviour
     }
     private void Awake()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
-        buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
-
         agent = GetComponent<NavMeshAgent>();
         status = GetComponent<CharacterStatus>();
         teamIdentity = GetComponent<TeamIdentifier>();
@@ -311,8 +309,17 @@ public class AIController : MonoBehaviour
         missionTarget = point;
         MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
 
-        
-        outlinable = spum.AddComponent<Outlinable>();
+
+        //outlinable = spum.AddComponent<Outlinable>();
+        //outlinable.AddAllChildRenderersToRenderingList();
+        //outlinable.OutlineParameters.Color = unselectOutlineColor;
+    }
+
+    public void InitInGameScene()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
+        buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
         outlinable.AddAllChildRenderersToRenderingList();
         outlinable.OutlineParameters.Color = unselectOutlineColor;
     }

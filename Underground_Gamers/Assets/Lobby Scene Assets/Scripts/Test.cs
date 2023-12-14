@@ -4,7 +4,7 @@ public class Test : MonoBehaviour
     bool init = true;
     private void Update()
     {
-        if (init)
+        if (GamePlayerInfo.instance.isInit)
         {
             for (int i = 0; i < 2; i++)
             {
@@ -31,7 +31,8 @@ public class Test : MonoBehaviour
             GamePlayerInfo.instance.crystal += 5000;
             init = false;
             LobbyUIManager.instance.UpdateMoneyInfo();
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
+
 }

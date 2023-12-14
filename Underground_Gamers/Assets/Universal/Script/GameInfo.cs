@@ -55,6 +55,8 @@ public class GameInfo : MonoBehaviour
             madePlayer.AddComponent<DontDestroy>();
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{player.code}")), madePlayer.transform);
             madePlayerCharactor.AddComponent<LookCameraRect>();
+            var outLine = madePlayerCharactor.AddComponent<Outlinable>();
+
             float charactorScale = madePlayerCharactor.transform.localScale.x;
 
             var ai = madePlayer.GetComponent<AIController>();
@@ -79,8 +81,10 @@ public class GameInfo : MonoBehaviour
             ai.attackInfos[0] = atkDef;
             ai.attackInfos[1] = skillDef;
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
+            ai.code = playerInfo.code;
             ai.SetInitialization();
             //ai.aiCommandInfo.SetPortraitInCommandInfo(player.code);
+            ai.outlinable = outLine;
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
 
@@ -173,13 +177,15 @@ public class GameInfo : MonoBehaviour
             if (buildingManager != null)
                 ai.point = buildingManager.GetAttackPoint(Line.Bottom, TeamType.PC);
             ai.SetDestination(ai.point);
-
             ai.spum.gameObject.AddComponent<Outlinable>();
+            ai.InitInGameScene();
+
             portrait.SetPortrait(ai.spum);
             player.GetComponent<LookCameraByScale>().SetPlayer();
             player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();
             // 아웃라인 추가
             player.AddComponent<Outlinable>();
+
         }
 
         if (players.Count > 0)

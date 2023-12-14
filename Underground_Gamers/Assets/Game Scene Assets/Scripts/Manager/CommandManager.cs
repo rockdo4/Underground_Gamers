@@ -136,7 +136,7 @@ public class CommandManager : MonoBehaviour
             var portrait = info.portrait.GetComponent<Image>();
 
             // 테스트 코드, 0~3, Lobby에서 받을때 사용 금지
-            portrait.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(pcNum);
+            portrait.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(ai.code);
 
             // 텍스트 입히기
             info.name = $"{info.name}{pcNum}";

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Portrait : MonoBehaviour
@@ -9,10 +10,10 @@ public class Portrait : MonoBehaviour
 
     private void Awake()
     {
-        if(portrait == null)
+        if (portrait == null)
         {
             var ai = transform.GetComponent<AIController>();
-            if(ai != null)
+            if (ai != null && ai.teamIdentity == null)
             {
                 SetPortrait(ai.spum);
             }

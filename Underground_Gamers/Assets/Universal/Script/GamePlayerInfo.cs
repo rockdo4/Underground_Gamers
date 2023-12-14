@@ -45,6 +45,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public List<int> tradeCenter = new List<int>();
     public DateTime lastRecruitTime = DateTime.MinValue;
+    public bool isInit = false;
 
     private PlayerTable pt;
     [HideInInspector]
@@ -440,7 +441,6 @@ public class GamePlayerInfo : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        SaveFile();
         Debug.Log("Saved!");
     }
 
@@ -477,27 +477,7 @@ public class GamePlayerInfo : MonoBehaviour
         var path = Path.Combine(Application.persistentDataPath, "savefile.json");
         if (!File.Exists(path))
         {
-            //�ʱⰪ
-            for (int i = 0; i < 2; i++)
-            {
-                var pl1 = AddPlayer(0);
-                pl1.xp = 1;
-                pl1.level = 4;
-                var pl2 =AddPlayer(1);
-                pl2.xp = 3;
-                pl2.level = 3;
-                var pl3 = AddPlayer(2);
-                pl3.xp = 5;
-                pl3.level = 2;
-                var pl4 = AddPlayer(3);
-                pl4.xp = 7;
-                pl4.level = 1;
-            }
-
-            for (int i = 0; i < XpItem.Count; i++)
-            {
-                XpItem[i] += 15;
-            }
+            isInit = true;
             return;
         }
 

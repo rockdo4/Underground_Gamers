@@ -9,7 +9,7 @@ public class LookCameraByScale : MonoBehaviour
 
     private void Awake()
     {
-        if (transform.childCount > 1 && transform.GetChild(2).GetComponent<RectTransform>() != null)
+        if (transform.childCount > 2 && transform.GetChild(2).GetComponent<RectTransform>() != null)
         {
             SetPlayer();
         }
