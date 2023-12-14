@@ -13,7 +13,7 @@ public class RespawnableObject : MonoBehaviour, IRespawnable
         if (status == null)
             return;
 
-        float currentRespawnTime = status.respawnTime + (float)status.deathCount * status.respawnTimeIncreaseRate + Time.time;
+        float currentRespawnTime = status.respawnTime + /*(float)status.deathCount  status.respawnTimeIncreaseRate +*/ Time.time;
         float currentTime = Time.time;
         if (commandInfo != null)
         {
@@ -25,6 +25,6 @@ public class RespawnableObject : MonoBehaviour, IRespawnable
         else if(aIController.layer == LayerMask.GetMask("NPC"))
             respawner.npcRespawnTimers.Add((aIController, currentRespawnTime));
 
-        status.deathCount++;
+        //status.deathCount++;
     }
 }

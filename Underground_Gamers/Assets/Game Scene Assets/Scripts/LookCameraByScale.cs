@@ -9,7 +9,7 @@ public class LookCameraByScale : MonoBehaviour
 
     private void Awake()
     {
-        if (transform.childCount > 1 && transform.GetChild(1).GetComponent<RectTransform>() != null)
+        if (transform.childCount > 1 && transform.GetChild(2).GetComponent<RectTransform>() != null)
         {
             SetPlayer();
         }
@@ -17,7 +17,7 @@ public class LookCameraByScale : MonoBehaviour
 
     public void SetPlayer()
     {
-        rect = transform.GetChild(1).GetComponent<RectTransform>();
+        rect = transform.GetChild(2).GetComponent<RectTransform>();
         cameraRight = Camera.main.transform.right;
     }
     // Update is called once per frame

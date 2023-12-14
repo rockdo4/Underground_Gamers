@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum Line
 {
+    None = -1,
     Top,
     Bottom,
     Count

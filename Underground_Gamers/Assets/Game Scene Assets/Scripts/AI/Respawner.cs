@@ -27,10 +27,10 @@ public class Respawner : MonoBehaviour
                 pcRespawnTimers[i].Item1.aiCommandInfo.OffRespawnUI();
 
                 //aiManager.pc.Add(pcRespawnTimers[i].Item1);
-                pcRespawnTimers[i].Item1.status.Respawn();
-                pcRespawnTimers[i].Item1.SetState(States.Idle);
-                pcRespawnTimers[i].Item1.SetInitialization();
                 pcRespawnTimers[i].Item1.gameObject.SetActive(true);
+                pcRespawnTimers[i].Item1.SetState(States.Idle);
+                pcRespawnTimers[i].Item1.status.Respawn();
+                pcRespawnTimers[i].Item1.SetInitialization();
                 ParticleSystem effect = aiParticlePrefabs[pcRespawnTimers[i].Item1.colorIndex];
                 if (effect != null)
                 {
@@ -54,10 +54,10 @@ public class Respawner : MonoBehaviour
                 npcRespawnTimers[i].Item1.transform.position = npcReSpawner.position +
                     new Vector3(Random.Range(-respawnRange, respawnRange), 0f, Random.Range(-respawnRange, respawnRange));
 
-                npcRespawnTimers[i].Item1.status.Respawn();
-                npcRespawnTimers[i].Item1.SetState(States.Idle);
-                npcRespawnTimers[i].Item1.SetInitialization();
                 npcRespawnTimers[i].Item1.gameObject.SetActive(true);
+                npcRespawnTimers[i].Item1.SetState(States.Idle);
+                npcRespawnTimers[i].Item1.status.Respawn();
+                npcRespawnTimers[i].Item1.SetInitialization();
                 ParticleSystem effect = aiParticlePrefabs[npcRespawnTimers[i].Item1.colorIndex];
                 if (effect != null)
                 {

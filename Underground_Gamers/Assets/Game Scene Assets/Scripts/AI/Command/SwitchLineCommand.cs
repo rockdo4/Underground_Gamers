@@ -6,10 +6,10 @@ public class SwitchLineCommand : Command
 {
     public override void ExecuteCommand(AIController ai, WayPoint wayPoint)
     {
-        if (!ai.status.IsLive)
-        {
-            return;
-        }
+        //if (!ai.status.IsLive)
+        //{
+        //    return;
+        //}
         int line = (int)ai.currentLine;
         line++;
         ai.currentLine = (Line)(line % (int)Line.Count);
@@ -24,7 +24,9 @@ public class SwitchLineCommand : Command
         Transform lineWayPoint = Utils.FindNearestPoint(ai, wayPoints);
         if (lineWayPoint != null)
         {
-            ai.SetMissionTarget(lineWayPoint);
+            // 여기서 타겟만 잡아준다, 죽은 이후 명령 수행하기 위함
+            ai.missionTarget = lineWayPoint;
+            //ai.SetMissionTarget(lineWayPoint);
         }
     }
 }

@@ -15,6 +15,9 @@ public class TeamIdentifier : MonoBehaviour
 
     public bool isBuilding;
     public Transform buildingTarget;
+    [Header("건축물 설정 사항")]
+    public TeamType teamType;
+    public Line line;
 
     private float targetReleaseTime = 3f;
     private float lastTargetReleaseTime;

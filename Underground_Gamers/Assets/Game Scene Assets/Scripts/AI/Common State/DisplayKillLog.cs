@@ -9,7 +9,7 @@ public class DisplayKillLog : MonoBehaviour, IDestroyable
     public GameObject killerPortrait;
     public GameObject deadPortrait;
 
-    private void Awake()
+    private void Start()
     {
         killLogPanel = GameObject.FindGameObjectWithTag("KillLogPanel").GetComponent<KillLogPanel>();
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Portrait : MonoBehaviour
 {
     public GameObject portrait;
+    private float scale = 100f;
 
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class Portrait : MonoBehaviour
             if(child.name == "HeadSet")
             {
                 portrait = Instantiate(child.gameObject);
+                portrait.SetActive(false);
                 return;
             }
         }

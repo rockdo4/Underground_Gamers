@@ -1,11 +1,9 @@
-using System;
+using EPOOutline;
 using System.Collections.Generic;
-using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.GraphicsBuffer;
 
 public enum OccupationType
 {
@@ -35,6 +33,8 @@ public enum States
     Attack,
     Kiting,
     Reloading,
+    Retreat,
+    Patrol
 }
 
 public enum SkillTypes
@@ -56,6 +56,11 @@ public class AIController : MonoBehaviour
     public NavMeshAgent agent;
     public CharacterStatus status;
 
+    private AIManager aiManager;
+    public GameManager gameManager;
+    public BuildingManager buildingManager;
+    public TeamIdentifier teamIdentity;
+
     private StateManager stateManager;
     private List<BaseState> states = new List<BaseState>();
 
@@ -72,6 +77,11 @@ public class AIController : MonoBehaviour
     public Transform rightHand;
     public Transform leftHand;
     public AIManager manager;
+
+    [Header("AI 선택")]
+    public GameObject selectEffect;
+    public int selectSortOrder = 5;
+    public int originSortOrder = 0;
 
     public Vector3 hitInfoPos;
     public Vector3 kitingPos;
@@ -151,8 +161,11 @@ public class AIController : MonoBehaviour
     public CommandInfo aiCommandInfo;
     public TextMeshProUGUI aiType;
     public int colorIndex;
-
     public AICanvas canvas;
+    public Color selectOutlineColor;
+    public Color unselectOutlineColor;
+
+    public Outlinable outlinable;
 
     public Transform[] tops;
     public Transform[] bottoms;
@@ -179,7 +192,13 @@ public class AIController : MonoBehaviour
             float sightDot = Vector3.Dot(sightDirection, transform.forward);
 
             float dot = Vector3.Dot(direction, transform.forward);
+
+            // dot = 1 일 시, Acos 을 넘기면 NoN이 뜨는 문제로, 0으로 변환
             float angleInRadians = Mathf.Acos(dot);
+            if (dot >= 1)
+            {
+                angleInRadians = 0;
+            }
             float angleInDegrees = angleInRadians * Mathf.Rad2Deg;
             float cosineValue = Mathf.Abs(Mathf.Cos(angleInDegrees));
             float attackRange = status.range / cosineValue;
@@ -209,6 +228,14 @@ public class AIController : MonoBehaviour
             }
             Vector3 targetPos = missionTarget.transform.position;
             targetPos.y = transform.position.y;
+            Collider col = missionTarget.GetComponent<Collider>();
+            if (col != null)
+            {
+                var colDir = transform.position - targetPos;
+                colDir.Normalize();
+                var colDis = colDir * col.bounds.extents.x;
+                targetPos += colDis;
+            }
             return Vector3.Distance(transform.position, targetPos);
         }
     }
@@ -239,11 +266,15 @@ public class AIController : MonoBehaviour
     }
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
-        // 데이터 테이블에 따라서 정보를 가져올 수 있음, 레벨 정보는 세이브 데이터
-        status = GetComponent<CharacterStatus>();
-        missionTarget = point;
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
+        buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
 
+        agent = GetComponent<NavMeshAgent>();
+        status = GetComponent<CharacterStatus>();
+        teamIdentity = GetComponent<TeamIdentifier>();
+
+        missionTarget = point;
         SetInitialization();
 
         teamLayer = layer;
@@ -260,6 +291,7 @@ public class AIController : MonoBehaviour
 
     private void Start()
     {
+
         stateManager = new StateManager();
         states.Add(new IdleState(this));
         states.Add(new MissionExecutionState(this));
@@ -268,11 +300,21 @@ public class AIController : MonoBehaviour
         states.Add(new AttackState(this));
         states.Add(new KitingState(this));
         states.Add(new ReloadingState(this));
+        states.Add(new RetreatState(this));
+        states.Add(new PatrolState(this));
 
         agent.speed = status.speed;
         //agent.SetDestination(point.position);
 
         SetState(States.Idle);
+        point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
+        missionTarget = point;
+        MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
+
+        
+        outlinable = spum.AddComponent<Outlinable>();
+        outlinable.AddAllChildRenderersToRenderingList();
+        outlinable.OutlineParameters.Color = unselectOutlineColor;
     }
     private void Update()
     {
@@ -289,6 +331,7 @@ public class AIController : MonoBehaviour
             isOnCoolBaseAttack = true;
         }
 
+        // 수비 소강 상태일때도 재장전
         if (isReloading)
         {
             float time = (1 - (Time.time - lastReloadTime) / reloadCoolTime);
@@ -309,10 +352,44 @@ public class AIController : MonoBehaviour
 
         UpdateBuff();
 
-
-
-        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
         //최대 속도일때 0.5f가 되어야 함으로 2로나눔
+        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
+    }
+
+    public void UnSelectAI()
+    {
+        // 패널 아래로 내리기 / 레이어 재설정
+        //SortingGroup sort = spum.GetComponentInChildren<SortingGroup>();
+        //Canvas canvas = transform.GetComponentInChildren<Canvas>();
+        //var particleRenderer = transform.GetComponentInChildren<ParticleSystem>().GetComponent<Renderer>();
+
+        //canvas.sortingOrder = originSortOrder;
+        //sort.sortingOrder = originSortOrder;
+        //particleRenderer.sortingOrder = originSortOrder;
+        //if (aiCommandInfo != null)
+        outlinable.OutlineParameters.Color = unselectOutlineColor;
+
+        gameManager.commandManager.ActiveAllCommandButton();
+        aiCommandInfo.UnSelectAI();
+        selectEffect.SetActive(false);
+    }
+
+    public void SelectAI()
+    {
+        // 패널 위에 띄우기
+        //SortingGroup sort = spum.GetComponentInChildren<SortingGroup>();
+        //Canvas canvas = transform.GetComponentInChildren<Canvas>();
+        //var particleRenderer = transform.GetComponentInChildren<ParticleSystem>(true).GetComponent<Renderer>();
+
+        //canvas.sortingOrder = selectSortOrder;
+        //sort.sortingOrder = selectSortOrder;
+        //particleRenderer.sortingOrder = selectSortOrder;
+        //if (aiCommandInfo != null)
+        //CommandManager commandManager = gameManager.commandManager;
+        //commandManager.SetActiveCommandButton(commandManager.currentAI);
+        selectEffect.SetActive(true);
+        outlinable.OutlineParameters.Color = selectOutlineColor;
+        aiCommandInfo.SelectAI();
     }
 
     public void SetBattleTarget(Transform target)
@@ -329,29 +406,24 @@ public class AIController : MonoBehaviour
             }
             BattleTargetEventBus.Subscribe(status, ReleaseTarget);
         }
-        SetDestination(this.battleTarget);
+        if (this.status.IsLive)
+            SetDestination(this.battleTarget);
     }
 
     public void SetMissionTarget(Transform target)
     {
-        //Transform prevTarget = this.missionTarget;
-        //this.missionTarget = target;
-
-        //CharacterStatus status = target.GetComponent<CharacterStatus>();
-        //if (status != null)
-        //{
-        //    if(prevTarget != null)
-        //    {
-        //        // 이 부분 수정해야함
-        //        CharacterStatus prevTargetStatus = prevTarget.GetComponent<CharacterStatus>();
-        //        BattleTargetEventBus.Unsubscribe(prevTargetStatus, ReleaseTarget);
-        //    }
-        //    BattleTargetEventBus.Subscribe(status, ReleaseTarget);
-        //}
-
         this.missionTarget = target;
+        Building building = this.missionTarget.GetComponent<Building>();
+        if (building != null)
+            building.AddAIController(this);
+        if (status.IsLive)
+            SetDestination(this.missionTarget.position);
+    }
 
-        SetDestination(this.missionTarget.position);
+    public void RefreshBuilding()
+    {
+        point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
+        missionTarget = point;
     }
 
     public void ReleaseTarget()
@@ -443,14 +515,14 @@ public class AIController : MonoBehaviour
                     }
                 }
             }
-            else if(isDefend)
+            else if (isDefend)
             {
                 TeamIdentifier colIdentity = col.GetComponent<TeamIdentifier>();
                 // 구조물이 여러개일 경우가 있을까?
                 // 구조물 검사
                 if (colIdentity != null && colIdentity.isBuilding)
                 {
-                    if(colIdentity.buildingTarget)
+                    if (colIdentity.buildingTarget)
                     {
                         target = colIdentity.buildingTarget;
                         break;
@@ -501,7 +573,6 @@ public class AIController : MonoBehaviour
             removedBuffs.Clear();
         }
     }
-
 
     private void OnDrawGizmos()
     {
@@ -558,5 +629,7 @@ public class AIController : MonoBehaviour
         lastSupportTime = Time.time - supportTime;
 
         Reload();
+
+
     }
 }

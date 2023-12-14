@@ -39,16 +39,13 @@ public class TraceState : AIState
             return;
         }
 
+        RotateToTarget();
+
         if (aiController.battleTarget == null)
         {
             aiController.SetState(States.MissionExecution);
             return;
         }
-
-        //if(lastDetectTime + aiController.detectTime < Time.time && aiController.battleTarget != null)
-        //{
-        //    aiController.SetDestination(aiController.battleTarget);
-        //}
 
         if(aiController.DistanceToBattleTarget < aiStatus.range)
         {
@@ -64,22 +61,8 @@ public class TraceState : AIState
             SearchTargetInDetectionRange();
             SearchTargetInSector();
 
-            //aiController.SetDestination(aiController.battleTarget);
+            // 수정해야할까?
+            //aiController.SetDestination(aiController.battleTarget.position);
         }
-
-        //if (lastDetectTime + aiController.detectTime < Time.time)
-        //{
-        //    lastDetectTime = Time.time;
-
-        //    SearchTargetInDetectionRange();
-        //    SearchTargetInSector();
-
-        //    agent.SetDestination(aiController.target.position);
-        //}
-
-        //if(DistanceToTarget > aiStatus.range)
-        //{
-        //    aiController.SetDestination(aiController.target.position);
-        //}
     }
 }

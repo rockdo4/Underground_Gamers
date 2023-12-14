@@ -1,3 +1,4 @@
+using EPOOutline;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -79,9 +80,11 @@ public class GameInfo : MonoBehaviour
             ai.attackInfos[1] = skillDef;
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
             ai.SetInitialization();
+            //ai.aiCommandInfo.SetPortraitInCommandInfo(player.code);
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
 
+            stat.name = playerInfo.name;
             stat.Hp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
             stat.maxHp = stat.Hp;
             stat.speed = pt.CalculateCurrStats(playerInfo.moveSpeed, player.level);
@@ -145,6 +148,8 @@ public class GameInfo : MonoBehaviour
 
         // 수정 할 곳
         var buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
+        var aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
+
 
         if (startPos.Length < 1)
         {
@@ -166,21 +171,26 @@ public class GameInfo : MonoBehaviour
             var ai = player.GetComponent<AIController>();
             var portrait = player.GetComponent<Portrait>();
             if (buildingManager != null)
-                ai.point = buildingManager.GetPoint(Line.Bottom, TeamType.PC);
+                ai.point = buildingManager.GetAttackPoint(Line.Bottom, TeamType.PC);
             ai.SetDestination(ai.point);
 
+            ai.spum.gameObject.AddComponent<Outlinable>();
             portrait.SetPortrait(ai.spum);
             player.GetComponent<LookCameraByScale>().SetPlayer();
             player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();
+            // 아웃라인 추가
+            player.AddComponent<Outlinable>();
         }
 
         if (players.Count > 0)
         {
             foreach (var player in players)
             {
-                GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>().pc.Add(player.GetComponent<AIController>());
+                aiManager.pc.Add(player.GetComponent<AIController>());
             }
         }
+
+        aiManager.RegisterMissionTargetEvent();
     }
 
     public void DeletePlayers()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,6 +10,8 @@ public class CommandInfo : MonoBehaviour
     public string aiType;
     public int aiNum;
 
+    private GameManager gameManager;
+
     public AIController aiController;
     public GameObject respawnTimeUI;
     public TextMeshProUGUI respawnTimeText;
@@ -18,9 +21,18 @@ public class CommandInfo : MonoBehaviour
 
     public List<Button> commandButtons = new List<Button>();
 
+    public GameObject aiSelectImage;
+    public Image portrait;
+
+    private void Awake()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
+
     private void Start()
     {
         respawnTimeUI.SetActive(false);
+        aiSelectImage.SetActive(false);
     }
 
     public void OnRespawnUI(float time)
@@ -42,5 +54,21 @@ public class CommandInfo : MonoBehaviour
     public void RefreshRespawnCoolTime(float coolTime)
     {
         respawnCoolTime.fillAmount = coolTime;
+    }
+
+    public void SelectAI()
+    {
+        gameManager.commandManager.SetActiveCommandButton(aiController);
+        aiSelectImage.SetActive(true);
+    }
+
+    public void UnSelectAI()
+    {
+        aiSelectImage.SetActive(false);
+    }
+
+    public void SetPortraitInCommandInfo(int code)
+    {
+        portrait.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(code);
     }
 }

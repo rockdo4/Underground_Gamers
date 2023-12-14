@@ -8,7 +8,7 @@ public class SettingAIID : MonoBehaviour
     private List<Color> colors = new List<Color>();
     public float outlineWidth;
 
-    public void Awake()
+    public void Start()
     {
         int pcID = 1;
         int npcID = 1;
@@ -23,7 +23,9 @@ public class SettingAIID : MonoBehaviour
             ai.aiType.outlineColor = Color.white;
             ai.aiType.color = colors[pcID - 1];
             ai.colorIndex = pcID - 1;
-            ai.aiType.text = $"PC{pcID++}";
+            pcID++;
+            //ai.aiType.text = $"PC{pcID++}";
+            ai.aiType.text = ai.status.name;
         }
         foreach (var ai in aiManager.npc)
         {
@@ -31,7 +33,9 @@ public class SettingAIID : MonoBehaviour
             ai.aiType.outlineColor = Color.black;
             ai.aiType.color = colors[npcID - 1];
             ai.colorIndex = npcID - 1;
-            ai.aiType.text = $"NPC{npcID++}";
+            npcID++;
+            //ai.aiType.text = $"NPC{npcID++}";
+            ai.aiType.text = ai.status.name;
         }
     }
 }

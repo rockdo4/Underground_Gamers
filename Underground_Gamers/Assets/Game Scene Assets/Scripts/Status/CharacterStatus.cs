@@ -8,6 +8,8 @@ public class CharacterStatus : MonoBehaviour
     public OccupationType occupationType = OccupationType.None;
     public DistancePriorityType distancePriorityType = DistancePriorityType.None;
 
+    public string name;
+
     [Header("스텟")]
     public int maxHp = 50;
     public float speed;
@@ -66,6 +68,23 @@ public class CharacterStatus : MonoBehaviour
         IsLive = true;
         Hp = maxHp;
         GetHp();
+
+        // 상태 설정
+        if (aiController.isAttack)
+            aiController.SetState(States.MissionExecution);
+        if (aiController.isDefend)
+            aiController.SetState(States.Retreat);
+
+        // 카메라 설정
+        GameManager gameManager = GetComponent<AIController>().gameManager;
+        if(gameManager != null)
+        {
+
+            if(gameManager.commandManager.currentAI == aiController)
+            {
+                gameManager.cameraManager.StartZoomIn();
+            }
+        }
     }
 
     public void GetHp()

@@ -22,10 +22,12 @@ public class GameManager : MonoBehaviour
     public CharacterStatus pcNexus;
     public CharacterStatus npcNexus;
 
+    public CameraManager cameraManager;
+    public CommandManager commandManager;
+
     private void Awake()
     {
         PlayingGame();
-
     }
 
     private void DisplayGameTimer(float time)
