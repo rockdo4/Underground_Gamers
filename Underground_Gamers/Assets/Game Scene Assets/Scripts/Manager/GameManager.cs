@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public bool IsTimeOut { get; set; }
     public bool IsPaused { get; set; }
     public bool IsPlayerWin { get; set; }
+    public bool IsGameEnd = false;
 
     [Header("¸Þ´ÏÀú Ä³½Ì")]
     public AIManager aiManager;
@@ -89,6 +90,11 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        if (IsGameEnd)
+        {
+            return;
+        }
+        IsGameEnd = true;
         IsPlaying = false;
         if (IsPlayerWin)
         {
