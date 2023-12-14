@@ -75,11 +75,15 @@ public class CharacterStatus : MonoBehaviour
         if (aiController.isDefend)
             aiController.SetState(States.Retreat);
 
+        if(aiController.teamIdentity.teamType == TeamType.NPC)
+        {
+
+        }
+
         // 카메라 설정
         GameManager gameManager = GetComponent<AIController>().gameManager;
         if(gameManager != null)
         {
-
             if(gameManager.commandManager.currentAI == aiController)
             {
                 gameManager.cameraManager.StartZoomIn();

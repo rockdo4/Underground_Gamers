@@ -44,7 +44,8 @@ public class AttackCommand : Command
             ai.SetMissionTarget(attackTarget);
             ai.SetState(States.MissionExecution);
 
-            gameManager.commandManager.SetActiveCommandButton(ai);
+            if (ai.teamIdentity.teamType == TeamType.PC)
+                gameManager.commandManager.SetActiveCommandButton(ai);
             Debug.Log($"{ai.aiType.text} : Attack Command Execute");
         }
     }

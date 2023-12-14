@@ -20,8 +20,8 @@ public class OnDrop : MonoBehaviour, IDropHandler
         {
             gameObject.transform.SetParent(dropPanel.transform);
             gameObject.GetComponent<Image>().raycastTarget = true;
-            int index = gameObject.GetComponent<CommandInfo>().aiNum - 1;
-            commandManager.ExecuteSwitchLine(index);
+            AIController ai = gameObject.GetComponent<CommandInfo>().aiController;
+            commandManager.ExecuteSwitchLine(ai);
             // Á¤·Ä
             var childs = dropPanel.transform.GetComponentsInChildren<CommandInfo>();
             System.Array.Sort(childs, CompareByAINum);

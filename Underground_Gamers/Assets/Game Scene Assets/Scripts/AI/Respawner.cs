@@ -31,7 +31,7 @@ public class Respawner : MonoBehaviour
                 pcRespawnTimers[i].Item1.SetState(States.Idle);
                 pcRespawnTimers[i].Item1.status.Respawn();
                 pcRespawnTimers[i].Item1.SetInitialization();
-                ParticleSystem effect = aiParticlePrefabs[pcRespawnTimers[i].Item1.colorIndex];
+                ParticleSystem effect = aiParticlePrefabs[pcRespawnTimers[i].Item1.aiIndex];
                 if (effect != null)
                 {
                     Instantiate(effect, pcRespawnTimers[i].Item1.transform.position, effect.transform.rotation);
@@ -58,7 +58,7 @@ public class Respawner : MonoBehaviour
                 npcRespawnTimers[i].Item1.SetState(States.Idle);
                 npcRespawnTimers[i].Item1.status.Respawn();
                 npcRespawnTimers[i].Item1.SetInitialization();
-                ParticleSystem effect = aiParticlePrefabs[npcRespawnTimers[i].Item1.colorIndex];
+                ParticleSystem effect = aiParticlePrefabs[npcRespawnTimers[i].Item1.aiIndex];
                 if (effect != null)
                 {
                     Instantiate(effect, npcRespawnTimers[i].Item1.transform.position, effect.transform.rotation);

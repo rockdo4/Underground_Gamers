@@ -13,6 +13,8 @@ public class SwitchLineCommand : Command
         int line = (int)ai.currentLine;
         line++;
         ai.currentLine = (Line)(line % (int)Line.Count);
+        GameManager gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        gameManager.lineManager.JoiningLine(ai);
 
         Transform[] wayPoints = ai.currentLine switch
         {

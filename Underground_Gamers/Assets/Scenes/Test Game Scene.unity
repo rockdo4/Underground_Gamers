@@ -2796,6 +2796,9 @@ MonoBehaviour:
   buildingTarget: {fileID: 0}
   teamType: 1
   line: 0
+  recoveryTime: 2
+  isSelfRecovery: 0
+  recoveryValue: 0
 --- !u!4 &424691255 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5358461898296293657, guid: 6bf6bcb56a5579343b625241fd8a6ad7, type: 3}
@@ -13359,6 +13362,54 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1077113236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1077113237}
+  - component: {fileID: 1077113238}
+  m_Layer: 0
+  m_Name: LineManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1077113237
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077113236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1776381728}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1077113238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077113236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa695cd5c4f4c1a4ab7eecaea7c72d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pcTopLiner: []
+  pcBottomLiner: []
+  npcTopLiner: []
+  npcBottomLiner: []
 --- !u!1001 &1084698311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15637,11 +15688,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8332847381663555111, guid: 5402a149b622a614180d6caa300407f9, type: 3}
       propertyPath: outlineTargets.Array.data[0].IsVisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8332847381663555111, guid: 5402a149b622a614180d6caa300407f9, type: 3}
       propertyPath: outlineTargets.Array.data[1].IsVisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16286,6 +16337,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aiManager: {fileID: 2121708217}
+  cameraManager: {fileID: 1343045819}
+  commandManager: {fileID: 1777714461}
+  npcManager: {fileID: 1748868566}
+  lineManager: {fileID: 1077113238}
   gameEndPannel: {fileID: 1439665462}
   timer: 0
   endTime: 2
@@ -16294,8 +16349,6 @@ MonoBehaviour:
   gameTimeText: {fileID: 1377797581}
   pcNexus: {fileID: 1628242529}
   npcNexus: {fileID: 1624577067}
-  cameraManager: {fileID: 1343045819}
-  commandManager: {fileID: 1777714461}
 --- !u!114 &1474967925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17056,15 +17109,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7809668958793533307, guid: d08ac06b22873c047a3078782640d8fb, type: 3}
       propertyPath: outlineTargets.Array.data[0].IsVisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7809668958793533307, guid: d08ac06b22873c047a3078782640d8fb, type: 3}
       propertyPath: outlineTargets.Array.data[1].IsVisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7809668958793533307, guid: d08ac06b22873c047a3078782640d8fb, type: 3}
       propertyPath: outlineTargets.Array.data[2].IsVisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17214,15 +17267,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7809668958793533307, guid: d08ac06b22873c047a3078782640d8fb, type: 3}
       propertyPath: outlineTargets.Array.data[0].IsVisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7809668958793533307, guid: d08ac06b22873c047a3078782640d8fb, type: 3}
       propertyPath: outlineTargets.Array.data[1].IsVisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7809668958793533307, guid: d08ac06b22873c047a3078782640d8fb, type: 3}
       propertyPath: outlineTargets.Array.data[2].IsVisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17962,6 +18015,51 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1748868565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1748868567}
+  - component: {fileID: 1748868566}
+  m_Layer: 0
+  m_Name: NPCManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1748868566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748868565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1e3b0fe1ab0512468c1cc247e645438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1474967924}
+--- !u!4 &1748868567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748868565}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1776381728}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1776381727
 GameObject:
   m_ObjectHideFlags: 0
@@ -17996,6 +18094,8 @@ Transform:
   - {fileID: 1777714460}
   - {fileID: 1944423103}
   - {fileID: 1343045818}
+  - {fileID: 1748868567}
+  - {fileID: 1077113237}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1777714459
@@ -18400,6 +18500,14 @@ PrefabInstance:
     - target: {fileID: 3733484578026217263, guid: 5402a149b622a614180d6caa300407f9, type: 3}
       propertyPath: teamType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733484578026217263, guid: 5402a149b622a614180d6caa300407f9, type: 3}
+      propertyPath: recoveryTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733484578026217263, guid: 5402a149b622a614180d6caa300407f9, type: 3}
+      propertyPath: recoveryValue
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3733484578026217263, guid: 5402a149b622a614180d6caa300407f9, type: 3}
       propertyPath: teamLayer.m_Bits

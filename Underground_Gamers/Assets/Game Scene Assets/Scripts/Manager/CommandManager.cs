@@ -173,9 +173,21 @@ public class CommandManager : MonoBehaviour
         }
     }
 
-    public void ExecuteSwitchLine(int aiIndex)
+    //public void ExecuteSwitchLine(int aiIndex)
+    //{
+    //    commands[(int)CommandType.SwitchLine].ExecuteCommand(aiManager.pc[aiIndex], wayPoint);
+    //}
+    public void ExecuteSwitchLine(AIController ai)
     {
-        commands[(int)CommandType.SwitchLine].ExecuteCommand(aiManager.pc[aiIndex], wayPoint);
+        switch (ai.teamIdentity.teamType)
+        {
+            case TeamType.PC:
+                commands[(int)CommandType.SwitchLine].ExecuteCommand(aiManager.pc[ai.aiIndex], wayPoint);
+                break;
+            case TeamType.NPC:
+                commands[(int)CommandType.SwitchLine].ExecuteCommand(aiManager.npc[ai.aiIndex], wayPoint);
+                break;
+        }
     }
     public void ExecuteCommand(CommandType type, AIController ai)
     {
