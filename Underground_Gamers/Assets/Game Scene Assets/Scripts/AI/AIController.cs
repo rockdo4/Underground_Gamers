@@ -272,13 +272,13 @@ public class AIController : MonoBehaviour
             aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
         if (buildingManager == null)
             buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
-        if (outlinable == null)
-        {
-            // 아웃라인 초기 설정
-            outlinable = spum.AddComponent<Outlinable>();
-            outlinable.AddAllChildRenderersToRenderingList();
-            outlinable.OutlineParameters.Color = unselectOutlineColor;
-        }
+        //if (outlinable == null)
+        //{
+        //    // 아웃라인 초기 설정
+        //    outlinable = spum.AddComponent<Outlinable>();
+        //    outlinable.AddAllChildRenderersToRenderingList();
+        //    outlinable.OutlineParameters.Color = unselectOutlineColor;
+        //}
 
         agent = GetComponent<NavMeshAgent>();
         status = GetComponent<CharacterStatus>();

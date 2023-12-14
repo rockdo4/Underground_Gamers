@@ -13,7 +13,7 @@ public class AIStatusDebug : MonoBehaviour
     private Transform pcAIInfoParent;
     private Transform npcAIInfoParent;
 
-    private void Awake()
+    private void Start()
     {
         pcAIInfoParent = pcPannel.GetChild(0);
         npcAIInfoParent = npcPannel.GetChild(0);

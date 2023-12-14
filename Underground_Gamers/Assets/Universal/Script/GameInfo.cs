@@ -93,8 +93,8 @@ public class GameInfo : MonoBehaviour
             stat.Hp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
             stat.maxHp = stat.Hp;
             stat.speed = pt.CalculateCurrStats(playerInfo.moveSpeed, player.level);
-            stat.sight = pt.CalculateCurrStats(playerInfo.sight, player.level);
-            stat.range = pt.CalculateCurrStats(playerInfo.range, player.level);
+            stat.sight = pt.CalculateCurrStats(playerInfo.sight, player.level) * charactorScale;
+            stat.range = pt.CalculateCurrStats(playerInfo.range, player.level) * charactorScale;
             stat.reactionSpeed = pt.CalculateCurrStats(playerInfo.reactionSpeed, player.level) * 15;
             stat.damage = pt.CalculateCurrStats(playerInfo.atk, player.level);
             stat.cooldown = pt.CalculateCurrStats(playerInfo.atkRate, player.level);
@@ -180,7 +180,6 @@ public class GameInfo : MonoBehaviour
             portrait.SetPortrait(ai.spum);
             player.GetComponent<LookCameraByScale>().SetPlayer();
             player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();
-            player.AddComponent<Outlinable>();
 
         }
 
@@ -246,9 +245,9 @@ public class GameInfo : MonoBehaviour
             stat.Hp = playerInfo.hp;
             stat.maxHp = stat.Hp;
             stat.speed = playerInfo.moveSpeed; ;
-            stat.sight = playerInfo.sight;
-            stat.range = playerInfo.range;
-            stat.reactionSpeed = playerInfo.reaction;
+            stat.sight = playerInfo.sight * charactorScale;
+            stat.range = playerInfo.range * charactorScale;
+            stat.reactionSpeed = playerInfo.reaction *15;
             stat.damage = playerInfo.atk;
             stat.cooldown = playerInfo.atkRate;
             stat.critical = playerInfo.critical;
@@ -326,7 +325,6 @@ public class GameInfo : MonoBehaviour
             portrait.SetPortrait(ai.spum);
             player.GetComponent<LookCameraByScale>().SetPlayer();
             player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();
-            player.AddComponent<Outlinable>();
 
         }
 
