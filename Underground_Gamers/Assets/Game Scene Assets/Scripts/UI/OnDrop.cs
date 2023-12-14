@@ -7,6 +7,8 @@ public class OnDrop : MonoBehaviour, IDropHandler
 {
     public CommandManager commandManager;
     public GameObject dropPanel;
+    private Transform prevParent;
+    private Transform prevDropPanel;
 
     private void Start()
     {
@@ -16,6 +18,11 @@ public class OnDrop : MonoBehaviour, IDropHandler
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
         GameObject gameObject = DragAndDrop.dragInfo;
+
+        // 이전 기능 드롭 패널과, 실제 이미지 패널 크기 동기화
+        prevParent = gameObject.transform.parent.parent.GetChild(1);
+        prevDropPanel = gameObject.transform.parent;
+
         if (gameObject && gameObject.transform.parent != dropPanel.transform)
         {
             gameObject.transform.SetParent(dropPanel.transform);
@@ -38,6 +45,8 @@ public class OnDrop : MonoBehaviour, IDropHandler
 
     private void LateUpdateSize()
     {
+        if (prevParent != null && prevDropPanel != null)
+            prevParent.GetComponent<RectTransform>().sizeDelta = prevDropPanel.GetComponent<RectTransform>().sizeDelta;
         transform.GetComponent<RectTransform>().sizeDelta = dropPanel.GetComponent<RectTransform>().sizeDelta;
     }
 
