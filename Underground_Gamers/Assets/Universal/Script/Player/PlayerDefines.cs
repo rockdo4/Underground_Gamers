@@ -238,9 +238,9 @@ public class SaveData
     public int contractTicket = 0;
     public int stamina = 0;
     public List<int> XpItem = new List<int>(4);
-    public int mileage = 0;
     public int IDcode = 0;
     public int PresetCode = 0;
+    public List<List<float>> Presets;
     public List<int> tradeCenter = new List<int>();
     public DateTime lastRecruitTime = DateTime.MinValue;
 }

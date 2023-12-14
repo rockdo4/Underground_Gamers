@@ -6,7 +6,7 @@ public class Test : MonoBehaviour
     {
         if (init)
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 2; i++)
             {
                 var pl1 = GamePlayerInfo.instance.AddPlayer(0);
                 pl1.xp = 1;
@@ -24,7 +24,7 @@ public class Test : MonoBehaviour
 
             for (int i = 0; i < GamePlayerInfo.instance.XpItem.Count; i++)
             {
-                GamePlayerInfo.instance.XpItem[i] += 5;
+                GamePlayerInfo.instance.XpItem[i] += 15;
             }
             GamePlayerInfo.instance.money += 30000;
             GamePlayerInfo.instance.contractTicket += 300;

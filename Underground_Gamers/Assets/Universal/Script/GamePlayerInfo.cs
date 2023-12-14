@@ -31,12 +31,11 @@ public class GamePlayerInfo : MonoBehaviour
 
     [Space(10f)]
     [Header("Resource")]
-    public int money = 1000;
-    public int crystal = 1000;
-    public int contractTicket = 0;
+    public int money = 10000;
+    public int crystal = 10000;
+    public int contractTicket = 10000;
     public int stamina = 0;
     public List<int> XpItem;
-    public int mileage;
 
     [HideInInspector]
     public int IDcode = 0;
@@ -76,6 +75,8 @@ public class GamePlayerInfo : MonoBehaviour
             itemSpriteList.Add(Resources.Load<Sprite>(
               Path.Combine("Items", i.ToString())));
         }
+
+        LoadFile();
     }
 
     private void Start()
@@ -437,110 +438,94 @@ public class GamePlayerInfo : MonoBehaviour
         }
     }
 
-
     private void OnApplicationQuit()
     {
-        
+        SaveFile();
+        Debug.Log("Saved!");
     }
 
 
-    public void Save(string fileName)
+    public void SaveFile()
     {
         var saveData = new SaveData();
 
+        saveData.representativePlayer = representativePlayer;
+        saveData.havePlayers = havePlayers;
+        saveData.usingPlayers = usingPlayers;
         
+        saveData.cleardStage = cleardStage;
+        saveData.playername = playername;
+        saveData.money  = money;
+        saveData.crystal = crystal;
+        saveData.contractTicket = contractTicket;
+        saveData.stamina = stamina;
+        saveData.XpItem = XpItem;
+        saveData.IDcode = IDcode;
+        saveData.PresetCode = PresetCode;
+        saveData.tradeCenter = tradeCenter;
+        saveData.lastRecruitTime = lastRecruitTime;
+        saveData.Presets = Presets;
 
-        var path = Path.Combine(Application.persistentDataPath, fileName + ".json");
-
-        var json = JsonConvert.SerializeObject(saveData, PlayerConverter);
-
+        var path = Path.Combine(Application.persistentDataPath, "savefile.json");
+        var json = JsonConvert.SerializeObject(saveData,new PlayerConverter());
+        Debug.Log(path);
         File.WriteAllText(path, json);
     }
 
-    public void Load(string fileName)
+    public void LoadFile()
     {
-        var path = Path.Combine(Application.persistentDataPath, fileName + ".json");
+        var path = Path.Combine(Application.persistentDataPath, "savefile.json");
         if (!File.Exists(path))
-        { return; }
-        int LoadCount = 0;
-        int LoadMoveLoopCount = 0;
-        int LoadRotateLoopCount = 0;
-        int LoadFireLoopCount = 0;
-        GameObject currentGroup = null;
-        int groupIndex = -1;
+        {
+            //�ʱⰪ
+            for (int i = 0; i < 2; i++)
+            {
+                var pl1 = AddPlayer(0);
+                pl1.xp = 1;
+                pl1.level = 4;
+                var pl2 =AddPlayer(1);
+                pl2.xp = 3;
+                pl2.level = 3;
+                var pl3 = AddPlayer(2);
+                pl3.xp = 5;
+                pl3.level = 2;
+                var pl4 = AddPlayer(3);
+                pl4.xp = 7;
+                pl4.level = 1;
+            }
+
+            for (int i = 0; i < XpItem.Count; i++)
+            {
+                XpItem[i] += 15;
+            }
+            return;
+        }
 
         var json = File.ReadAllText(path);
-        var saveData = JsonConvert.DeserializeObject<SaveData>(json, new EditorObjInfoConverter(), new MoveLoopConverter(), new RotateLoopConverter(), new FireLoopConverter());
+        var saveData = JsonConvert.DeserializeObject<SaveData>(json, new PlayerConverter());
 
-        foreach (var loadedObj in saveData.objects)
+        representativePlayer = saveData.representativePlayer;
+        havePlayers = saveData.havePlayers;
+
+        int count = 0;
+        foreach (var item in saveData.usingPlayers)
         {
-            GameObject obj = Instantiate(EditorObjs[loadedObj.code], loadedObj.pos, loadedObj.rot);
-            if (loadedObj.code == 10)
-            {
-                currentGroup = obj;
-                groupIndex++;
-            }
-            if (Defines.instance.isHaveElement(loadedObj.code))
-            {
-                DangerObject dangerObj = obj.GetComponent<DangerObject>();
-                dangerObj.element = (Element)loadedObj.element;
-                dangerObj.SetColor();
-            }
-            if (saveData.moveLoops != null && LoadMoveLoopCount < saveData.moveLoops.Count)
-            {
-                if (saveData.moveLoops[LoadMoveLoopCount].initCode == LoadCount)
-                {
-                    LoopBlocksList lbl = obj.AddComponent<LoopBlocksList>();
-                    lbl.moveLoopBlocks = new List<GameObject>();
-                    obj.AddComponent<MoveLoopData>().ml = new MoveLoop();
-                    MoveLoop newMl = obj.GetComponent<MoveLoopData>().ml;
-                    newMl.loopTime = saveData.moveLoops[LoadMoveLoopCount].loopTime;
-                    newMl.loopList = saveData.moveLoops[LoadMoveLoopCount].loopList;
-                    LoadMoveLoopCount++;
-                }
-            }
-            if (saveData.rotateLoops != null && LoadRotateLoopCount < saveData.rotateLoops.Count)
-            {
-                if (saveData.rotateLoops[LoadRotateLoopCount].initCode == LoadCount)
-                {
-                    LoopBlocksList lbl = obj.GetComponent<LoopBlocksList>();
-                    if (lbl == null)
-                    {
-                        lbl = obj.AddComponent<LoopBlocksList>();
-                    }
-                    lbl.rotateLoopBlocks = new List<GameObject>();
-                    obj.AddComponent<RotateLoopData>().rl = new RotateLoop();
-                    RotateLoop newRl = obj.GetComponent<RotateLoopData>().rl;
-                    newRl.loopTime = saveData.rotateLoops[LoadRotateLoopCount].loopTime;
-                    newRl.loopList = saveData.rotateLoops[LoadRotateLoopCount].loopList;
-                    LoadRotateLoopCount++;
-                }
-            }
-
-            if (saveData.fireLoops != null && LoadFireLoopCount < saveData.fireLoops.Count)
-            {
-                if (saveData.fireLoops[LoadFireLoopCount].initCode == LoadCount)
-                {
-                    LoopBlocksList lbl = obj.GetComponent<LoopBlocksList>();
-                    if (lbl == null)
-                    {
-                        lbl = obj.AddComponent<LoopBlocksList>();
-                    }
-                    lbl.fireLoopBlocks = new List<GameObject>();
-                    obj.AddComponent<FireLoopData>().fl = new FireLoop();
-                    FireLoop newFl = obj.GetComponent<FireLoopData>().fl;
-                    newFl.loopTime = saveData.fireLoops[LoadFireLoopCount].loopTime;
-                    newFl.loopList = saveData.fireLoops[LoadFireLoopCount].loopList;
-                    LoadFireLoopCount++;
-                }
-            }
-            if (groupIndex >= 0 && saveData.groupList != null && saveData.groupList[groupIndex].Contains(LoadCount))
-            {
-                obj.transform.SetParent(currentGroup.transform);
-                obj.tag = "GroupMember";
-            }
-            LoadCount++;
+            usingPlayers[count] = saveData.usingPlayers[count];
+            count++;
         }
+
+        cleardStage = saveData.cleardStage;
+        playername = saveData.playername;
+        money = saveData.money;
+        crystal = saveData.crystal;
+        contractTicket  = saveData.contractTicket;
+        stamina = saveData.stamina;
+        XpItem = saveData.XpItem;
+        IDcode = saveData.IDcode;
+        PresetCode = saveData.PresetCode;
+        tradeCenter = saveData.tradeCenter;
+        lastRecruitTime = saveData.lastRecruitTime;
+        Presets = saveData.Presets;
     }
 }
 public class PlayerConverter : JsonConverter<Player>
@@ -548,9 +533,31 @@ public class PlayerConverter : JsonConverter<Player>
     public override Player ReadJson(JsonReader reader, Type objectType, Player existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
         var jobj = JObject.Load(reader);
-        var x = (float)jobj["x"];
-        var y = (float)jobj["y"];
-        return new Player();
+        Player player = new Player();
+        player.ID = (float)jobj["ID"];
+        player.name = (string)jobj["name"];
+        player.code = (int)jobj["code"];
+        player.type = (int)jobj["type"];
+        player.grade = (int)jobj["grade"];
+        player.level = (int)jobj["level"];
+        player.maxLevel = (int)jobj["maxLevel"];
+        player.breakthrough = (int)jobj["breakthrough"];
+        player.skillLevel = (int)jobj["skillLevel"];
+        player.gearCode = (int)jobj["gearCode"];
+        player.gearLevel = (int)jobj["gearLevel"];
+        player.xp = (float)jobj["xp"];
+        player.maxXp = (float)jobj["maxXp"];
+        player.condition = (int)jobj["condition"];
+        player.cost = (int)jobj["cost"];
+        player.potential = (int)jobj["potential"];
+        int trainingCount = (int)jobj["trainingCount"];
+        player.training = new List<int>();
+        for (int i = 0; i < trainingCount; i++)
+        {
+            player.training.Add((int)jobj[$"training{i}"]);
+        }
+
+        return player;
     }
 
     public override void WriteJson(JsonWriter writer, Player value, JsonSerializer serializer)
@@ -593,7 +600,7 @@ public class PlayerConverter : JsonConverter<Player>
         writer.WriteValue(value.training.Count);
         for (int i = 0; i < value.training.Count; i++)
         {
-            writer.WritePropertyName($"trainingCount{i}");
+            writer.WritePropertyName($"training{i}");
             writer.WriteValue(value.training[i]);
         }
 
