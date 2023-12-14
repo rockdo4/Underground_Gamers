@@ -95,7 +95,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
         gameObject.SetActive(false);
     }
 
-    private void LoadPlayers() 
+    private void LoadPlayers()
     {
         if (pt == null || st == null)
         {
@@ -128,7 +128,12 @@ public class ManagerTrainingAnalyze : ManagerTraining
             }
         }
 
-        sortedPlayerList = playerList.OrderByDescending(p => p.level).ToList();
+        sortedPlayerList = playerList.OrderByDescending(p => p.level)
+    .ThenByDescending(p => p.breakthrough)
+    .ThenByDescending(p => p.grade)
+    .ThenByDescending(p => p.type)
+    .ThenByDescending(p => p.name)
+    .ToList();
 
         int count = 0;
         foreach (var player in sortedPlayerList)
@@ -195,7 +200,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
         growInfoDatas[1].color = Color.black;
         growInfoDatas[2].text = $"{currPlayer.xp.ToString("F0")}/{currPlayer.maxXp.ToString("F0")}";
         xpBar.value = currPlayer.xp / currPlayer.maxXp;
-        growInfoDatas[3].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp,currPlayer.level).ToString("F0")}";
+        growInfoDatas[3].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp, currPlayer.level).ToString("F0")}";
         growInfoDatas[4].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp, currPlayer.level).ToString("F0")}";
         growInfoDatas[5].text = $"{pt.CalculateCurrStats(currPlayerInfo.atk, currPlayer.level).ToString("F0")}";
         growInfoDatas[6].text = $"{pt.CalculateCurrStats(currPlayerInfo.atk, currPlayer.level).ToString("F0")}";
@@ -235,7 +240,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
         {
             OpenPlayerGrowInfo(sortedPlayerList.Count - 1);
         }
-        else 
+        else
         {
             OpenPlayerGrowInfo(currIndex - 1);
         }
@@ -255,10 +260,10 @@ public class ManagerTrainingAnalyze : ManagerTraining
     public void ActivePopupPlayerInfo()
     {
         popupPlayerInfo.SetActive(true);
-        playerInfoDatas[0].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp, currPlayer.level).ToString("F0")  }";
+        playerInfoDatas[0].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp, currPlayer.level).ToString("F0")}";
         playerInfoDatas[1].text = $"{pt.CalculateCurrStats(currPlayerInfo.atk, currPlayer.level).ToString("F0")}";
         playerInfoDatas[2].text = $"{pt.CalculateCurrStats(currPlayerInfo.atkRate, currPlayer.level).ToString("F1")}";
-        playerInfoDatas[3].text = $"{pt.CalculateCurrStats(currPlayerInfo.moveSpeed, currPlayer.level).ToString("F0")   }";
+        playerInfoDatas[3].text = $"{pt.CalculateCurrStats(currPlayerInfo.moveSpeed, currPlayer.level).ToString("F0")}";
         playerInfoDatas[4].text = $"{pt.CalculateCurrStats(currPlayerInfo.sight, currPlayer.level).ToString("F0")}";
         playerInfoDatas[5].text = $"{pt.CalculateCurrStats(currPlayerInfo.range, currPlayer.level).ToString("F0")}";
         playerInfoDatas[6].text = $"{pt.CalculateCurrStats(currPlayerInfo.detectionRange, currPlayer.level).ToString("F0")}";
@@ -272,7 +277,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
     public void UseXpItems(int type)
     {
         int useItemCount = ++currXpItemUse[type];
-        analyzeStartB.interactable = true;  
+        analyzeStartB.interactable = true;
 
         growItemUseCounter[type].SetActive(true);
         growItemUseCounterText[type].text = useItemCount.ToString();
@@ -309,7 +314,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
                 }
                 else
                 {
-                    currMaxXp = pt.GetLevelUpXp(currlevel+1);
+                    currMaxXp = pt.GetLevelUpXp(currlevel + 1);
                     currCost = pt.GetLevelUpCost(currlevel);
                 }
             }
@@ -334,7 +339,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
     public void TryAnalyze()
     {
-        if(!GamePlayerInfo.instance.UseMoney(currCost, 0, 0))
+        if (!GamePlayerInfo.instance.UseMoney(currCost, 0, 0))
         {
             string messege = "";
             string submessege = st.Get("recruitMoneyLackMessegeCurr");
@@ -342,7 +347,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
             messege += $" {st.Get("money")} {currCost - GamePlayerInfo.instance.money}{st.Get("count")}";
             submessege += $" {st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")}";
 
-            messege += st.Get("recruitMoneyLackMessege");
+            messege += st.Get("recruitMoneyLackMessegeUpgrade");
             popupMoneyWarningTexts[0].text = messege;
             popupMoneyWarningTexts[1].text = submessege;
             popupMoneyWarning.SetActive(true);

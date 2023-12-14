@@ -11,6 +11,7 @@ public class PlayerButtons : MonoBehaviour
     public Image typeIcon;
     public Image stars;
     public Image isUsing;
+    public Image breakImage;
     public TMP_Text playerNameCard;
     [HideInInspector]
     public int index;
@@ -27,7 +28,7 @@ public class PlayerButtons : MonoBehaviour
     }
     public void SetReleaseSelect(bool on)
     {
-        foreach (GameObject obj in releaseEffects) 
+        foreach (GameObject obj in releaseEffects)
         {
             obj.SetActive(on);
             willRelease = on;

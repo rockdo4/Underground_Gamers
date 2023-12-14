@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class PlayerChanger : MonoBehaviour
 {
     public GameObject playerButtons;
-    
+
     public GameObject havePlayerSpace;
     public GameObject havePlayerListSpace;
 
@@ -59,10 +59,10 @@ public class PlayerChanger : MonoBehaviour
     {
         GamePlayerInfo.instance.LoadPreset();
         usingList = GamePlayerInfo.instance.usingPlayers;
-        for (int i = 0; i < 8; i++) 
+        for (int i = 0; i < 8; i++)
         {
             UIPlayerSlots slot = usingSlots[i];
-            if(usingList[i].code < 0)
+            if (usingList[i].code < 0)
             {
                 slot.FrontPanel.gameObject.SetActive(true);
                 slot.image.sprite = null;
@@ -71,7 +71,7 @@ public class PlayerChanger : MonoBehaviour
             {
                 Player player = usingList[i];
                 slot.FrontPanel.gameObject.SetActive(false);
-                slot.image.sprite =pt.playerSprites[pt.PlayerIndexSearch(player.code)];
+                slot.image.sprite = pt.playerSprites[pt.PlayerIndexSearch(player.code)];
                 if (!slot.isSpare)
                 {
                     slot.typeText.text = st.Get($"type{player.type}");
@@ -119,7 +119,7 @@ public class PlayerChanger : MonoBehaviour
             Destroy(old.gameObject);
         }
         olds.Clear();
-        
+
 
         int index = 0;
         foreach (var player in haveList)
@@ -142,6 +142,22 @@ public class PlayerChanger : MonoBehaviour
                 5 => pt.starsSprites[2],
                 _ => pt.starsSprites[0],
             };
+            if (player.breakthrough <= 0)
+            {
+                pb.breakImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                pb.breakImage.gameObject.SetActive(true);
+                pb.breakImage.sprite = player.breakthrough switch
+                {
+                    1 => pt.berakSprites[0],
+                    2 => pt.berakSprites[1],
+                    3 => pt.berakSprites[2],
+                    _ => pt.berakSprites[0],
+                };
+            }
+
             olds.Add(bt);
         }
 
@@ -169,7 +185,7 @@ public class PlayerChanger : MonoBehaviour
                 var bt = Instantiate(playerButtons, havePlayerListSpace.transform);
                 var pb = bt.GetComponent<PlayerButtons>();
                 pb.SetImage(pt.playerSprites[pt.PlayerIndexSearch(player.code)]);
-                pb.GetComponent<Button>().onClick.AddListener(() => PlayerListButtonFunc(true, currIndex, true,pb));
+                pb.GetComponent<Button>().onClick.AddListener(() => PlayerListButtonFunc(true, currIndex, true, pb));
                 pb.index = index++;
                 pb.playerNameCard.text = st.Get($"playerName{player.code}");
                 pb.Level.text = $"Lv.{player.level}";
@@ -183,6 +199,21 @@ public class PlayerChanger : MonoBehaviour
                     5 => pt.starsSprites[2],
                     _ => pt.starsSprites[0],
                 };
+                if (player.breakthrough <= 0)
+                {
+                    pb.breakImage.gameObject.SetActive(false);
+                }
+                else
+                {
+                    pb.breakImage.gameObject.SetActive(true);
+                    pb.breakImage.sprite = player.breakthrough switch
+                    {
+                        1 => pt.berakSprites[0],
+                        2 => pt.berakSprites[1],
+                        3 => pt.berakSprites[2],
+                        _ => pt.berakSprites[0],
+                    };
+                }
                 oldsPlayerList.Add(bt);
             }
         }
@@ -194,7 +225,7 @@ public class PlayerChanger : MonoBehaviour
             var bt = Instantiate(playerButtons, havePlayerListSpace.transform);
             var pb = bt.GetComponent<PlayerButtons>();
             pb.SetImage(pt.playerSprites[pt.PlayerIndexSearch(player.code)]);
-            pb.GetComponent<Button>().onClick.AddListener(() => PlayerListButtonFunc(true, currIndex, false,pb));
+            pb.GetComponent<Button>().onClick.AddListener(() => PlayerListButtonFunc(true, currIndex, false, pb));
             pb.index = index++;
             pb.playerNameCard.text = st.Get($"playerName{player.code}");
             pb.Level.text = $"Lv.{player.level}";
@@ -208,6 +239,21 @@ public class PlayerChanger : MonoBehaviour
                 5 => pt.starsSprites[2],
                 _ => pt.starsSprites[0],
             };
+            if (player.breakthrough <= 0)
+            {
+                pb.breakImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                pb.breakImage.gameObject.SetActive(true);
+                pb.breakImage.sprite = player.breakthrough switch
+                {
+                    1 => pt.berakSprites[0],
+                    2 => pt.berakSprites[1],
+                    3 => pt.berakSprites[2],
+                    _ => pt.berakSprites[0],
+                };
+            }
             oldsPlayerList.Add(bt);
         }
 
