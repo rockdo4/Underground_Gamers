@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
-using static UnityEngine.GraphicsBuffer;
 
 public class GamePlayerInfo : MonoBehaviour
 {
@@ -22,23 +22,20 @@ public class GamePlayerInfo : MonoBehaviour
 
     private static GamePlayerInfo gamePlayerInfo;
 
+    public int representativePlayer = -1;
     public List<Player> havePlayers = new List<Player>();
     public List<Player> usingPlayers = new List<Player>();
 
-    public List<Gear> haveGears = new List<Gear>();
-    public List<Gear> usingGears = new List<Gear>();
-
-    [HideInInspector]
     public int cleardStage = 0;
+    public string playername = "이감독";
 
     [Space(10f)]
     [Header("Resource")]
-    public int money = 1000;
-    public int crystal = 1000;
-    public int contractTicket = 0;
+    public int money = 10000;
+    public int crystal = 10000;
+    public int contractTicket = 10000;
     public int stamina = 0;
     public List<int> XpItem;
-    public int mileage;
 
     [HideInInspector]
     public int IDcode = 0;
@@ -50,6 +47,8 @@ public class GamePlayerInfo : MonoBehaviour
     public DateTime lastRecruitTime = DateTime.MinValue;
 
     private PlayerTable pt;
+    [HideInInspector]
+    public List<Sprite> itemSpriteList = new List<Sprite>();    
     private void Awake()
     {
         for (int i = 0; i < 8; i++)
@@ -71,6 +70,13 @@ public class GamePlayerInfo : MonoBehaviour
         {
             tradeCenter.Add(1);
         }
+        for (int i = 0; i < 3; i++)
+        {
+            itemSpriteList.Add(Resources.Load<Sprite>(
+              Path.Combine("Items", i.ToString())));
+        }
+
+        LoadFile();
     }
 
     private void Start()
@@ -414,5 +420,190 @@ public class GamePlayerInfo : MonoBehaviour
     public void SetTradeCenter(List<int> setValue)
     {
         tradeCenter = setValue;
+    }
+
+    public void CheckRepresentPlayers()
+    {
+        List<Player> playerList = new List<Player>();
+        playerList.AddRange(GetUsingPlayers());
+        playerList.AddRange(havePlayers);
+        List<int> distinctCodeList = playerList
+  .Select(item => item.code)
+  .Distinct()
+  .ToList();
+
+        if (!distinctCodeList.Contains(representativePlayer))
+        {
+            representativePlayer = -1;
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveFile();
+        Debug.Log("Saved!");
+    }
+
+
+    public void SaveFile()
+    {
+        var saveData = new SaveData();
+
+        saveData.representativePlayer = representativePlayer;
+        saveData.havePlayers = havePlayers;
+        saveData.usingPlayers = usingPlayers;
+        
+        saveData.cleardStage = cleardStage;
+        saveData.playername = playername;
+        saveData.money  = money;
+        saveData.crystal = crystal;
+        saveData.contractTicket = contractTicket;
+        saveData.stamina = stamina;
+        saveData.XpItem = XpItem;
+        saveData.IDcode = IDcode;
+        saveData.PresetCode = PresetCode;
+        saveData.tradeCenter = tradeCenter;
+        saveData.lastRecruitTime = lastRecruitTime;
+        saveData.Presets = Presets;
+
+        var path = Path.Combine(Application.persistentDataPath, "savefile.json");
+        var json = JsonConvert.SerializeObject(saveData,new PlayerConverter());
+        Debug.Log(path);
+        File.WriteAllText(path, json);
+    }
+
+    public void LoadFile()
+    {
+        var path = Path.Combine(Application.persistentDataPath, "savefile.json");
+        if (!File.Exists(path))
+        {
+            //초기값
+            for (int i = 0; i < 2; i++)
+            {
+                var pl1 = AddPlayer(0);
+                pl1.xp = 1;
+                pl1.level = 4;
+                var pl2 =AddPlayer(1);
+                pl2.xp = 3;
+                pl2.level = 3;
+                var pl3 = AddPlayer(2);
+                pl3.xp = 5;
+                pl3.level = 2;
+                var pl4 = AddPlayer(3);
+                pl4.xp = 7;
+                pl4.level = 1;
+            }
+
+            for (int i = 0; i < XpItem.Count; i++)
+            {
+                XpItem[i] += 15;
+            }
+            return;
+        }
+
+        var json = File.ReadAllText(path);
+        var saveData = JsonConvert.DeserializeObject<SaveData>(json, new PlayerConverter());
+
+        representativePlayer = saveData.representativePlayer;
+        havePlayers = saveData.havePlayers;
+
+        int count = 0;
+        foreach (var item in saveData.usingPlayers)
+        {
+            usingPlayers[count] = saveData.usingPlayers[count];
+            count++;
+        }
+
+        cleardStage = saveData.cleardStage;
+        playername = saveData.playername;
+        money = saveData.money;
+        crystal = saveData.crystal;
+        contractTicket  = saveData.contractTicket;
+        stamina = saveData.stamina;
+        XpItem = saveData.XpItem;
+        IDcode = saveData.IDcode;
+        PresetCode = saveData.PresetCode;
+        tradeCenter = saveData.tradeCenter;
+        lastRecruitTime = saveData.lastRecruitTime;
+        Presets = saveData.Presets;
+    }
+}
+public class PlayerConverter : JsonConverter<Player>
+{
+    public override Player ReadJson(JsonReader reader, Type objectType, Player existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        var jobj = JObject.Load(reader);
+        Player player = new Player();
+        player.ID = (float)jobj["ID"];
+        player.name = (string)jobj["name"];
+        player.code = (int)jobj["code"];
+        player.type = (int)jobj["type"];
+        player.grade = (int)jobj["grade"];
+        player.level = (int)jobj["level"];
+        player.maxLevel = (int)jobj["maxLevel"];
+        player.breakthrough = (int)jobj["breakthrough"];
+        player.skillLevel = (int)jobj["skillLevel"];
+        player.gearCode = (int)jobj["gearCode"];
+        player.gearLevel = (int)jobj["gearLevel"];
+        player.xp = (float)jobj["xp"];
+        player.maxXp = (float)jobj["maxXp"];
+        player.condition = (int)jobj["condition"];
+        player.cost = (int)jobj["cost"];
+        player.potential = (int)jobj["potential"];
+        int trainingCount = (int)jobj["trainingCount"];
+        player.training = new List<int>();
+        for (int i = 0; i < trainingCount; i++)
+        {
+            player.training.Add((int)jobj[$"training{i}"]);
+        }
+
+        return player;
+    }
+
+    public override void WriteJson(JsonWriter writer, Player value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+
+        writer.WritePropertyName("ID");
+        writer.WriteValue(value.ID);
+        writer.WritePropertyName("name");
+        writer.WriteValue(value.name);
+        writer.WritePropertyName("code");
+        writer.WriteValue(value.code);
+        writer.WritePropertyName("type");
+        writer.WriteValue(value.type);
+        writer.WritePropertyName("grade");
+        writer.WriteValue(value.grade);
+        writer.WritePropertyName("level");
+        writer.WriteValue(value.level);
+        writer.WritePropertyName("maxLevel");
+        writer.WriteValue(value.maxLevel);
+        writer.WritePropertyName("breakthrough");
+        writer.WriteValue(value.breakthrough);
+        writer.WritePropertyName("skillLevel");
+        writer.WriteValue(value.skillLevel);
+        writer.WritePropertyName("gearCode");
+        writer.WriteValue(value.gearCode);
+        writer.WritePropertyName("gearLevel");
+        writer.WriteValue(value.gearLevel);
+        writer.WritePropertyName("xp");
+        writer.WriteValue(value.xp);
+        writer.WritePropertyName("maxXp");
+        writer.WriteValue(value.maxXp);
+        writer.WritePropertyName("condition");
+        writer.WriteValue(value.condition);
+        writer.WritePropertyName("cost");
+        writer.WriteValue(value.cost);
+        writer.WritePropertyName("potential");
+        writer.WriteValue(value.potential);
+        writer.WritePropertyName("trainingCount");
+        writer.WriteValue(value.training.Count);
+        for (int i = 0; i < value.training.Count; i++)
+        {
+            writer.WritePropertyName($"training{i}");
+            writer.WriteValue(value.training[i]);
+        }
+
+        writer.WriteEndObject();
     }
 }

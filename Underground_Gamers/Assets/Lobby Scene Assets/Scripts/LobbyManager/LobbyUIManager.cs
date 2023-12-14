@@ -9,6 +9,7 @@ public class LobbyUIManager : MonoBehaviour
 {
     [Header("UIGroup : Lobby")]
     public GameObject lobby;
+    public BaseUIManager baseUIManager;
     public List<GameObject> lobbyNoMoney;
     public GameObject money;
     public GameObject playerList;
@@ -17,10 +18,10 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject playerSlotLackWarning;
     public GameObject playerInfo;
     public List<Toggle> presets;
-    public List<Toggle> playerlistLeftToggles;
 
     [Space(10f)]
     [Header("UIGroup : Schedule")]
+    public ScheduleUIManager scheduleUIManager;
     public GameObject schedule;
     public GameObject stage;
     public GameObject playerCountLackWarning;
@@ -48,7 +49,7 @@ public class LobbyUIManager : MonoBehaviour
     }
 
     private static LobbyUIManager lobbyUIManager;
-  
+
 
     private void Start()
     {
@@ -59,16 +60,18 @@ public class LobbyUIManager : MonoBehaviour
     }
     public void UpdateMoneyInfo()
     {
-        if (MoneyList.Count >= 3)
-        {
-            MoneyList[0].text = GamePlayerInfo.instance.money.ToString();
-            MoneyList[1].text = GamePlayerInfo.instance.crystal.ToString();
-        }
+        MoneyList[0].text = GamePlayerInfo.instance.money.ToString();
+        MoneyList[1].text = GamePlayerInfo.instance.crystal.ToString();
     }
 
     public void ActiveLobby(bool on)
     {
         lobby.SetActive(on);
+        if (on)
+        {
+            baseUIManager.InitBaseUIWithMotion();
+            UpdateMoneyInfo();
+        }
     }
 
     public void ActiveLobyWithoutMoney(bool on)
@@ -84,20 +87,20 @@ public class LobbyUIManager : MonoBehaviour
         money.SetActive(on);
     }
 
-    public void ActivePlayerList(bool on)
+    public bool ActivePlayerList(bool on)
     {
         if (on)
         {
             presets[GamePlayerInfo.instance.PresetCode].isOn = true;
             PlayerChanger.instance.SlotChecker();
-            playerlistLeftToggles[0].isOn = true;
         }
-        else if(!PlayerChanger.instance.IsFullSquad())
+        else if (!PlayerChanger.instance.IsFullSquad())
         {
             playerSlotLackWarning.SetActive(true);
-            return;
+            return false;
         }
         playerList.SetActive(on);
+        return true;
     }
 
     public void ActivePlayerListAnyway(bool on)
@@ -147,7 +150,6 @@ public class LobbyUIManager : MonoBehaviour
     public void OpenPlayerReleaseImmediate()
     {
         ActivePlayerList(true);
-        playerlistLeftToggles[1].isOn = true;
     }
 
     //------------------------------------------------//
@@ -164,15 +166,6 @@ public class LobbyUIManager : MonoBehaviour
 
     public void StartGame()
     {
-        List<Player> list = GamePlayerInfo.instance.usingPlayers;
-        for (int i = 0; i < 5; i++)
-        {
-            if (list[i].code == -1)
-            {
-                ActivePlayerCountLackWarning(true);
-                return;
-            }
-        }
         GameInfo.instance.RegistPlayers();
         SceneManager.LoadScene("Game Scene");
     }

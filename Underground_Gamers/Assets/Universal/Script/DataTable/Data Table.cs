@@ -8,6 +8,7 @@ public enum DataType
     Player,
     Gear,
     Recruit,
+    Stage,
     Count
 }
 public abstract class DataTable

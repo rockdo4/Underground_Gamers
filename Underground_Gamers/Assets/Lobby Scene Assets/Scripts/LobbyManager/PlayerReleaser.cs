@@ -245,5 +245,6 @@ public class PlayerReleaser : MonoBehaviour
         GamePlayerInfo.instance.AddMoney(0, 0, rewardSum);
         LobbyUIManager.instance.UpdateMoneyInfo();
         ButtonChecker();
+        GamePlayerInfo.instance.CheckRepresentPlayers();
     }
 }

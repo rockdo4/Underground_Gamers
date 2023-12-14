@@ -277,6 +277,7 @@ public class ManagerTrainingbreak : ManagerTraining
     public void StartBreaking()
     {
         GamePlayerInfo.instance.BreakPlayer(currPlayer, willDestroyPlayerList);
+        GamePlayerInfo.instance.CheckRepresentPlayers();
 
         LoadPlayers();
         if (currPlayer.breakthrough < 3)

@@ -22,7 +22,7 @@ public class GameInfo : MonoBehaviour
 
     public GameObject playerObj;
     public GameObject enemyObj;
-    public static int currentStage = 0;
+    public int currentStage = 0;
     public float RandomSpawnRange = 1f;
 
     private List<GameObject> players;

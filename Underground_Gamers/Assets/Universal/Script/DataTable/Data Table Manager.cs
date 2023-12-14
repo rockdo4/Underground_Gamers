@@ -37,6 +37,7 @@ public class DataTableManager : MonoBehaviour
             { DataType.Player, new PlayerTable() },
             { DataType.Gear, new GearTable() },
             { DataType.Recruit, new RecruitTable() },
+            { DataType.Stage, new StageTable() },
         };
         foreach (var table in tables)
         {
