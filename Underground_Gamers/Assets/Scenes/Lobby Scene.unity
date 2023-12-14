@@ -12079,7 +12079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 619716092759632599, guid: 350f631b6d3bf244092e335f9c7de0d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -460
+      value: -560
       objectReference: {fileID: 0}
     - target: {fileID: 619716092759632599, guid: 350f631b6d3bf244092e335f9c7de0d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -18535,7 +18535,6 @@ GameObject:
   m_Component:
   - component: {fileID: 312893056}
   - component: {fileID: 312893058}
-  - component: {fileID: 312893059}
   - component: {fileID: 312893057}
   m_Layer: 5
   m_Name: Text (TMP)
@@ -18583,7 +18582,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lobby
+  m_text: <
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 86b603696a0fa6549acfefb3b68ad13f, type: 2}
   m_sharedMaterial: {fileID: -292045414227251496, guid: 86b603696a0fa6549acfefb3b68ad13f, type: 2}
@@ -18610,8 +18609,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -18660,19 +18659,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312893055}
   m_CullTransparentMesh: 1
---- !u!114 &312893059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312893055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54ceaea0e6e60a44690b2a0765c46334, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textId: dormitory
 --- !u!1 &315624354
 GameObject:
   m_ObjectHideFlags: 0
@@ -51031,6 +51017,14 @@ MonoBehaviour:
   - {fileID: 7771605692658002355}
   - {fileID: 5930708407540452034}
   panel: {fileID: 880603341}
+  panelImage:
+  - {fileID: 1451263598525266165}
+  - {fileID: 2717133045378112077}
+  - {fileID: 4663870788511018761}
+  panelText:
+  - {fileID: 2739898265816377981}
+  - {fileID: 1529298608}
+  - {fileID: 679112105}
 --- !u!1 &856206192
 GameObject:
   m_ObjectHideFlags: 0
@@ -76343,7 +76337,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1252903161
@@ -88558,7 +88552,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lobby
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 86b603696a0fa6549acfefb3b68ad13f, type: 2}
   m_sharedMaterial: {fileID: -292045414227251496, guid: 86b603696a0fa6549acfefb3b68ad13f, type: 2}
@@ -88639,7 +88633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ceaea0e6e60a44690b2a0765c46334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textId: dormitory
+  textId: lobby
 --- !u!222 &1496743593
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -88825,7 +88819,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 572, y: 520}
+  m_SizeDelta: {x: 572, y: 620}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1497084718
 MonoBehaviour:

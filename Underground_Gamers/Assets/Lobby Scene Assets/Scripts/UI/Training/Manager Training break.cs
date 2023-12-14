@@ -280,6 +280,7 @@ public class ManagerTrainingbreak : ManagerTraining
         GamePlayerInfo.instance.CheckRepresentPlayers();
 
         LoadPlayers();
+        currIndex = sortedPlayerList.IndexOf(currPlayer);
         if (currPlayer.breakthrough < 3)
         {
             OpenPlayerBreakInfo();

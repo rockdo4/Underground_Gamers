@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
             gameEndPannel.winText.gameObject.SetActive(true);
             gameEndPannel.LoseText.gameObject.SetActive(false);
             GameInfo.instance.WinReward();
+
         }
         else
         {
