@@ -15,11 +15,16 @@ public class BuildingManager : MonoBehaviour
         SubScribeDestroyEvent(pcTopLineBuildings);
         SubScribeDestroyEvent(npcBottomLineBuildings);
         SubScribeDestroyEvent(npcTopLineBuildings);
+
+        DisplayBuildingHP(pcBottomLineBuildings[0].GetComponent<Building>());
+        DisplayBuildingHP(pcTopLineBuildings[0].GetComponent<Building>());
+        DisplayBuildingHP(npcBottomLineBuildings[0].GetComponent<Building>());
+        DisplayBuildingHP(npcTopLineBuildings[0].GetComponent<Building>());
     }
 
     public void SubScribeDestroyEvent(List<Transform> buildings)
     {
-        for(int i =0; i < buildings.Count - 1; ++i)
+        for (int i = 0; i < buildings.Count - 1; ++i)
         {
             TeamIdentifier identity = buildings[i].GetComponent<TeamIdentifier>();
             BuildingEventBus.Subscribe(buildings[i], () => ReleasePoint(identity.line, identity.teamType));
@@ -160,9 +165,10 @@ public class BuildingManager : MonoBehaviour
         {
             case TeamType.PC:
                 lineBuilding = line switch
-                { Line.Bottom => pcBottomLineBuildings,
-                Line.Top => pcTopLineBuildings,
-                _ => pcBottomLineBuildings
+                {
+                    Line.Bottom => pcBottomLineBuildings,
+                    Line.Top => pcTopLineBuildings,
+                    _ => pcBottomLineBuildings
                 };
                 break;
 
@@ -177,5 +183,12 @@ public class BuildingManager : MonoBehaviour
         }
 
         lineBuilding.Remove(lineBuilding[0]);
+        if (lineBuilding[0] != null)
+            DisplayBuildingHP(lineBuilding[0].GetComponent<Building>());
+    }
+
+    public void DisplayBuildingHP(Building building)
+    {
+        building.hpBar.SetActive(true);
     }
 }

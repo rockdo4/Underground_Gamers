@@ -6,6 +6,7 @@ using UnityEngine;
 public class Building : MonoBehaviour
 {
     private List<AIController> aiControllers = new List<AIController>();
+    public GameObject hpBar;
 
     public void AddAIController(AIController ai)
     {

@@ -2721,6 +2721,7 @@ MonoBehaviour:
   factorX1: {fileID: 1472855847}
   factorX2: {fileID: 663902548}
   factorX4: {fileID: 202906869}
+  currentTimeScale: 0
 --- !u!1 &401363726 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2536831913708489361, guid: c79709f23ede3124b92521b4de19f175, type: 3}
@@ -16138,6 +16139,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 72680868093439961, guid: 5402a149b622a614180d6caa300407f9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 72680868093439961, guid: 5402a149b622a614180d6caa300407f9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3023768620251760173, guid: 5402a149b622a614180d6caa300407f9, type: 3}
       propertyPath: killLog
       value: 
@@ -16145,6 +16154,14 @@ PrefabInstance:
     - target: {fileID: 3733484578026217263, guid: 5402a149b622a614180d6caa300407f9, type: 3}
       propertyPath: line
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191172092660287070, guid: 5402a149b622a614180d6caa300407f9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191172092660287070, guid: 5402a149b622a614180d6caa300407f9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5270616361344588317, guid: 5402a149b622a614180d6caa300407f9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18772,6 +18789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1474967924}
   pausePanel: {fileID: 150738547}
+  speedFactor: {fileID: 0}
 --- !u!1 &1776381727
 GameObject:
   m_ObjectHideFlags: 0
@@ -19191,6 +19209,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 72680868093439961, guid: 5402a149b622a614180d6caa300407f9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 72680868093439961, guid: 5402a149b622a614180d6caa300407f9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3023768620251760173, guid: 5402a149b622a614180d6caa300407f9, type: 3}
       propertyPath: killLog
       value: 
@@ -19218,6 +19244,14 @@ PrefabInstance:
     - target: {fileID: 3733484578026217263, guid: 5402a149b622a614180d6caa300407f9, type: 3}
       propertyPath: enemyLayer.m_Bits
       value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191172092660287070, guid: 5402a149b622a614180d6caa300407f9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191172092660287070, guid: 5402a149b622a614180d6caa300407f9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5270616361344588317, guid: 5402a149b622a614180d6caa300407f9, type: 3}
       propertyPath: m_LocalScale.x

@@ -20,6 +20,10 @@ public class HealSkill : AttackDefinition
         float minHpRate = float.MaxValue;
         foreach (var col in cols)
         {
+            var colIdentity = col.GetComponent<TeamIdentifier>();
+            if (colIdentity.isBuilding)
+                continue;
+
             CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
             float colHpRate = colStatus.Hp / colStatus.maxHp;
             if(colHpRate < minHpRate)
