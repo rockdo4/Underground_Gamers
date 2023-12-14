@@ -38,7 +38,8 @@ public class GameInfo : MonoBehaviour
     {
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
     }
-    public void RegistPlayers()
+
+    public void MakePlayers()
     {
         var stateDefines = DataTableManager.instance.stateDef;
         List<Player> usePlayer = GamePlayerInfo.instance.usingPlayers;
@@ -113,22 +114,22 @@ public class GameInfo : MonoBehaviour
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
-                    break;                                   
-                case OccupationType.Assault:                 
+                    break;
+                case OccupationType.Assault:
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
-                    break;                                   
-                case OccupationType.Sniper:                  
+                    break;
+                case OccupationType.Sniper:
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
-                    break;                                   
-                case OccupationType.Support:                 
+                    break;
+                case OccupationType.Support:
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
                     ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
@@ -143,14 +144,10 @@ public class GameInfo : MonoBehaviour
             madePlayer.SetActive(false);
             players.Add(madePlayer);
         }
-    }
 
-    public void MakePlayers()
-    {
         var startPos = GameObject.FindGameObjectsWithTag("PlayerStartPos");
         var endPos = GameObject.FindGameObjectsWithTag("EnemyStartPos");
 
-        // 수정 할 곳
         var buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
         var aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
 
@@ -183,7 +180,6 @@ public class GameInfo : MonoBehaviour
             portrait.SetPortrait(ai.spum);
             player.GetComponent<LookCameraByScale>().SetPlayer();
             player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();
-            // 아웃라인 추가
             player.AddComponent<Outlinable>();
 
         }
