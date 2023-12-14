@@ -245,4 +245,5 @@ public class SaveData
     public List<List<float>> Presets;
     public List<int> tradeCenter = new List<int>();
     public DateTime lastRecruitTime = DateTime.MinValue;
+    public bool isInit = true;
 }

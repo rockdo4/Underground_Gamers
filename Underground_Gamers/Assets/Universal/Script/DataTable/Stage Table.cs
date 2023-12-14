@@ -72,7 +72,6 @@ public class StageTable : DataTable
                 if (child.name == "HeadSet")
                 {
                     GameObject head = child.gameObject;
-                    //head.layer = LayerMask.NameToLayer("OverUI");
 
                     enemySprite.Add(head);
                     break;

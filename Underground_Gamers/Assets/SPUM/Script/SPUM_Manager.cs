@@ -2599,6 +2599,11 @@ public class SPUM_Manager : MonoBehaviour
             if(toastTimer > 2.0f) _toastObj.alpha = 1.0f - (toastTimer-2f);
             if(toastTimer > 3.0f) CloseToast();
         }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SavePrefabs();
+        }
+
     }
 
 

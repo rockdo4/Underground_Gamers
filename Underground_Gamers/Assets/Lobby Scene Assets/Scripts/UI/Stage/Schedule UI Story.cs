@@ -125,8 +125,9 @@ public class ScheduleUIStory : ScheduleUISubscriber
                 rectTransform.rotation = spriteRenderer.transform.rotation;
 
                 image.color = spriteRenderer.color;
-
                 oldPlayerImages.Add(imageObject);
+
+                imageObject.layer = LayerMask.NameToLayer("UI");
             }
             foreach (var image in oldPlayerImages)
             {

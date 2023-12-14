@@ -476,6 +476,7 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.Presets = Presets;
 
         var path = Path.Combine(Application.persistentDataPath, "savefile.json");
+        Debug.Log(path);
         var json = JsonConvert.SerializeObject(saveData,new PlayerConverter());
         File.WriteAllText(path, json);
     }

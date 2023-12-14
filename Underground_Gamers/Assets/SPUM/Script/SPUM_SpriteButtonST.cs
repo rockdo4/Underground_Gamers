@@ -33,6 +33,14 @@ public class SPUM_SpriteButtonST : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            DrawItem();
+        }
+    }
+
     public void SetUse(bool value)
     {
         _use = value;
