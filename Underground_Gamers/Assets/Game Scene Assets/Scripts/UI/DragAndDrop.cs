@@ -9,7 +9,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     private Vector3 prevPos;
     private CommandManager commandManager;
     public bool isDragging;
-    public bool isDropInEmpty;
 
     public static GameObject dragInfo = null;
     private static Image topDropPanel;
@@ -25,7 +24,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public void OnBeginDrag(PointerEventData eventData)
     {
         isDragging = true;
-        isDropInEmpty = false;
         prevPos = transform.position;
         transform.position = eventData.position;
         GetComponent<Image>().raycastTarget = false;
@@ -47,7 +45,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public void OnEndDrag(PointerEventData eventData)
     {
         DragAndDrop.OffRaycastDropPanel();
-        isDropInEmpty = true;
         isDragging = false;
         transform.position = prevPos;
         dragInfo = null;
