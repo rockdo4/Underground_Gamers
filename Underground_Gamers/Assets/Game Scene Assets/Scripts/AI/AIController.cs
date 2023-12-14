@@ -575,8 +575,11 @@ public class AIController : MonoBehaviour
 
     public void RefreshDebugAIStatus(string debug)
     {
-        statusName = $"{debugAIStatusInfo.aiType}{debugAIStatusInfo.aiNum} : {debug}";
-        debugAIStatusInfo.GetComponentInChildren<TextMeshProUGUI>().text = statusName;
+        if(debugAIStatusInfo != null)
+        {
+            statusName = $"{debugAIStatusInfo.aiType}{debugAIStatusInfo.aiNum} : {debug}";
+            debugAIStatusInfo.GetComponentInChildren<TextMeshProUGUI>().text = statusName;
+        }
     }
 
     private void UpdateBuff()
