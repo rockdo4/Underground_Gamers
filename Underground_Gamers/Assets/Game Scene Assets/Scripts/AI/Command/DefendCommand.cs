@@ -24,7 +24,7 @@ public class DefendCommand : Command
             {
                 aiController.isDefend = true;
                 aiController.isAttack = false;
-                if(aiController.status.IsLive)
+                if (aiController.status.IsLive)
                     aiController.SetState(States.Retreat);
 
                 Debug.Log($"{aiController.aiType.text} : Defend Command Execute");
@@ -36,8 +36,8 @@ public class DefendCommand : Command
             ai.isAttack = false;
             if (ai.status.IsLive)
                 ai.SetState(States.Retreat);
-
-            gameManager.commandManager.SetActiveCommandButton(ai);
+            if (ai.teamIdentity.teamType == TeamType.PC)
+                gameManager.commandManager.SetActiveCommandButton(ai);
             Debug.Log($"{ai.aiType.text} : Defend Command Execute");
         }
     }

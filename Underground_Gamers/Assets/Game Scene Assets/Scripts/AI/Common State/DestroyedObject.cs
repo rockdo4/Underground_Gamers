@@ -17,7 +17,7 @@ public class DestroyedObject : MonoBehaviour, IDestroyable
         if(controller != null)
         {
             controller.battleTarget = null;
-            particlePrefab = aiParticlePrefabs[controller.colorIndex];
+            particlePrefab = aiParticlePrefabs[controller.aiIndex];
         }
 
         //Destroy(gameObject);

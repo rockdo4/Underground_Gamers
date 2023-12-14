@@ -162,15 +162,13 @@ public class AIController : MonoBehaviour
     public DebugAIStatusInfo debugAIStatusInfo;
     public CommandInfo aiCommandInfo;
     public TextMeshProUGUI aiType;
-    public int colorIndex;
+    public int aiIndex;
     public AICanvas canvas;
     public Color selectOutlineColor;
     public Color unselectOutlineColor;
 
     public Outlinable outlinable;
-
-    public Transform[] tops;
-    public Transform[] bottoms;
+    public List<AIController> currentLinerInfo;
 
     public bool RaycastToTarget
     {
@@ -268,6 +266,20 @@ public class AIController : MonoBehaviour
     }
     private void Awake()
     {
+        if (gameManager == null)
+            gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        if (aiManager == null)
+            aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
+        if (buildingManager == null)
+            buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
+        if(outlinable == null)
+        {
+            // 아웃라인 초기 설정
+            outlinable = spum.AddComponent<Outlinable>();
+            outlinable.AddAllChildRenderersToRenderingList();
+            outlinable.OutlineParameters.Color = unselectOutlineColor;
+        }
+
         agent = GetComponent<NavMeshAgent>();
         status = GetComponent<CharacterStatus>();
         teamIdentity = GetComponent<TeamIdentifier>();
@@ -306,6 +318,7 @@ public class AIController : MonoBehaviour
 
         SetState(States.Idle);
         point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
+        gameManager.lineManager.JoiningLine(this);
         missionTarget = point;
         MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
 

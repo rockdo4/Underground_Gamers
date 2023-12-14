@@ -9,6 +9,9 @@ public class TraceState : AIState
 
     }
 
+    private float traceTimer;
+    private float traceTime;
+
     public override void Enter()
     {
         aiController.RefreshDebugAIStatus(this.ToString());
@@ -21,6 +24,7 @@ public class TraceState : AIState
         }
 
         lastDetectTime = Time.time - aiController.detectTime;
+        traceTime = Time.time - traceTimer;
 
         agent.isStopped = false;
         agent.angularSpeed = aiStatus.reactionSpeed;
@@ -51,6 +55,13 @@ public class TraceState : AIState
         {
             aiController.SetState(States.AimSearch);
             return;
+        }
+
+        // 수정 내용
+        if(aiController.DistanceToBattleTarget > aiStatus.range && traceTime + traceTimer < Time.time)
+        {
+            traceTimer = Time.time;
+            aiController.SetDestination(aiController.battleTarget);
         }
 
         if (lastDetectTime + aiController.detectTime < Time.time && aiController.battleTarget != null)

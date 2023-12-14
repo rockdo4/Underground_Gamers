@@ -10,7 +10,14 @@ public class GameManager : MonoBehaviour
     public bool IsTimeOut { get; set; }
     public bool IsPaused { get; set; }
     public bool IsPlayerWin { get; set; }
+
+    [Header("¸Ş´ÏÀú Ä³½Ì")]
     public AIManager aiManager;
+    public CameraManager cameraManager;
+    public CommandManager commandManager;
+    public NPCManager npcManager;
+    public LineManager lineManager;
+
     public GameEndPannel gameEndPannel;
 
     public float timer;
@@ -22,8 +29,6 @@ public class GameManager : MonoBehaviour
     public CharacterStatus pcNexus;
     public CharacterStatus npcNexus;
 
-    public CameraManager cameraManager;
-    public CommandManager commandManager;
 
     private void Awake()
     {

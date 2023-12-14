@@ -22,7 +22,7 @@ public class SettingAIID : MonoBehaviour
             ai.aiType.outlineWidth = outlineWidth;
             ai.aiType.outlineColor = Color.white;
             ai.aiType.color = colors[pcID - 1];
-            ai.colorIndex = pcID - 1;
+            ai.aiIndex = pcID - 1;
             pcID++;
             //ai.aiType.text = $"PC{pcID++}";
             ai.aiType.text = ai.status.name;
@@ -32,7 +32,7 @@ public class SettingAIID : MonoBehaviour
             ai.aiType.outlineWidth = outlineWidth;
             ai.aiType.outlineColor = Color.black;
             ai.aiType.color = colors[npcID - 1];
-            ai.colorIndex = npcID - 1;
+            ai.aiIndex = npcID - 1;
             npcID++;
             //ai.aiType.text = $"NPC{npcID++}";
             ai.aiType.text = ai.status.name;
