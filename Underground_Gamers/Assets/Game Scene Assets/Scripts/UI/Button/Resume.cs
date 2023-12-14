@@ -10,7 +10,6 @@ public class Resume : MonoBehaviour
     public void OnResume()
     {
         gameManager.IsPaused = false;
-        gameManager.IsPlaying = true;
         Time.timeScale = 1;
         pausePanel.SetActive(false);
     }

@@ -10,7 +10,6 @@ public class Pause : MonoBehaviour
     public void OnPause()
     {
         gameManager.IsPaused = true;
-        gameManager.IsPlaying = false;
         Time.timeScale = 0;
         pausePanel.SetActive(true);
     }

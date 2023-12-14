@@ -242,8 +242,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.125, y: 1.834}
-  m_SizeDelta: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.125, y: 1.9}
+  m_SizeDelta: {x: 1.5, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8599353058881731352
 CanvasRenderer:
@@ -275,8 +275,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: PC1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 232afa81e6a6ecc4cbea09c0ba721f09, type: 2}
+  m_sharedMaterial: {fileID: -5756189594224823419, guid: 232afa81e6a6ecc4cbea09c0ba721f09, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -483,13 +483,12 @@ MonoBehaviour:
   debugAIStatusInfo: {fileID: 0}
   aiCommandInfo: {fileID: 0}
   aiType: {fileID: 5357651350825094259}
-  colorIndex: 0
+  aiIndex: 0
   canvas: {fileID: 4409331017172970312}
   selectOutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   unselectOutlineColor: {r: 1, g: 0.9215687, b: 0.015686275, a: 0}
   outlinable: {fileID: 0}
-  tops: []
-  bottoms: []
+  currentLinerInfo: []
 --- !u!114 &2013940768982972327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -612,6 +611,9 @@ MonoBehaviour:
   buildingTarget: {fileID: 0}
   teamType: 0
   line: -1
+  recoveryTime: 2
+  isSelfRecovery: 0
+  recoveryValue: 0
 --- !u!114 &1005251339509606251
 MonoBehaviour:
   m_ObjectHideFlags: 0
