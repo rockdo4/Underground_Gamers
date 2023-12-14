@@ -45,7 +45,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public void OnEndDrag(PointerEventData eventData)
     {
         DragAndDrop.OffRaycastDropPanel();
-
         isDragging = false;
         transform.position = prevPos;
         dragInfo = null;

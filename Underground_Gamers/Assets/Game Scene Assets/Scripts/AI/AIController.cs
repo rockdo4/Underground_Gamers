@@ -272,7 +272,7 @@ public class AIController : MonoBehaviour
             aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
         if (buildingManager == null)
             buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
-        if(outlinable == null)
+        if (outlinable == null)
         {
             // 아웃라인 초기 설정
             outlinable = spum.AddComponent<Outlinable>();
@@ -317,11 +317,14 @@ public class AIController : MonoBehaviour
         //agent.SetDestination(point.position);
 
         SetState(States.Idle);
+
+        if (teamIdentity.teamType == TeamType.PC)
+            gameManager.lineManager.JoiningLine(this);
+        if (teamIdentity.teamType == TeamType.NPC)
+            gameManager.npcManager.SelectLineByInit(this);
         point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
-        gameManager.lineManager.JoiningLine(this);
         missionTarget = point;
         MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
-
 
         //outlinable = spum.AddComponent<Outlinable>();
         //outlinable.AddAllChildRenderersToRenderingList();

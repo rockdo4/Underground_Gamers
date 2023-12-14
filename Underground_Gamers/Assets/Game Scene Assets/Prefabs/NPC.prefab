@@ -289,6 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94e20b9c182676546a7e25d6f6ee3219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  code: 0
   agent: {fileID: 0}
   status: {fileID: 0}
   gameManager: {fileID: 0}
@@ -349,13 +350,12 @@ MonoBehaviour:
   debugAIStatusInfo: {fileID: 0}
   aiCommandInfo: {fileID: 0}
   aiType: {fileID: 7521221403050446438}
-  colorIndex: 0
+  aiIndex: 0
   canvas: {fileID: 8875618295526777781}
   selectOutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0}
   unselectOutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0}
   outlinable: {fileID: 4687183793069776076}
-  tops: []
-  bottoms: []
+  currentLinerInfo: []
 --- !u!114 &5619921147084294796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,8 +387,8 @@ MonoBehaviour:
   accuracyRate: 0
   armor: 0
   deathCount: 0
-  respawnTime: 0
-  respawnTimeIncreaseRate: 0
+  respawnTime: 8
+  respawnTimeIncreaseRate: 3
 --- !u!136 &4762857722842106087
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -478,6 +478,9 @@ MonoBehaviour:
   buildingTarget: {fileID: 0}
   teamType: 1
   line: -1
+  recoveryTime: 2
+  isSelfRecovery: 0
+  recoveryValue: 0
 --- !u!114 &4494870755969772782
 MonoBehaviour:
   m_ObjectHideFlags: 0

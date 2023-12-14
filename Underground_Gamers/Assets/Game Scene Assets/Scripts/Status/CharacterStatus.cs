@@ -46,6 +46,8 @@ public class CharacterStatus : MonoBehaviour
     public void Respawn()
     {
         AIController aiController = GetComponent<AIController>();
+        GameManager gameManager = GetComponent<AIController>().gameManager;
+
         if (aiController != null)
         {
             if (aiController.attackInfos[(int)SkillTypes.Base] != null)
@@ -77,11 +79,11 @@ public class CharacterStatus : MonoBehaviour
 
         if(aiController.teamIdentity.teamType == TeamType.NPC)
         {
-
+            gameManager.npcManager.SelectLineByRate(aiController);
+            gameManager.lineManager.JoiningLine(aiController);
         }
 
         // 카메라 설정
-        GameManager gameManager = GetComponent<AIController>().gameManager;
         if(gameManager != null)
         {
             if(gameManager.commandManager.currentAI == aiController)
