@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AimSearchState : AIState
 {
+    private float traceTimer;
+    private float traceTime;
     public AimSearchState(AIController aiController) : base(aiController)
     {
 
@@ -16,6 +18,8 @@ public class AimSearchState : AIState
         agent.speed = 0f;
 
         lastDetectTime = Time.time - aiController.detectTime;
+        traceTime = 1f;
+        traceTimer = Time.time - traceTime;
     }
 
     public override void Exit()
@@ -50,6 +54,11 @@ public class AimSearchState : AIState
         {
             aiController.SetState(States.Attack);
             return;
+        }
+
+        if(aiController.DistanceToBattleTarget < aiStatus.range && traceTimer + traceTime < Time.time)
+        {
+            aiController.SetDestination(aiController.battleTarget);
         }
 
         if(aiController.DistanceToBattleTarget > aiStatus.range)

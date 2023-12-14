@@ -192,7 +192,13 @@ public class AIController : MonoBehaviour
             float sightDot = Vector3.Dot(sightDirection, transform.forward);
 
             float dot = Vector3.Dot(direction, transform.forward);
+
+            // dot = 1 일 시, Acos 을 넘기면 NoN이 뜨는 문제로, 0으로 변환
             float angleInRadians = Mathf.Acos(dot);
+            if (dot >= 1)
+            {
+                angleInRadians = 0;
+            }
             float angleInDegrees = angleInRadians * Mathf.Rad2Deg;
             float cosineValue = Mathf.Abs(Mathf.Cos(angleInDegrees));
             float attackRange = status.range / cosineValue;

@@ -39,6 +39,8 @@ public class TraceState : AIState
             return;
         }
 
+        RotateToTarget();
+
         if (aiController.battleTarget == null)
         {
             aiController.SetState(States.MissionExecution);
