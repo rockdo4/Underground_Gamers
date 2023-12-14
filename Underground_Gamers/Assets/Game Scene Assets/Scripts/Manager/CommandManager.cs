@@ -76,8 +76,10 @@ public class CommandManager : MonoBehaviour
         defendButton.SetActiveButton(false);
     }
 
-    public void SelectNewAI(AIController newAI)
+    public void SelectNewAI(AIController newAI, DragAndDrop dragObj)
     {
+        if (dragObj.isDragging)
+            return;
         prevAI = currentAI;
 
         // 같은 거 선택
@@ -146,7 +148,8 @@ public class CommandManager : MonoBehaviour
 
             // 버튼 기능 부여, 캐릭터 선택
             var infoButton = info.GetComponent<Button>();
-            infoButton.onClick.AddListener(() => SelectNewAI(info.aiController));
+            DragAndDrop dragObj = infoButton.GetComponent<DragAndDrop>();
+            infoButton.onClick.AddListener(() => SelectNewAI(info.aiController, dragObj));
             //infoButton.onClick.AddListener(info.aiController.SelectAI);
 
 
