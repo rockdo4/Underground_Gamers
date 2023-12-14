@@ -6,11 +6,12 @@ public class Resume : MonoBehaviour
 {
     public GameManager gameManager;
     public GameObject pausePanel;
+    public GameSpeedFactor speedFactor;
 
     public void OnResume()
     {
         gameManager.IsPaused = false;
-        Time.timeScale = 1;
+        Time.timeScale = speedFactor.currentTimeScale;
         pausePanel.SetActive(false);
     }
 }

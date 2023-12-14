@@ -16,8 +16,10 @@ public class GameManager : MonoBehaviour
     public AIManager aiManager;
     public CameraManager cameraManager;
     public CommandManager commandManager;
+    public BuildingManager buildingManager;
     public NPCManager npcManager;
     public LineManager lineManager;
+    public GameRuleManager gameRuleManager;
 
     public GameEndPannel gameEndPannel;
 
@@ -58,8 +60,7 @@ public class GameManager : MonoBehaviour
 
         if (IsTimeOut)
         {
-            // 같은 경우는?
-            if (pcNexus.Hp >= npcNexus.Hp)
+            if (gameRuleManager.IsPlayerWinByTimeOut())
             {
                 IsPlayerWin = true;
             }

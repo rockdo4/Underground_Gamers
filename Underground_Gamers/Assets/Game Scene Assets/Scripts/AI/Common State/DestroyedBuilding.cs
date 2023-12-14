@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class DestroyedBuilding : MonoBehaviour, IDestroyable
 {
-    private BuildingManager buildingManager;
+    private GameManager gameManager;
+
     private void Awake()
     {
-        buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
     public void DestoryObject(GameObject attacker)
     {
         Building building = GetComponent<Building>();
+        TeamIdentifier identity = GetComponent<TeamIdentifier>();
 
         // publish
         // 빌딩List 갱신
@@ -19,6 +21,7 @@ public class DestroyedBuilding : MonoBehaviour, IDestroyable
         // 해당 라인 AI 갱신
         building.PublishMissionTargetEvent();
         // 빌딩 EventBus 해제
-        buildingManager.UnsubscribeDestroyEvent(transform);
+        gameManager.buildingManager.UnsubscribeDestroyEvent(transform);
+        gameManager.gameRuleManager.ReleaseBuilding(identity);
     }
 }
