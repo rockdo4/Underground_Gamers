@@ -143,6 +143,7 @@ public class GamePlayerInfo : MonoBehaviour
         newPlayer.ID = IDPrinter();
         newPlayer.cost = info.cost;
         havePlayers.Add(newPlayer);
+        SaveFile();
         return newPlayer;
     }
 
@@ -154,6 +155,7 @@ public class GamePlayerInfo : MonoBehaviour
         }
         Player newPlayer = new Player();
         usingPlayers[slotIndex] = newPlayer;
+        SaveFile();
     }
 
     private float IDPrinter()
@@ -170,6 +172,7 @@ public class GamePlayerInfo : MonoBehaviour
     public void LoadPreset()
     {
         LoadPreset(PresetCode);
+        SaveFile();
     }
     public void LoadPreset(int index)
     {
@@ -225,6 +228,7 @@ public class GamePlayerInfo : MonoBehaviour
         {
             havePlayers.Remove(item);
         }
+        SaveFile();
     }
     public bool AddMoney(int money, int crystal, int contractTicket)
     {
@@ -235,11 +239,13 @@ public class GamePlayerInfo : MonoBehaviour
             this.money = Mathf.Min(this.money+money, 999999999);
             this.money = Mathf.Min(this.crystal + crystal, 999999999);
             this.money = Mathf.Min(this.contractTicket + contractTicket, 99999);
+            SaveFile();
             return false;
         }
         this.money += money;
         this.crystal += crystal;
         this.contractTicket += contractTicket;
+        SaveFile();
         return true;
     }
     public bool UseMoney(int money, int crystal, int contractTicket)
@@ -253,6 +259,7 @@ public class GamePlayerInfo : MonoBehaviour
         this.money -= money;
         this.crystal -= crystal;
         this.contractTicket -= contractTicket;
+        SaveFile();
         return true;
     }
 
@@ -333,6 +340,7 @@ public class GamePlayerInfo : MonoBehaviour
                 item.level = level;
                 item.xp = xp;
                 item.maxXp = maxXp;
+                SaveFile();
                 return;
             }
         }
@@ -343,6 +351,7 @@ public class GamePlayerInfo : MonoBehaviour
                 item.level = level;
                 item.xp = xp;
                 item.maxXp = maxXp;
+                SaveFile();
                 return;
             }
         }
@@ -361,12 +370,14 @@ public class GamePlayerInfo : MonoBehaviour
             XpItem[1] = Math.Min(XpItem[1] + two, 9999);
             XpItem[2] = Math.Min(XpItem[2] + three, 9999);
             XpItem[3] = Math.Min(XpItem[3] + four, 9999);
+            SaveFile();
             return false;
         }
         XpItem[0] += one;
         XpItem[1] += two;
         XpItem[2] += three;
         XpItem[3] += four;
+        SaveFile();
         return true;
     }
 
@@ -378,6 +389,7 @@ public class GamePlayerInfo : MonoBehaviour
             {
                 item.training.AddRange(train);
                 item.potential = potential;
+                SaveFile();
                 return;
             }
         }
@@ -387,6 +399,7 @@ public class GamePlayerInfo : MonoBehaviour
             {
                 item.training.AddRange(train);
                 item.potential = potential;
+                SaveFile();
                 return;
             }
         }
@@ -416,11 +429,13 @@ public class GamePlayerInfo : MonoBehaviour
             3 => 3,
             _ => 1,
         };
+        SaveFile();
     }
 
     public void SetTradeCenter(List<int> setValue)
     {
         tradeCenter = setValue;
+        SaveFile();
     }
 
     public void CheckRepresentPlayers()
@@ -439,14 +454,9 @@ public class GamePlayerInfo : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
-    {
-        Debug.Log("Saved!");
-    }
-
-
     public void SaveFile()
     {
+        Debug.Log("Saved");
         var saveData = new SaveData();
 
         saveData.representativePlayer = representativePlayer;
