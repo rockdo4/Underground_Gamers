@@ -32,8 +32,8 @@ public class GamePlayerInfo : MonoBehaviour
     [Space(10f)]
     [Header("Resource")]
     public int money = 10000;
-    public int crystal = 10000;
-    public int contractTicket = 10000;
+    public int crystal = 4000;
+    public int contractTicket = 0;
     public int stamina = 0;
     public List<int> XpItem;
 
