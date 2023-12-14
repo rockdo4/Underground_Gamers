@@ -456,7 +456,6 @@ public class GamePlayerInfo : MonoBehaviour
 
     public void SaveFile()
     {
-        Debug.Log("Saved");
         var saveData = new SaveData();
 
         saveData.representativePlayer = representativePlayer;
@@ -478,7 +477,6 @@ public class GamePlayerInfo : MonoBehaviour
 
         var path = Path.Combine(Application.persistentDataPath, "savefile.json");
         var json = JsonConvert.SerializeObject(saveData,new PlayerConverter());
-        Debug.Log(path);
         File.WriteAllText(path, json);
     }
 

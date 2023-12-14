@@ -6,4 +6,5 @@ using UnityEngine.UI;
 public class StageEnemyInfoImage : MonoBehaviour
 {
     public Image[] images = new Image[3];
+
 }

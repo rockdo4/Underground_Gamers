@@ -1,12 +1,14 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageTable : DataTable
 {
     List<StageInfo> stageInfoTable = new List<StageInfo>();
     List<EnemyInfo> enemyInfoTable = new List<EnemyInfo>();
+    List<GameObject> enemySprite = new List<GameObject>();
     public StageTable() : base(DataType.Stage)
     {
     }
@@ -15,20 +17,29 @@ public class StageTable : DataTable
     {
         stageInfoTable = new List<StageInfo>();
         enemyInfoTable = new List<EnemyInfo>();
-        StageInfo a = new StageInfo();
-        a.code = 100;
-        a.type = 0;
-        a.enemys = new List<int>();
-        a.enemys.Add(0);
-        a.enemys.Add(0);
-        a.enemys.Add(1);
-        a.enemys.Add(2);
-        a.enemys.Add(3);
-        a.rewards = new List<int>();
-        a.rewards.Add(0);
-        stageInfoTable.Add(a);
+        enemySprite = new List<GameObject>();
+        List<Dictionary<string, string>> stages = CSVReader.Read(Path.Combine("CSV", "story_stage_table"));
+        foreach (var stage in stages)
+        {
+            StageInfo newStage = new StageInfo();
+            newStage.code = int.Parse(stage["StageID"]);
+            newStage.name = stage["StageName"];
+            newStage.type = int.Parse(stage["StageType"]);
+            newStage.enemys = new List<int>();
 
-        List<Dictionary<string, string>> enemys = CSVReader.Read(Path.Combine("CSV", "monterstats"));
+            //추가 예정
+            newStage.mapCode = 0;
+            newStage.rewards = new List<int>();
+            ///////////////////////
+
+            for (int i = 0; i < 5; i++)
+            {
+                newStage.enemys.Add(int.Parse(stage[$"StageMon{i + 1}"]));
+            }
+            stageInfoTable.Add(newStage);
+        }
+
+        List<Dictionary<string, string>> enemys = CSVReader.Read(Path.Combine("CSV", "monter_table"));
         foreach (var enemy in enemys)
         {
             EnemyInfo enemyInfo = new EnemyInfo();
@@ -54,11 +65,34 @@ public class StageTable : DataTable
             enemyInfo.reaction = float.Parse(enemy["Reaction"]);
             enemyInfo.detection = float.Parse(enemy["Detection"]);
             enemyInfoTable.Add(enemyInfo);
+
+            var childs = Resources.Load<GameObject>(Path.Combine("EnemySpum", $"{enemyInfo.code}")).GetComponentsInChildren<Transform>();
+            foreach (var child in childs)
+            {
+                if (child.name == "HeadSet")
+                {
+                    GameObject head = child.gameObject;
+                    //head.layer = LayerMask.NameToLayer("OverUI");
+
+                    enemySprite.Add(head);
+                    break;
+                }
+            }
         }
     }
 
     public EnemyInfo GetEnemyInfo(int code)
     {
         return enemyInfoTable.Find(player => player.code == code);
+    }
+
+    public StageInfo GetStageInfo(int code)
+    {
+        return stageInfoTable.Find(stage => stage.code == code);
+    }
+
+    public GameObject GetHeadSet(int code)
+    {
+        return enemySprite[enemyInfoTable.IndexOf(enemyInfoTable.Find(stage => stage.code == code))];
     }
 }

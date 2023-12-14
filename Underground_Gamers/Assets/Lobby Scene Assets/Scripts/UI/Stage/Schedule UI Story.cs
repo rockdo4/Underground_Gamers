@@ -22,6 +22,12 @@ public class ScheduleUIStory : ScheduleUISubscriber
     public GameObject panel;        // ¶ç¿öÁú ÆÐ³Î
 
     private bool isPanelVisible = false;
+    private StageTable st;
+    private PlayerTable pt;
+    private Vector3 enemySpriteSet = new Vector3(40, 20);
+
+    private List<GameObject> oldPlayerImages = new List<GameObject>();
+    private GameObject a;
     private void Start()
     {
         int count = 0;
@@ -30,7 +36,8 @@ public class ScheduleUIStory : ScheduleUISubscriber
             int val = count++;
             item.GetComponent<Button>().onClick.AddListener(() => TogglePanelVisibility(val));
         }
-        
+        st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+        pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
     }
 
     public override void OnEnter()
@@ -69,12 +76,79 @@ public class ScheduleUIStory : ScheduleUISubscriber
 
     public void SetStage(int code)
     {
+        if (st == null)
+        {
+            st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+            pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        }
+        if (oldPlayerImages == null)
+        {
+            oldPlayerImages = new List<GameObject>();
+        }
+        foreach (var item in oldPlayerImages)
+        {
+            Destroy(item);
+        }
+        oldPlayerImages.Clear();
+        var enemysCode = st.GetStageInfo(code).enemys;
+
+        if (enemysCode == null)
+        {
+            return;
+        }
+        //Debug.Log(enemysCode.Count);
         //stageTypeImage
-        //enemyImages
+        for (int i = 0; i < enemysCode.Count; i++) 
+        {
+            var enemyInfo = st.GetEnemyInfo(enemysCode[i]);
+            var img = Instantiate(st.GetHeadSet(enemysCode[i]), enemyImages[i].images[0].transform);
+
+
+            SpriteRenderer[] spriteRenderers = img.GetComponentsInChildren<SpriteRenderer>();
+
+            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+            {
+                if (spriteRenderer.sprite == null)
+                {
+                    continue;
+                }
+                GameObject imageObject = new GameObject(spriteRenderer.name);
+                imageObject.transform.SetParent(enemyImages[i].images[0].transform);
+
+                Image image = imageObject.AddComponent<Image>();
+
+                image.sprite = spriteRenderer.sprite;
+
+                RectTransform rectTransform = image.rectTransform;
+                rectTransform.position = spriteRenderer.transform.position;
+                rectTransform.sizeDelta = new Vector2(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y);
+                rectTransform.rotation = spriteRenderer.transform.rotation;
+
+                image.color = spriteRenderer.color;
+
+                oldPlayerImages.Add(imageObject);
+            }
+            foreach (var image in oldPlayerImages)
+            {
+                if (image.name.Contains("Hair"))
+                {
+                    image.transform.SetAsLastSibling();
+                }
+            }
+            foreach (var image in oldPlayerImages)
+            {
+                if (image.name.Contains("Helm"))
+                {
+                    image.transform.SetAsLastSibling();
+                }
+            }
+            Destroy(img);
+            enemyImages[i].images[1].sprite = pt.playerTypeSprites[enemyInfo.type - 1];
+            
+        }
         //rewardItems
         GameInfo.instance.currentStage = code;
     }
-
 
     private void TogglePanelVisibility(int index)
     {
@@ -110,6 +184,7 @@ public class ScheduleUIStory : ScheduleUISubscriber
                 }
             }
         }
+
     }
     private void ShowPanel(int index)
     {

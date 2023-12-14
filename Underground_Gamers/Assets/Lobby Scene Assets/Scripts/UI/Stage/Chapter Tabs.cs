@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -11,11 +12,19 @@ public class ChapterTabs : MonoBehaviour
     [SerializeField]
     private int LeagueType = 100;
     private Toggle firstStage;
-
+    private StageTable st;
+    private void Start()
+    {
+        st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+    }
     public void SetFirst()
     {
+        if(st == null)
+        {
+            st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+        }
         firstStage = stageTabs[0];
-        int stageLevel = LeagueType - 1;
+        int stageLevel = LeagueType;
         int currstage = GamePlayerInfo.instance.cleardStage;
         foreach (var item in stageTabs)
         {
@@ -28,6 +37,7 @@ public class ChapterTabs : MonoBehaviour
             {
                 item.interactable = false;
             }
+            item.GetComponentInChildren<TMP_Text>(true).text = st.GetStageInfo(stageLevel).name;
         }
         firstStage.interactable = true;
         firstStage.isOn = true;
