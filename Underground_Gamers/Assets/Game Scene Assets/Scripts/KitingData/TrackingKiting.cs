@@ -43,15 +43,15 @@ public class TrackingKiting : KitingData
         {
             ctrl.SetDestination(pointInNavMesh); // 변경 필요
             ctrl.kitingPos = pointInNavMesh;
-            GameObject debugPoint = Instantiate(point, pointInNavMesh, Quaternion.identity);
-            Destroy(debugPoint, 2f);
+            //GameObject debugPoint = Instantiate(point, pointInNavMesh, Quaternion.identity);
+            //Destroy(debugPoint, 2f);
         }
         else
         {
             ctrl.SetDestination(pointInNavMesh); // 변경 필요
             ctrl.kitingPos = pointInNavMesh;
-            GameObject debugPoint = Instantiate(point, pointInNavMesh, Quaternion.identity);
-            Destroy(debugPoint, 2f);
+            //GameObject debugPoint = Instantiate(point, pointInNavMesh, Quaternion.identity);
+            //Destroy(debugPoint, 2f);
         }
     }
 }

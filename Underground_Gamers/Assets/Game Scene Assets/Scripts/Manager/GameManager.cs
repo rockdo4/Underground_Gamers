@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
     public CharacterStatus pcNexus;
     public CharacterStatus npcNexus;
 
-
     private void Awake()
     {
         PlayingGame();
@@ -83,7 +82,7 @@ public class GameManager : MonoBehaviour
     {
         IsPlaying = true;
         IsTimeOut = false;
-        gameEndPannel.gameObject.SetActive(false);
+        gameEndPannel.OffGameEndPanel();
         Time.timeScale = 1f;
         gameTimer = gameTime;
 
@@ -112,6 +111,6 @@ public class GameManager : MonoBehaviour
 
         // 게임 업데이트가 멈추는데 멈춰도 되는가 생각
         Time.timeScale = 0f;
-        gameEndPannel.gameObject.SetActive(true);
+        gameEndPannel.OnGameEndPanel();
     }
 }

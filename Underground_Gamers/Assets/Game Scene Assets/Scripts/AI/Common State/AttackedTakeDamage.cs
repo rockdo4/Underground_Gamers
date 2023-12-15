@@ -7,10 +7,11 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
 {
     public void OnAttack(GameObject attacker, Attack attack)
     {
-        CharacterStatus status = transform.GetComponent<CharacterStatus>();
+        CharacterStatus defenderStatus = transform.GetComponent<CharacterStatus>();
+        CharacterStatus attackerStatus = attacker.GetComponent<CharacterStatus>();
         AIController controller = transform.GetComponent<AIController>();
 
-        if (!status.IsLive)
+        if (!defenderStatus.IsLive)
             return;
 
         // 막기 버프 적용
@@ -34,10 +35,14 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
             }
         }
 
-        status.Hp -= attack.Damage;
-        status.Hp = Mathf.Min(status.Hp, status.maxHp);
-        status.Hp = Mathf.Max(0, status.Hp);
-        status.GetHp();
+        defenderStatus.Hp -= attack.Damage;
+        defenderStatus.Hp = Mathf.Min(defenderStatus.Hp, defenderStatus.maxHp);
+        defenderStatus.Hp = Mathf.Max(0, defenderStatus.Hp);
+        defenderStatus.GetHp();
+
+        // 데미지 그래프 수치 적용
+        defenderStatus.takenDamage += attack.Damage;
+        attackerStatus.dealtDamage += attack.Damage;
 
         // 반격, 수정
         if (controller != null/* && controller.battleTarget == null*/)
@@ -61,18 +66,21 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         }
 
         // 사망 처리
-        if (status.Hp <= 0)
+        if (defenderStatus.Hp <= 0)
         {
-            status.IsLive = false;
-            if (identity.teamLayer == LayerMask.GetMask("PC"))
+            defenderStatus.IsLive = false;
+            if (!identity.isBuilding)
             {
-                var text = GameObject.FindGameObjectWithTag("NPC_Score").GetComponent<TMP_Text>();
-                text.text = (int.Parse(text.text) + 1).ToString();
-            }
-            else
-            {
-                var text = GameObject.FindGameObjectWithTag("PC_Score").GetComponent<TMP_Text>();
-                text.text = (int.Parse(text.text) + 1).ToString();
+                if (identity.teamLayer == LayerMask.GetMask("PC"))
+                {
+                    var text = GameObject.FindGameObjectWithTag("NPC_Score").GetComponent<TMP_Text>();
+                    text.text = (int.Parse(text.text) + 1).ToString();
+                }
+                else
+                {
+                    var text = GameObject.FindGameObjectWithTag("PC_Score").GetComponent<TMP_Text>();
+                    text.text = (int.Parse(text.text) + 1).ToString();
+                }
             }
 
             var destroyables = transform.GetComponents<IDestroyable>();
