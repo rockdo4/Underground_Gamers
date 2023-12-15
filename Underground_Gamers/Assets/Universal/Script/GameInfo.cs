@@ -107,7 +107,7 @@ public class GameInfo : MonoBehaviour
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
             stat.ai = madePlayerCharactor;
-            stat.illustration = pt.GetPlayerFullSprite(playerInfo.code);
+            stat.illustration = pt.GetPlayerSprite(playerInfo.code);
             stat.aiClass = pt.playerTypeSprites[playerInfo.type - 1];
             stat.grade = pt.starsSprites[playerInfo.grade - 3];
             stat.lv = player.level;
