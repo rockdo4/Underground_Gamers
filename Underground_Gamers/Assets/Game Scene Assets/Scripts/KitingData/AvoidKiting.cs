@@ -44,8 +44,8 @@ public class AvoidKiting : KitingData
                 kitingPos = hit.position;
                 ctrl.SetDestination(kitingPos);
                 ctrl.kitingPos = kitingPos;
-                GameObject debugPoint = Instantiate(point, kitingPos, Quaternion.identity);
-                Destroy(debugPoint, 2f);
+                //GameObject debugPoint = Instantiate(point, kitingPos, Quaternion.identity);
+                //Destroy(debugPoint, 2f);
                 return;
             }
 
@@ -54,7 +54,7 @@ public class AvoidKiting : KitingData
         kitingPos = ( enemyLook * (ctrl.status.range - distanceToTarget)) + ctrl.transform.position;
         ctrl.SetDestination(kitingPos);
         ctrl.kitingPos = kitingPos;
-        GameObject _debugPoint = Instantiate(point, kitingPos, Quaternion.identity);
-        Destroy(_debugPoint, 2f);
+        //GameObject _debugPoint = Instantiate(point, kitingPos, Quaternion.identity);
+        //Destroy(_debugPoint, 2f);
     }
 }

@@ -167,6 +167,9 @@ public class AIController : MonoBehaviour
     public Color selectOutlineColor;
     public Color unselectOutlineColor;
 
+    [Header("데미지 그래프")]
+    public DamageGraph damageGraph;
+
     public Outlinable outlinable;
     public List<AIController> currentLinerInfo;
 
