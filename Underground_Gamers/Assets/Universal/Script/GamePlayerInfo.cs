@@ -46,6 +46,7 @@ public class GamePlayerInfo : MonoBehaviour
     public List<int> tradeCenter = new List<int>();
     public DateTime lastRecruitTime = DateTime.MinValue;
     public bool isInit = false;
+    public bool isOnSchedule = false;
 
     private PlayerTable pt;
     [HideInInspector]

@@ -365,7 +365,10 @@ public class GameInfo : MonoBehaviour
 
     public void WinReward()
     {
-        GamePlayerInfo.instance.cleardStage = currentStage;
+        if (GamePlayerInfo.instance.cleardStage < currentStage)
+        {
+            GamePlayerInfo.instance.cleardStage = currentStage;
+        }
         GamePlayerInfo.instance.AddMoney(currentStage * 30, currentStage * 10, 0);
         GamePlayerInfo.instance.GetXpItems(10, 5, 1, 0);
     }

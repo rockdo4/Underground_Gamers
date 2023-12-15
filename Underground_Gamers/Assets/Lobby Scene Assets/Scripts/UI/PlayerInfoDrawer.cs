@@ -86,13 +86,19 @@ public class PlayerInfoDrawer : MonoBehaviour
             _ => pt.starsSprites[0],
         };
         TypeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", playerInfo.type.ToString()));
-        if (currPlayer.level <currPlayer.maxLevel)
+        if (currPlayer.level <currPlayer.maxLevel && !GamePlayerInfo.instance.isOnSchedule)
         {
             growB.interactable = true;
+            growB.gameObject.SetActive(true);
+        }
+        else if(GamePlayerInfo.instance.isOnSchedule)
+        {
+            growB.gameObject.SetActive(false);
         }
         else 
         {
             growB.interactable = false;
+            growB.gameObject.SetActive(true);
         }
     }
 
@@ -125,7 +131,12 @@ public class PlayerInfoDrawer : MonoBehaviour
             }
         }
 
-        var sortedPlayerList = playerList.OrderByDescending(p => p.level).ToList();
+        var sortedPlayerList = playerList.OrderByDescending(p => p.level)
+    .ThenByDescending(p => p.breakthrough)
+    .ThenByDescending(p => p.grade)
+    .ThenByDescending(p => p.type)
+    .ThenByDescending(p => p.name)
+    .ToList(); ;
         var mta = TrainingUIManager.instance.trainingManagers[0] as ManagerTrainingAnalyze;
         mta.OpenPlayerGrowInfo(sortedPlayerList.IndexOf(currPlayer));
         gameObject.SetActive(false);

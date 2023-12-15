@@ -134,18 +134,16 @@ public class ManagerRecruitTryout : ManagerRecruit
 
         recruitImage.sprite = Resources.Load<Sprite>(Path.Combine("RecruitSprite", currCode.ToString()));
         recruitInfo.text = info.info;
-        MoneyText5.text = $"{info.crystal}";
+        MoneyText5.text = $"C :  {info.crystal * 5}";
         ticketRewardText.text = GamePlayerInfo.instance.contractTicket.ToString();
     }
 
     public void TryTryout()
     {
         RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
-        currCost = info.crystal;
+        currCost = info.crystal * 5;
 
-        //뽑히는 선수 수
-        currCount = 4;
-        ///////////////////////////////////////////////////////
+        currCount = 5;
 
         int usingList = 0;
         List<Player> used = GamePlayerInfo.instance.usingPlayers;
@@ -346,8 +344,8 @@ public class ManagerRecruitTryout : ManagerRecruit
 
     public void UpdateMoneyInfo()
     {
-        moneyListText.text = GamePlayerInfo.instance.crystal.ToString();
-        ticketRewardText.text = GamePlayerInfo.instance.contractTicket.ToString();
+        moneyListText.text = "C : " + GamePlayerInfo.instance.crystal.ToString();
+        ticketRewardText.text = "M : " + GamePlayerInfo.instance.contractTicket.ToString();
         LobbyUIManager.instance.UpdateMoneyInfo();
     }
 

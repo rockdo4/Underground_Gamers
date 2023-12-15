@@ -52,7 +52,7 @@ public class RecruitTradeCard : MonoBehaviour
                 effectUnique.SetActive(false);
                 break;
         }
-        costText.text = cost.ToString();
+        costText.text = "M : " + cost.ToString();
         image.sprite = pt.GetPlayerSprite(playerID);
         stars.sprite = pi.grade switch
         {
