@@ -25,7 +25,7 @@ public class SettingAIID : MonoBehaviour
             ai.aiIndex = pcID - 1;
             pcID++;
             //ai.aiType.text = $"PC{pcID++}";
-            ai.aiType.text = ai.status.name;
+            ai.aiType.text = ai.status.AIName;
         }
         foreach (var ai in aiManager.npc)
         {
@@ -35,7 +35,7 @@ public class SettingAIID : MonoBehaviour
             ai.aiIndex = npcID - 1;
             npcID++;
             //ai.aiType.text = $"NPC{npcID++}";
-            ai.aiType.text = ai.status.name;
+            ai.aiType.text = ai.status.AIName;
         }
     }
 }

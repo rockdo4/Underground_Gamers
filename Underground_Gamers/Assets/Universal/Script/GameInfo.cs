@@ -90,7 +90,7 @@ public class GameInfo : MonoBehaviour
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
 
-            stat.name = playerInfo.name;
+            stat.AIName = playerInfo.name;
             stat.Hp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
             stat.maxHp = stat.Hp;
             stat.speed = pt.CalculateCurrStats(playerInfo.moveSpeed, player.level);
@@ -106,6 +106,14 @@ public class GameInfo : MonoBehaviour
             stat.detectionRange = pt.CalculateCurrStats(playerInfo.detectionRange, player.level) * charactorScale;
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
+            stat.ai = madePlayerCharactor;
+            stat.illustration = pt.GetPlayerFullSprite(playerInfo.code);
+            stat.aiClass = pt.playerTypeSprites[playerInfo.type - 1];
+            stat.grade = pt.starsSprites[playerInfo.grade - 3];
+            stat.lv = player.level;
+            stat.maxLv = player.maxLevel;
+            stat.xp = player.xp;
+            stat.maxXp = player.maxXp;
 
             switch (stat.occupationType)
             {
@@ -242,7 +250,7 @@ public class GameInfo : MonoBehaviour
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
 
-            stat.name = playerInfo.name;
+            stat.AIName = playerInfo.name;
             stat.Hp = playerInfo.hp;
             stat.maxHp = stat.Hp;
             stat.speed = playerInfo.moveSpeed; ;

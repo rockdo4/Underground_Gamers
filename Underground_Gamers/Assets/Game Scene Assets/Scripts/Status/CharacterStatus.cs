@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +11,7 @@ public class CharacterStatus : MonoBehaviour
     public OccupationType occupationType = OccupationType.None;
     public DistancePriorityType distancePriorityType = DistancePriorityType.None;
 
-    public string name;
+    public string AIName;
 
     [Header("스텟")]
     public int maxHp = 50;
@@ -40,10 +41,13 @@ public class CharacterStatus : MonoBehaviour
 
     [Header("리워드 목록")]
     public GameObject ai;
-    public Image illustration;
-    public Image aiClass;
-    public string lv;
-    public Image grade;
+    public Sprite illustration;
+    public Sprite aiClass;
+    public int lv;
+    public int maxLv;
+    public float xp;
+    public float maxXp;
+    public Sprite grade;
 
     [Header("데미지 그래프")]
     public float dealtDamage;
@@ -115,4 +119,32 @@ public class CharacterStatus : MonoBehaviour
             aiCanvas.hpBar.value = (float)Hp / (float)maxHp;
         }
     }
+
+    public void LevelUp()
+    {
+        var pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        while (xp >= maxXp)
+        {
+            lv++;
+            if (lv >= maxLv)
+            {
+                xp = 0;
+                if (maxLv >= 50)
+                {
+                    maxXp = 0;
+                    break;
+                }
+                else
+                {
+                    maxXp = pt.GetLevelUpXp(lv + 1);
+                }
+            }
+            else
+            {
+                xp = xp - maxXp;
+                maxXp = pt.GetLevelUpXp(lv + 1);
+            }
+        }
+    }
+
 }
