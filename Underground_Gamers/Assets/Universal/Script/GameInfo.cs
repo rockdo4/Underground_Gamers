@@ -54,11 +54,12 @@ public class GameInfo : MonoBehaviour
             }
             var madePlayer = Instantiate(playerObj);
             madePlayer.AddComponent<DontDestroy>();
+
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{player.code}")), madePlayer.transform);
             madePlayerCharactor.AddComponent<LookCameraRect>();
             var outLine = madePlayerCharactor.AddComponent<Outlinable>();
 
-            float charactorScale = madePlayerCharactor.transform.localScale.x;
+            float charactorScale = madePlayer.transform.localScale.x;
 
             var ai = madePlayer.GetComponent<AIController>();
             ai.spum = madePlayerCharactor.GetComponent<SPUM_Prefabs>();
@@ -210,7 +211,7 @@ public class GameInfo : MonoBehaviour
             madePlayerCharactor.AddComponent<LookCameraRect>();
             var outLine = madePlayerCharactor.AddComponent<Outlinable>();
 
-            float charactorScale = madePlayerCharactor.transform.localScale.x;
+            float charactorScale = madePlayer.transform.localScale.x;
 
             var ai = madePlayer.GetComponent<AIController>();
             ai.spum = madePlayerCharactor.GetComponent<SPUM_Prefabs>();
