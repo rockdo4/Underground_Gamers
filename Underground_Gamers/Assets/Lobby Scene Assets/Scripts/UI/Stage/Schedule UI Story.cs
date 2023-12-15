@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,10 @@ public class ScheduleUIStory : ScheduleUISubscriber
     private GameObject[] rewardItems = new GameObject[3];
 
     public GameObject panel;        // ¶ç¿öÁú ÆÐ³Î
+    [SerializeField]
+    private Image[] panelImage = new Image[3];
+    [SerializeField]
+    private TMP_Text[] panelText = new TMP_Text[3];
 
     private bool isPanelVisible = false;
     private StageTable st;
@@ -76,6 +81,7 @@ public class ScheduleUIStory : ScheduleUISubscriber
 
     public void SetStage(int code)
     {
+        HidePanel();
         if (st == null)
         {
             st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
@@ -96,58 +102,59 @@ public class ScheduleUIStory : ScheduleUISubscriber
         {
             return;
         }
-        //Debug.Log(enemysCode.Count);
-        //stageTypeImage
-        for (int i = 0; i < enemysCode.Count; i++) 
-        {
-            var enemyInfo = st.GetEnemyInfo(enemysCode[i]);
-            var img = Instantiate(st.GetHeadSet(enemysCode[i]), enemyImages[i].images[0].transform);
 
+        ////stageTypeImage
+        //for (int i = 0; i < enemysCode.Count; i++) 
+        //{
+        //    var enemyInfo = st.GetEnemyInfo(enemysCode[i]);
+        //    var img = Instantiate(st.GetHeadSet(enemysCode[i]), enemyImages[i].images[0].transform);
+        //    img.transform.SetParent(enemyImages[i].images[0].transform);
+        //    img.transform.localScale = Vector3.one * 130;
 
-            SpriteRenderer[] spriteRenderers = img.GetComponentsInChildren<SpriteRenderer>();
+        //    SpriteRenderer[] spriteRenderers = img.GetComponentsInChildren<SpriteRenderer>();
+        //    foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        //    {
+        //        if (spriteRenderer.sprite == null)
+        //        {
+        //            continue;
+        //        }
+        //        spriteRenderer.sortingOrder = 0;
+        //        //GameObject imageObject = new GameObject(spriteRenderer.name);
+        //        //imageObject.transform.SetParent(enemyImages[i].images[0].transform);
 
-            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-            {
-                if (spriteRenderer.sprite == null)
-                {
-                    continue;
-                }
-                GameObject imageObject = new GameObject(spriteRenderer.name);
-                imageObject.transform.SetParent(enemyImages[i].images[0].transform);
+        //        //Image image = imageObject.AddComponent<Image>();
 
-                Image image = imageObject.AddComponent<Image>();
+        //        //image.sprite = spriteRenderer.sprite;
 
-                image.sprite = spriteRenderer.sprite;
+        //        //RectTransform rectTransform = image.rectTransform;
+        //        //rectTransform.position = spriteRenderer.transform.position;
+        //        //rectTransform.sizeDelta = new Vector2(spriteRenderer.size.x , spriteRenderer.size.y);
 
-                RectTransform rectTransform = image.rectTransform;
-                rectTransform.position = spriteRenderer.transform.position;
-                rectTransform.sizeDelta = new Vector2(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y);
-                rectTransform.rotation = spriteRenderer.transform.rotation;
+        //        //rectTransform.rotation = spriteRenderer.transform.rotation;
 
-                image.color = spriteRenderer.color;
-                oldPlayerImages.Add(imageObject);
+        //        //image.color = spriteRenderer.color;
+        //        //oldPlayerImages.Add(imageObject);
 
-                imageObject.layer = LayerMask.NameToLayer("UI");
-            }
-            foreach (var image in oldPlayerImages)
-            {
-                if (image.name.Contains("Hair"))
-                {
-                    image.transform.SetAsLastSibling();
-                }
-            }
-            foreach (var image in oldPlayerImages)
-            {
-                if (image.name.Contains("Helm"))
-                {
-                    image.transform.SetAsLastSibling();
-                }
-            }
-            Destroy(img);
-            enemyImages[i].images[1].sprite = pt.playerTypeSprites[enemyInfo.type - 1];
+        //        //imageObject.layer = LayerMask.NameToLayer("UI");
+        //    }
+        //    //foreach (var image in oldPlayerImages)
+        //    //{
+        //    //    if (image.name.Contains("Hair"))
+        //    //    {
+        //    //        image.transform.SetAsLastSibling();
+        //    //    }
+        //    //}
+        //    //foreach (var image in oldPlayerImages)
+        //    //{
+        //    //    if (image.name.Contains("Helm"))
+        //    //    {
+        //    //        image.transform.SetAsLastSibling();
+        //    //    }
+        //    //}
+        //    oldPlayerImages.Add(img);
+        //    enemyImages[i].images[1].sprite = pt.playerTypeSprites[enemyInfo.type - 1];
             
-        }
-        //rewardItems
+        //}
         GameInfo.instance.currentStage = code;
     }
 
@@ -176,13 +183,13 @@ public class ScheduleUIStory : ScheduleUISubscriber
                 Vector2 panelMax = (Vector2)panelRect.position + panelRect.sizeDelta;
 
                 Vector2 touchPos = touch.position;
-
-
                 if (touchPos.x < panelMin.x || touchPos.x > panelMax.x ||
                     touchPos.y < panelMin.y || touchPos.y > panelMax.y)
                 {
                     HidePanel();
+                   
                 }
+
             }
         }
 
@@ -192,7 +199,12 @@ public class ScheduleUIStory : ScheduleUISubscriber
         panel.SetActive(true);
         var rt = panel.GetComponent<RectTransform>();
         rt.position = enemyImages[index].GetComponent<RectTransform>().position;
+        //panelImage[0].sprite = 
+        panelImage[1].sprite = enemyImages[index].images[1].sprite;
         isPanelVisible = true;
+        var playerInfo = st.GetEnemyInfo(st.GetStageInfo(GameInfo.instance.currentStage).enemys[index]);
+        panelText[0].text = playerInfo.name;
+        panelText[1].text = DataTableManager.instance.Get<StringTable>(DataType.String).Get($"type{playerInfo.type}");
     }
 
     private void HidePanel()

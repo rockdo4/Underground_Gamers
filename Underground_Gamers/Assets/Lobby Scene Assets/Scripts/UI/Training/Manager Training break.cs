@@ -203,6 +203,21 @@ public class ManagerTrainingbreak : ManagerTraining
             var card = bt.GetComponent<PlayerLevelCard>();
             card.image.sprite = pt.GetPlayerSprite(player.code);
             card.level.text = $"Lv. {player.level.ToString("F0")}";
+            if (player.breakthrough <= 0)
+            {
+                card.breakImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                card.breakImage.gameObject.SetActive(true);
+                card.breakImage.sprite = player.breakthrough switch
+                {
+                    1 => pt.berakSprites[0],
+                    2 => pt.berakSprites[1],
+                    3 => pt.berakSprites[2],
+                    _ => pt.berakSprites[0],
+                };
+            }
 
             int useIndex = count++;
             bt.GetComponent<Toggle>().onValueChanged.AddListener(value => SelectBreaking(useIndex,value));
@@ -280,6 +295,7 @@ public class ManagerTrainingbreak : ManagerTraining
         GamePlayerInfo.instance.CheckRepresentPlayers();
 
         LoadPlayers();
+        currIndex = sortedPlayerList.IndexOf(currPlayer);
         if (currPlayer.breakthrough < 3)
         {
             OpenPlayerBreakInfo();
@@ -315,7 +331,12 @@ public class ManagerTrainingbreak : ManagerTraining
             }
         }
 
-        sortedPlayerList = playerList.OrderByDescending(p => p.level).ToList();
+        sortedPlayerList = playerList.OrderByDescending(p => p.level)
+    .ThenByDescending(p => p.breakthrough)
+    .ThenByDescending(p => p.grade)
+    .ThenByDescending(p => p.type)
+    .ThenByDescending(p => p.name)
+    .ToList();
     }
     private void UpdateCanUsingPlayerList()
     {

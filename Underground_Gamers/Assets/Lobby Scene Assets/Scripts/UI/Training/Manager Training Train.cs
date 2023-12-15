@@ -106,7 +106,12 @@ public class ManagerTrainingTrain : ManagerTraining
         }
         playerList.AddRange(GamePlayerInfo.instance.havePlayers);
 
-        sortedPlayerList = playerList.OrderByDescending(p => p.level).ToList();
+        sortedPlayerList = playerList.OrderByDescending(p => p.level)
+    .ThenByDescending(p => p.breakthrough)
+    .ThenByDescending(p => p.grade)
+    .ThenByDescending(p => p.type)
+    .ThenByDescending(p => p.name)
+    .ToList();
 
         int count = 0;
         foreach (var player in sortedPlayerList)
@@ -308,7 +313,12 @@ public class ManagerTrainingTrain : ManagerTraining
             }
         }
         playerList.AddRange(GamePlayerInfo.instance.havePlayers);
-        sortedPlayerList = playerList.OrderByDescending(p => p.level).ToList();
+        sortedPlayerList = playerList.OrderByDescending(p => p.level)
+            .ThenByDescending(p => p.breakthrough)
+            .ThenByDescending(p => p.grade)
+            .ThenByDescending(p => p.type)
+            .ThenByDescending (p => p.name)
+            .ToList();
 
         trainResultArea.SetActive(true);
     }

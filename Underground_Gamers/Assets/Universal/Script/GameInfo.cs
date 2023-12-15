@@ -247,7 +247,7 @@ public class GameInfo : MonoBehaviour
             stat.speed = playerInfo.moveSpeed; ;
             stat.sight = playerInfo.sight * charactorScale;
             stat.range = playerInfo.range * charactorScale;
-            stat.reactionSpeed = playerInfo.reaction *15;
+            stat.reactionSpeed = playerInfo.reaction * 15;
             stat.damage = playerInfo.atk;
             stat.cooldown = playerInfo.atkRate;
             stat.critical = playerInfo.critical;
@@ -340,7 +340,7 @@ public class GameInfo : MonoBehaviour
 
     }
 
-        public void DeletePlayers()
+    public void DeletePlayers()
     {
         foreach (var player in players)
         {
@@ -357,7 +357,7 @@ public class GameInfo : MonoBehaviour
     public void WinReward()
     {
         GamePlayerInfo.instance.cleardStage = currentStage;
-        GamePlayerInfo.instance.AddMoney(1000, 1000, 0);
-        GamePlayerInfo.instance.GetXpItems(10,5,2,1);
+        GamePlayerInfo.instance.AddMoney(currentStage * 30, currentStage * 10, 0);
+        GamePlayerInfo.instance.GetXpItems(10, 5, 1, 0);
     }
 }
