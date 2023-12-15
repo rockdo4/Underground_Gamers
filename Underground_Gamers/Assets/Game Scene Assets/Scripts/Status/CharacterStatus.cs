@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterStatus : MonoBehaviour
 {
@@ -35,6 +37,18 @@ public class CharacterStatus : MonoBehaviour
     public int deathCount;
     public float respawnTime;
     public float respawnTimeIncreaseRate;
+
+    [Header("리워드 목록")]
+    public GameObject ai;
+    public Image illustration;
+    public Image aiClass;
+    public string lv;
+    public Image grade;
+
+    [Header("데미지 그래프")]
+    public float dealtDamage;
+    public float takenDamage;
+
     public bool IsLive { get; set; } = true;
     public int Hp { get; set; }
 

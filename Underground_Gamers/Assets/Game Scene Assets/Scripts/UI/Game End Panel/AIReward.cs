@@ -7,9 +7,9 @@ public class AIReward : MonoBehaviour
     public GameObject ai;
     public Image illustration;
     public Image aiClass;
-    public TextMeshProUGUI lv;
+    public string lv;
     public Image grade;
-    public TextMeshProUGUI name;
+    public string name;
 
     public Slider expGauage;
     public float currentEXP;
