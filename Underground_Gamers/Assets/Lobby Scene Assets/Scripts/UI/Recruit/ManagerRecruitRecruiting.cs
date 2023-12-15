@@ -111,8 +111,8 @@ public class ManagerRecruitRecruiting : ManagerRecruit
 
         recruitImage.sprite = Resources.Load<Sprite>(Path.Combine("RecruitSprite", currCode.ToString()));
         recruitInfo.text = info.info;
-        MoneyText1.text = $"{info.crystal}";
-        MoneyText10.text = $"{info.crystal * 10}";
+        MoneyText1.text = $"C : {info.crystal}";
+        MoneyText10.text = $"C : {info.crystal * 10}";
     }
 
     public void TryRecruit(int count)
@@ -281,7 +281,7 @@ public class ManagerRecruitRecruiting : ManagerRecruit
 
     public void UpdateMoneyInfo()
     {
-        moneyListText.text = GamePlayerInfo.instance.crystal.ToString();
+        moneyListText.text = "C : " + GamePlayerInfo.instance.crystal.ToString();
         LobbyUIManager.instance.UpdateMoneyInfo();
     }
 }

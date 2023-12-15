@@ -222,7 +222,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
                 growItems[i].interactable = true;
             }
         }
-        growItemUseMoneyText.text = currCost.ToString();
+        growItemUseMoneyText.text = "G : " + currCost.ToString();
 
         analyzeStartB.interactable = false;
     }
@@ -324,7 +324,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
                 currMaxXp = pt.GetLevelUpXp(currlevel + 1);
                 currCost = pt.GetLevelUpCost(currlevel);
             }
-            growItemUseMoneyText.text = currCost.ToString();
+            growItemUseMoneyText.text = "G : " + currCost.ToString();
         }
 
 

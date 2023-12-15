@@ -296,6 +296,7 @@ public class ManagerTrainingbreak : ManagerTraining
 
         LoadPlayers();
         currIndex = sortedPlayerList.IndexOf(currPlayer);
+
         if (currPlayer.breakthrough < 3)
         {
             OpenPlayerBreakInfo();

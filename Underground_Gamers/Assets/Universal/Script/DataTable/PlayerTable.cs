@@ -42,8 +42,8 @@ public class PlayerTable : DataTable
             playerInfo.info = player["Info"];
             playerInfo.cost = int.Parse(player["Cost"]);
             playerInfo.weaponType = int.Parse(player["WeaponType"]);
-            playerInfo.hp.min = int.Parse(player["minHP"]);
-            playerInfo.atk.min = int.Parse(player["minAtk"]);
+            playerInfo.hp.min = float.Parse(player["minHP"]);
+            playerInfo.atk.min = float.Parse(player["minAtk"]);
             playerInfo.atkRate.min = float.Parse(player["minAtkRate"]);
             playerInfo.moveSpeed.min = float.Parse(player["minSpeed"]);
             playerInfo.sight.min = float.Parse(player["minSight"]);
@@ -57,8 +57,8 @@ public class PlayerTable : DataTable
             playerInfo.atkType = int.Parse(player["AtkType"]);
             playerInfo.kitingType = int.Parse(player["KitingType"]);
 
-            playerInfo.hp.max = int.Parse(player["maxHP"]);
-            playerInfo.atk.max = int.Parse(player["maxAtk"]);
+            playerInfo.hp.max = float.Parse(player["maxHP"]);
+            playerInfo.atk.max = float.Parse(player["maxAtk"]);
             playerInfo.atkRate.max = float.Parse(player["maxAtkRate"]);
             playerInfo.moveSpeed.max = float.Parse(player["maxSpeed"]);
             playerInfo.sight.max = float.Parse(player["maxSight"]);

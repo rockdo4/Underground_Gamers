@@ -20,12 +20,14 @@ public class ScheduleUIManager : LobbySceneSubscriber
         LobbyTopMenu lobbyTopMenu = lobbySceneUIManager.lobbyTopMenu;
         lobbyTopMenu.ActiveTop(true);
         lobbyTopMenu.AddFunction(OnBack);
+        GamePlayerInfo.instance.isOnSchedule = true;
     }
 
     public override void OnExit()
     {
         base.OnExit();
         lobbySceneUIManager.lobbyTopMenu.ActiveTop(false);
+        GamePlayerInfo.instance.isOnSchedule = false;
     }
 
     private void OnBack()

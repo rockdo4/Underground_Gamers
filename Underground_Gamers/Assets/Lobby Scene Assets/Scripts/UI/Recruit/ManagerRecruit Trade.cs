@@ -67,7 +67,6 @@ public class ManagerRecruitTrade : ManagerRecruit
             st = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
         UpdateMoneyInfo();
-        UpdateMoneyInfo();
         MakeCards();
         gameObject.SetActive(true);
 
@@ -95,6 +94,10 @@ public class ManagerRecruitTrade : ManagerRecruit
         int count = 0;
         foreach (var card in recruitTradeCards)
         {
+            if (GamePlayerInfo.instance.tradeCenter.Count-1 < count )
+            {
+                break;
+            }
             int code = GamePlayerInfo.instance.tradeCenter[count];
             if (code >= 0)
             {
@@ -234,8 +237,8 @@ public class ManagerRecruitTrade : ManagerRecruit
     
     public void UpdateMoneyInfo()
     {
-        moneyListText[0].text = GamePlayerInfo.instance.crystal.ToString();
-        moneyListText[1].text = GamePlayerInfo.instance.contractTicket.ToString();
+        moneyListText[0].text = "C : " + GamePlayerInfo.instance.crystal.ToString();
+        moneyListText[1].text = "M : " + GamePlayerInfo.instance.contractTicket.ToString();
         LobbyUIManager.instance.UpdateMoneyInfo();
     }
 

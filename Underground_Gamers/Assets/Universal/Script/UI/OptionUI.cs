@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class OptionUI : MonoBehaviour
@@ -33,5 +34,19 @@ public class OptionUI : MonoBehaviour
         Application.Quit();
 #endif
         GamePlayerInfo.instance.SaveFile();
+    }
+
+    public void ResetGame()
+    {
+        var filePath = Path.Combine(Application.persistentDataPath, "savefile.json");
+        if (File.Exists(filePath))
+        {
+                File.Delete(filePath);
+        }
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }
