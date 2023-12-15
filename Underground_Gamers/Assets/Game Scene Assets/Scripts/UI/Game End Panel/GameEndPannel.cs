@@ -39,8 +39,8 @@ public class GameEndPannel : MonoBehaviour
             AIReward aiReward = Instantiate(rewardPrefab, rewardParent);
             //이름
             aiReward.ai = pc.status.ai;
-            aiReward.illustration = pc.status.illustration;
-            aiReward.aiClass = pc.status.aiClass;
+            aiReward.illustration.sprite = pc.status.illustration;
+            aiReward.aiClass.sprite = pc.status.aiClass;
 
         }
     } 
@@ -53,6 +53,7 @@ public class GameEndPannel : MonoBehaviour
             DamageGraph damageGraph = Instantiate(damageGraphPrefab, damageGraphParent);
             // 여기서 이미지 받기
             pc.damageGraph = damageGraph;
+            damageGraph.illustration.sprite = pc.status.illustration;
             damageGraph.dealtDamage = pc.status.dealtDamage;
             damageGraph.takenDamage = pc.status.takenDamage;
 
