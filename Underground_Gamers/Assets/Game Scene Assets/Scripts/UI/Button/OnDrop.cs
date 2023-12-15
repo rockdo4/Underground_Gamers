@@ -12,7 +12,7 @@ public class OnDrop : MonoBehaviour, IDropHandler
 
     private void Start()
     {
-        Invoke("LateUpdateSize", 0.1f);
+        Invoke("LateUpdateSize", 1f);
     }
 
     void IDropHandler.OnDrop(PointerEventData eventData)
