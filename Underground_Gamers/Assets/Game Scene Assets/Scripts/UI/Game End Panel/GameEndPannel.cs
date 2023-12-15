@@ -38,10 +38,13 @@ public class GameEndPannel : MonoBehaviour
         {
             AIReward aiReward = Instantiate(rewardPrefab, rewardParent);
             //¿Ã∏ß
+            aiReward.aiNameText.text = $"{pc.status.AIName}";
+            aiReward.lvText.text = $"Lv. {pc.status.lv}";
             aiReward.ai = pc.status.ai;
             aiReward.illustration.sprite = pc.status.illustration;
             aiReward.aiClass.sprite = pc.status.aiClass;
-
+            GameObject ai = Instantiate(aiReward.ai, aiReward.aiParent);
+            ai.layer = LayerMask.NameToLayer("OverUI");
         }
     } 
         

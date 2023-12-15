@@ -334,7 +334,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5604745653130440463
 CanvasRenderer:
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -836,12 +836,13 @@ MonoBehaviour:
   ai: {fileID: 0}
   illustration: {fileID: 2838510184971426157}
   aiClass: {fileID: 8812955766080028798}
-  lv: 
+  lvText: {fileID: 6827731154434607171}
   grade: {fileID: 5153762651394040008}
-  name: 
+  aiNameText: {fileID: 6521968262971735821}
   expGauage: {fileID: 0}
   currentEXP: 0
   maxEXP: 0
+  aiParent: {fileID: 1897770357327677656}
 --- !u!1 &5003707149920951452
 GameObject:
   m_ObjectHideFlags: 0
