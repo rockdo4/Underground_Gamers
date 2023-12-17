@@ -344,18 +344,22 @@ public class AIController : MonoBehaviour
     }
     private void Update()
     {
-        if (lastOriginalSkillTime + originalSkillCoolTime < Time.time
-            && attackInfos[(int)SkillTypes.Original] != null)
-        {
-            lastOriginalSkillTime = Time.time;
-            isOnCoolOriginalSkill = true;
-        }
+        //if (lastOriginalSkillTime + originalSkillCoolTime < Time.time
+        //    && attackInfos[(int)SkillTypes.Original] != null)
+        //{
+        //    lastOriginalSkillTime = Time.time;
+        //    isOnCoolOriginalSkill = true;
+        //}
 
         if (lastBaseAttackTime + baseAttackCoolTime < Time.time)
         {
             lastBaseAttackTime = Time.time;
             isOnCoolBaseAttack = true;
         }
+
+        //if (!isOnCoolOriginalSkill)
+        //{
+        //}
 
         // 수비 소강 상태일때도 재장전
         if (isReloading)
@@ -578,7 +582,7 @@ public class AIController : MonoBehaviour
 
     public void RefreshDebugAIStatus(string debug)
     {
-        if(debugAIStatusInfo != null)
+        if (debugAIStatusInfo != null)
         {
             statusName = $"{debugAIStatusInfo.aiType}{debugAIStatusInfo.aiNum} : {debug}";
             debugAIStatusInfo.GetComponentInChildren<TextMeshProUGUI>().text = statusName;
@@ -646,10 +650,12 @@ public class AIController : MonoBehaviour
         }
         lastReloadTime = Time.time - reloadCoolTime;
         lastBaseAttackTime = Time.time - baseAttackCoolTime;
+        isOnCoolBaseAttack = true;
 
         if (attackInfos[(int)SkillTypes.Original] != null)
             originalSkillCoolTime = attackInfos[(int)SkillTypes.Original].cooldown;
         lastOriginalSkillTime = Time.time - originalSkillCoolTime;
+        isOnCoolOriginalSkill = true;
 
         if (attackInfos[(int)SkillTypes.General] != null)
             generalSkillCoolTime = attackInfos[(int)SkillTypes.General].cooldown;

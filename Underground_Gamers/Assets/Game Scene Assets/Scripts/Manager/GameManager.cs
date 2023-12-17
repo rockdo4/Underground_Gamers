@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public NPCManager npcManager;
     public LineManager lineManager;
     public GameRuleManager gameRuleManager;
+    public SkillCoolTimeManager skillCoolTimeManager;
 
     public GameEndPannel gameEndPannel;
 

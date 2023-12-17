@@ -44,6 +44,7 @@ public class GameEndPannel : MonoBehaviour
             aiReward.illustration.sprite = pc.status.illustration;
             aiReward.aiClass.sprite = pc.status.aiClass;
             GameObject ai = Instantiate(aiReward.ai, aiReward.aiParent);
+            ai.transform.position = aiReward.aiPos.position;
             ai.layer = LayerMask.NameToLayer("OverUI");
         }
     } 

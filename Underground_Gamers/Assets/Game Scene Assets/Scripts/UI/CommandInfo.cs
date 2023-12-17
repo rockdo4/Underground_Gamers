@@ -39,6 +39,8 @@ public class CommandInfo : MonoBehaviour
     public Image conditionIcon;
     public Sprite[] conditions = new Sprite[(int)Condition.Count];
 
+    public Image skillCoolTime;
+
     private void Awake()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -86,6 +88,11 @@ public class CommandInfo : MonoBehaviour
     public void DisplayHpBar(float value)
     {
         hpBar.value = value;
+    }
+
+    public void DisplaySkillCoolTime(float value)
+    {
+        skillCoolTime.fillAmount = value;
     }
 
     public void SelectAI()

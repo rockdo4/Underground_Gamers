@@ -16,4 +16,10 @@ public class AIReward : MonoBehaviour
     public float maxEXP;
 
     public Transform aiParent;
+    public Transform aiPos;
+
+    private void Awake()
+    {
+        aiParent = GameObject.FindGameObjectWithTag("RewardAIParent").transform;
+    }
 }
