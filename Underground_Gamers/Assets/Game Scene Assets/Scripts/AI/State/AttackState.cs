@@ -1,3 +1,4 @@
+using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,6 +54,9 @@ public class AttackState : AIState
             && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget)
         {
             aiController.isOnCoolOriginalSkill = false;
+            if (aiController.aiCommandInfo != null)
+                aiController.gameManager.skillCoolTimeManager.StartSkillCooldown(aiController, Time.time);
+
             aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
         }
     }

@@ -5,6 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum Condition
+{
+    Smile,
+    Neutral,
+    Sad,
+    Count
+}
+
 public class CommandInfo : MonoBehaviour
 {
     public string aiType;
@@ -19,10 +27,19 @@ public class CommandInfo : MonoBehaviour
 
     public Transform respawner;
 
-    public List<Button> commandButtons = new List<Button>();
-
     public GameObject aiSelectImage;
     public Image portrait;
+
+    public TextMeshProUGUI aiName;
+
+    public GameObject statusInfo;
+
+    public Slider hpBar;
+    public TextMeshProUGUI killCountText;
+    public Image conditionIcon;
+    public Sprite[] conditions = new Sprite[(int)Condition.Count];
+
+    public Image skillCoolTime;
 
     private void Awake()
     {
@@ -54,6 +71,28 @@ public class CommandInfo : MonoBehaviour
     public void RefreshRespawnCoolTime(float coolTime)
     {
         respawnCoolTime.fillAmount = coolTime;
+    }
+
+    public void DisplayKillCount(float killCount, float deathCount)
+    {
+        killCountText.text = $"{killCount} / {deathCount}";
+    }
+
+    public void ResetKillCount()
+    {
+        aiController.status.killCount = 0;
+        aiController.status.deathCount = 0;
+        killCountText.text = $"{aiController.status.killCount} / {aiController.status.deathCount}";
+    }
+
+    public void DisplayHpBar(float value)
+    {
+        hpBar.value = value;
+    }
+
+    public void DisplaySkillCoolTime(float value)
+    {
+        skillCoolTime.fillAmount = value;
     }
 
     public void SelectAI()

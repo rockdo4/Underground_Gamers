@@ -42,9 +42,11 @@ public class CommandManager : MonoBehaviour
 
     private List<CommandInfo> commandInfos = new List<CommandInfo>();
     private CommandInfo currentCommandInfo = null;
-    public bool isCheckInfo = false;
+    public bool isInfoOn = true;
 
     public GameManager gameManager;
+
+    public Button InfoIcon;
 
 
     private void Awake()
@@ -129,22 +131,26 @@ public class CommandManager : MonoBehaviour
             };
             CommandInfo info = Instantiate(commandInfoPrefab, parent);
             ai.aiCommandInfo = info;
+            ai.aiCommandInfo.aiName.text = ai.status.AIName;
             info.aiController = ai;
 
-            //var text = info.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-            //text.text = $"{info.aiType}{info.aiNum}";
-
             // 초상화 생성
-            var portrait = info.portrait.GetComponent<Image>();
+            var portrait = info.portrait;
+            var conditionIcon = info.conditionIcon;
+            var conditions = info.conditions;
 
-            // 테스트 코드, 0~3, Lobby에서 받을때 사용 금지
+            // 테스트 코드, 0~3, Lobby에서 받을때 사용 금지 / 컨디션 입력
             portrait.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(ai.code);
+            conditionIcon.sprite = conditions[ai.status.condition];
 
             // 텍스트 입히기
             info.name = $"{info.name}{pcNum}";
             info.aiType = "PC";
             info.aiNum = pcNum++;
+
+            info.ResetKillCount();
             commandInfos.Add(info);
+
 
             // 버튼 기능 부여, 캐릭터 선택
             var infoButton = info.GetComponent<Button>();
@@ -197,57 +203,17 @@ public class CommandManager : MonoBehaviour
         commands[(int)type].ExecuteCommand(ai, wayPoint);
     }
 
-    public void OnCommadns(CommandInfo commandInfo)
+    public void ClickInfoButton()
     {
-        //DragAndDrop dragAndDrop = commandInfo.GetComponent<DragAndDrop>();
-
-        //OffAllCommands();
-        //if (dragAndDrop != null)
-        //{
-        //    if (currentCommandInfo == commandInfo && !dragAndDrop.isDragging)
-        //        isCheckInfo = true;
-        //    else if(currentCommandInfo != commandInfo && !dragAndDrop.isDragging)
-        //        isCheckInfo = false;
-        //}
-        //else
-        //{
-        //    if (currentCommandInfo == commandInfo)
-        //        isCheckInfo = true;
-        //    else
-        //        isCheckInfo = false;
-        //}
-
-
-        //currentCommandInfo = commandInfo;
-        //foreach (var button in currentCommandInfo.commandButtons)
-        //{
-        //    button.gameObject.SetActive(true);
-        //}
-
-        //if (isCheckInfo)
-        //{
-        //    OffCurrentCommads();
-        //}
-
+        isInfoOn = !isInfoOn;
+        SetActiveStatusInfo(isInfoOn);
     }
 
-    public void OffAllCommands()
+    public void SetActiveStatusInfo(bool isActive)
     {
-        //foreach(var info in commandInfos)
-        //{
-        //    foreach(var button in info.commandButtons)
-        //    {
-        //        button.gameObject.SetActive(false);
-        //    }
-        //}
-    }
-
-    public void OffCurrentCommads()
-    {
-        //foreach(var info in currentCommandInfo.commandButtons)
-        //{
-        //    info.gameObject.SetActive(false);
-        //}
-        //currentCommandInfo = null;
+        foreach (var info in commandInfos)
+        {
+            info.statusInfo.SetActive(isActive);
+        }
     }
 }

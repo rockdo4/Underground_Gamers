@@ -9,17 +9,18 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
     {
         CharacterStatus defenderStatus = transform.GetComponent<CharacterStatus>();
         CharacterStatus attackerStatus = attacker.GetComponent<CharacterStatus>();
-        AIController controller = transform.GetComponent<AIController>();
+        AIController defenderController = transform.GetComponent<AIController>();
+        AIController attackerController = attacker.GetComponent<AIController>();
 
         if (!defenderStatus.IsLive)
             return;
 
         // 막기 버프 적용
-        if (controller != null)
+        if (defenderController != null)
         {
-            if (controller.isInvalid)
+            if (defenderController.isInvalid)
             {
-                foreach (var buff in controller.appliedBuffs)
+                foreach (var buff in defenderController.appliedBuffs)
                 {
                     if (buff is InvalidAttackBuff)
                     {
@@ -27,7 +28,7 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
                         invalidAttackBuff.invalidAttackCount--;
                         if (invalidAttackBuff.invalidAttackCount <= 0)
                         {
-                            invalidAttackBuff.RemoveBuff(controller);
+                            invalidAttackBuff.RemoveBuff(defenderController);
                         }
                         return;
                     }
@@ -45,15 +46,15 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         attackerStatus.dealtDamage += attack.Damage;
 
         // 반격, 수정
-        if (controller != null/* && controller.battleTarget == null*/)
+        if (defenderController != null/* && controller.battleTarget == null*/)
         {
             //controller.battleTarget = attacker.transform;
             //TeamIdentifier targetIdentity = controller.battleTarget.GetComponent<TeamIdentifier>();
 
-            if (!controller.isBattle && !controller.isReloading/* || controller.battleTarget == null || targetIdentity.isBuilding*/)
+            if (!defenderController.isBattle && !defenderController.isReloading/* || controller.battleTarget == null || targetIdentity.isBuilding*/)
             {
-                controller.SetBattleTarget(attacker.transform);
-                controller.SetState(States.Trace);
+                defenderController.SetBattleTarget(attacker.transform);
+                defenderController.SetState(States.Trace);
             }
         }
 
@@ -81,6 +82,13 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
                     var text = GameObject.FindGameObjectWithTag("PC_Score").GetComponent<TMP_Text>();
                     text.text = (int.Parse(text.text) + 1).ToString();
                 }
+                attackerStatus.killCount++;
+                defenderStatus.deathCount++;
+
+                if (attackerController.aiCommandInfo != null)
+                    attackerController.aiCommandInfo.DisplayKillCount(attackerStatus.killCount, attackerStatus.deathCount);
+                if (defenderController.aiCommandInfo != null)
+                    defenderController.aiCommandInfo.DisplayKillCount(defenderStatus.killCount, defenderStatus.deathCount);
             }
 
             var destroyables = transform.GetComponents<IDestroyable>();
