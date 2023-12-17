@@ -35,6 +35,9 @@ public class CharacterStatus : MonoBehaviour
 
     public int armor;
 
+    public int condition;
+
+    public int killCount;
     public int deathCount;
     public float respawnTime;
     public float respawnTimeIncreaseRate;
@@ -59,6 +62,9 @@ public class CharacterStatus : MonoBehaviour
     private void Awake()
     {
         Hp = maxHp;
+        killCount = 0;
+        deathCount = 0;
+        condition = 0;
     }
 
     public void Respawn()
@@ -95,16 +101,16 @@ public class CharacterStatus : MonoBehaviour
         if (aiController.isDefend)
             aiController.SetState(States.Retreat);
 
-        if(aiController.teamIdentity.teamType == TeamType.NPC)
+        if (aiController.teamIdentity.teamType == TeamType.NPC)
         {
             gameManager.npcManager.SelectLineByRate(aiController);
             gameManager.lineManager.JoiningLine(aiController);
         }
 
         // 카메라 설정
-        if(gameManager != null)
+        if (gameManager != null)
         {
-            if(gameManager.commandManager.currentAI == aiController)
+            if (gameManager.commandManager.currentAI == aiController)
             {
                 gameManager.cameraManager.StartZoomIn();
             }
@@ -117,6 +123,13 @@ public class CharacterStatus : MonoBehaviour
         if (aiCanvas != null)
         {
             aiCanvas.hpBar.value = (float)Hp / (float)maxHp;
+        }
+
+        var controller = GetComponent<AIController>();
+        if (controller != null)
+        {
+            if (controller.aiCommandInfo != null)
+                controller.aiCommandInfo.DisplayHpBar((float)Hp / (float)maxHp);
         }
     }
 

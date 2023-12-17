@@ -46,6 +46,9 @@ public class GameInfo : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             var player = usePlayer[i];
+            // 테스트를 위한 코드
+            if (pt == null)
+                return;
             PlayerInfo playerInfo = pt.GetPlayerInfo(player.code);
             foreach (var item in player.training)
             {
@@ -114,6 +117,7 @@ public class GameInfo : MonoBehaviour
             stat.maxLv = player.maxLevel;
             stat.xp = player.xp;
             stat.maxXp = player.maxXp;
+            stat.condition = player.condition;
 
             switch (stat.occupationType)
             {
