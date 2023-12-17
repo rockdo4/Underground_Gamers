@@ -430,6 +430,7 @@ public class GamePlayerInfo : MonoBehaviour
             3 => 3,
             _ => 1,
         };
+        player.potential += 10;
         SaveFile();
     }
 

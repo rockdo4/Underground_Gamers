@@ -34,6 +34,8 @@ public class PlayerReleaser : MonoBehaviour
     [SerializeField]
     private GameObject popupReleaseCheck;
     [SerializeField]
+    private GameObject popupCant5Release;
+    [SerializeField]
     private Transform relesaseOriginCardsPos;
     [SerializeField]
     private Button relesaseAllButton;
@@ -211,7 +213,21 @@ public class PlayerReleaser : MonoBehaviour
             }
         }
 
-        if (isHighLevel)
+        int playerCount = GamePlayerInfo.instance.havePlayers.Count;
+        foreach (var item in GamePlayerInfo.instance.usingPlayers)
+        {
+            if (item.code != -1)
+            {
+                playerCount++;
+            }
+        }
+        playerCount = playerCount - (releasePlayers.Count + usingReleasePlayers.Count);
+
+        if (playerCount < 5)
+        {
+            popupCant5Release.SetActive(true);
+        }
+        else if (isHighLevel)
         {
             popupReleaseCheck.SetActive(true);
         }

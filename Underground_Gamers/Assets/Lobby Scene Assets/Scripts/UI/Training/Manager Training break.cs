@@ -339,6 +339,7 @@ public class ManagerTrainingbreak : ManagerTraining
     .ThenByDescending(p => p.name)
     .ToList();
     }
+
     private void UpdateCanUsingPlayerList()
     {
         List<Player> playerList = new List<Player>();

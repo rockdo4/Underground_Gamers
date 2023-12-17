@@ -41,6 +41,7 @@ public class GameInfo : MonoBehaviour
 
     public void MakePlayers()
     {
+        GamePlayerInfo.instance.isOnSchedule = false;
         var stateDefines = DataTableManager.instance.stateDef;
         List<Player> usePlayer = GamePlayerInfo.instance.usingPlayers;
         for (int i = 0; i < 5; i++)

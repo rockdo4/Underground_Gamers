@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
@@ -114,6 +115,21 @@ public class PlayerChanger : MonoBehaviour
         haveList = GamePlayerInfo.instance.havePlayers;
         usingList = GamePlayerInfo.instance.usingPlayers;
 
+        List<int> dupleBllockCodes = new List<int>();
+        foreach (var item in usingList)
+        {
+            if (item.code != -1)
+            {
+                dupleBllockCodes.Add(item.code);
+            }
+        }
+        if (dupleBllockCodes.Count > 0)
+        {
+            dupleBllockCodes = dupleBllockCodes.Distinct().ToList();
+            dupleBllockCodes.Remove(usingList[currentSlotIndex].code);
+        }
+        
+
         foreach (var old in olds)
         {
             Destroy(old.gameObject);
@@ -121,16 +137,19 @@ public class PlayerChanger : MonoBehaviour
         olds.Clear();
 
 
-        int index = 0;
         foreach (var player in haveList)
         {
-            int currIndex = index;
+            if (dupleBllockCodes.Count > 0 && dupleBllockCodes.Contains(player.code))
+            {
+                continue;
+            }
+            int currIndex = haveList.IndexOf(player);
             var bt = Instantiate(playerButtons, havePlayerSpace.transform);
             var pb = bt.GetComponent<PlayerButtons>();
             pb.SetImage(pt.playerSprites[pt.PlayerIndexSearch(player.code)]);
             pb.GetComponent<Button>().onClick.AddListener(() => ToUse(currIndex));
             pb.GetComponent<Button>().onClick.AddListener(() => lobbyUIManager.ActivePlayerSlotSet(false));
-            pb.index = index++;
+            pb.index = currIndex;
             pb.playerNameCard.text = st.Get($"playerName{player.code}");
             pb.Level.text = $"Lv.{player.level}";
             pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
@@ -161,7 +180,6 @@ public class PlayerChanger : MonoBehaviour
             olds.Add(bt);
         }
 
-        index = 0;
     }
 
     public void OpenPlayers()
