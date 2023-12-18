@@ -259,7 +259,7 @@ public class GameInfo : MonoBehaviour
             stat.Hp = playerInfo.hp;
             stat.maxHp = stat.Hp;
             stat.speed = playerInfo.moveSpeed; ;
-            stat.sight = playerInfo.sight * charactorScale;
+            stat.sight = playerInfo.sight;
             stat.range = playerInfo.range * charactorScale;
             stat.reactionSpeed = playerInfo.reaction * 15;
             stat.damage = playerInfo.atk;
