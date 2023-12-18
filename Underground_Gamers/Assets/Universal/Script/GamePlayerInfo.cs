@@ -25,6 +25,7 @@ public class GamePlayerInfo : MonoBehaviour
     public int representativePlayer = -1;
     public List<Player> havePlayers = new List<Player>();
     public List<Player> usingPlayers = new List<Player>();
+    public List<Player> officialPlayers = new List<Player>();
 
     public int cleardStage = 0;
     public string playername = "이감독";
@@ -46,8 +47,13 @@ public class GamePlayerInfo : MonoBehaviour
     public List<int> tradeCenter = new List<int>();
     public DateTime lastRecruitTime = DateTime.MinValue;
     public bool isInit = false;
-    public bool isOnSchedule = false;
 
+    //정규전
+    public bool isOnOfficial = false;
+    public int officialLevel = -1;
+    public List<Player>[] enemyTeams = new List<Player>[7];
+
+    public bool isOnSchedule = false;
     private PlayerTable pt;
     [HideInInspector]
     public List<Sprite> itemSpriteList = new List<Sprite>();    

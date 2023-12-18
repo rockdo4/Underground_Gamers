@@ -96,10 +96,12 @@ public class PlayerChanger : MonoBehaviour
         if (IsFullSquad())
         {
             LobbySceneUIManager.instance.lobbyTopMenu.gameStartButton.interactable = true;
+            LobbySceneUIManager.instance.lobbyTopMenu.officialGameStartButton.interactable = true;
         }
         else
         {
             LobbySceneUIManager.instance.lobbyTopMenu.gameStartButton.interactable = false;
+            LobbySceneUIManager.instance.lobbyTopMenu.officialGameStartButton.interactable = false;
         }
     }
 
