@@ -8,7 +8,7 @@ public class GameSpeedFactor : MonoBehaviour
     public GameObject factorX2;
     public GameObject factorX4;
 
-    public float currentTimeScale;
+    public float currentTimeScale = 1.0f;
 
     public void OnSpeedFactorX1()
     {
