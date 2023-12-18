@@ -53,13 +53,16 @@ public class GameManager : MonoBehaviour
             DisplayGameTimer(gameTimer);
         }
 
-        if (gameTimer < 0f)
+        if (gameTimer < 0f && !IsTimeOut)
         {
             IsTimeOut = true;
+            IsGameEnd = true;
+            timer = Time.time;
         }
 
-        if (IsTimeOut)
+        if (IsTimeOut && IsGameEnd)
         {
+            IsGameEnd = false;
             if (gameRuleManager.IsPlayerWinByTimeOut())
             {
                 IsPlayerWin = true;
@@ -69,11 +72,13 @@ public class GameManager : MonoBehaviour
                 IsPlayerWin = false;
             }
 
-            EndGame();
+            if (timer + endTime < Time.time)
+                EndGame();
         }
 
-        if (!IsPlaying && !IsTimeOut)
+        if (!IsPlaying && !IsTimeOut && IsGameEnd)
         {
+            IsGameEnd = false;
             if (timer + endTime < Time.time)
                 EndGame();
         }
@@ -86,15 +91,14 @@ public class GameManager : MonoBehaviour
         gameEndPannel.OffGameEndPanel();
         Time.timeScale = 1f;
         gameTimer = gameTime;
-
     }
 
     public void EndGame()
     {
-        if (IsGameEnd)
-        {
-            return;
-        }
+        //if (IsGameEnd)
+        //{
+        //    return;
+        //}
         IsGameEnd = true;
         IsPlaying = false;
         if (IsPlayerWin)
