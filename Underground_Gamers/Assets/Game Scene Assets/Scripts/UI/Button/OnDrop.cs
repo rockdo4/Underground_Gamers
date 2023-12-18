@@ -18,17 +18,18 @@ public class OnDrop : MonoBehaviour, IDropHandler
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
         Debug.Log("Drop");
-        DragAndDrop gameObject = DragAndDrop.dragInfo;
-        // 이전 기능 드롭 패널과, 실제 이미지 패널 크기 동기화
-        prevParent = gameObject.transform.parent.parent.GetChild(1);
-        prevDropPanel = gameObject.transform.parent;
+        DragAndDrop dragObject = DragAndDrop.dragInfo;
 
-        if (gameObject && gameObject.transform.parent != dropPanel.transform)
+        // 이전 기능 드롭 패널과, 실제 이미지 패널 크기 동기화
+        prevParent = dragObject.transform.parent.parent.GetChild(1);
+        prevDropPanel = dragObject.transform.parent;
+
+        if (dragObject && dragObject.transform.parent != dropPanel.transform)
         {
-            gameObject.isDropSuccess = true;
-            gameObject.transform.SetParent(dropPanel.transform);
-            gameObject.GetComponent<Image>().raycastTarget = true;
-            AIController ai = gameObject.GetComponent<CommandInfo>().aiController;
+            dragObject.isDropSuccess = true;
+            dragObject.transform.SetParent(dropPanel.transform);
+            dragObject.GetComponent<Image>().raycastTarget = true;
+            AIController ai = dragObject.GetComponent<CommandInfo>().aiController;
             commandManager.ExecuteSwitchLine(ai);
             // 정렬
             var childs = dropPanel.transform.GetComponentsInChildren<CommandInfo>();
@@ -42,7 +43,7 @@ public class OnDrop : MonoBehaviour, IDropHandler
 
             Invoke("LateUpdateSize", 0.1f);
         }
-        gameObject.isDropSuccess = false;
+        dragObject.isDropSuccess = false;
     }
 
     private void LateUpdateSize()

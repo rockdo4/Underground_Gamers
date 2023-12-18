@@ -12,8 +12,8 @@ public class WayNode : MonoBehaviour
         if (controller != null)
         {
             float dis = Vector3.Distance(controller.missionTarget.position, controller.transform.position);
-            if (other.name == "PC")
-                Debug.Log(dis);
+            //if (other.name == "PC")
+            //    Debug.Log(dis);
             if (dis < distance)
             {
                 if(!controller.isMission)

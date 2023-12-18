@@ -24,7 +24,6 @@ public class CommandManager : MonoBehaviour
     public CommandInfo commandInfoPrefab;
     public Transform commandInfoTopParent;
     public Transform commandInfoBottomParent;
-    public Button commandButtonPrefab;
 
     [Header("AI º±≈√")]
     public AIController prevAI;
