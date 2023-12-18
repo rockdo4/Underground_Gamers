@@ -18,6 +18,7 @@ public class OnDrop : MonoBehaviour, IDropHandler
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
         Debug.Log("Drop");
+        Debug.Log(eventData.pointerDrag.gameObject.name);
         DragAndDrop dragObject = DragAndDrop.dragInfo;
 
         // 이전 기능 드롭 패널과, 실제 이미지 패널 크기 동기화

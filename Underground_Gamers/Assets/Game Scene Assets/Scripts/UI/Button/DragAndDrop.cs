@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler, IPointerDownHandler
+public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
 {
     private RectTransform canvas;
     private Vector3 prevPos;
@@ -21,11 +21,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
 
     public Image originImage;
 
+    public DummySlot dummyPortraitPrefab;
+    private DummySlot dummyPortrait;
+
     public DummySlot dummyPrefab;
     private DummySlot dummy;
 
-    public DummyCommand dummyObject;
-    private DummyCommand dummyCommand;
 
     private void Awake()
     {
@@ -33,30 +34,28 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         topDropPanel = GameObject.FindGameObjectWithTag("TopDropPanel").GetComponent<Image>();
         bottomDropPanel = GameObject.FindGameObjectWithTag("BottomDropPanel").GetComponent<Image>();
         canvas = GameObject.FindGameObjectWithTag("UICanvas").GetComponent<RectTransform>();
+        dummyPortrait = Instantiate(dummyPortraitPrefab, canvas);
+        dummyPortrait.gameObject.SetActive(false);
+
         dummy = Instantiate(dummyPrefab, canvas);
-        dummyCommand = Instantiate(dummyObject, canvas);
         dummy.gameObject.SetActive(false);
-        dummyCommand.gameObject.SetActive(false);
-        
-        dummyCommand.SetDummy(this.GetComponent<CommandInfo>());
-        
+        dummy.index = GetComponent<CommandInfo>().aiNum - 1;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
 
         isDragging = true;
-        dummyObject.transform.position = gameObject.transform.position;
 
         prevPos = transform.position;
         Debug.Log("BeginDrag");
-        transform.position = eventData.position;
+        //transform.position = eventData.position;
         GetComponent<Image>().raycastTarget = false;
         dragInfo = this;
-        dummy.gameObject.SetActive(true);
-        dummy.portrait.sprite = originImage.sprite;
+        dummyPortrait.gameObject.SetActive(true);
+        dummyPortrait.portrait.sprite = originImage.sprite;
 
-        dummy.transform.position = eventData.position;
+        dummyPortrait.transform.position = eventData.position;
 
 
         OnRaycastDropPanel();
@@ -65,11 +64,10 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public void OnDrag(PointerEventData eventData)
     {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas, eventData.position, eventData.pressEventCamera, out localPointerPosition);
-        transform.position = localPointerPosition;
+        //transform.position = localPointerPosition;
         //transform.position = eventData.position;
-        dummy.transform.position = eventData.position;
-        Debug.Log(this.GetComponent<CommandInfo>());
-        Debug.Log(this.GetComponent<CommandInfo>().skillCoolTime.fillAmount);
+        dummyPortrait.transform.position = eventData.position;
+        dummy.transform.position = localPointerPosition;
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -80,9 +78,8 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public void OnEndDrag(PointerEventData eventData)
     {
         DragAndDrop.OffRaycastDropPanel();
-        dummy.gameObject.SetActive(false);
-        dummyCommand.transform.position = this.transform.position;
-        dummyCommand.gameObject.SetActive(false);
+        dummyPortrait.gameObject.SetActive(false);
+        dummy.transform.gameObject.SetActive(false);
 
         Debug.Log("EndDrag");
 
@@ -107,12 +104,5 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     {
         topDropPanel.raycastTarget = false;
         bottomDropPanel.raycastTarget = false;
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        dummyCommand.gameObject.SetActive(true);
-        dummyCommand.transform.position = this.transform.position;
-        dummyCommand.SetDummy(this.GetComponent<CommandInfo>());
     }
 }
