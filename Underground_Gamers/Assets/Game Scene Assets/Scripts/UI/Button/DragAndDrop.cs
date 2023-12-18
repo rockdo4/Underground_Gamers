@@ -8,6 +8,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
 {
     private RectTransform canvas;
     private Vector3 prevPos;
+
+    public Vector2 localPointerPosition;
+
     private CommandManager commandManager;
     public bool isDragging;
     public bool isDropSuccess = false;
@@ -16,31 +19,55 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     private static Image topDropPanel;
     private static Image bottomDropPanel;
 
+    public Image originImage;
+
+    public DummySlot dummyPortraitPrefab;
+    private DummySlot dummyPortrait;
+
+    public DummySlot dummyPrefab;
+    private DummySlot dummy;
+
+
     private void Awake()
     {
         commandManager = GameObject.FindGameObjectWithTag("CommandManager").GetComponent<CommandManager>();
         topDropPanel = GameObject.FindGameObjectWithTag("TopDropPanel").GetComponent<Image>();
         bottomDropPanel = GameObject.FindGameObjectWithTag("BottomDropPanel").GetComponent<Image>();
         canvas = GameObject.FindGameObjectWithTag("UICanvas").GetComponent<RectTransform>();
+        dummyPortrait = Instantiate(dummyPortraitPrefab, canvas);
+        dummyPortrait.gameObject.SetActive(false);
+
+        dummy = Instantiate(dummyPrefab, canvas);
+        dummy.gameObject.SetActive(false);
+        dummy.index = GetComponent<CommandInfo>().aiNum - 1;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+
         isDragging = true;
+
         prevPos = transform.position;
-        Debug.Log(prevPos);
-        Debug.Log(eventData.position);
-        transform.position = eventData.position;
+        Debug.Log("BeginDrag");
+        //transform.position = eventData.position;
         GetComponent<Image>().raycastTarget = false;
         dragInfo = this;
+        dummyPortrait.gameObject.SetActive(true);
+        dummyPortrait.portrait.sprite = originImage.sprite;
+
+        dummyPortrait.transform.position = eventData.position;
+
 
         OnRaycastDropPanel();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = eventData.position;
-        //Debug.Log(eventData.position);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas, eventData.position, eventData.pressEventCamera, out localPointerPosition);
+        //transform.position = localPointerPosition;
+        //transform.position = eventData.position;
+        dummyPortrait.transform.position = eventData.position;
+        dummy.transform.position = localPointerPosition;
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -51,9 +78,10 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public void OnEndDrag(PointerEventData eventData)
     {
         DragAndDrop.OffRaycastDropPanel();
+        dummyPortrait.gameObject.SetActive(false);
+        dummy.transform.gameObject.SetActive(false);
 
-        Debug.Log(transform.position);
-        Debug.Log(eventData.position);
+        Debug.Log("EndDrag");
 
         if (!isDropSuccess)
         {
