@@ -10,8 +10,8 @@ public class DestroyedObject : MonoBehaviour, IDestroyable
     public void DestoryObject(GameObject attacker)
     {
         GameManager gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        if (!gameManager.IsPlaying && gameManager != null)
-            return;
+        //if (gameManager != null)
+        //    return;
         CharacterStatus status = GetComponent<CharacterStatus>();
         AIController controller = GetComponent<AIController>();
         if(controller != null)
@@ -28,8 +28,8 @@ public class DestroyedObject : MonoBehaviour, IDestroyable
         if(particlePrefab != null)
         {
             ParticleSystem effect = Instantiate(particlePrefab, transform.position, particlePrefab.transform.rotation);
-            //effect.Play();
-            //Destroy(effect, 2f);
+            effect.Play();
+            Destroy(effect, 2f);
         }
         gameObject.SetActive(false);
     }

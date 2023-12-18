@@ -29,8 +29,7 @@ public class DestroyedNexus : MonoBehaviour, IDestroyable
         if (gameManager != null)
         {
             gameManager.IsPlaying = false;
-            gameManager.IsGameEnd = true;
-            gameManager.timer = Time.time;
+            gameManager.endTimer = Time.time;
         }
     }
 }
