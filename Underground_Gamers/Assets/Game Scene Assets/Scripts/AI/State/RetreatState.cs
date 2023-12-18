@@ -16,7 +16,7 @@ public class RetreatState : AIState
 
         agent.isStopped = false;
         agent.speed = aiController.status.speed;
-        Transform defendTarget = aiController.buildingManager.GetDefendPoint(aiController.currentLine, aiController.teamIdentity.teamType);
+        Transform defendTarget = aiController.buildingManager.GetDefendPoint(aiController.currentLine, aiController.teamIdentity.teamType).GetComponent<Building>().defendPoint;
         aiController.battleTarget = null;
         aiController.SetMissionTarget(defendTarget);
     }

@@ -156,36 +156,9 @@ public class CommandManager : MonoBehaviour
             var infoButton = info.GetComponent<Button>();
             DragAndDrop dragObj = infoButton.GetComponent<DragAndDrop>();
             infoButton.onClick.AddListener(() => SelectNewAI(info.aiController, dragObj));
-            //infoButton.onClick.AddListener(info.aiController.SelectAI);
-
-
-
-            // 기능 입력
-            //var infoButotn = info.GetComponent<Button>();
-            //infoButotn.onClick.AddListener(() => OnCommadns(info));
-
-            // 커멘드 넣기
-            //Transform commandParent = info.transform.GetChild(0);
-
-            //for (int i = 0; i < commands.Count; ++i)
-            //{
-            //    int index = i;
-            //    Button commandButton = Instantiate(commandButtonPrefab, commandParent);
-            //    var commandID = commandButton.GetComponentInChildren<TextMeshProUGUI>();
-            //    commandID.text = $"{(CommandType)i}";
-
-            //    // 기능 입력
-            //    commandButton.onClick.AddListener(() => commands[index].ExecuteCommand(info.aiController, wayPoint));
-            //    commandButton.gameObject.SetActive(false);
-            //    info.commandButtons.Add(commandButton);
-            //}
         }
     }
 
-    //public void ExecuteSwitchLine(int aiIndex)
-    //{
-    //    commands[(int)CommandType.SwitchLine].ExecuteCommand(aiManager.pc[aiIndex], wayPoint);
-    //}
     public void ExecuteSwitchLine(AIController ai)
     {
         switch (ai.teamIdentity.teamType)

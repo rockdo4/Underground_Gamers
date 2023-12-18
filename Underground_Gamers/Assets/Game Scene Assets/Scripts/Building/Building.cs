@@ -6,6 +6,7 @@ public class Building : MonoBehaviour
 {
     private List<AIController> aiControllers = new List<AIController>();
     public GameObject hpBar;
+    public Transform defendPoint;
 
     public void AddAIController(AIController ai)
     {

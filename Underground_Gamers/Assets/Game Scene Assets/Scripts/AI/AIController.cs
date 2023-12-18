@@ -106,7 +106,9 @@ public class AIController : MonoBehaviour
     // 이것을 통해 지원의 형태가 결정
     [Header("명령 상태")]
     public bool isAttack = true;
-    public bool isDefend;
+    public bool isDefend = false;
+    public bool isMission = true;
+    public bool isRetreat = false;
 
     [Header("우선 순위 설정")]
     //public OccupationType occupationType = OccupationType.None;
@@ -443,7 +445,12 @@ public class AIController : MonoBehaviour
     public void SetMissionTarget(Transform target)
     {
         this.missionTarget = target;
-        Building building = this.missionTarget.GetComponent<Building>();
+        Building building = null;
+        if (isAttack)
+            building = this.missionTarget.GetComponent<Building>();
+        if (isDefend)
+            building = this.missionTarget.parent.GetComponent<Building>();
+
         if (building != null)
             building.AddAIController(this);
         if (status.IsLive)
@@ -452,8 +459,11 @@ public class AIController : MonoBehaviour
 
     public void RefreshBuilding()
     {
-        point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
-        missionTarget = point;
+        if(isAttack)
+        {
+            point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
+            missionTarget = point;
+        }
     }
 
     public void ReleaseTarget()

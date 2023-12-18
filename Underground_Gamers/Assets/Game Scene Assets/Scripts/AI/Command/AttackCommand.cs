@@ -23,7 +23,9 @@ public class AttackCommand : Command
             foreach (var aiController in gameManager.aiManager.pc)
             {
                 aiController.isAttack = true;
+                aiController.isMission = false;
                 aiController.isDefend = false;
+                aiController.isRetreat = false;
 
                 Transform attackTarget = aiController.buildingManager.GetAttackPoint(aiController.currentLine, aiController.teamIdentity.teamType);
                 aiController.battleTarget = null;
@@ -36,7 +38,9 @@ public class AttackCommand : Command
         else
         {
             ai.isAttack = true;
+            ai.isMission = false;
             ai.isDefend = false;
+            ai.isRetreat = false;
             ai.SetState(States.MissionExecution);
 
             Transform attackTarget = ai.buildingManager.GetAttackPoint(ai.currentLine, ai.teamIdentity.teamType);

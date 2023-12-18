@@ -11,18 +11,27 @@ public class WayNode : MonoBehaviour
         AIController controller = other.GetComponent<AIController>();
         if (controller != null)
         {
-
             float dis = Vector3.Distance(controller.missionTarget.position, controller.transform.position);
-            //if (other.name == "PC")
-            //    Debug.Log(dis);
+            if (other.name == "PC")
+                Debug.Log(dis);
             if (dis < distance)
             {
-                controller.RefreshBuilding();
-                controller.SetMissionTarget(controller.missionTarget);
-                if (controller.isAttack)
-                    controller.SetState(States.MissionExecution);
-                if (controller.isDefend)
-                    controller.SetState(States.Retreat);    
+                if(!controller.isMission)
+                {
+                    controller.RefreshBuilding();
+                    controller.SetMissionTarget(controller.missionTarget);
+                    controller.isMission = true;
+                    if (controller.isAttack)
+                        controller.SetState(States.MissionExecution);
+                }
+
+                if (!controller.isRetreat)
+                {
+                    controller.SetMissionTarget(controller.missionTarget);
+                    controller.isRetreat = true;
+                    if (controller.isDefend)
+                        controller.SetState(States.Retreat);
+                }
             }
         }
     }

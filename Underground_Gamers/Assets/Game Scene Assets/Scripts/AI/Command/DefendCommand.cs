@@ -13,17 +13,12 @@ public class DefendCommand : Command
         // 단체 명령
         if (selectAI == null)
         {
-            //List<AIController> aIControllers = ai.teamIdentity.teamType switch
-            //{
-            //    TeamType.PC => ai.gameManager.aiManager.pc,
-            //    TeamType.NPC => ai.gameManager.aiManager.npc,
-            //    _ => ai.gameManager.aiManager.pc
-            //};
-
             foreach (var aiController in gameManager.aiManager.pc)
             {
                 aiController.isDefend = true;
+                aiController.isRetreat = false;
                 aiController.isAttack = false;
+                aiController.isMission = false;
                 if (aiController.status.IsLive)
                     aiController.SetState(States.Retreat);
 
@@ -33,7 +28,9 @@ public class DefendCommand : Command
         else
         {
             ai.isDefend = true;
+            ai.isRetreat = false;
             ai.isAttack = false;
+            ai.isMission = false;
             if (ai.status.IsLive)
                 ai.SetState(States.Retreat);
             if (ai.teamIdentity.teamType == TeamType.PC)
