@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     public GameEndPannel gameEndPannel;
 
-    public float timer;
+    public float endTimer;
     public float endTime;
 
     public float gameTimer;
@@ -47,15 +47,16 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (IsPlaying)
+        if (IsPlaying && !IsTimeOut)
         {
             gameTimer -= Time.deltaTime;
             DisplayGameTimer(gameTimer);
         }
 
-        if (gameTimer < 0f)
+        if (gameTimer < 0f && !IsTimeOut)
         {
             IsTimeOut = true;
+            endTimer = Time.time;
         }
 
         if (IsTimeOut)
@@ -69,12 +70,13 @@ public class GameManager : MonoBehaviour
                 IsPlayerWin = false;
             }
 
-            EndGame();
+            if (endTimer + endTime < Time.time && !IsGameEnd)
+                EndGame();
         }
 
         if (!IsPlaying && !IsTimeOut)
         {
-            if (timer + endTime < Time.time)
+            if (endTimer + endTime < Time.time && !IsGameEnd)
                 EndGame();
         }
     }
@@ -83,18 +85,14 @@ public class GameManager : MonoBehaviour
     {
         IsPlaying = true;
         IsTimeOut = false;
+        IsGameEnd = false;
         gameEndPannel.OffGameEndPanel();
         Time.timeScale = 1f;
         gameTimer = gameTime;
-
     }
 
     public void EndGame()
     {
-        if (IsGameEnd)
-        {
-            return;
-        }
         IsGameEnd = true;
         IsPlaying = false;
         if (IsPlayerWin)
