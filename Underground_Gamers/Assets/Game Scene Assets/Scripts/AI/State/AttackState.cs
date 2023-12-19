@@ -59,8 +59,21 @@ public class AttackState : AIState
             if (aiController.aiCommandInfo != null)
                 aiController.gameManager.skillCoolTimeManager.StartSkillCooldown(aiController, Time.time);
 
-            aiController.isPrior = false;
-            aiController.gameManager.skillModeButton.SetPriorSkill(aiController.isPrior);
+            if(aiController.gameManager.skillModeButton.IsAutoMode)
+            {
+                aiController.gameManager.skillModeButton.SetActiveCoolTimeFillImage(true);
+            }
+
+            // 수동 사용
+            if (!aiController.gameManager.skillModeButton.IsAutoMode)
+            {
+                aiController.isPrior = false;
+                aiController.gameManager.skillModeButton.SetPriorSkill(aiController.isPrior);
+                // 사용 부분
+                aiController.gameManager.skillModeButton.SetActiveCoolTimeFillImage(true);
+                aiController.gameManager.skillModeButton.SetActiveCoolTimeText(true);
+            }
+
             aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
         }
     }

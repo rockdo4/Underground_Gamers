@@ -10,6 +10,8 @@ public class SkillCoolTimeManager : MonoBehaviour
     public GameManager gameManager;
     public SkillModeButton skillModeButton;
 
+    private bool isSkillUsed = false;
+
     private void Update()
     {
         for (int i = skillCooldowns.Count - 1; i >= 0; --i)
@@ -25,6 +27,8 @@ public class SkillCoolTimeManager : MonoBehaviour
                     {
                         skillModeButton.DisplayCoolTimeFillImage(0f);
                         skillModeButton.DisplayCoolTimeText(0f);
+                        skillModeButton.SetActiveCoolTimeFillImage(false);
+                        skillModeButton.SetActiveCoolTimeText(false);
                     }
                 }
                 skillCooldowns.RemoveAt(i);
@@ -41,11 +45,17 @@ public class SkillCoolTimeManager : MonoBehaviour
                     skillModeButton.DisplayCoolTimeFillImage(timeFillImage);
                     skillModeButton.DisplayCoolTimeText(timeText);
                 }
-                if (skillCooldowns.Any(ai => ai.Item1 == skillModeButton.GetAI()))
-                {
-
-                }
             }
+        }
+    }
+
+    public void CheckCurrentAISkill()
+    {
+        isSkillUsed = !skillCooldowns.Any(ai => ai.Item1 == skillModeButton.GetAI());
+        if (!isSkillUsed && !skillModeButton.IsAutoMode)
+        {
+            skillModeButton.DisplayCoolTimeFillImage(1f);
+            skillModeButton.DisplayCoolTimeText(0f);
         }
     }
 

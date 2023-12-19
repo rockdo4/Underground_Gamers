@@ -72,6 +72,11 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     }
 
+    public void RefreshUsedSkillCoolTime()
+    {
+        gameManager.skillCoolTimeManager.CheckCurrentAISkill();
+    }
+
     public void DisplayCoolTimeFillImage(float time)
     {
         coolTimeFill.fillAmount = 1f - time;

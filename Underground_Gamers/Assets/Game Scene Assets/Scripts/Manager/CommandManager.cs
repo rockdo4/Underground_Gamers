@@ -99,17 +99,35 @@ public class CommandManager : MonoBehaviour
 
         currentAI = newAI;
         currentAI.SelectAI();
+        skillModeButton.RefreshUsedSkillCoolTime();
         skillModeButton.SetActiveSkillModeButton(true);
         skillModeButton.SetAI(currentAI);
         skillModeButton.SetPriorSkill(currentAI.isPrior);
         if(skillModeButton.IsAutoMode)
         {
-            skillModeButton.SetActiveCoolTimeFillImage(true);
+            if (currentAI.isOnCoolOriginalSkill)
+            {
+                skillModeButton.SetActiveCoolTimeText(false);
+                skillModeButton.SetActiveCoolTimeFillImage(false);
+            }
+            else
+            {
+                skillModeButton.SetActiveCoolTimeText(false);
+                skillModeButton.SetActiveCoolTimeFillImage(true);
+            }
         }
         else
         {
-            skillModeButton.SetActiveCoolTimeFillImage(true);
-            skillModeButton.SetActiveCoolTimeText(true);
+            if(currentAI.isOnCoolOriginalSkill)
+            {
+                skillModeButton.SetActiveCoolTimeFillImage(false);
+                skillModeButton.SetActiveCoolTimeText(false);
+            }
+            else
+            {
+                skillModeButton.SetActiveCoolTimeFillImage(true);
+                skillModeButton.SetActiveCoolTimeText(true);
+            }
         }
 
         // 투명도 0 터치를 위한 패널
