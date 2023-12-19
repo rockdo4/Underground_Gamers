@@ -566,7 +566,7 @@ public class GamePlayerInfo : MonoBehaviour
         officialTeamDatas = new OfficialTeamData[8];
         for (int i = 0; i < 7; i++)
         {
-            officialTeamDatas[7].name = UnityEngine.Random.Range(0, 100).ToString();
+            officialTeamDatas[i].name = UnityEngine.Random.Range(0, 100).ToString();
             officialTeamDatas[i].isPlayer = false;
         }
 

@@ -10,6 +10,11 @@ public class ScheduleUIOfficial : ScheduleUISubscriber
     [SerializeField]
     private GameObject UI_OfficialSelect;
     [SerializeField]
+    private Button[] levelButtons = new Button[4];
+    [SerializeField]
+    private int[] lastLevels = new int[4];
+
+    [SerializeField]
     private GameObject UI_OfficialMain;
     [SerializeField]
     private OfficialTeamTable[] officialTeamTables = new OfficialTeamTable[8];
@@ -31,6 +36,11 @@ public class ScheduleUIOfficial : ScheduleUISubscriber
         }
         else
         {
+            int currlevel = GamePlayerInfo.instance.cleardStage;
+            for (int i = 0; i < 4; i++)
+            {
+                levelButtons[i].interactable = currlevel >= lastLevels[i];
+            }
             UI_OfficialSelect.SetActive(true);
             UI_OfficialMain.SetActive(false);
         }
@@ -54,8 +64,7 @@ public class ScheduleUIOfficial : ScheduleUISubscriber
     public void StartOfficial()
     {
         GamePlayerInfo.instance.OfficialMakeEnemyTeams(officialLevel);
-
-
+        UpdateOfficialMain();
         lobbyTopMenu.ExecuteFunction();
         UI_OfficialSelect.SetActive(false);
         UI_OfficialMain.SetActive(true);
