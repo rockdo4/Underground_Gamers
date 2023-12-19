@@ -94,4 +94,17 @@ public class StageTable : DataTable
     {
         return enemySprite[enemyInfoTable.IndexOf(enemyInfoTable.Find(stage => stage.code == code))];
     }
+
+    public List<EnemyInfo> MakeOfficialEnemies(int level)
+    {
+        List <EnemyInfo> newEnemies = new List<EnemyInfo>();
+        for (int i = 0; i < 5; i++)
+        {
+            EnemyInfo newPlayer = new EnemyInfo();
+            newPlayer.name = Random.Range(0,1000).ToString();
+            newEnemies.Add(newPlayer);
+        }
+        
+        return newEnemies;
+    }
 }

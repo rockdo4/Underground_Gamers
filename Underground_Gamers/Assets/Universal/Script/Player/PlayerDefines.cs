@@ -244,13 +244,20 @@ public class SaveData
     public bool isInit = true;
 }
 
-public struct OfficialData
+public struct OfficialTeamData
 {
-    public int grade;
     public string name;
     public int win;
     public int lose;
     public int setWin;
     public int setLose;
-    public int setValue;
+    public bool isPlayer;
+}
+
+public struct OfficialPlayerData
+{
+    public int playCount;
+    public int kill;
+    public int death;
+    public int totalDamage;
 }
