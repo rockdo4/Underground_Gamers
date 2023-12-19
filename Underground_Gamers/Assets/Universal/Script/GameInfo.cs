@@ -98,8 +98,8 @@ public class GameInfo : MonoBehaviour
             stat.Hp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
             stat.maxHp = stat.Hp;
             stat.speed = pt.CalculateCurrStats(playerInfo.moveSpeed, player.level);
-            stat.sight = pt.CalculateCurrStats(playerInfo.sight, player.level) * charactorScale;
-            stat.range = pt.CalculateCurrStats(playerInfo.range, player.level) * charactorScale;
+            stat.sight = pt.CalculateCurrStats(playerInfo.sight, player.level);
+            stat.range = pt.CalculateCurrStats(playerInfo.range, player.level);
             stat.reactionSpeed = pt.CalculateCurrStats(playerInfo.reactionSpeed, player.level) * 15;
             stat.damage = pt.CalculateCurrStats(playerInfo.atk, player.level);
             stat.cooldown = pt.CalculateCurrStats(playerInfo.atkRate, player.level);
@@ -107,7 +107,7 @@ public class GameInfo : MonoBehaviour
             stat.chargeCount = playerInfo.magazine;
             stat.reloadCooldown = playerInfo.reloadingSpeed;
             stat.accuracyRate = pt.CalculateCurrStats(playerInfo.accuracy, player.level);
-            stat.detectionRange = pt.CalculateCurrStats(playerInfo.detectionRange, player.level) * charactorScale;
+            stat.detectionRange = pt.CalculateCurrStats(playerInfo.detectionRange, player.level);
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
             stat.ai = madePlayerCharactor;
@@ -258,9 +258,9 @@ public class GameInfo : MonoBehaviour
             stat.AIName = playerInfo.name;
             stat.Hp = playerInfo.hp;
             stat.maxHp = stat.Hp;
-            stat.speed = playerInfo.moveSpeed; ;
-            stat.sight = playerInfo.sight * charactorScale;
-            stat.range = playerInfo.range * charactorScale;
+            stat.speed = playerInfo.moveSpeed;
+            stat.sight = playerInfo.sight;
+            stat.range = playerInfo.range;
             stat.reactionSpeed = playerInfo.reaction * 15;
             stat.damage = playerInfo.atk;
             stat.cooldown = playerInfo.atkRate;
@@ -268,7 +268,7 @@ public class GameInfo : MonoBehaviour
             stat.chargeCount = playerInfo.mag;
             stat.reloadCooldown = playerInfo.reload;
             stat.accuracyRate = playerInfo.accuracy;
-            stat.detectionRange = playerInfo.detection * charactorScale;
+            stat.detectionRange = playerInfo.detection;
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
 
