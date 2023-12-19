@@ -47,6 +47,8 @@ public class CommandManager : MonoBehaviour
 
     public Button InfoIcon;
 
+    public SkillModeButton skillModeButton;
+
 
     private void Awake()
     {
@@ -94,8 +96,39 @@ public class CommandManager : MonoBehaviour
         {
             prevAI.UnSelectAI();
         }
+
         currentAI = newAI;
         currentAI.SelectAI();
+        skillModeButton.RefreshUsedSkillCoolTime();
+        skillModeButton.SetActiveSkillModeButton(true);
+        skillModeButton.SetAI(currentAI);
+        skillModeButton.SetPriorSkill(currentAI.isPrior);
+        if(skillModeButton.IsAutoMode)
+        {
+            if (currentAI.isOnCoolOriginalSkill)
+            {
+                skillModeButton.SetActiveCoolTimeText(false);
+                skillModeButton.SetActiveCoolTimeFillImage(false);
+            }
+            else
+            {
+                skillModeButton.SetActiveCoolTimeText(false);
+                skillModeButton.SetActiveCoolTimeFillImage(true);
+            }
+        }
+        else
+        {
+            if(currentAI.isOnCoolOriginalSkill)
+            {
+                skillModeButton.SetActiveCoolTimeFillImage(false);
+                skillModeButton.SetActiveCoolTimeText(false);
+            }
+            else
+            {
+                skillModeButton.SetActiveCoolTimeFillImage(true);
+                skillModeButton.SetActiveCoolTimeText(true);
+            }
+        }
 
         // 투명도 0 터치를 위한 패널
         selectPanel.SetActive(true);
@@ -111,6 +144,10 @@ public class CommandManager : MonoBehaviour
     {
         currentAI.UnSelectAI();
         currentAI = null;
+        skillModeButton.SetAI(null);
+        skillModeButton.SetPriorSkill(false);
+        skillModeButton.SetActiveSkillModeButton(false);
+
         //Time.timeScale = 1f;
         selectPanel.SetActive(false);
         gameManager.cameraManager.StartZoomOut();

@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public SkillCoolTimeManager skillCoolTimeManager;
 
     public GameEndPannel gameEndPannel;
+    public SkillModeButton skillModeButton;
 
     public float endTimer;
     public float endTime;

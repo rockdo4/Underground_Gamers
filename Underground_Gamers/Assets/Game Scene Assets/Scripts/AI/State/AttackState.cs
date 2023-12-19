@@ -49,13 +49,30 @@ public class AttackState : AIState
     }
     private void AttackByOriginSkill()
     {
+        // 이 곳에서 스킬 누를 수 있도록, 그리고 유효한지 확인 / 사거리 안에 적이 있는지
         if (aiController.attackInfos[(int)SkillTypes.Original] != null
             && aiController.battleTarget != null && aiController != null
-            && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget)
+            && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget
+            && (aiController.gameManager.skillModeButton.IsAutoMode || (!aiController.gameManager.skillModeButton.IsAutoMode && aiController.isPrior)))
         {
             aiController.isOnCoolOriginalSkill = false;
             if (aiController.aiCommandInfo != null)
                 aiController.gameManager.skillCoolTimeManager.StartSkillCooldown(aiController, Time.time);
+
+            if(aiController.gameManager.skillModeButton.IsAutoMode)
+            {
+                aiController.gameManager.skillModeButton.SetActiveCoolTimeFillImage(true);
+            }
+
+            // 수동 사용
+            if (!aiController.gameManager.skillModeButton.IsAutoMode)
+            {
+                aiController.isPrior = false;
+                aiController.gameManager.skillModeButton.SetPriorSkill(aiController.isPrior);
+                // 사용 부분
+                aiController.gameManager.skillModeButton.SetActiveCoolTimeFillImage(true);
+                aiController.gameManager.skillModeButton.SetActiveCoolTimeText(true);
+            }
 
             aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
         }
