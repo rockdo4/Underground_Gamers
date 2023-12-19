@@ -52,12 +52,15 @@ public class AttackState : AIState
         // 이 곳에서 스킬 누를 수 있도록, 그리고 유효한지 확인 / 사거리 안에 적이 있는지
         if (aiController.attackInfos[(int)SkillTypes.Original] != null
             && aiController.battleTarget != null && aiController != null
-            && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget)
+            && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget
+            && (aiController.gameManager.skillModeButton.IsAutoMode || (!aiController.gameManager.skillModeButton.IsAutoMode && aiController.isPrior)))
         {
             aiController.isOnCoolOriginalSkill = false;
             if (aiController.aiCommandInfo != null)
                 aiController.gameManager.skillCoolTimeManager.StartSkillCooldown(aiController, Time.time);
 
+            aiController.isPrior = false;
+            aiController.gameManager.skillModeButton.SetPriorSkill(aiController.isPrior);
             aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
         }
     }

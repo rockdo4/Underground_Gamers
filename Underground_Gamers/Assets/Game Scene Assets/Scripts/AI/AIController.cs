@@ -134,6 +134,8 @@ public class AIController : MonoBehaviour
     public float originalSkillCoolTime;
     public bool isOnCoolOriginalSkill;
 
+    public bool isPrior = false;
+
     [Tooltip("마지막 공용스킬 사용 시점")]
     public float lastGeneralSkillTime;
     [Tooltip("공용스킬 딜레이 타임")]
@@ -385,7 +387,11 @@ public class AIController : MonoBehaviour
         UpdateBuff();
 
         //최대 속도일때 0.5f가 되어야 함으로 2로나눔
-        spum._anim.SetFloat("RunState", Mathf.Min(agent.velocity.magnitude, 0.5f));
+        float s = agent.velocity.magnitude / (agent.speed + 3) * 0.5f;
+        if (s <= 0.1f)
+            s = Mathf.Max(0.15f, s);
+
+        spum._anim.SetFloat("RunState", Mathf.Min(s, 0.5f));
     }
 
     public void UnSelectAI()
@@ -463,7 +469,7 @@ public class AIController : MonoBehaviour
 
     public void RefreshBuilding()
     {
-        if(isAttack)
+        if (isAttack)
         {
             point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
             missionTarget = point;

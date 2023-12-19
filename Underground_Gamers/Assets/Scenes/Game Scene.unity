@@ -16437,8 +16437,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f556ec3e69632f34293fbe73b5db9e2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchModeTime: 1
+  switchModeTime: 0.7
   isHover: 0
+  gameManager: {fileID: 1474967924}
   rotateAutoIcon: {fileID: 68717450}
   coolTimeFill: {fileID: 210774023}
   coolTimeText: {fileID: 615705567}
@@ -17954,11 +17955,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 7777f6dcdb426f94da3b112f12ade6d0, type: 2}
     - target: {fileID: 1132078411539629954, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1132078411539629954, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: name
@@ -18074,7 +18075,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6281770148374587240, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6573507637504443732, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_AnchorMax.x
@@ -19701,6 +19702,7 @@ MonoBehaviour:
   gameRuleManager: {fileID: 1655880295}
   skillCoolTimeManager: {fileID: 2055555098}
   gameEndPannel: {fileID: 1439665462}
+  skillModeButton: {fileID: 1092285486}
   endTimer: 0
   endTime: 2
   gameTimer: 0
@@ -20513,17 +20515,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
   m_PrefabInstance: {fileID: 1343473510}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1570484743 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
-  m_PrefabInstance: {fileID: 1343473510}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94e20b9c182676546a7e25d6f6ee3219, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1573663918
 GameObject:
   m_ObjectHideFlags: 0
@@ -21436,17 +21427,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7970350570541111039, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
   m_PrefabInstance: {fileID: 6754190364423181764}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1683752574 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
-  m_PrefabInstance: {fileID: 6754190364423181764}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94e20b9c182676546a7e25d6f6ee3219, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1690907782 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3059393614190638298, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
@@ -24512,9 +24492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ce14dc649e7c646b7a601deae3a6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pc:
-  - {fileID: 1683752574}
-  - {fileID: 1570484743}
+  pc: []
   npc: []
 --- !u!1 &2123536886
 GameObject:
@@ -26283,11 +26261,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1132078411539629954, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1132078411539629954, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2013940768982972327, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: name
@@ -26419,7 +26397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6281770148374587240, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6573507637504443732, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: m_AnchorMax.x
@@ -26563,7 +26541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: currentLine
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8860506263280521353, guid: c9c5594d41f0e2345abbfc15b4e5d012, type: 3}
       propertyPath: occupationType

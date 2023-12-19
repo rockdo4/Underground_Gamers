@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SkillCoolTimeManager : MonoBehaviour
 {
@@ -25,7 +26,6 @@ public class SkillCoolTimeManager : MonoBehaviour
                         skillModeButton.DisplayCoolTimeFillImage(0f);
                         skillModeButton.DisplayCoolTimeText(0f);
                     }
-
                 }
                 skillCooldowns.RemoveAt(i);
             }
@@ -40,6 +40,10 @@ public class SkillCoolTimeManager : MonoBehaviour
                 {
                     skillModeButton.DisplayCoolTimeFillImage(timeFillImage);
                     skillModeButton.DisplayCoolTimeText(timeText);
+                }
+                if (skillCooldowns.Any(ai => ai.Item1 == skillModeButton.GetAI()))
+                {
+
                 }
             }
         }

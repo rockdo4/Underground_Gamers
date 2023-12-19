@@ -101,6 +101,16 @@ public class CommandManager : MonoBehaviour
         currentAI.SelectAI();
         skillModeButton.SetActiveSkillModeButton(true);
         skillModeButton.SetAI(currentAI);
+        skillModeButton.SetPriorSkill(currentAI.isPrior);
+        if(skillModeButton.IsAutoMode)
+        {
+            skillModeButton.SetActiveCoolTimeFillImage(true);
+        }
+        else
+        {
+            skillModeButton.SetActiveCoolTimeFillImage(true);
+            skillModeButton.SetActiveCoolTimeText(true);
+        }
 
         // 투명도 0 터치를 위한 패널
         selectPanel.SetActive(true);
@@ -114,10 +124,12 @@ public class CommandManager : MonoBehaviour
 
     public void UnSelect()
     {
-        skillModeButton.SetActiveSkillModeButton(false);
         currentAI.UnSelectAI();
         currentAI = null;
         skillModeButton.SetAI(null);
+        skillModeButton.SetPriorSkill(false);
+        skillModeButton.SetActiveSkillModeButton(false);
+
         //Time.timeScale = 1f;
         selectPanel.SetActive(false);
         gameManager.cameraManager.StartZoomOut();
