@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class OnDrop : MonoBehaviour, IDropHandler
+public class OnDropInfoPanel : MonoBehaviour, IDropHandler
 {
     public CommandManager commandManager;
     public GameObject dropPanel;
@@ -19,7 +19,7 @@ public class OnDrop : MonoBehaviour, IDropHandler
     {
         Debug.Log("Drop");
         Debug.Log(eventData.pointerDrag.gameObject.name);
-        DragAndDrop dragObject = DragAndDrop.dragInfo;
+        DragInfoSlot dragObject = DragInfoSlot.dragInfo;
 
         // 이전 기능 드롭 패널과, 실제 이미지 패널 크기 동기화
         prevParent = dragObject.transform.parent.parent.GetChild(1);

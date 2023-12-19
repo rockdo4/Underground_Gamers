@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
+public class DragInfoSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
 {
     private RectTransform canvas;
     private Vector3 prevPos;
@@ -15,7 +15,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public bool isDragging;
     public bool isDropSuccess = false;
 
-    public static DragAndDrop dragInfo = null;
+    public static DragInfoSlot dragInfo = null;
     private static Image topDropPanel;
     private static Image bottomDropPanel;
 
@@ -77,7 +77,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        DragAndDrop.OffRaycastDropPanel();
+        DragInfoSlot.OffRaycastDropPanel();
         dummyPortrait.gameObject.SetActive(false);
         dummy.transform.gameObject.SetActive(false);
 
