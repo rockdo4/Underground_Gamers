@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -9,10 +11,16 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private float switchModeTimer;
     public bool isHover = false;
     private bool isAutoMode = true;
+    private bool isPrior = false;
 
     public GameObject rotateAutoIcon;
 
+    public Image coolTimeFill;
+    public TextMeshProUGUI coolTimeText;
+    public TextMeshProUGUI autoText;
+    public Image priorSkillImage;
 
+    private AIController currentAI;
 
     // Update is called once per frame
     void Update()
@@ -30,10 +38,15 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private void SwitchSkillMode()
     {
         isAutoMode = !isAutoMode;
-        SwitchAutoIcon(isAutoMode);
+        if(isAutoMode)
+        {
+            isPrior = false;
+            priorSkillImage.gameObject.SetActive(false);
+        }
+        SwitchActiveObject(isAutoMode);
     }
 
-    private void SwitchAutoIcon(bool isActive)
+    private void SwitchActiveObject(bool isActive)
     {
         if(isActive)
         {
@@ -43,7 +56,26 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             Debug.Log("Manual");
         }
+        // 수동
+        coolTimeText.gameObject.SetActive(!isActive);
+        // 오토
         rotateAutoIcon.SetActive(isActive);
+        autoText.gameObject.SetActive(isActive);
+    }
+
+    public void UseOriginSkill()
+    {
+        
+    }
+
+    public void DisplayCoolTimeFillImage(float time)
+    {
+        coolTimeFill.fillAmount = 1f - time;
+    }
+
+    public void DisplayCoolTimeText(float time)
+    {
+        coolTimeText.text = $"{Mathf.RoundToInt(time)}";
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -57,7 +89,32 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         isHover = false;
         if (!isAutoMode && switchModeTimer + switchModeTime > Time.time)
         {
+            // 스킬 수동 사용
+            Debug.Log(currentAI.name);
             Debug.Log("Use Skill");
+
+            isPrior = !isPrior;
+            SetPriorSkill(isPrior);
         }
+    }
+
+    public void SetPriorSkill(bool isActive)
+    {
+        priorSkillImage.gameObject.SetActive(isActive);
+    }
+
+    public void SetAI(AIController ai)
+    {
+        currentAI = ai;
+    }
+
+    public AIController GetAI()
+    {
+        return currentAI;
+    }
+
+    public void SetActiveSkillModeButton(bool isActive)
+    {
+        gameObject.SetActive(isActive);
     }
 }

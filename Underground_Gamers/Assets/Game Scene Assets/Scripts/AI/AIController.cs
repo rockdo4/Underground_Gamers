@@ -399,7 +399,9 @@ public class AIController : MonoBehaviour
         //sort.sortingOrder = originSortOrder;
         //particleRenderer.sortingOrder = originSortOrder;
         //if (aiCommandInfo != null)
-        outlinable.OutlineParameters.Color = unselectOutlineColor;
+
+        // ¿”Ω√ ≤®µ“
+        //outlinable.OutlineParameters.Color = unselectOutlineColor;
 
         gameManager.commandManager.ActiveAllCommandButton();
         aiCommandInfo.UnSelectAI();
@@ -419,9 +421,11 @@ public class AIController : MonoBehaviour
         //if (aiCommandInfo != null)
         //CommandManager commandManager = gameManager.commandManager;
         //commandManager.SetActiveCommandButton(commandManager.currentAI);
-        selectEffect.SetActive(true);
-        outlinable.OutlineParameters.Color = selectOutlineColor;
-        aiCommandInfo.SelectAI();
+
+        // ¿”Ω√ ≤®µ“
+        //selectEffect.SetActive(true);
+        //outlinable.OutlineParameters.Color = selectOutlineColor;
+        //aiCommandInfo.SelectAI();
     }
 
     public void SetBattleTarget(Transform target)

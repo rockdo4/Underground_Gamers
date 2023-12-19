@@ -90,7 +90,7 @@ public class CommandInfo : MonoBehaviour
         hpBar.value = value;
     }
 
-    public void DisplaySkillCoolTime(float value)
+    public void DisplaySkillCoolTimeFillImage(float value)
     {
         skillCoolTime.fillAmount = value;
     }

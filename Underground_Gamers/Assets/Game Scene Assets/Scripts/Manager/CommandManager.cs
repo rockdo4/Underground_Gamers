@@ -47,6 +47,8 @@ public class CommandManager : MonoBehaviour
 
     public Button InfoIcon;
 
+    public SkillModeButton skillModeButton;
+
 
     private void Awake()
     {
@@ -94,8 +96,11 @@ public class CommandManager : MonoBehaviour
         {
             prevAI.UnSelectAI();
         }
+
         currentAI = newAI;
         currentAI.SelectAI();
+        skillModeButton.SetActiveSkillModeButton(true);
+        skillModeButton.SetAI(currentAI);
 
         // 투명도 0 터치를 위한 패널
         selectPanel.SetActive(true);
@@ -109,8 +114,10 @@ public class CommandManager : MonoBehaviour
 
     public void UnSelect()
     {
+        skillModeButton.SetActiveSkillModeButton(false);
         currentAI.UnSelectAI();
         currentAI = null;
+        skillModeButton.SetAI(null);
         //Time.timeScale = 1f;
         selectPanel.SetActive(false);
         gameManager.cameraManager.StartZoomOut();
