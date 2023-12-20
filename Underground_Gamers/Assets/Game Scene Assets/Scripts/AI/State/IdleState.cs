@@ -42,7 +42,7 @@ public class IdleState : AIState
 
         if (aiController.missionTarget == null)
         {
-            aiController.SetMissionTarget(aiController.missionTarget);
+            //SetMissionTarget(aiController.missionTarget);
             aiController.SetState(States.MissionExecution);
             return;
         }

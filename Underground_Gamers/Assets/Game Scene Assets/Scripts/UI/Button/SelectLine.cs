@@ -20,9 +20,11 @@ public class SelectLine : MonoBehaviour
     public void FixLine()
     {
         Time.timeScale = 1f;
+        gameManager.IsStart = true;
         battleLayoutForgePanel.SetActive(false);
         gameManager.entryManager.EnterGameByEntry();
         gameManager.commandManager.CreateCommandUI();
+        gameManager.aiManager.RegisterMissionTargetEvent();
     }
 
     public void SetActive(bool isActive)

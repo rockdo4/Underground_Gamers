@@ -52,12 +52,10 @@ public class GameInfo : MonoBehaviour
         switch (gameType)
         {
             case GameType.Story:
-                entryPlayer.Clear();
                 entryPlayer = GamePlayerInfo.instance.usingPlayers;
                 break;
             case GameType.Official:
                 {
-                    entryPlayer.Clear();
                     entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(0));
                     entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(1));
                     entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(2));
@@ -66,7 +64,6 @@ public class GameInfo : MonoBehaviour
                 }
                 break;
             case GameType.Scrimmage:
-                entryPlayer.Clear();
                 entryPlayer = GamePlayerInfo.instance.usingPlayers;
                 break;
         }
@@ -219,9 +216,9 @@ public class GameInfo : MonoBehaviour
 
             var ai = player.GetComponent<AIController>();
             var portrait = player.GetComponent<Portrait>();
-            if (buildingManager != null)
-                ai.point = buildingManager.GetAttackPoint(Line.Bottom, TeamType.PC);
-            ai.SetDestination(ai.point);
+            //if (buildingManager != null)
+            //    ai.point = buildingManager.GetAttackPoint(Line.Bottom, TeamType.PC);
+            //ai.SetDestination(ai.point);
             ai.spum.gameObject.AddComponent<Outlinable>();
             ai.InitInGameScene();
 
@@ -239,7 +236,7 @@ public class GameInfo : MonoBehaviour
             }
         }
 
-        aiManager.RegisterMissionTargetEvent();
+        //aiManager.RegisterMissionTargetEvent();
         MakeEnemys();
     }
 
@@ -366,9 +363,9 @@ public class GameInfo : MonoBehaviour
 
             var ai = player.GetComponent<AIController>();
             var portrait = player.GetComponent<Portrait>();
-            if (buildingManager != null)
-                ai.point = buildingManager.GetAttackPoint(Line.Bottom, TeamType.NPC);
-            ai.SetDestination(ai.point);
+            //if (buildingManager != null)
+            //    ai.point = buildingManager.GetAttackPoint(Line.Bottom, TeamType.NPC);
+            //ai.SetDestination(ai.point);
             ai.spum.gameObject.AddComponent<Outlinable>();
             ai.InitInGameScene();
 
@@ -386,8 +383,7 @@ public class GameInfo : MonoBehaviour
             }
         }
 
-        aiManager.RegisterMissionTargetEvent();
-
+        //aiManager.RegisterMissionTargetEvent();
     }
 
     public void DeletePlayers()
