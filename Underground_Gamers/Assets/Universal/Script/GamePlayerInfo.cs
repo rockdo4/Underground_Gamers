@@ -46,6 +46,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public List<int> tradeCenter = new List<int>();
     public DateTime lastRecruitTime = DateTime.MinValue;
+
     public bool isInit = false;
 
     public string teamName = "드림팀";
@@ -61,6 +62,10 @@ public class GamePlayerInfo : MonoBehaviour
     public string[,] officialFinalMatchResultName = new string[3, 2];
     public int[,] officialFinalMatchResult = new int[3, 2];
     public int currPlayerIndex = 3;
+
+    //스크리밍
+    public DateTime lastScrimmageTime = DateTime.MinValue;
+    public int scrimmageCount = 3;
 
     //기타
     public bool isOnSchedule = false;
@@ -629,26 +634,302 @@ public class GamePlayerInfo : MonoBehaviour
         return new Player();
     }
 
-    public void UpdateOfficial()
+    public void CalculateOfficialPlayer(bool isWin, int setWin, int setLose)
     {
+        if (officialWeekNum < 7)
+        {
+            CalculateOfficialPlayerResult(isWin, setWin, setLose);
+        }
+        else if(officialWeekNum < 9)
+        {
+            CalculateOfficialFinalsPlayerResult(setWin, setLose);
+        }
+        UpdateOfficial(isWin);
+    }
+
+
+    //플레이어 정보 업데이트후 ai정보 업데이트
+    public void UpdateOfficial(bool isWin)
+    {
+        //플레이어 경기결과는 받고난뒤여야함, CalculateOfficialPlayerResult()
         officialWeekNum++;
         if (officialWeekNum < 7)
         {
-
+            CalculateOfficialRandomResults();
+            //officialPlayerDatas 정보 업데이트
         }
         else if (officialWeekNum == 7)
         {
             CalculateOfficialToFinals();
         }
-        else
+        else if(isWin && officialWeekNum >= 10)
         {
-
+            FinalWinOnOfficial();
+        }
+        else if (!isWin)
+        {
+            ReleaseOfficial();
         }
     }
 
+    //플레이오프 전 플레이서 승/패시
+    public void CalculateOfficialPlayerResult(bool isWin, int setWin, int setLose)
+    {
+        //플레이어 경기결과 (위크넘버 갱신전)
+
+        for (int i = 0; i < 4; i++)
+        {
+            int firstTeam = officialMatchInfo[officialWeekNum , (2 * i)];
+            int secondTeam = officialMatchInfo[officialWeekNum, (2 * i) + 1];
+
+            if (firstTeam == 7)
+            {
+                var officialDataFrist = officialTeamDatas[firstTeam];
+                var officialDataSecond = officialTeamDatas[secondTeam];
+
+                if (isWin)
+                {
+                    officialDataFrist.win++;
+                    officialDataSecond.lose++;
+                }
+                else
+                {
+                    officialDataFrist.lose++;
+                    officialDataSecond.win++;
+                }
+                
+
+                officialDataFrist.setWin += setWin;
+                officialDataFrist.setLose += setLose;
+                officialDataSecond.setWin += setLose;
+                officialDataSecond.setLose += setWin;
+
+                officialMatchResult[officialWeekNum, (2 * i)] = officialDataFrist.setWin;
+                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialDataSecond.setWin;
+
+                return;
+            }
+            else if (secondTeam == 7)
+            {
+                var officialDataFrist = officialTeamDatas[firstTeam];
+                var officialDataSecond = officialTeamDatas[secondTeam];
+
+                if (isWin)
+                {
+                    officialDataFrist.lose++;
+                    officialDataSecond.win++;
+                }
+                else
+                {
+                    officialDataFrist.win++;
+                    officialDataSecond.lose++;
+                }
+
+
+                officialDataFrist.setWin += setLose;
+                officialDataFrist.setLose += setWin;
+                officialDataSecond.setWin += setWin;
+                officialDataSecond.setLose += setLose;
+
+                officialMatchResult[officialWeekNum, (2 * i)] = officialDataFrist.setWin;
+                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialDataSecond.setWin;
+                return;
+            }
+        }
+
+    }
+
+    public void CalculateOfficialRandomResults()
+    {
+        //플레이어 경기결과는 따로 넣어줘야함
+
+        for (int i = 0; i < 4; i++)
+        {
+            int firstTeam = officialMatchInfo[officialWeekNum - 1, (2 * i)];
+            int secondTeam = officialMatchInfo[officialWeekNum - 1, (2 * i) + 1];
+
+            if (firstTeam != 7 || secondTeam != 7)
+            {
+                List<EnemyInfo> firstEnemies = enemyTeams[firstTeam];
+                List<EnemyInfo> secondEnemies = enemyTeams[secondTeam];
+
+                int firstValue = 0;
+                int secondValue = 0;
+
+                foreach (var item in firstEnemies)
+                {
+                    firstValue += item.hp / 10;
+                    firstValue += item.atk;
+                    firstValue -= (int)(item.atkRate * 10);
+                    firstValue += (int)(item.range * 10);
+                }
+
+                foreach (var item in secondEnemies)
+                {
+                    secondValue += item.hp / 10;
+                    secondValue += item.atk;
+                    secondValue -= (int)(item.atkRate * 10);
+                    secondValue += (int)(item.range * 10);
+                }
+
+                if (firstValue > secondValue)
+                {
+                    var officialDataFrist = officialTeamDatas[firstTeam];
+                    var officialDataSecond = officialTeamDatas[secondTeam];
+
+                    officialDataFrist.win++;
+                    officialDataSecond.lose++;
+
+                    officialDataFrist.setWin += 2;
+                    officialDataFrist.setLose += UnityEngine.Random.Range(0,2);
+                    officialDataSecond.setWin += officialDataFrist.setLose;
+                    officialDataSecond.setLose += 2;
+
+                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialDataFrist.setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i)+1] = officialDataSecond.setWin;
+                }
+                else
+                {
+                    var officialDataFrist = officialTeamDatas[firstTeam];
+                    var officialDataSecond = officialTeamDatas[secondTeam];
+
+                    officialDataFrist.lose++;
+                    officialDataSecond.win++;
+
+                    officialDataSecond.setWin += 2;
+                    officialDataSecond.setLose += UnityEngine.Random.Range(0, 2);
+                    officialDataFrist.setWin += officialDataSecond.setLose;
+                    officialDataFrist.setLose += 2;
+
+                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialDataFrist.setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i) + 1] = officialDataSecond.setWin;
+                }
+                
+
+            }
+        }
+        
+    }
+
     public void CalculateOfficialToFinals()
-    { 
-    
+    {
+        officialTeamDatas = OfficialTeamRankSort();
+        int grade = 4;
+        for (int i = 0; i < officialTeamDatas.Length; i++)
+        {
+            if (officialTeamDatas[i].isPlayer)
+            {
+                grade = i;
+                break;
+            }
+        }
+
+        switch (grade)
+        {
+            case 0:
+                {
+                    officialWeekNum = 9;
+                    officialFinalMatchResultName[0, 1] = officialTeamDatas[3].name;
+                    officialFinalMatchResultName[0, 0] = officialTeamDatas[2].name;
+                    officialFinalMatchResultName[1, 0] = officialTeamDatas[1].name;
+                    officialFinalMatchResultName[1, 1] = officialTeamDatas[2].name;
+                    officialFinalMatchResultName[2, 0] = officialTeamDatas[0].name;
+                    officialFinalMatchResultName[2, 1] = officialTeamDatas[1].name;
+
+                    officialFinalMatchResult[0, 1] = UnityEngine.Random.Range(0, 2);
+                    officialFinalMatchResult[0, 0] = 2;
+                    officialFinalMatchResult[1, 1] = UnityEngine.Random.Range(0, 2);
+                    officialFinalMatchResult[1, 0] = 2;
+                }
+                
+                break;
+            case 1:
+                {
+                    officialWeekNum = 8;
+                    officialFinalMatchResultName[0, 1] = officialTeamDatas[3].name;
+                    officialFinalMatchResultName[0, 0] = officialTeamDatas[2].name;
+                    officialFinalMatchResultName[1, 0] = officialTeamDatas[1].name;
+                    officialFinalMatchResultName[1, 1] = officialTeamDatas[2].name;
+                    officialFinalMatchResultName[2, 0] = officialTeamDatas[0].name;
+
+                    officialFinalMatchResult[0, 1] = UnityEngine.Random.Range(0,2);
+                    officialFinalMatchResult[0, 0] = 2;
+                }
+                break;
+            case 2:
+            case 3:
+                {
+                    officialFinalMatchResultName[0, 1] = officialTeamDatas[3].name;
+                    officialFinalMatchResultName[0, 0] = officialTeamDatas[2].name;
+                    officialFinalMatchResultName[1, 0] = officialTeamDatas[1].name;
+                    officialFinalMatchResultName[2, 0] = officialTeamDatas[0].name;
+                }
+                break;
+            default:
+                ReleaseOfficial();
+                break;
+        }
+    }
+
+    //플레이오프 승리
+    public void CalculateOfficialFinalsPlayerResult(int setWin,int setLose)
+    {
+        switch (officialWeekNum)
+        {
+            case 8:
+                {
+                    officialFinalMatchResultName[2, 1] = teamName;
+
+                    if (officialTeamDatas[2].isPlayer)
+                    {
+                        officialFinalMatchResult[1, 1] = setWin;
+                        officialFinalMatchResult[1, 0] = setLose;
+                        OfficialTeamData temp = officialTeamDatas[2];
+                        officialTeamDatas[2] = officialTeamDatas[1];
+                        officialTeamDatas[1] = temp;
+                    }
+                    else if (officialTeamDatas[1].isPlayer)
+                    {
+                        officialFinalMatchResult[1, 1] = setLose;
+                        officialFinalMatchResult[1, 0] = setWin;
+                    }
+                }
+
+                break;
+            case 7:
+                {
+                    officialFinalMatchResultName[1, 1] = teamName;
+
+                    if (officialTeamDatas[3].isPlayer)
+                    {
+                        officialFinalMatchResult[0, 1] = setWin;
+                        officialFinalMatchResult[0, 0] = setLose;
+                        OfficialTeamData temp = officialTeamDatas[3];
+                        officialTeamDatas[3] = officialTeamDatas[2];
+                        officialTeamDatas[2] = temp;
+                    }
+                    else if (officialTeamDatas[2].isPlayer)
+                    {
+                        officialFinalMatchResult[0, 1] = setLose;
+                        officialFinalMatchResult[0, 0] = setWin;
+                    }
+
+                }
+                break;
+        }
+    }
+
+    //정규전 어떻게든 끝날때
+    public void ReleaseOfficial()
+    {
+        isOnOfficial = false;
+        //officialLevel에 따라 보상
+    }
+
+    public void FinalWinOnOfficial()
+    {
+        officialLevel++;
+        isOnOfficial = false;
     }
 }
 public class PlayerConverter : JsonConverter<Player>
