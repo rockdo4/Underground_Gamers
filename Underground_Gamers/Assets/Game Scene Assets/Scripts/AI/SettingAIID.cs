@@ -8,7 +8,7 @@ public class SettingAIID : MonoBehaviour
     private List<Color> colors = new List<Color>();
     public float outlineWidth;
 
-    public void Start()
+    public void SetAIIDs()
     {
         int pcID = 1;
         int npcID = 1;
@@ -37,5 +37,6 @@ public class SettingAIID : MonoBehaviour
             //ai.aiType.text = $"NPC{npcID++}";
             ai.aiType.text = ai.status.AIName;
         }
+
     }
 }

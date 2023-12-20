@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using System;
 
 public class OnDropInfoPanel : MonoBehaviour, IDropHandler
 {
@@ -34,7 +35,7 @@ public class OnDropInfoPanel : MonoBehaviour, IDropHandler
             commandManager.ExecuteSwitchLine(ai);
             // Á¤·Ä
             var childs = dropPanel.transform.GetComponentsInChildren<CommandInfo>();
-            System.Array.Sort(childs, CompareByAINum);
+            Array.Sort(childs, CompareByAINum);
 
             foreach (var child in childs)
             {

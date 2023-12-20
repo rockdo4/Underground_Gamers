@@ -52,6 +52,7 @@ public class GameInfo : MonoBehaviour
         switch (gameType)
         {
             case GameType.Story:
+                entryPlayer.Clear();
                 entryPlayer = GamePlayerInfo.instance.usingPlayers;
                 break;
             case GameType.Official:
@@ -65,6 +66,7 @@ public class GameInfo : MonoBehaviour
                 }
                 break;
             case GameType.Scrimmage:
+                entryPlayer.Clear();
                 entryPlayer = GamePlayerInfo.instance.usingPlayers;
                 break;
         }
@@ -72,6 +74,7 @@ public class GameInfo : MonoBehaviour
 
     public void MakePlayers()
     {
+        StartGame();
         GamePlayerInfo.instance.isOnSchedule = false;
         var stateDefines = DataTableManager.instance.stateDef;
         

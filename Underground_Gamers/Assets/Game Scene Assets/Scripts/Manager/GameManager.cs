@@ -21,9 +21,12 @@ public class GameManager : MonoBehaviour
     public LineManager lineManager;
     public GameRuleManager gameRuleManager;
     public SkillCoolTimeManager skillCoolTimeManager;
+    public EntryManager entryManager;
 
+    [Header("Ä³½Ì")]
     public GameEndPannel gameEndPannel;
     public SkillModeButton skillModeButton;
+    public SettingAIID settingAIID;
 
     public float endTimer;
     public float endTime;

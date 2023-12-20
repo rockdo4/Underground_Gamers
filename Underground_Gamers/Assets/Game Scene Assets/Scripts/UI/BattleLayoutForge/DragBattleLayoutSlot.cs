@@ -6,29 +6,30 @@ using UnityEngine.UI;
 
 public class DragBattleLayoutSlot : DragSlot
 {
-    public GameObject ghostImagePrefab;
-    private GameObject ghostImage;
+    public DragBattleLayoutGhostImage ghostImagePrefab;
+    private DragBattleLayoutGhostImage ghostImage;
+
+    public Image illustration;
 
     private Transform uiCanvas;
     private BattleLayoutForge battleLayoutForge;
+
+    public AIController AI { get; private set; }
 
     private void Awake()
     {
         battleLayoutForge = GameObject.FindGameObjectWithTag("BattleLayoutForge").GetComponent<BattleLayoutForge>();
         uiCanvas = GameObject.FindGameObjectWithTag("UICanvas").GetComponent<Transform>();
-        ghostImage = Instantiate(ghostImagePrefab, uiCanvas);
-        ghostImage.SetActive(false);
-        battleLayoutForge.AddSlot(this);
     }
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        List<DragSlot> slots = battleLayoutForge.GetSlots();
+        List<DragBattleLayoutSlot> slots = battleLayoutForge.GetSlots();
         foreach(DragBattleLayoutSlot slot in slots)
         {
             slot.SetActiveAllRayCast(false);
         }
         SetActiveAllRayCast(false);
-        ghostImage.SetActive(true);
+        ghostImage.SetActiveGhostImage(true);
         ghostImage.transform.position = eventData.position;
     }
 
@@ -39,12 +40,12 @@ public class DragBattleLayoutSlot : DragSlot
 
     public override void OnEndDrag(PointerEventData eventData)
     {
-        List<DragSlot> slots = battleLayoutForge.GetSlots();
+        List<DragBattleLayoutSlot> slots = battleLayoutForge.GetSlots();
         foreach (DragBattleLayoutSlot slot in slots)
         {
             slot.SetActiveAllRayCast(true);
         }
-        ghostImage.SetActive(false);
+        ghostImage.SetActiveGhostImage(false);
     }
 
 
@@ -56,5 +57,18 @@ public class DragBattleLayoutSlot : DragSlot
             image.raycastTarget = isActive;
         }
     }    
-   
+
+    public void MatchAI(AIController ai)
+    {
+        this.AI = ai;
+        ghostImage = Instantiate(ghostImagePrefab, uiCanvas);
+        ghostImage.SetGhostImage(AI.status.illustration);
+        ghostImage.SetActiveGhostImage(false);
+        battleLayoutForge.AddSlot(this);
+    }
+
+    public void MatchPortrait()
+    {
+        illustration.sprite = AI.status.illustration;
+    }
 }
