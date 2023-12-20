@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3859643774242614453
+--- !u!1 &1265545037789317788
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,25 +8,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 138072383378742726}
-  - component: {fileID: 5772568473896920067}
-  - component: {fileID: 378659013245125598}
+  - component: {fileID: 5587012361964384300}
+  - component: {fileID: 5147342146066832947}
+  - component: {fileID: 8991462013420311466}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Class Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &138072383378742726
+--- !u!224 &5587012361964384300
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3859643774242614453}
+  m_GameObject: {fileID: 1265545037789317788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000000025544846}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34,24 +34,24 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000000052154064, y: 1.5970001}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.7, y: 1.213}
+  m_SizeDelta: {x: 0.3, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5772568473896920067
+--- !u!222 &5147342146066832947
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3859643774242614453}
+  m_GameObject: {fileID: 1265545037789317788}
   m_CullTransparentMesh: 1
---- !u!114 &378659013245125598
+--- !u!114 &8991462013420311466
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3859643774242614453}
+  m_GameObject: {fileID: 1265545037789317788}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 97af2b66a8b19d843ac43ac6e3818575, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -108,8 +108,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5587012361964384300}
   - {fileID: 6900426645416272492}
-  - {fileID: 138072383378742726}
   - {fileID: 324500081382002614}
   - {fileID: 7079921573301755294}
   m_Father: {fileID: 1775514118096814915}
@@ -208,6 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadBar: {fileID: 1422289523546505956}
   hpBar: {fileID: 2052676012258006108}
+  classIcon: {fileID: 8991462013420311466}
 --- !u!1 &7378083268255723418
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,6 +325,8 @@ MonoBehaviour:
   lastSupportTime: 0
   isAttack: 1
   isDefend: 0
+  isMission: 1
+  isRetreat: 0
   occupationIndex: 2147483647
   priorityByDistance: {fileID: 0}
   priorityByOccupation: []
@@ -334,6 +337,7 @@ MonoBehaviour:
   lastOriginalSkillTime: 0
   originalSkillCoolTime: 0
   isOnCoolOriginalSkill: 0
+  isPrior: 0
   lastGeneralSkillTime: 0
   generalSkillCoolTime: 0
   isOnCoolGeneralSkill: 0
@@ -354,6 +358,7 @@ MonoBehaviour:
   canvas: {fileID: 8875618295526777781}
   selectOutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0}
   unselectOutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0}
+  damageGraph: {fileID: 0}
   outlinable: {fileID: 4687183793069776076}
   currentLinerInfo: []
 --- !u!114 &5619921147084294796
@@ -370,7 +375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupationType: 0
   distancePriorityType: 0
-  name: 
+  AIName: 
   maxHp: 5
   speed: 1
   sight: 3
@@ -386,9 +391,21 @@ MonoBehaviour:
   reloadCooldown: 0
   accuracyRate: 0
   armor: 0
+  condition: 0
+  killCount: 0
   deathCount: 0
   respawnTime: 8
   respawnTimeIncreaseRate: 3
+  ai: {fileID: 0}
+  illustration: {fileID: 0}
+  aiClass: {fileID: 0}
+  lv: 0
+  maxLv: 0
+  xp: 0
+  maxXp: 0
+  grade: {fileID: 0}
+  dealtDamage: 0
+  takenDamage: 0
 --- !u!136 &4762857722842106087
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -624,7 +641,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: 1.9}
+  m_AnchoredPosition: {x: 0, y: 1.5}
   m_SizeDelta: {x: 1.5, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &129087600791021385
@@ -977,7 +994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7137339425376095101, guid: 9f265ed1adacd1143912ab3a55e14790, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.000000008514949
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7137339425376095101, guid: 9f265ed1adacd1143912ab3a55e14790, type: 3}
       propertyPath: m_LocalRotation.w
@@ -997,7 +1014,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7137339425376095101, guid: 9f265ed1adacd1143912ab3a55e14790, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.024999924
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7137339425376095101, guid: 9f265ed1adacd1143912ab3a55e14790, type: 3}
       propertyPath: m_AnchoredPosition.y

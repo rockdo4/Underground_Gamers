@@ -7,4 +7,10 @@ public class AICanvas : MonoBehaviour
 {
     public Slider reloadBar;
     public Slider hpBar;
+    public Image classIcon;
+
+    public void SetClassIcon(Sprite sprite)
+    {
+        classIcon.sprite = sprite;
+    }
 }

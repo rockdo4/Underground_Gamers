@@ -40,6 +40,8 @@ public class CommandInfo : MonoBehaviour
     public Sprite[] conditions = new Sprite[(int)Condition.Count];
 
     public Image skillCoolTime;
+    public Image internalClassIcon;
+    public Image externalClassIcon;
 
     private void Awake()
     {
@@ -109,5 +111,11 @@ public class CommandInfo : MonoBehaviour
     public void SetPortraitInCommandInfo(int code)
     {
         portrait.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(code);
+    }
+
+    public void SetClassIcon(Sprite sprite)
+    {
+        internalClassIcon.sprite = sprite;
+        externalClassIcon.sprite = sprite;
     }
 }

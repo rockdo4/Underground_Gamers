@@ -33,8 +33,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6458557149710708802}
   - {fileID: 6063334030348773620}
-  - {fileID: 4364192160404116161}
   - {fileID: 8423204621369145298}
   - {fileID: 6352781116397851491}
   m_Father: {fileID: 7970350570541111039}
@@ -133,7 +133,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadBar: {fileID: 3014472916924189721}
   hpBar: {fileID: 7789381371610557496}
---- !u!1 &3376657639129244461
+  classIcon: {fileID: 5734523415864174073}
+--- !u!1 &3253022245978634254
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,25 +142,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4364192160404116161}
-  - component: {fileID: 8079366350564874438}
-  - component: {fileID: 1030482122155843989}
+  - component: {fileID: 6458557149710708802}
+  - component: {fileID: 4306381365355149303}
+  - component: {fileID: 5734523415864174073}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Class Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &4364192160404116161
+--- !u!224 &6458557149710708802
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3376657639129244461}
+  m_GameObject: {fileID: 3253022245978634254}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000000017029897}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -167,24 +168,24 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.12500003, y: 1.5970001}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.58, y: 1.213}
+  m_SizeDelta: {x: 0.3, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &8079366350564874438
+--- !u!222 &4306381365355149303
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3376657639129244461}
+  m_GameObject: {fileID: 3253022245978634254}
   m_CullTransparentMesh: 1
---- !u!114 &1030482122155843989
+--- !u!114 &5734523415864174073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3376657639129244461}
+  m_GameObject: {fileID: 3253022245978634254}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -198,7 +199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 97af2b66a8b19d843ac43ac6e3818575, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -242,7 +243,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.125, y: 1.9}
+  m_AnchoredPosition: {x: 0.125, y: 1.5}
   m_SizeDelta: {x: 1.5, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8599353058881731352
@@ -457,6 +458,8 @@ MonoBehaviour:
   lastSupportTime: 0
   isAttack: 1
   isDefend: 0
+  isMission: 1
+  isRetreat: 0
   occupationIndex: 2147483647
   priorityByDistance: {fileID: 0}
   priorityByOccupation: []
@@ -467,6 +470,7 @@ MonoBehaviour:
   lastOriginalSkillTime: 0
   originalSkillCoolTime: 0
   isOnCoolOriginalSkill: 0
+  isPrior: 0
   lastGeneralSkillTime: 0
   generalSkillCoolTime: 0
   isOnCoolGeneralSkill: 0
@@ -487,6 +491,7 @@ MonoBehaviour:
   canvas: {fileID: 4409331017172970312}
   selectOutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   unselectOutlineColor: {r: 1, g: 0.9215687, b: 0.015686275, a: 0}
+  damageGraph: {fileID: 0}
   outlinable: {fileID: 0}
   currentLinerInfo: []
 --- !u!114 &2013940768982972327
@@ -503,7 +508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupationType: 0
   distancePriorityType: 0
-  name: 
+  AIName: 
   maxHp: 100
   speed: 5
   sight: 3
@@ -519,9 +524,21 @@ MonoBehaviour:
   reloadCooldown: 0
   accuracyRate: 0
   armor: 0
+  condition: 0
+  killCount: 0
   deathCount: 0
   respawnTime: 8
   respawnTimeIncreaseRate: 3
+  ai: {fileID: 0}
+  illustration: {fileID: 0}
+  aiClass: {fileID: 0}
+  lv: 0
+  maxLv: 0
+  xp: 0
+  maxXp: 0
+  grade: {fileID: 0}
+  dealtDamage: 0
+  takenDamage: 0
 --- !u!136 &8199792129937762316
 CapsuleCollider:
   m_ObjectHideFlags: 0

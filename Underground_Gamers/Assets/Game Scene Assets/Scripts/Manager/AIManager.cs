@@ -9,29 +9,6 @@ public class AIManager : MonoBehaviour
 
     public List<AIController> npc;
 
-    public void RegisterMissionTargetEvent()
-    {
-        foreach (var controller in pc)
-        {
-            MissionTargetEventBus.Subscribe(controller.transform, controller.RefreshBuilding);
-            controller.RefreshBuilding();
-            controller.SetState(States.Idle);
-        }
-
-        foreach (var controller in npc)
-        {
-            MissionTargetEventBus.Subscribe(controller.transform, controller.RefreshBuilding);
-            controller.RefreshBuilding();
-            controller.SetState(States.Idle);
-        }
-    }
-
-    private void Awake()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (!gameManager.IsStart)
@@ -52,6 +29,34 @@ public class AIManager : MonoBehaviour
                 if (controller.status.IsLive)
                     controller.UpdateState();
             }
+        }
+    }
+    public void RegisterMissionTargetEvent()
+    {
+        foreach (var controller in pc)
+        {
+            MissionTargetEventBus.Subscribe(controller.transform, controller.RefreshBuilding);
+            controller.RefreshBuilding();
+            controller.SetState(States.Idle);
+        }
+
+        foreach (var controller in npc)
+        {
+            MissionTargetEventBus.Subscribe(controller.transform, controller.RefreshBuilding);
+            controller.RefreshBuilding();
+            controller.SetState(States.Idle);
+        }
+    }
+
+    public void SetAICanvas()
+    {
+        foreach (var controller in pc)
+        {
+            controller.canvas.SetClassIcon(controller.status.aiClass);
+        }
+        foreach (var controller in npc)
+        {
+            controller.canvas.SetClassIcon(controller.status.aiClass);
         }
     }
 }

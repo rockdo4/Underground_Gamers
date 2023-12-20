@@ -410,7 +410,7 @@ public class AIController : MonoBehaviour
         //if (aiCommandInfo != null)
 
         // ¿”Ω√ ≤®µ“
-        //outlinable.OutlineParameters.Color = unselectOutlineColor;
+        outlinable.OutlineParameters.Color = unselectOutlineColor;
 
         gameManager.commandManager.ActiveAllCommandButton();
         aiCommandInfo.UnSelectAI();
@@ -432,9 +432,9 @@ public class AIController : MonoBehaviour
         //commandManager.SetActiveCommandButton(commandManager.currentAI);
 
         // ¿”Ω√ ≤®µ“
-        //selectEffect.SetActive(true);
-        //outlinable.OutlineParameters.Color = selectOutlineColor;
-        //aiCommandInfo.SelectAI();
+        selectEffect.SetActive(true);
+        outlinable.OutlineParameters.Color = selectOutlineColor;
+        aiCommandInfo.SelectAI();
     }
 
     public void SetBattleTarget(Transform target)

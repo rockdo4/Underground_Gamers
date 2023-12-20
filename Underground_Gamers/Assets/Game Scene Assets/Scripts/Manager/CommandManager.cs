@@ -168,6 +168,7 @@ public class CommandManager : MonoBehaviour
             ai.aiCommandInfo = info;
             ai.aiCommandInfo.aiName.text = ai.status.AIName;
             info.aiController = ai;
+            info.SetClassIcon(ai.status.aiClass);
 
             // 초상화 생성
             var portrait = info.portrait;
