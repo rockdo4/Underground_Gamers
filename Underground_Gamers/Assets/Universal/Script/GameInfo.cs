@@ -72,6 +72,7 @@ public class GameInfo : MonoBehaviour
 
     public void MakePlayers()
     {
+        StartGame();
         GamePlayerInfo.instance.isOnSchedule = false;
         var stateDefines = DataTableManager.instance.stateDef;
         

@@ -58,6 +58,7 @@ public class EntryFilter : MonoBehaviour
             }
             else
             {
+                Debug.Log(index);
                 buttons[index].gameObject.SetActive(CanActiveWithFilter(player));
                 index++;
             }
