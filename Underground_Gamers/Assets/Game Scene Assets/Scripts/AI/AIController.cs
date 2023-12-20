@@ -291,7 +291,7 @@ public class AIController : MonoBehaviour
         status = GetComponent<CharacterStatus>();
         teamIdentity = GetComponent<TeamIdentifier>();
 
-        missionTarget = point;
+        //missionTarget = point;
         SetInitialization();
 
         teamLayer = layer;
@@ -323,14 +323,14 @@ public class AIController : MonoBehaviour
         agent.speed = status.speed;
         //agent.SetDestination(point.position);
 
-        SetState(States.Idle);
+        //SetState(States.Idle);
 
         if (teamIdentity.teamType == TeamType.PC)
             gameManager.lineManager.JoiningLine(this);
         if (teamIdentity.teamType == TeamType.NPC)
             gameManager.npcManager.SelectLineByInit(this);
-        point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
-        missionTarget = point;
+        //point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
+        //missionTarget = point;
         MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
 
         //outlinable = spum.AddComponent<Outlinable>();
@@ -386,10 +386,13 @@ public class AIController : MonoBehaviour
 
         UpdateBuff();
 
-        //최대 속도일때 0.5f가 되어야 함으로 2로나눔
+        //최대 속도일때 0.5f가 되어야 함으로 2로나눔, 카이팅 속도 고려
         float s = agent.velocity.magnitude / (agent.speed + 3) * 0.5f;
         if (s <= 0.1f)
             s = Mathf.Max(0.15f, s);
+
+        if (agent.velocity.magnitude < 0.1f)
+            s = 0f;
 
         spum._anim.SetFloat("RunState", Mathf.Min(s, 0.5f));
     }
@@ -472,6 +475,11 @@ public class AIController : MonoBehaviour
         if (isAttack)
         {
             point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
+            missionTarget = point;
+        }
+        else
+        {
+            point = buildingManager.GetDefendPoint(currentLine, teamIdentity.teamType).GetComponent<Building>().defendPoint;
             missionTarget = point;
         }
     }

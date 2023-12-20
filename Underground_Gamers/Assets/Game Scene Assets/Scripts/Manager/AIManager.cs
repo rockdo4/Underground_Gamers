@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AIManager : MonoBehaviour
 {
+    public GameManager gameManager;
     public List<AIController> pc;
 
     public List<AIController> npc;
@@ -13,11 +14,15 @@ public class AIManager : MonoBehaviour
         foreach (var controller in pc)
         {
             MissionTargetEventBus.Subscribe(controller.transform, controller.RefreshBuilding);
+            controller.RefreshBuilding();
+            controller.SetState(States.Idle);
         }
 
         foreach (var controller in npc)
         {
             MissionTargetEventBus.Subscribe(controller.transform, controller.RefreshBuilding);
+            controller.RefreshBuilding();
+            controller.SetState(States.Idle);
         }
     }
 
@@ -29,6 +34,8 @@ public class AIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!gameManager.IsStart)
+            return;
         if (pc.Count > 0)
         {
             foreach (AIController controller in pc)

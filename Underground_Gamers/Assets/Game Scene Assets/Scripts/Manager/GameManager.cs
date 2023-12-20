@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public bool IsTimeOut { get; set; }
     public bool IsPaused { get; set; }
     public bool IsPlayerWin { get; set; }
+    public bool IsStart { get; set; } = false;
     public bool IsGameEnd = false;
 
     [Header("¸Þ´ÏÀú Ä³½Ì")]
@@ -21,9 +22,13 @@ public class GameManager : MonoBehaviour
     public LineManager lineManager;
     public GameRuleManager gameRuleManager;
     public SkillCoolTimeManager skillCoolTimeManager;
+    public EntryManager entryManager;
 
+    [Header("Ä³½Ì")]
     public GameEndPannel gameEndPannel;
     public SkillModeButton skillModeButton;
+    public SettingAIID settingAIID;
+    public BattleLayoutForge battleLayoutForge;
 
     public float endTimer;
     public float endTime;
@@ -84,6 +89,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayingGame()
     {
+        IsStart = false;
         IsPlaying = true;
         IsTimeOut = false;
         IsGameEnd = false;
@@ -94,6 +100,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        IsStart = false;
         IsGameEnd = true;
         IsPlaying = false;
         if (IsPlayerWin)

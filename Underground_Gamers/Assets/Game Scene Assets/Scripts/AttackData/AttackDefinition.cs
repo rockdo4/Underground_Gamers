@@ -13,6 +13,8 @@ public class AttackDefinition : ScriptableObject
     public float minDamageRate;
 
     public float cooldown;
+    [HideInInspector]
+    public float fixedCooldown;
     public float reloadCooldown;
 
     [Tooltip("장전 수")]
@@ -34,7 +36,7 @@ public class AttackDefinition : ScriptableObject
     {
         float damage = this.damage + attacker.damage;
         damage *= Random.Range(minDamageRate, maxDamageRate);
-
+        // 캐릭터의 공속 + 무기의 공속(스킬, 평타)
         bool isCritical = Random.value < attacker.critical;
 
         if(isCritical)
