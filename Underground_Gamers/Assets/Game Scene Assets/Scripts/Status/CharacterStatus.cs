@@ -54,6 +54,7 @@ public class CharacterStatus : MonoBehaviour
     [Header("데미지 그래프")]
     public float dealtDamage;
     public float takenDamage;
+    public float healAmount;
 
     public bool IsLive { get; set; } = true;
     public int Hp { get; set; }
