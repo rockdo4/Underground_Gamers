@@ -13,13 +13,19 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
     [SerializeField]
     private Button StartButton;
     [SerializeField]
-    private Button[] itemButtons = new Button[4];
+    private Button[] itemButtons = new Button[5];
+    [SerializeField]
+    private Sprite[] itemButtonsSprites = new Sprite[5];
     [SerializeField]
     private int[] minLevel = new int[4];
     [SerializeField]
     private Image image;
     [SerializeField]
+    private Sprite[] imageSprite = new Sprite[3];
+    [SerializeField]
     private TMP_Text rewardTexts;
+    [SerializeField]
+    private string[] rewardTextsIds = new string[3];
     [SerializeField]
     private TMP_Text enterCountTexts;
     [SerializeField]
@@ -28,7 +34,10 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
     private Image popupItemInfoImage;
     [SerializeField]
     private TMP_Text[] popupItemInfoText = new TMP_Text[2];
+    [SerializeField]
+    private string[] popupItemInfoTextIds = new string[5];
     private int dayOfWeekNumber = 0;
+    private int selectedWeekNumber = 0;
     private StringTable st;
 
     protected override void Awake()
@@ -79,25 +88,54 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
         {
             st = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
+        selectedWeekNumber = index;
+
+
         if (index != dayOfWeekNumber || GamePlayerInfo.instance.scrimmageCount <= 0)
         {
             foreach (var item in StartToggles)
             {
                 item.interactable = false;
             }
+            StartButton.interactable = false;
         }
         else
         {
             int currStage = GamePlayerInfo.instance.cleardStage;
             for (int i = 0; i < StartToggles.Length; i++)
             {
-                StartToggles[i].interactable = currStage >= minLevel[i];
-            } 
+                bool isInteractable = currStage >= minLevel[i];
+                StartToggles[i].interactable = isInteractable;
+                if (isInteractable)
+                {
+                    StartToggles[i].isOn = true;
+                }
+            }
+            StartButton.interactable = true;
         }
         
         switch(index)
         {
-
+            case 0:
+            case 2:
+            case 4:
+                image.sprite = imageSprite[0];
+                rewardTexts.text = st.Get(rewardTextsIds[0]);
+                break;
+            case 1:
+            case 3:
+            case 5:
+                image.sprite = imageSprite[1];
+                rewardTexts.text = st.Get(rewardTextsIds[1]);
+                break;
+            case 6:
+                image.sprite = imageSprite[2];
+                rewardTexts.text = st.Get(rewardTextsIds[2]);
+                break;
         }
     }
+
+    //selectedWeekNumber에 맞춰 오른토글 분기 -> 아랫버튼 표기보이기
+    //아랫 버튼눌렀을떄 1-5에 맞춰 뜨는팝업 정보변환 및 다른데누를시 ㅇㅇ
+    //스타트 누르고 엔트리로 바뀌는 부분
 }
