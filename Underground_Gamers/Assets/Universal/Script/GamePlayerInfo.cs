@@ -628,6 +628,28 @@ public class GamePlayerInfo : MonoBehaviour
         }
         return new Player();
     }
+
+    public void UpdateOfficial()
+    {
+        officialWeekNum++;
+        if (officialWeekNum < 7)
+        {
+
+        }
+        else if (officialWeekNum == 7)
+        {
+            CalculateOfficialToFinals();
+        }
+        else
+        {
+
+        }
+    }
+
+    public void CalculateOfficialToFinals()
+    { 
+    
+    }
 }
 public class PlayerConverter : JsonConverter<Player>
 {
