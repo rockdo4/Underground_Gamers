@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,21 @@ public class EntryFilter : MonoBehaviour
     
     public void Filtering()
     {
+        List<int> dupleBllockCodes = new List<int>();
+        foreach (var item in PlayerChanger.instance.usingList)
+        {
+            if (item.code != -1)
+            {
+                dupleBllockCodes.Add(item.code);
+            }
+        }
+        if (dupleBllockCodes.Count > 0)
+        {
+            dupleBllockCodes = dupleBllockCodes.Distinct().ToList();
+            dupleBllockCodes.Remove(PlayerChanger.instance.usingList[PlayerChanger.instance.currentSlotIndex].code);
+        }
+
+
         switch (SortStandard.value)
         {
             case 0:
@@ -54,14 +70,18 @@ public class EntryFilter : MonoBehaviour
             !player.name.Contains(EntrySearch.text))
             {
                 buttons[index].gameObject.SetActive(false);
-                index++;
             }
             else
             {
-                Debug.Log(index);
                 buttons[index].gameObject.SetActive(CanActiveWithFilter(player));
-                index++;
             }
+
+            if (dupleBllockCodes.Count > 0 && dupleBllockCodes.Contains(player.code))
+            {
+                buttons[index].SetActive(false);
+            }
+
+            index++;
         }
     }
 

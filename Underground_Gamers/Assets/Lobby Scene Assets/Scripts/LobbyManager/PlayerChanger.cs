@@ -20,7 +20,8 @@ public class PlayerChanger : MonoBehaviour
     public List<Player> haveList;
     public List<Player> usingList;
 
-    private int currentSlotIndex = 0;
+    [HideInInspector]
+    public int currentSlotIndex = 0;
     private LobbyUIManager lobbyUIManager;
 
     [HideInInspector]
@@ -141,10 +142,6 @@ public class PlayerChanger : MonoBehaviour
 
         foreach (var player in haveList)
         {
-            if (dupleBllockCodes.Count > 0 && dupleBllockCodes.Contains(player.code))
-            {
-                continue;
-            }
             int currIndex = haveList.IndexOf(player);
             var bt = Instantiate(playerButtons, havePlayerSpace.transform);
             var pb = bt.GetComponent<PlayerButtons>();
@@ -178,7 +175,10 @@ public class PlayerChanger : MonoBehaviour
                     _ => pt.berakSprites[0],
                 };
             }
-
+            if (dupleBllockCodes.Count > 0 && dupleBllockCodes.Contains(player.code))
+            {
+                pb.gameObject.SetActive(false);
+            }
             olds.Add(bt);
         }
 
