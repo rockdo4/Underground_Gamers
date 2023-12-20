@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public GameEndPannel gameEndPannel;
     public SkillModeButton skillModeButton;
     public SettingAIID settingAIID;
+    public BattleLayoutForge battleLayoutForge;
 
     public float endTimer;
     public float endTime;

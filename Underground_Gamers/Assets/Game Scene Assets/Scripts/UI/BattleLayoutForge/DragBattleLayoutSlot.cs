@@ -12,12 +12,16 @@ public class DragBattleLayoutSlot : DragSlot
     public Image illustration;
 
     private Transform uiCanvas;
+    private GameManager gameManager;
     private BattleLayoutForge battleLayoutForge;
+
+    private List<AIController> currentEntry;
 
     public AIController AI { get; private set; }
 
     private void Awake()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         battleLayoutForge = GameObject.FindGameObjectWithTag("BattleLayoutForge").GetComponent<BattleLayoutForge>();
         uiCanvas = GameObject.FindGameObjectWithTag("UICanvas").GetComponent<Transform>();
     }
@@ -56,7 +60,7 @@ public class DragBattleLayoutSlot : DragSlot
         {
             image.raycastTarget = isActive;
         }
-    }    
+    } 
 
     public void MatchAI(AIController ai)
     {
@@ -65,10 +69,32 @@ public class DragBattleLayoutSlot : DragSlot
         ghostImage.SetGhostImage(AI.status.illustration);
         ghostImage.SetActiveGhostImage(false);
         battleLayoutForge.AddSlot(this);
+        RegistEntry(gameManager.entryManager.NoneEntryAI);
     }
 
     public void MatchPortrait()
     {
         illustration.sprite = AI.status.illustration;
+    }
+
+    public void SetParent(Transform parent)
+    {
+        gameObject.transform.SetParent(parent);
+    }
+
+    public List<AIController> GetCurrentEntry()
+    {
+        return currentEntry;
+    }
+
+    public void ReleaseEntry()
+    {
+        currentEntry.Remove(AI);
+    }
+
+    public void RegistEntry(List<AIController> entry)
+    {
+        currentEntry = entry;
+        currentEntry.Add(AI);
     }
 }

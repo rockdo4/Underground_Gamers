@@ -57,7 +57,6 @@ public class CommandManager : MonoBehaviour
     private void Start()
     {
         CreateCommands();
-        CreateCommandUI();
     }
 
     private void CreateCommands()
@@ -153,7 +152,7 @@ public class CommandManager : MonoBehaviour
         gameManager.cameraManager.StartZoomOut();
     }
 
-    private void CreateCommandUI()
+    public void CreateCommandUI()
     {
         int pcNum = 1;
 
