@@ -12,6 +12,7 @@ public class LobbyTopMenu : MonoBehaviour
     public Button backButton;
     public Button homeButton;
     public Button gameStartButton;
+    public Button officialGameStartButton;
     public Stack<Action> functionStack = new Stack<Action>();
 
 
@@ -58,6 +59,7 @@ public class LobbyTopMenu : MonoBehaviour
             executedCount++;
         }
     }
+
     public void ExecuteAllFunction()
     {
         if (functionStack.Count == 0)
@@ -77,5 +79,16 @@ public class LobbyTopMenu : MonoBehaviour
     public void DeleteAllFunction()
     {
         functionStack.Clear();
+    }
+
+    public void DeleteOneFunction()
+    {
+        if (functionStack.Count == 0)
+        {
+            LobbySceneUIManager.instance.EmergencyOut();
+            Debug.Log("Delete Nothing!");
+            return;
+        }
+        functionStack.Pop();
     }
 }

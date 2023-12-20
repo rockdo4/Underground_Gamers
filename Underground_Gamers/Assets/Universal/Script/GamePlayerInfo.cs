@@ -25,6 +25,7 @@ public class GamePlayerInfo : MonoBehaviour
     public int representativePlayer = -1;
     public List<Player> havePlayers = new List<Player>();
     public List<Player> usingPlayers = new List<Player>();
+    public List<float> officialPlayers = new List<float>();
 
     public int cleardStage = 0;
     public string playername = "이감독";
@@ -46,11 +47,40 @@ public class GamePlayerInfo : MonoBehaviour
     public List<int> tradeCenter = new List<int>();
     public DateTime lastRecruitTime = DateTime.MinValue;
     public bool isInit = false;
-    public bool isOnSchedule = false;
 
+    public string teamName = "드림팀";
+
+    //정규전
+    public bool isOnOfficial = false;
+    public int officialLevel = -1;
+    public List<EnemyInfo>[] enemyTeams = new List<EnemyInfo>[7];
+    public OfficialTeamData[] officialTeamDatas = new OfficialTeamData[8];
+    public OfficialPlayerData[] officialPlayerDatas = new OfficialPlayerData[8];
+    public int officialWeekNum = 0;
+    public int[,] officialMatchResult = new int[7, 8];
+    public string[,] officialFinalMatchResultName = new string[3, 2];
+    public int[,] officialFinalMatchResult = new int[3, 2];
+    public int currPlayerIndex = 3;
+
+    //기타
+    public bool isOnSchedule = false;
     private PlayerTable pt;
+    private StageTable st;
+
     [HideInInspector]
-    public List<Sprite> itemSpriteList = new List<Sprite>();    
+    public List<Sprite> itemSpriteList = new List<Sprite>();
+    public int[,] officialMatchInfo = new int[7, 8]
+        {
+            {0,1,2,3,4,5,6,7},
+            {1,3,0,5,2,7,4,6},
+            {6,1,7,4,5,2,3,0},
+            {2,1,4,0,6,3,7,5},
+            {1,7,5,6,3,4,0,2},
+            {1,4,6,2,7,0,5,3},
+            {5,1,3,7,0,6,2,4},
+        };
+    public int[] officialPlayerMatchInfo = new int[7]
+       {6,2,4,5,1,0,3};
     private void Awake()
     {
         for (int i = 0; i < 8; i++)
@@ -84,6 +114,7 @@ public class GamePlayerInfo : MonoBehaviour
     private void Start()
     {
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
     }
 
     public void SortPlayersWithLevel(bool Orderby)
@@ -517,6 +548,107 @@ public class GamePlayerInfo : MonoBehaviour
         tradeCenter = saveData.tradeCenter;
         lastRecruitTime = saveData.lastRecruitTime;
         Presets = saveData.Presets;
+    }
+
+    public void OfficialMakeEnemyTeams(int officialLevel)
+    {
+        if (st == null)
+        {
+            st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+        }
+        //적 테이블 받아서 생성
+        enemyTeams = new List<EnemyInfo>[7];
+        for (int i = 0; i < 7; i++)
+        {
+            enemyTeams[i] = st.MakeOfficialEnemies(officialLevel);
+        }
+
+        officialTeamDatas = new OfficialTeamData[8];
+        for (int i = 0; i < 7; i++)
+        {
+            officialTeamDatas[i].name = UnityEngine.Random.Range(0, 100).ToString();
+            officialTeamDatas[i].isPlayer = false;
+        }
+
+        officialTeamDatas[7].name = teamName;
+        officialTeamDatas[7].isPlayer = true;
+
+        officialPlayerDatas = new OfficialPlayerData[8];
+        officialWeekNum = 0;
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                officialMatchResult[i, j] = 0;
+            }
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                officialFinalMatchResultName[i, j] = "";
+                officialFinalMatchResult[i, j] = 0;
+            }
+        }
+        currPlayerIndex = 3;
+
+
+
+        isOnOfficial = true;
+        this.officialLevel = officialLevel;
+        officialPlayers = new List<float>();
+        int count = 0;
+        foreach (var player in usingPlayers)
+        {
+            officialPlayers.Add(player.ID);
+            count++;
+        }
+    }
+
+    public OfficialTeamData[] OfficialTeamRankSort()
+    {
+        return officialTeamDatas.OrderByDescending(a => a.setWin - a.setLose).ToArray();
+    }
+
+    public Player GetOfficialPlayer(int index)
+    {
+        foreach (var player in usingPlayers)
+        {
+            if (player.ID == officialPlayers[index])
+            {
+                return player;
+            }
+        }
+        foreach (var player in havePlayers)
+        {
+            if (player.ID == officialPlayers[index])
+            {
+                return player;
+            }
+        }
+        return new Player();
+    }
+
+    public void UpdateOfficial()
+    {
+        officialWeekNum++;
+        if (officialWeekNum < 7)
+        {
+
+        }
+        else if (officialWeekNum == 7)
+        {
+            CalculateOfficialToFinals();
+        }
+        else
+        {
+
+        }
+    }
+
+    public void CalculateOfficialToFinals()
+    { 
+    
     }
 }
 public class PlayerConverter : JsonConverter<Player>

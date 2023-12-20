@@ -8,6 +8,8 @@ public enum ScheduleType
     None,
     Buttons,
     Story,
+    Official,
+    Scrimmage,
 }
 
 public class ScheduleUIManager : LobbySceneSubscriber

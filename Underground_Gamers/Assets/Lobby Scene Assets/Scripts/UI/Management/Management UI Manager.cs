@@ -66,4 +66,26 @@ public class ManagementUIManager : LobbySceneSubscriber
             .Get<StringTable>(DataType.String).Get("select_schedule");
         lobbyTopMenu.gameStartButton.gameObject.SetActive(false);
     }
+
+    public void OnEnterWithOfficialStart()
+    {
+        base.OnEnter();
+        lobbySceneUIManager.lobbyTopMenu.ActiveTop(true);
+        LobbyUIManager.instance.ActivePlayerList(true);
+        lobbyTopMenu.AddFunction(BackToOfficial);
+        originPos = lobbyTopMenu.transform.parent;
+        lobbyTopMenu.transform.SetParent(lobbyTopMenuTransform);
+        lobbyTopMenu.officialGameStartButton.gameObject.SetActive(true);
+    }
+
+    public void BackToOfficial()
+    {
+        LobbyUIManager.instance.ActivePlayerListAnyway(false);
+        relesasePanel.SetActive(false);
+        base.OnExit();
+        lobbyTopMenu.transform.SetParent(originPos);
+        lobbyTopMenu.TabNameText.text = DataTableManager.instance
+            .Get<StringTable>(DataType.String).Get("select_schedule");
+        lobbyTopMenu.officialGameStartButton.gameObject.SetActive(false);
+    }
 }

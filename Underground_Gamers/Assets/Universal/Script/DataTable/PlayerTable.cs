@@ -135,6 +135,7 @@ public class PlayerTable : DataTable
 
     public PlayerInfo GetPlayerInfo(int code)
     {
+        
         return playerDatabase.Find(player => player.code == code);
     }
 

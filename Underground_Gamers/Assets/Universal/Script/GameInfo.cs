@@ -5,6 +5,12 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
+public enum GameType
+{
+    Story,
+    Official,
+    Scrimmage,
+}
 public class GameInfo : MonoBehaviour
 {
     public static GameInfo instance
@@ -25,6 +31,8 @@ public class GameInfo : MonoBehaviour
     public GameObject enemyObj;
     public int currentStage = 0;
     public float RandomSpawnRange = 1f;
+    public GameType gameType = GameType.Story;
+    List<Player> entryPlayer = new List<Player>();
 
     private List<GameObject> players;
     private List<GameObject> enemys;
@@ -39,14 +47,37 @@ public class GameInfo : MonoBehaviour
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
     }
 
+    public void StartGame()
+    {
+        switch (gameType)
+        {
+            case GameType.Story:
+                entryPlayer = GamePlayerInfo.instance.usingPlayers;
+                break;
+            case GameType.Official:
+                {
+                    entryPlayer.Clear();
+                    entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(0));
+                    entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(1));
+                    entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(2));
+                    entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(3));
+                    entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(4));
+                }
+                break;
+            case GameType.Scrimmage:
+                entryPlayer = GamePlayerInfo.instance.usingPlayers;
+                break;
+        }
+    }
+
     public void MakePlayers()
     {
         GamePlayerInfo.instance.isOnSchedule = false;
         var stateDefines = DataTableManager.instance.stateDef;
-        List<Player> usePlayer = GamePlayerInfo.instance.usingPlayers;
+        
         for (int i = 0; i < 5; i++)
         {
-            var player = usePlayer[i];
+            var player = entryPlayer[i];
             // 테스트를 위한 코드
             if (pt == null)
                 return;
@@ -258,9 +289,11 @@ public class GameInfo : MonoBehaviour
             stat.AIName = playerInfo.name;
             stat.Hp = playerInfo.hp;
             stat.maxHp = stat.Hp;
+
             stat.speed = playerInfo.moveSpeed;
             stat.sight = playerInfo.sight;
             stat.range = playerInfo.range;
+
             stat.reactionSpeed = playerInfo.reaction * 15;
             stat.damage = playerInfo.atk;
             stat.cooldown = playerInfo.atkRate;
@@ -377,4 +410,6 @@ public class GameInfo : MonoBehaviour
         GamePlayerInfo.instance.AddMoney(currentStage * 30, currentStage * 10, 0);
         GamePlayerInfo.instance.GetXpItems(10, 5, 1, 0);
     }
+
+
 }

@@ -243,3 +243,21 @@ public class SaveData
     public DateTime lastRecruitTime = DateTime.MinValue;
     public bool isInit = true;
 }
+
+public struct OfficialTeamData
+{
+    public string name;
+    public int win;
+    public int lose;
+    public int setWin;
+    public int setLose;
+    public bool isPlayer;
+}
+
+public struct OfficialPlayerData
+{
+    public int playCount;
+    public int kill;
+    public int death;
+    public int totalDamage;
+}
