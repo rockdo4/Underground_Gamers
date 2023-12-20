@@ -9,6 +9,14 @@ public class GameRuleManager : MonoBehaviour
     public List<CharacterStatus> pcBuildings;
     public List<CharacterStatus> npcBuildings;
 
+    public GameType gameType;
+    private int pcWinEvidenceCount = 0;
+    private int npcWinEvidenceCount = 0;
+    private int winningCount = 1;
+
+    public List<WinEvidence> pcWinEvidences = new List<WinEvidence>();
+    public List<WinEvidence> npcWinEvidences = new List<WinEvidence>();
+
     public void ReleaseBuilding(TeamIdentifier building)
     {
         var buildingStatus = building.GetComponent<CharacterStatus>();
@@ -35,22 +43,82 @@ public class GameRuleManager : MonoBehaviour
         foreach (CharacterStatus building in pcBuildings)
         {
             pcTotalHp += building.Hp;
-        }        
-        
+        }
+
         foreach (CharacterStatus building in npcBuildings)
         {
             npcTotalHp += building.Hp;
         }
 
-        if(pcRemainedCount > npcRemainedCount)
+        if (pcRemainedCount > npcRemainedCount)
         {
             return true;
         }
-        else if(pcRemainedCount < npcRemainedCount)
+        else if (pcRemainedCount < npcRemainedCount)
         {
             return false;
         }
 
         return pcTotalHp >= npcTotalHp;
+    }
+    public void SetGameType(GameType gameType)
+    {
+        this.gameType = gameType;
+        winningCount = this.gameType switch
+        {
+            GameType.Story => 1,
+            GameType.Official => 2,
+            GameType.Scrimmage => 1,
+            _ => 1
+        };
+
+        switch (gameType)
+        {
+            case GameType.Story:
+                SetActiveWinEvidence(false);
+                break;
+            case GameType.Official:
+                SetActiveWinEvidence(true);
+                break;
+            case GameType.Scrimmage:
+                SetActiveWinEvidence(false);
+                break;
+        }
+    }
+
+    public int GetWinEvidence(bool isPlayerWin)
+    {
+        if (isPlayerWin)
+        {
+            FillWinEvidence(pcWinEvidences, ++pcWinEvidenceCount);
+            return pcWinEvidenceCount;
+        }
+        else
+        {
+            FillWinEvidence(npcWinEvidences, ++npcWinEvidenceCount);
+            return npcWinEvidenceCount;
+        }
+    }
+
+    public bool IsGameWin(bool isPlayerWin, int winEvidenceCount)
+    {
+        return winningCount <= winEvidenceCount;
+    }
+
+    public void SetActiveWinEvidence(bool isActive)
+    {
+        foreach (var evidence in pcWinEvidences)
+        {
+            evidence.SetActiveWinEvidence(isActive);
+        }
+        foreach (var evidence in npcWinEvidences)
+        {
+            evidence.SetActiveWinEvidence(isActive);
+        }
+    }
+
+    public void FillWinEvidence(List<WinEvidence> winEvidences, int winEvidenceCount)
+    {
+        winEvidences[winEvidenceCount - 1].FillWinEvidence(true);
     }
 }

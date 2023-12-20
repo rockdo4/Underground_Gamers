@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
             endTimer = Time.time;
         }
 
+        // 타임 아웃 기준
         if (IsTimeOut)
         {
             if (gameRuleManager.IsPlayerWinByTimeOut())
@@ -80,6 +81,7 @@ public class GameManager : MonoBehaviour
                 EndGame();
         }
 
+        // 넥서스 파괴 기준
         if (!IsPlaying && !IsTimeOut)
         {
             if (endTimer + endTime < Time.time && !IsGameEnd)
@@ -108,12 +110,18 @@ public class GameManager : MonoBehaviour
             gameEndPannel.winText.gameObject.SetActive(true);
             gameEndPannel.LoseText.gameObject.SetActive(false);
             GameInfo.instance.WinReward();
-
         }
         else
         {
             gameEndPannel.winText.gameObject.SetActive(false);
             gameEndPannel.LoseText.gameObject.SetActive(true);
+        }
+
+        // 징표 얻기, 승수 검사
+        int winEvidenceCount =  gameRuleManager.GetWinEvidence(IsPlayerWin);
+        if(gameRuleManager.IsGameWin(IsPlayerWin, winEvidenceCount))
+        {
+            Debug.Log("게임 종료!");
         }
 
         // 게임 업데이트가 멈추는데 멈춰도 되는가 생각

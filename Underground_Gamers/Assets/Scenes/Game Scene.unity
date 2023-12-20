@@ -4665,7 +4665,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2321944647398718941, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
       propertyPath: m_Name
-      value: WinEvidence
+      value: NPCWinEvidence
       objectReference: {fileID: 0}
     - target: {fileID: 3507953887620239237, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
       propertyPath: m_Pivot.x
@@ -4757,6 +4757,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3507953887620239237, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
   m_PrefabInstance: {fileID: 528114887}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &528114889 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2982317124686209562, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
+  m_PrefabInstance: {fileID: 528114887}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defefae599eedcf4f821d8714e95f6cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &533930076 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2121014546713533751, guid: 1399f821cdb48924891179b10977624a, type: 3}
@@ -15738,9 +15749,9 @@ RectTransform:
   - {fileID: 120779132}
   - {fileID: 779668320}
   - {fileID: 1318832537}
-  - {fileID: 1204276942}
   - {fileID: 1314176038}
   - {fileID: 880383621}
+  - {fileID: 1204276942}
   - {fileID: 1135352526}
   - {fileID: 658695673}
   - {fileID: 1377797580}
@@ -16025,7 +16036,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2321944647398718941, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
       propertyPath: m_Name
-      value: WinEvidence
+      value: NPCWinEvidence
       objectReference: {fileID: 0}
     - target: {fileID: 3507953887620239237, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
       propertyPath: m_Pivot.x
@@ -16117,6 +16128,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3507953887620239237, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
   m_PrefabInstance: {fileID: 976982436}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &976982438 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2982317124686209562, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
+  m_PrefabInstance: {fileID: 976982436}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defefae599eedcf4f821d8714e95f6cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &982551998
 GameObject:
   m_ObjectHideFlags: 0
@@ -23521,6 +23543,13 @@ MonoBehaviour:
   - {fileID: 2021037215}
   - {fileID: 424691265}
   - {fileID: 1624577067}
+  gameType: 0
+  pcWinEvidences:
+  - {fileID: 5086747661168922802}
+  - {fileID: 2057340899}
+  npcWinEvidences:
+  - {fileID: 528114889}
+  - {fileID: 976982438}
 --- !u!1 &1681431199 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3165360515244783505, guid: 1399f821cdb48924891179b10977624a, type: 3}
@@ -26788,7 +26817,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2321944647398718941, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
       propertyPath: m_Name
-      value: WinEvidence
+      value: PCWinEvidence
       objectReference: {fileID: 0}
     - target: {fileID: 3507953887620239237, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
       propertyPath: m_Pivot.x
@@ -26880,6 +26909,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3507953887620239237, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
   m_PrefabInstance: {fileID: 2057340897}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2057340899 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2982317124686209562, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
+  m_PrefabInstance: {fileID: 2057340897}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defefae599eedcf4f821d8714e95f6cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2060095268 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7029965532408056354, guid: c79709f23ede3124b92521b4de19f175, type: 3}
@@ -27861,7 +27901,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2321944647398718941, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
       propertyPath: m_Name
-      value: WinEvidence
+      value: PCWinEvidence
       objectReference: {fileID: 0}
     - target: {fileID: 3507953887620239237, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
       propertyPath: m_Pivot.x
@@ -27948,6 +27988,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
+--- !u!114 &5086747661168922802 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2982317124686209562, guid: 8fb8c9b5f1fab874e97bcb9652744a2c, type: 3}
+  m_PrefabInstance: {fileID: 5086747661168922801}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defefae599eedcf4f821d8714e95f6cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6408892601051904914
 PrefabInstance:
   m_ObjectHideFlags: 0

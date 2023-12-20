@@ -13,6 +13,8 @@ public class PlayerMaker : MonoBehaviour
             gameManager.settingAIID.SetAIIDs();
             gameManager.entryManager.SetEntry();
             gameManager.IsStart = false;
+            gameManager.gameRuleManager.SetGameType(GameInfo.instance.gameType);
+            gameManager.gameRuleManager.SetGameType(GameType.Official);
         }
     }
 }
