@@ -9,11 +9,12 @@ public class GameManager : MonoBehaviour
     public bool IsPlaying { get; set; }
     public bool IsTimeOut { get; set; }
     public bool IsPaused { get; set; }
-    public bool IsPlayerWin { get; set; }
+    public bool IsRoundWin { get; set; }
     public bool IsGameWin { get; set; } = false;
     public bool IsJudgement { get; set; } = false;
     public bool IsStart { get; set; } = false;
     public bool IsGameEnd = false;
+    public bool IsRoundEnd = false;
 
     [Header("메니저 캐싱")]
     public AIManager aiManager;
@@ -70,29 +71,29 @@ public class GameManager : MonoBehaviour
         // 타임 아웃 기준
         if (IsTimeOut)
         {
-            if(!IsJudgement)
+            if (!IsJudgement)
             {
                 IsJudgement = true;
                 if (gameRuleManager.IsPlayerWinByTimeOut())
                 {
-                    IsPlayerWin = true;
+                    IsRoundWin = true;
                 }
                 else
                 {
-                    IsPlayerWin = false;
+                    IsRoundWin = false;
                 }
 
                 GetWinner();
             }
 
-            if (endTimer + endTime < Time.time && !IsGameEnd)
+            if (endTimer + endTime < Time.time && !IsRoundEnd)
                 EndGame();
         }
 
         // 넥서스 파괴 기준
         if (!IsPlaying && !IsTimeOut)
         {
-            if (endTimer + endTime < Time.time && !IsGameEnd)
+            if (endTimer + endTime < Time.time && !IsRoundEnd)
                 EndGame();
         }
     }
@@ -100,10 +101,18 @@ public class GameManager : MonoBehaviour
     // 징표 얻기, 승수 검사
     public void GetWinner()
     {
-        int winEvidenceCount = gameRuleManager.GetWinEvidence(IsPlayerWin);
-        if (gameRuleManager.IsGameWin(IsPlayerWin, winEvidenceCount))
+        int winEvidence = gameRuleManager.GetWinEvidence(IsRoundWin);
+        gameRuleManager.GetWinEvidence(IsRoundWin);
+        if (IsRoundWin && winEvidence >= gameRuleManager.WinningCount)
         {
             IsGameWin = true;
+            IsGameEnd = true;
+            Debug.Log("게임 종료!");
+        }
+        if(!IsRoundWin && winEvidence >= gameRuleManager.WinningCount) 
+        {
+            IsGameWin = false;
+            IsGameEnd = true;
             Debug.Log("게임 종료!");
         }
     }
@@ -114,6 +123,7 @@ public class GameManager : MonoBehaviour
         IsStart = false;
         IsPlaying = true;
         IsTimeOut = false;
+        IsRoundEnd = false;
         IsGameEnd = false;
         IsGameWin = false;
         IsJudgement = false;
@@ -124,10 +134,10 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        IsRoundEnd = true;
         IsStart = false;
-        IsGameEnd = true;
         IsPlaying = false;
-        if (IsPlayerWin)
+        if (IsRoundWin)
         {
             gameEndPannel.winText.gameObject.SetActive(true);
             gameEndPannel.LoseText.gameObject.SetActive(false);

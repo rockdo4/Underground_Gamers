@@ -16,6 +16,7 @@ public class GameEndPannel : MonoBehaviour
     public GameObject damageGraphPanel;
     public GameObject nextRoundButton;
     public GameObject okButton;
+    public GameObject endRoundButton;
 
     public Transform rewardParent;
     public Transform damageGraphParent;
@@ -30,7 +31,7 @@ public class GameEndPannel : MonoBehaviour
     public void OnGameEndPanel()
     {
         gameObject.SetActive(true);
-        if (gameManager.IsGameWin)
+        if (gameManager.gameRuleManager.WinningCount == 1)
         {
             OffDamageGraph();
             OnRewardPanel();
@@ -113,18 +114,25 @@ public class GameEndPannel : MonoBehaviour
         gameManager.entryManager.RefreshSelectLineButton();
     }
 
+    public void EndRound()
+    {
+        GamePlayerInfo.instance.CalculateOfficialPlayer(gameManager.IsGameWin, 
+            gameManager.gameRuleManager.PCWinEvidenceCount, 
+            gameManager.gameRuleManager.NPCWinEvidenceCount);
+        SceneManager.LoadScene("Lobby Scene");
+    }
+
     public void OffGameEndPanel()
     {
         gameObject.SetActive(false);
     }
 
-
-
     public void OnDamageGraph()
     {
         damageGraphPanel.SetActive(true);
-        SetActiveDamageOkButton(gameManager.IsGameWin);
-        SetActiveDamageNextRoundButton(!gameManager.IsGameWin);
+        SetActiveDamageOkButton(gameManager.gameRuleManager.WinningCount == 1);
+        SetActiveDamageNextRoundButton(!gameManager.IsGameEnd && gameManager.gameRuleManager.WinningCount != 1);
+        SetActiveDamageEndRoundButton(gameManager.IsGameEnd && gameManager.gameRuleManager.WinningCount != 1);
     }
 
     public void OnRewardPanel()
@@ -143,6 +151,10 @@ public class GameEndPannel : MonoBehaviour
     public void SetActiveDamageNextRoundButton(bool isActive)
     {
         nextRoundButton.SetActive(isActive);
+    }
+    public void SetActiveDamageEndRoundButton(bool isActive)
+    {
+        endRoundButton.SetActive(!isActive);
     }
 
     public void OffRewardPanel()
