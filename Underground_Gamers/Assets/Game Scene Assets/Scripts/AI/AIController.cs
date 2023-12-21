@@ -331,7 +331,9 @@ public class AIController : MonoBehaviour
             gameManager.npcManager.SelectLineByInit(this);
         //point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
         //missionTarget = point;
-        MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
+
+        // ¿”Ω√ ≤®µ“
+        //MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
 
         //outlinable = spum.AddComponent<Outlinable>();
         //outlinable.AddAllChildRenderersToRenderingList();
@@ -457,6 +459,11 @@ public class AIController : MonoBehaviour
 
     public void SetMissionTarget(Transform target)
     {
+        Building prevBuilding = this.missionTarget.GetComponent<Building>();
+        if(prevBuilding != null)
+        {
+            prevBuilding.ReleaseAIController(this);
+        }
         this.missionTarget = target;
         Building building = null;
         if (isAttack)

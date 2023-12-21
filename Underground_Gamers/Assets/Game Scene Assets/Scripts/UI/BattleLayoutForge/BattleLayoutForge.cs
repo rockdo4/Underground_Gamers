@@ -11,6 +11,15 @@ public class BattleLayoutForge : MonoBehaviour
         slots.Add(slot);
     }
 
+    public void ClearSlot()
+    {
+        foreach(var slot in slots)
+        {
+            slot.gameObject.SetActive(false);
+        }
+        slots.Clear();
+    }
+
     public List<DragBattleLayoutSlot> GetSlots()
     {
         return slots;

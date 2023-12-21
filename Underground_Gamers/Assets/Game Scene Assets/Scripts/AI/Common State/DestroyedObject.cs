@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class DestroyedObject : MonoBehaviour, IDestroyable
 {
+    private GameManager gameManager;
     public ParticleSystem particlePrefab;
     public ParticleSystem[] aiParticlePrefabs;
 
+    private void Awake()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
+
     public void DestoryObject(GameObject attacker)
     {
-        GameManager gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         //if (gameManager != null)
         //    return;
         CharacterStatus status = GetComponent<CharacterStatus>();

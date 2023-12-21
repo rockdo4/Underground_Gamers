@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Principal;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,6 +28,21 @@ public class GameEndPannel : MonoBehaviour
     private float maxDealtDamage = 0;
     private float maxTakenDamage = 0;
     private float maxHealAmount = 0;
+
+    public void ResetDamageGraph()
+    {
+        maxDealtDamage = 0;
+        maxTakenDamage = 0;
+        maxHealAmount = 0;
+    }
+
+    public void ResetTotalKillCount()
+    {
+        var npcKillCounttext = GameObject.FindGameObjectWithTag("NPC_Score").GetComponent<TMP_Text>();
+        npcKillCounttext.text = $"{0}";
+        var pcKillCounttext = GameObject.FindGameObjectWithTag("PC_Score").GetComponent<TMP_Text>();
+        pcKillCounttext.text = $"{0}";
+    }
 
     public void OnGameEndPanel()
     {
@@ -93,6 +109,7 @@ public class GameEndPannel : MonoBehaviour
             pc.damageGraph.DisplayDamges();
         }
     }
+
     public void EnterLobby()
     {
         SceneManager.LoadScene("Lobby Scene");
@@ -100,24 +117,48 @@ public class GameEndPannel : MonoBehaviour
 
     public void EnterNextRound()
     {
-        // AIManager에서 제거 
         // 빌딩 재건축 및, BuildingManger등록 
-        // GameRuleManager에 빌딩 등록 
+        // GameRuleManager에 빌딩 등록
+
+        // AIManager에서 제거 
         // SkillCoolTimeManager 비우기 시간 초기화, UI 신경쓰기
         // 엔트리 지정
+        // 기존 명령 패널 있는거 삭제 
+        // 캐릭터 제거 ResetAI
+
         // 게임 시간 리셋
-        // 기존 명령 패널 있는거 삭제
-        // 캐릭터 제거
+        // 킬로그 패널 지우기
+        // 이펙트 다 지우기
+        // 라인 매니저 생각하기, 안해도 될듯
+        // 킬스코어 초기화/ 건물 체력 리셋
+
         gameManager.aiManager.ResetAI();
-        gameManager.gameEndPannel.OffGameEndPanel();
+        gameManager.skillCoolTimeManager.ResetSkillCooldown();
+        gameManager.respawner.ClearRespawn();
+        gameManager.commandManager.ResetCommandInfo();
+        gameManager.buildingManager.ResetBuildings();
+
+        // Time.timeScale =1f 신경쓰기
+        gameManager.PlayingGame();
+        ResetDamageGraph();
+        ResetTotalKillCount();
+
+        // PlayingGame안에서 처리
+        //gameManager.gameEndPannel.OffGameEndPanel();
+        GameInfo.instance.MakePlayers();
+        gameManager.settingAIID.SetAIIDs();
+        gameManager.entryManager.ResetEntry();
+
         gameManager.battleLayoutForge.SetActiveBattleLayoutForge(true);
         gameManager.entryManager.RefreshSelectLineButton();
+        gameManager.lineManager.ResetAllLines();
     }
 
     public void EndRound()
     {
-        GamePlayerInfo.instance.CalculateOfficialPlayer(gameManager.IsGameWin, 
-            gameManager.gameRuleManager.PCWinEvidenceCount, 
+        gameManager.aiManager.ResetAI();
+        GamePlayerInfo.instance.CalculateOfficialPlayer(gameManager.IsGameWin,
+            gameManager.gameRuleManager.PCWinEvidenceCount,
             gameManager.gameRuleManager.NPCWinEvidenceCount);
         SceneManager.LoadScene("Lobby Scene");
     }
@@ -131,8 +172,8 @@ public class GameEndPannel : MonoBehaviour
     {
         damageGraphPanel.SetActive(true);
         SetActiveDamageOkButton(gameManager.gameRuleManager.WinningCount == 1);
-        SetActiveDamageNextRoundButton(!gameManager.IsGameEnd && gameManager.gameRuleManager.WinningCount != 1);
-        SetActiveDamageEndRoundButton(gameManager.IsGameEnd && gameManager.gameRuleManager.WinningCount != 1);
+        SetActiveDamageNextRoundButton(!gameManager.IsRoundEnd && gameManager.gameRuleManager.WinningCount != 1);
+        SetActiveDamageEndRoundButton(gameManager.IsRoundEnd && gameManager.gameRuleManager.WinningCount != 1);
     }
 
     public void OnRewardPanel()
@@ -154,7 +195,7 @@ public class GameEndPannel : MonoBehaviour
     }
     public void SetActiveDamageEndRoundButton(bool isActive)
     {
-        endRoundButton.SetActive(!isActive);
+        endRoundButton.SetActive(isActive);
     }
 
     public void OffRewardPanel()

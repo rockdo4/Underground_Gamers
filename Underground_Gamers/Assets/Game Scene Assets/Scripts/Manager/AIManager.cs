@@ -32,6 +32,18 @@ public class AIManager : MonoBehaviour
         }
     }
 
+    public void ResetAIStatus()
+    {
+        foreach(AIController controller in pc)
+        {
+            controller.status.ResetStatus();
+        }
+        foreach(AIController controller in npc)
+        {
+            controller.status.ResetStatus();
+        }
+    }
+
     public void ResetAIState()
     {
         foreach (AIController controller in pc)
@@ -70,8 +82,20 @@ public class AIManager : MonoBehaviour
             controller.canvas.SetClassIcon(controller.status.aiClass);
         }
     }
+    public void SetActiveOffAI()
+    {
+        foreach (var ai in pc)
+        {
+            ai.gameObject.SetActive(false);
+        }        
+        foreach (var ai in npc)
+        {
+            ai.gameObject.SetActive(false);
+        }
+    }
     public void ResetAI()
     {
+        SetActiveOffAI();
         pc.Clear();
         npc.Clear();
     }

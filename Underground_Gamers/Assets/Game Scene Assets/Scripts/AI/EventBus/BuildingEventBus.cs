@@ -15,7 +15,8 @@ public class BuildingEventBus : MonoBehaviour
 
         if (events.TryGetValue(transform, out thisEvent))
         {
-            thisEvent.AddListener(action);
+            return;
+            //thisEvent.AddListener(action);
         }
         else
         {

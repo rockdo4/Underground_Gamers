@@ -28,7 +28,7 @@ public class DragBattleLayoutSlot : DragSlot
     public override void OnBeginDrag(PointerEventData eventData)
     {
         List<DragBattleLayoutSlot> slots = battleLayoutForge.GetSlots();
-        foreach(DragBattleLayoutSlot slot in slots)
+        foreach (DragBattleLayoutSlot slot in slots)
         {
             slot.SetActiveAllRayCast(false);
         }
@@ -56,20 +56,23 @@ public class DragBattleLayoutSlot : DragSlot
     public void SetActiveAllRayCast(bool isActive)
     {
         var images = GetComponentsInChildren<Image>();
-        foreach(Image image in images)
+        foreach (Image image in images)
         {
             image.raycastTarget = isActive;
         }
-    } 
+    }
 
-    public void MatchAI(AIController ai)
+    public void MatchAI(AIController ai, GameManager gameManager)
     {
         this.AI = ai;
-        ghostImage = Instantiate(ghostImagePrefab, uiCanvas);
+        this.battleLayoutForge = gameManager.battleLayoutForge;
+        this.gameManager = gameManager;
+        this.gameManager.uiCanvas = gameManager.uiCanvas;
+        ghostImage = Instantiate(ghostImagePrefab, this.gameManager.uiCanvas);
         ghostImage.SetGhostImage(AI.status.illustration);
         ghostImage.SetActiveGhostImage(false);
-        battleLayoutForge.AddSlot(this);
-        RegistEntry(gameManager.entryManager.NoneEntryAI);
+        this.battleLayoutForge.AddSlot(this);
+        RegistEntry(this.gameManager.entryManager.NoneEntryAI);
     }
 
     public void MatchPortrait()

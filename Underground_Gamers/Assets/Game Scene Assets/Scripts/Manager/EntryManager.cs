@@ -15,25 +15,23 @@ public class EntryManager : MonoBehaviour
     private List<AIController> bottomDefendEntryAI = new List<AIController>();
     public List<AIController> NoneEntryAI { get; private set; } = new List<AIController>();
 
-    public void InitEntry()
+    public void ResetEntry()
     {
         foreach (var ai in gameManager.aiManager.pc)
         {
             DragBattleLayoutSlot slot = Instantiate(slotPrefab, entryPanel);
-            slot.MatchAI(ai);
+            slot.MatchAI(ai, gameManager);
             slot.MatchPortrait();
-            Debug.Log(ai.aiIndex);
             battleLayoutForge.AddSlot(slot);
         }
 
-        gameManager.entryManager.RefreshSelectLineButton();
+        RefreshSelectLineButton();
         Time.timeScale = 0f;
     }
 
     public void SetEntry()
     {
-
-        gameManager.entryManager.RefreshSelectLineButton();
+        RefreshSelectLineButton();
     }
 
     public void SetAIEntry(Line line, bool isAttack, DragBattleLayoutSlot slot)
