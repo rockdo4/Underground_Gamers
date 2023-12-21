@@ -46,7 +46,7 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         if (attack.Damage >= 0)
             attackerStatus.dealtDamage += attack.Damage;
         else
-            attackerStatus.healAmount += attack.Damage;
+            attackerStatus.healAmount -= attack.Damage;
 
         // 반격, 수정
         if (defenderController != null/* && controller.battleTarget == null*/)

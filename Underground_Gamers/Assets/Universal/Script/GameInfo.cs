@@ -71,7 +71,6 @@ public class GameInfo : MonoBehaviour
 
     public void MakePlayers()
     {
-        StartGame();
         GamePlayerInfo.instance.isOnSchedule = false;
         var stateDefines = DataTableManager.instance.stateDef;
         
@@ -141,7 +140,6 @@ public class GameInfo : MonoBehaviour
             stat.detectionRange = pt.CalculateCurrStats(playerInfo.detectionRange, player.level);
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
-            stat.ai = madePlayerCharactor;
             stat.illustration = pt.GetPlayerSprite(playerInfo.code);
             stat.aiClass = pt.playerTypeSprites[playerInfo.type - 1];
             stat.grade = pt.starsSprites[playerInfo.grade - 3];

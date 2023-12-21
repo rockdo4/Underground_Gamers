@@ -15,7 +15,7 @@ public class EntryManager : MonoBehaviour
     private List<AIController> bottomDefendEntryAI = new List<AIController>();
     public List<AIController> NoneEntryAI { get; private set; } = new List<AIController>();
 
-    public void SetEntry()
+    public void InitEntry()
     {
         foreach (var ai in gameManager.aiManager.pc)
         {
@@ -25,7 +25,15 @@ public class EntryManager : MonoBehaviour
             Debug.Log(ai.aiIndex);
             battleLayoutForge.AddSlot(slot);
         }
+
+        gameManager.entryManager.RefreshSelectLineButton();
         Time.timeScale = 0f;
+    }
+
+    public void SetEntry()
+    {
+
+        gameManager.entryManager.RefreshSelectLineButton();
     }
 
     public void SetAIEntry(Line line, bool isAttack, DragBattleLayoutSlot slot)
@@ -88,4 +96,15 @@ public class EntryManager : MonoBehaviour
         }
     }
 
+    public void RefreshSelectLineButton()
+    {
+        if (NoneEntryAI.Count == 0)
+        {
+            gameManager.battleLayoutForge.SetActiveSelectLineButton(true);
+        }
+        else
+        {
+            gameManager.battleLayoutForge.SetActiveSelectLineButton(false);
+        }
+    }
 }

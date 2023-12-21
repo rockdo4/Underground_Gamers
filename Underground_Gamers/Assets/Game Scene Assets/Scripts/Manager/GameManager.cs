@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public bool IsTimeOut { get; set; }
     public bool IsPaused { get; set; }
     public bool IsPlayerWin { get; set; }
+    public bool IsGameWin { get; set; } = false;
+    public bool IsJudgement { get; set; } = false;
     public bool IsStart { get; set; } = false;
     public bool IsGameEnd = false;
 
@@ -68,13 +70,19 @@ public class GameManager : MonoBehaviour
         // 타임 아웃 기준
         if (IsTimeOut)
         {
-            if (gameRuleManager.IsPlayerWinByTimeOut())
+            if(!IsJudgement)
             {
-                IsPlayerWin = true;
-            }
-            else
-            {
-                IsPlayerWin = false;
+                IsJudgement = true;
+                if (gameRuleManager.IsPlayerWinByTimeOut())
+                {
+                    IsPlayerWin = true;
+                }
+                else
+                {
+                    IsPlayerWin = false;
+                }
+
+                GetWinner();
             }
 
             if (endTimer + endTime < Time.time && !IsGameEnd)
@@ -89,12 +97,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 징표 얻기, 승수 검사
+    public void GetWinner()
+    {
+        int winEvidenceCount = gameRuleManager.GetWinEvidence(IsPlayerWin);
+        if (gameRuleManager.IsGameWin(IsPlayerWin, winEvidenceCount))
+        {
+            IsGameWin = true;
+            Debug.Log("게임 종료!");
+        }
+    }
+
+    // 라운드 재시작시 실행
     public void PlayingGame()
     {
         IsStart = false;
         IsPlaying = true;
         IsTimeOut = false;
         IsGameEnd = false;
+        IsGameWin = false;
+        IsJudgement = false;
         gameEndPannel.OffGameEndPanel();
         Time.timeScale = 1f;
         gameTimer = gameTime;
@@ -115,13 +137,6 @@ public class GameManager : MonoBehaviour
         {
             gameEndPannel.winText.gameObject.SetActive(false);
             gameEndPannel.LoseText.gameObject.SetActive(true);
-        }
-
-        // 징표 얻기, 승수 검사
-        int winEvidenceCount =  gameRuleManager.GetWinEvidence(IsPlayerWin);
-        if(gameRuleManager.IsGameWin(IsPlayerWin, winEvidenceCount))
-        {
-            Debug.Log("게임 종료!");
         }
 
         // 게임 업데이트가 멈추는데 멈춰도 되는가 생각

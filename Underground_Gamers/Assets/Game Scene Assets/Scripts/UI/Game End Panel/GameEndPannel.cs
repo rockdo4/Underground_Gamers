@@ -12,7 +12,10 @@ public class GameEndPannel : MonoBehaviour
     public TextMeshProUGUI LoseText;
 
     public GameObject rewardPanel;
+    [Header("딜 그래프 패널")]
     public GameObject damageGraphPanel;
+    public GameObject nextRoundButton;
+    public GameObject okButton;
 
     public Transform rewardParent;
     public Transform damageGraphParent;
@@ -22,34 +25,39 @@ public class GameEndPannel : MonoBehaviour
 
     private float maxDealtDamage = 0;
     private float maxTakenDamage = 0;
+    private float maxHealAmount = 0;
 
     public void OnGameEndPanel()
     {
         gameObject.SetActive(true);
-        OnRewardPanel();
-        OffDamageGraph();
+        if (gameManager.IsGameWin)
+        {
+            OffDamageGraph();
+            OnRewardPanel();
+        }
+        else
+        {
+            OnDamageGraph();
+            OffRewardPanel();
+        }
         CreateAIReward();
         CreateDamageGraph();
     }
 
     public void CreateAIReward()
     {
-        foreach(var pc in gameManager.aiManager.pc)
+        foreach (var pc in gameManager.aiManager.pc)
         {
             AIReward aiReward = Instantiate(rewardPrefab, rewardParent);
             //이름
             aiReward.aiNameText.text = $"{pc.status.AIName}";
             aiReward.lvText.text = $"Lv. {pc.status.lv}";
-            aiReward.ai = pc.status.ai;
             aiReward.illustration.sprite = pc.status.illustration;
             aiReward.aiClass.sprite = pc.status.aiClass;
-            GameObject ai = Instantiate(aiReward.ai, aiReward.aiParent);
-            ai.transform.position = aiReward.aiPos.position;
-            ai.layer = LayerMask.NameToLayer("OverUI");
+            aiReward.grade.sprite = pc.status.grade;
         }
-    } 
-        
-    
+    }
+
     public void CreateDamageGraph()
     {
         foreach (var pc in gameManager.aiManager.pc)
@@ -60,23 +68,49 @@ public class GameEndPannel : MonoBehaviour
             damageGraph.illustration.sprite = pc.status.illustration;
             damageGraph.dealtDamage = pc.status.dealtDamage;
             damageGraph.takenDamage = pc.status.takenDamage;
+            damageGraph.healAmount = pc.status.healAmount;
 
-            if(maxDealtDamage < damageGraph.dealtDamage)
+            if (maxDealtDamage < damageGraph.dealtDamage)
             {
                 maxDealtDamage = damageGraph.dealtDamage;
-            }            
-            
-            if(maxTakenDamage < damageGraph.takenDamage)
+            }
+
+            if (maxTakenDamage < damageGraph.takenDamage)
             {
                 maxTakenDamage = damageGraph.takenDamage;
             }
+
+            if (maxHealAmount < damageGraph.healAmount)
+            {
+                maxHealAmount = damageGraph.healAmount;
+            }
         }
 
-        foreach(var pc in gameManager.aiManager.pc)
+        foreach (var pc in gameManager.aiManager.pc)
         {
-            pc.damageGraph.SetMaxDamages(maxDealtDamage, maxTakenDamage);
+            pc.damageGraph.SetMaxDamages(maxDealtDamage, maxTakenDamage, maxHealAmount);
             pc.damageGraph.DisplayDamges();
         }
+    }
+    public void EnterLobby()
+    {
+        SceneManager.LoadScene("Lobby Scene");
+    }
+
+    public void EnterNextRound()
+    {
+        // AIManager에서 제거 
+        // 빌딩 재건축 및, BuildingManger등록 
+        // GameRuleManager에 빌딩 등록 
+        // SkillCoolTimeManager 비우기 시간 초기화, UI 신경쓰기
+        // 엔트리 지정
+        // 게임 시간 리셋
+        // 기존 명령 패널 있는거 삭제
+        // 캐릭터 제거
+        gameManager.aiManager.ResetAI();
+        gameManager.gameEndPannel.OffGameEndPanel();
+        gameManager.battleLayoutForge.SetActiveBattleLayoutForge(true);
+        gameManager.entryManager.RefreshSelectLineButton();
     }
 
     public void OffGameEndPanel()
@@ -84,14 +118,13 @@ public class GameEndPannel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void EnterLobby()
-    {
-        SceneManager.LoadScene("Lobby Scene");
-    }
+
 
     public void OnDamageGraph()
     {
         damageGraphPanel.SetActive(true);
+        SetActiveDamageOkButton(gameManager.IsGameWin);
+        SetActiveDamageNextRoundButton(!gameManager.IsGameWin);
     }
 
     public void OnRewardPanel()
@@ -101,6 +134,15 @@ public class GameEndPannel : MonoBehaviour
     public void OffDamageGraph()
     {
         damageGraphPanel.SetActive(false);
+    }
+
+    public void SetActiveDamageOkButton(bool isActive)
+    {
+        okButton.SetActive(isActive);
+    }
+    public void SetActiveDamageNextRoundButton(bool isActive)
+    {
+        nextRoundButton.SetActive(isActive);
     }
 
     public void OffRewardPanel()

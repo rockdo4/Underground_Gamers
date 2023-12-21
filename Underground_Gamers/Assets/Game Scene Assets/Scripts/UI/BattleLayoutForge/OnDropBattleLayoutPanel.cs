@@ -26,14 +26,7 @@ public class OnDropBattleLayoutPanel : OnDropPanel
             child.transform.SetSiblingIndex(index);
         }
 
-        if(gameManager.entryManager.NoneEntryAI.Count == 0)
-        {
-            gameManager.battleLayoutForge.SetActiveSelectLineButton(true);
-        }
-        else
-        {
-            gameManager.battleLayoutForge.SetActiveSelectLineButton(false);
-        }
+        gameManager.entryManager.RefreshSelectLineButton();
     }
 
     private int CompareByAINum(DragBattleLayoutSlot a, DragBattleLayoutSlot b)

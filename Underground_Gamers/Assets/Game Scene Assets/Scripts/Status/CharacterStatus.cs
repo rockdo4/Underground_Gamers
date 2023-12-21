@@ -42,7 +42,6 @@ public class CharacterStatus : MonoBehaviour
     public float respawnTimeIncreaseRate;
 
     [Header("리워드 목록")]
-    public GameObject ai;
     public Sprite illustration;
     public Sprite aiClass;
     public int lv;
