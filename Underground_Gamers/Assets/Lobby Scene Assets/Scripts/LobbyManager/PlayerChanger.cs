@@ -98,11 +98,13 @@ public class PlayerChanger : MonoBehaviour
         {
             LobbySceneUIManager.instance.lobbyTopMenu.gameStartButton.interactable = true;
             LobbySceneUIManager.instance.lobbyTopMenu.officialGameStartButton.interactable = true;
+            LobbySceneUIManager.instance.lobbyTopMenu.scrimmageGameStartButton.interactable = true;
         }
         else
         {
             LobbySceneUIManager.instance.lobbyTopMenu.gameStartButton.interactable = false;
             LobbySceneUIManager.instance.lobbyTopMenu.officialGameStartButton.interactable = false;
+            LobbySceneUIManager.instance.lobbyTopMenu.scrimmageGameStartButton.interactable = false;
         }
     }
 

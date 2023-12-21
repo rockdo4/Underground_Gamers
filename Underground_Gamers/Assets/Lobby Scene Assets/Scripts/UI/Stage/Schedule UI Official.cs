@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ScheduleUIOfficial : ScheduleUISubscriber
@@ -113,5 +114,12 @@ public class ScheduleUIOfficial : ScheduleUISubscriber
             nextLeagueInfo[1].text = GamePlayerInfo.instance.officialTeamDatas[finalIndex - 1].name;
         }
 
+    }
+
+    public void StartGame()
+    {
+        GameInfo.instance.gameType = GameType.Official;
+
+        SceneManager.LoadScene("Game Scene");
     }
 }
