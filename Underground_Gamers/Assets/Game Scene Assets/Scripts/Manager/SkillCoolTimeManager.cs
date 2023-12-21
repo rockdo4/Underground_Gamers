@@ -63,4 +63,13 @@ public class SkillCoolTimeManager : MonoBehaviour
     {
         skillCooldowns.Add((controller, lastSkillTime));
     }
+
+    public void ResetSkillCooldown()
+    {
+        skillModeButton.DisplayCoolTimeFillImage(0f);
+        skillModeButton.DisplayCoolTimeText(0f);
+        skillModeButton.SetActiveCoolTimeFillImage(false);
+        skillModeButton.SetActiveCoolTimeText(false);
+        skillCooldowns.Clear();
+    }
 }

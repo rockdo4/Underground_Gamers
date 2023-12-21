@@ -15,7 +15,7 @@ public class EntryManager : MonoBehaviour
     private List<AIController> bottomDefendEntryAI = new List<AIController>();
     public List<AIController> NoneEntryAI { get; private set; } = new List<AIController>();
 
-    public void InitEntry()
+    public void ResetEntry()
     {
         foreach (var ai in gameManager.aiManager.pc)
         {
@@ -32,7 +32,6 @@ public class EntryManager : MonoBehaviour
 
     public void SetEntry()
     {
-
         gameManager.entryManager.RefreshSelectLineButton();
     }
 

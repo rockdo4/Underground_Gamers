@@ -225,4 +225,18 @@ public class CommandManager : MonoBehaviour
             info.statusInfo.SetActive(isActive);
         }
     }
+
+    public void SetActiveOffCommandInfo()
+    {
+        foreach (var info in commandInfos)
+        {
+            info.gameObject.SetActive(false);
+        }
+    }
+
+    public void ResetCommandInfo()
+    {
+        SetActiveOffCommandInfo();
+        commandInfos.Clear();
+    }
 }

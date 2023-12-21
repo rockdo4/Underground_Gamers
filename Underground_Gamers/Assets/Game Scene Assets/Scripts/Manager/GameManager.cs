@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public SkillModeButton skillModeButton;
     public SettingAIID settingAIID;
     public BattleLayoutForge battleLayoutForge;
+    public Respawner respawner;
 
     public float endTimer;
     public float endTime;
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
     // 징표 얻기, 승수 검사
     public void GetWinner()
     {
-         gameRuleManager.GetWinEvidence(IsRoundWin);
+         //gameRuleManager.GetWinEvidence(IsRoundWin);
         int winEvidence = gameRuleManager.GetWinEvidence(IsRoundWin);
         if (IsRoundWin && winEvidence >= gameRuleManager.WinningCount)
         {
@@ -109,6 +110,7 @@ public class GameManager : MonoBehaviour
             IsRoundEnd = true;
             Debug.Log("게임 종료!");
         }
+
         if(!IsRoundWin && winEvidence >= gameRuleManager.WinningCount) 
         {
             IsGameWin = false;

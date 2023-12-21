@@ -100,16 +100,31 @@ public class GameEndPannel : MonoBehaviour
 
     public void EnterNextRound()
     {
-        // AIManager에서 제거 
         // 빌딩 재건축 및, BuildingManger등록 
-        // GameRuleManager에 빌딩 등록 
+        // GameRuleManager에 빌딩 등록
+
+        // AIManager에서 제거 
         // SkillCoolTimeManager 비우기 시간 초기화, UI 신경쓰기
         // 엔트리 지정
+        // 기존 명령 패널 있는거 삭제 
+        // 캐릭터 제거 ResetAI
+
         // 게임 시간 리셋
-        // 기존 명령 패널 있는거 삭제
-        // 캐릭터 제거
+        // 킬로그 패널 지우기
+        // 이펙트 다 지우기
+        // 라인 매니저 생각하기, 안해도 될듯
+
         gameManager.aiManager.ResetAI();
-        gameManager.gameEndPannel.OffGameEndPanel();
+        gameManager.skillCoolTimeManager.ResetSkillCooldown();
+        gameManager.respawner.ClearRespawn();
+        gameManager.commandManager.ResetCommandInfo();
+        gameManager.buildingManager.ResetBuildings();
+
+        // Time.timeScale =1f 신경쓰기
+        gameManager.PlayingGame();
+
+        // PlayingGame안에서 처리
+        //gameManager.gameEndPannel.OffGameEndPanel();
         gameManager.battleLayoutForge.SetActiveBattleLayoutForge(true);
         gameManager.entryManager.RefreshSelectLineButton();
     }

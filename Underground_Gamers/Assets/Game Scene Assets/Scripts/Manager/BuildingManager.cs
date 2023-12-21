@@ -9,6 +9,11 @@ public class BuildingManager : MonoBehaviour
     public List<Transform> npcBottomLineBuildings;
     public List<Transform> npcTopLineBuildings;
 
+    public List<Transform> originPCBottomLineBuildings;
+    public List<Transform> originPCTopLineBuildings;
+    public List<Transform> originNPCBottomLineBuildings;
+    public List<Transform> originNPCTopLineBuildings;
+
     private void Awake()
     {
         SubScribeDestroyEvent(pcBottomLineBuildings);
@@ -16,6 +21,24 @@ public class BuildingManager : MonoBehaviour
         SubScribeDestroyEvent(npcBottomLineBuildings);
         SubScribeDestroyEvent(npcTopLineBuildings);
 
+        DisplayBuildingHP(pcBottomLineBuildings[0].GetComponent<Building>());
+        DisplayBuildingHP(pcTopLineBuildings[0].GetComponent<Building>());
+        DisplayBuildingHP(npcBottomLineBuildings[0].GetComponent<Building>());
+        DisplayBuildingHP(npcTopLineBuildings[0].GetComponent<Building>());
+    }
+
+    public void ResetBuildings()
+    {
+        // SetActive상태의 건물 넣어주기
+        pcBottomLineBuildings = originPCBottomLineBuildings;
+        pcTopLineBuildings = originPCTopLineBuildings;
+        npcBottomLineBuildings = originNPCBottomLineBuildings;
+        npcTopLineBuildings = originNPCTopLineBuildings;
+        DisplayBuildingHPByReset();
+    }
+
+    public void DisplayBuildingHPByReset()
+    {
         DisplayBuildingHP(pcBottomLineBuildings[0].GetComponent<Building>());
         DisplayBuildingHP(pcTopLineBuildings[0].GetComponent<Building>());
         DisplayBuildingHP(npcBottomLineBuildings[0].GetComponent<Building>());

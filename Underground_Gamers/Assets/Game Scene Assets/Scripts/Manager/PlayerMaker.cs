@@ -11,12 +11,13 @@ public class PlayerMaker : MonoBehaviour
         {
             // 선수 후보 선택 만들때 적용
             GameInfo.instance.StartGame();
+            gameManager.IsStart = false;
+
             // 라인 지정이 끝난후 이 함수 호출
             {
                 GameInfo.instance.MakePlayers();
                 gameManager.settingAIID.SetAIIDs();
-                gameManager.entryManager.InitEntry();
-                gameManager.IsStart = false;
+                gameManager.entryManager.ResetEntry();
                 gameManager.gameRuleManager.SetGameType(GameInfo.instance.gameType);
             }
         }

@@ -68,4 +68,10 @@ public class Respawner : MonoBehaviour
             }
         }
     }
+
+    public void ClearRespawn()
+    {
+        pcRespawnTimers.Clear();
+        npcRespawnTimers.Clear();
+    }
 }

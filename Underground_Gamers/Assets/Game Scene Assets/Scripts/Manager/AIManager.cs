@@ -70,8 +70,20 @@ public class AIManager : MonoBehaviour
             controller.canvas.SetClassIcon(controller.status.aiClass);
         }
     }
+    public void SetActiveOffAI()
+    {
+        foreach (var ai in pc)
+        {
+            ai.gameObject.SetActive(false);
+        }        
+        foreach (var ai in npc)
+        {
+            ai.gameObject.SetActive(false);
+        }
+    }
     public void ResetAI()
     {
+        SetActiveOffAI();
         pc.Clear();
         npc.Clear();
     }
