@@ -10,9 +10,9 @@ public class GameRuleManager : MonoBehaviour
     public List<CharacterStatus> npcBuildings;
 
     public GameType gameType;
-    private int pcWinEvidenceCount = 0;
-    private int npcWinEvidenceCount = 0;
-    private int winningCount = 1;
+    public int PCWinEvidenceCount { get; private set; } = 0;
+    public int NPCWinEvidenceCount { get; private set; } = 0;
+    public int WinningCount { get; private set; } = 1;
 
     public List<WinEvidence> pcWinEvidences = new List<WinEvidence>();
     public List<WinEvidence> npcWinEvidences = new List<WinEvidence>();
@@ -64,7 +64,7 @@ public class GameRuleManager : MonoBehaviour
     public void SetGameType(GameType gameType)
     {
         this.gameType = gameType;
-        winningCount = this.gameType switch
+        WinningCount = this.gameType switch
         {
             GameType.Story => 1,
             GameType.Official => 2,
@@ -90,19 +90,14 @@ public class GameRuleManager : MonoBehaviour
     {
         if (isPlayerWin)
         {
-            FillWinEvidence(pcWinEvidences, ++pcWinEvidenceCount);
-            return pcWinEvidenceCount;
+            FillWinEvidence(pcWinEvidences, ++PCWinEvidenceCount);
+            return PCWinEvidenceCount;
         }
         else
         {
-            FillWinEvidence(npcWinEvidences, ++npcWinEvidenceCount);
-            return npcWinEvidenceCount;
+            FillWinEvidence(npcWinEvidences, ++NPCWinEvidenceCount);
+            return NPCWinEvidenceCount;
         }
-    }
-
-    public bool IsGameWin(bool isPlayerWin, int winEvidenceCount)
-    {
-        return winningCount <= winEvidenceCount;
     }
 
     public void SetActiveWinEvidence(bool isActive)

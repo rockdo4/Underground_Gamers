@@ -19,11 +19,11 @@ public class DestroyedNexus : MonoBehaviour, IDestroyable
         {
             if (identity.teamLayer == LayerMask.GetMask("PC"))
             {
-                gameManager.IsPlayerWin = false;
+                gameManager.IsRoundWin = false;
             }
             else
             {
-                gameManager.IsPlayerWin = true;
+                gameManager.IsRoundWin = true;
             }
             gameManager.GetWinner();
         }

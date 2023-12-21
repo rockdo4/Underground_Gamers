@@ -748,7 +748,7 @@ public class GamePlayerInfo : MonoBehaviour
             int firstTeam = officialMatchInfo[officialWeekNum - 1, (2 * i)];
             int secondTeam = officialMatchInfo[officialWeekNum - 1, (2 * i) + 1];
 
-            if (firstTeam != 7 || secondTeam != 7)
+            if (firstTeam != 7 && secondTeam != 7)
             {
                 List<EnemyInfo> firstEnemies = enemyTeams[firstTeam];
                 List<EnemyInfo> secondEnemies = enemyTeams[secondTeam];
