@@ -26,6 +26,7 @@ public class SelectLine : MonoBehaviour
         gameManager.commandManager.CreateCommandUI();
         gameManager.aiManager.RegisterMissionTargetEvent();
         gameManager.aiManager.SetAICanvas();
+        gameManager.aiManager.ResetAIState();
     }
 
     public void SetActive(bool isActive)

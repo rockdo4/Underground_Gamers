@@ -18,7 +18,6 @@ public class PlayerMaker : MonoBehaviour
                 gameManager.entryManager.InitEntry();
                 gameManager.IsStart = false;
                 gameManager.gameRuleManager.SetGameType(GameInfo.instance.gameType);
-                gameManager.gameRuleManager.SetGameType(GameType.Official);
             }
         }
     }

@@ -31,20 +31,32 @@ public class AIManager : MonoBehaviour
             }
         }
     }
+
+    public void ResetAIState()
+    {
+        foreach (AIController controller in pc)
+        {
+            controller.SetState(States.Idle);
+        }
+        foreach (AIController controller in npc)
+        {
+            controller.SetState(States.Idle);
+        }
+    }
     public void RegisterMissionTargetEvent()
     {
         foreach (var controller in pc)
         {
             MissionTargetEventBus.Subscribe(controller.transform, controller.RefreshBuilding);
             controller.RefreshBuilding();
-            controller.SetState(States.Idle);
+            //controller.SetState(States.Idle);
         }
 
         foreach (var controller in npc)
         {
             MissionTargetEventBus.Subscribe(controller.transform, controller.RefreshBuilding);
             controller.RefreshBuilding();
-            controller.SetState(States.Idle);
+            //controller.SetState(States.Idle);
         }
     }
     public void SetAICanvas()
