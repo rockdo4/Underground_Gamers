@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyTopMenu : MonoBehaviour
@@ -13,6 +14,7 @@ public class LobbyTopMenu : MonoBehaviour
     public Button homeButton;
     public Button gameStartButton;
     public Button officialGameStartButton;
+    public Button scrimmageGameStartButton;
     public Stack<Action> functionStack = new Stack<Action>();
 
 
@@ -91,4 +93,5 @@ public class LobbyTopMenu : MonoBehaviour
         }
         functionStack.Pop();
     }
+
 }
