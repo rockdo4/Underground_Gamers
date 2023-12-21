@@ -242,6 +242,26 @@ public class SaveData
     public List<int> tradeCenter = new List<int>();
     public DateTime lastRecruitTime = DateTime.MinValue;
     public bool isInit = true;
+
+    public List<float> officialPlayers = new List<float>();
+    public string teamName = "드림팀";
+    public int playSpeed = 1;
+
+    //정규전
+    public bool isOnOfficial = false;
+    public int officialLevel = -1;
+    public List<EnemyInfo>[] enemyTeams = new List<EnemyInfo>[7];
+    public OfficialTeamData[] officialTeamDatas = new OfficialTeamData[8];
+    public OfficialPlayerData[] officialPlayerDatas = new OfficialPlayerData[8];
+    public int officialWeekNum = 0;
+    public int[,] officialMatchResult = new int[7, 8];
+    public string[,] officialFinalMatchResultName = new string[3, 2];
+    public int[,] officialFinalMatchResult = new int[3, 2];
+    public bool endScrimmage = false;
+
+    //스크리밍
+    public DateTime lastScrimmageTime = DateTime.MinValue;
+    public int scrimmageCount = 3;
 }
 
 public struct OfficialTeamData

@@ -119,7 +119,7 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
         selectedWeekNumber = index;
 
 
-        if (index != dayOfWeekNumber || GamePlayerInfo.instance.scrimmageCount <= 0)
+        if (index != dayOfWeekNumber || GamePlayerInfo.instance.scrimmageCount <= 0 || GamePlayerInfo.instance.cleardStage< minLevel[0])
         {
             foreach (var item in StartToggles)
             {

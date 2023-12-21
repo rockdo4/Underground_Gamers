@@ -51,6 +51,7 @@ public class GameInfo : MonoBehaviour
 
     public void StartGame()
     {
+        GamePlayerInfo.instance.SaveFile();
         switch (gameType)
         {
             case GameType.Story:
