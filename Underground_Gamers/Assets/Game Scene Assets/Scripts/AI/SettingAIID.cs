@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SettingAIID : MonoBehaviour
 {
-    public AIManager aiManager;
+    public GameManager gameManager;
     private List<Color> colors = new List<Color>();
     public float outlineWidth;
 
@@ -12,12 +12,16 @@ public class SettingAIID : MonoBehaviour
     {
         int pcID = 1;
         int npcID = 1;
-        colors.Add(new Color(0, 0, 1));
-        colors.Add(new Color(0, 1, 0));
-        colors.Add(new Color(1, 0.41f, 0.71f));
-        colors.Add(new Color(0.5f, 0, 0.5f));
-        colors.Add(new Color(1, 0.92f, 0.016f));
-        foreach (var ai in aiManager.pc)
+        // 한번만 실행해야한다.
+        if(!gameManager.IsStart)
+        {
+            colors.Add(new Color(0, 0, 1));
+            colors.Add(new Color(0, 1, 0));
+            colors.Add(new Color(1, 0.41f, 0.71f));
+            colors.Add(new Color(0.5f, 0, 0.5f));
+            colors.Add(new Color(1, 0.92f, 0.016f));
+        }
+        foreach (var ai in gameManager.aiManager.pc)
         {
             ai.aiType.outlineWidth = outlineWidth;
             ai.aiType.outlineColor = Color.white;
@@ -27,7 +31,7 @@ public class SettingAIID : MonoBehaviour
             //ai.aiType.text = $"PC{pcID++}";
             ai.aiType.text = ai.status.AIName;
         }
-        foreach (var ai in aiManager.npc)
+        foreach (var ai in gameManager.aiManager.npc)
         {
             ai.aiType.outlineWidth = outlineWidth;
             ai.aiType.outlineColor = Color.black;
@@ -37,6 +41,6 @@ public class SettingAIID : MonoBehaviour
             //ai.aiType.text = $"NPC{npcID++}";
             ai.aiType.text = ai.status.AIName;
         }
-
     }
+
 }

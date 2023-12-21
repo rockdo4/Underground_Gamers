@@ -20,4 +20,9 @@ public class BattleLayoutForge : MonoBehaviour
     {
         selectLineButton.SetActive(isActive);
     }
+
+    public void SetActiveBattleLayoutForge(bool isActive)
+    {
+        gameObject.SetActive(isActive);
+    }
 }

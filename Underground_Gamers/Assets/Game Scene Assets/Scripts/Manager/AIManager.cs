@@ -47,7 +47,6 @@ public class AIManager : MonoBehaviour
             controller.SetState(States.Idle);
         }
     }
-
     public void SetAICanvas()
     {
         foreach (var controller in pc)
@@ -58,5 +57,10 @@ public class AIManager : MonoBehaviour
         {
             controller.canvas.SetClassIcon(controller.status.aiClass);
         }
+    }
+    public void ResetAI()
+    {
+        pc.Clear();
+        npc.Clear();
     }
 }

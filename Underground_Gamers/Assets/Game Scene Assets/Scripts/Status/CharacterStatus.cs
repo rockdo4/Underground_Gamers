@@ -42,7 +42,6 @@ public class CharacterStatus : MonoBehaviour
     public float respawnTimeIncreaseRate;
 
     [Header("리워드 목록")]
-    public GameObject ai;
     public Sprite illustration;
     public Sprite aiClass;
     public int lv;
@@ -54,6 +53,7 @@ public class CharacterStatus : MonoBehaviour
     [Header("데미지 그래프")]
     public float dealtDamage;
     public float takenDamage;
+    public float healAmount;
 
     public bool IsLive { get; set; } = true;
     public int Hp { get; set; }

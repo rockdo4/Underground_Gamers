@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public bool IsTimeOut { get; set; }
     public bool IsPaused { get; set; }
     public bool IsPlayerWin { get; set; }
+    public bool IsGameWin { get; set; } = false;
+    public bool IsJudgement { get; set; } = false;
     public bool IsStart { get; set; } = false;
     public bool IsGameEnd = false;
 
@@ -65,21 +67,29 @@ public class GameManager : MonoBehaviour
             endTimer = Time.time;
         }
 
+        // 타임 아웃 기준
         if (IsTimeOut)
         {
-            if (gameRuleManager.IsPlayerWinByTimeOut())
+            if(!IsJudgement)
             {
-                IsPlayerWin = true;
-            }
-            else
-            {
-                IsPlayerWin = false;
+                IsJudgement = true;
+                if (gameRuleManager.IsPlayerWinByTimeOut())
+                {
+                    IsPlayerWin = true;
+                }
+                else
+                {
+                    IsPlayerWin = false;
+                }
+
+                GetWinner();
             }
 
             if (endTimer + endTime < Time.time && !IsGameEnd)
                 EndGame();
         }
 
+        // 넥서스 파괴 기준
         if (!IsPlaying && !IsTimeOut)
         {
             if (endTimer + endTime < Time.time && !IsGameEnd)
@@ -87,12 +97,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 징표 얻기, 승수 검사
+    public void GetWinner()
+    {
+        int winEvidenceCount = gameRuleManager.GetWinEvidence(IsPlayerWin);
+        if (gameRuleManager.IsGameWin(IsPlayerWin, winEvidenceCount))
+        {
+            IsGameWin = true;
+            Debug.Log("게임 종료!");
+        }
+    }
+
+    // 라운드 재시작시 실행
     public void PlayingGame()
     {
         IsStart = false;
         IsPlaying = true;
         IsTimeOut = false;
         IsGameEnd = false;
+        IsGameWin = false;
+        IsJudgement = false;
         gameEndPannel.OffGameEndPanel();
         Time.timeScale = 1f;
         gameTimer = gameTime;
@@ -108,7 +132,6 @@ public class GameManager : MonoBehaviour
             gameEndPannel.winText.gameObject.SetActive(true);
             gameEndPannel.LoseText.gameObject.SetActive(false);
             GameInfo.instance.WinReward();
-
         }
         else
         {

@@ -43,7 +43,10 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
 
         // 데미지 그래프 수치 적용
         defenderStatus.takenDamage += attack.Damage;
-        attackerStatus.dealtDamage += attack.Damage;
+        if (attack.Damage >= 0)
+            attackerStatus.dealtDamage += attack.Damage;
+        else
+            attackerStatus.healAmount -= attack.Damage;
 
         // 반격, 수정
         if (defenderController != null/* && controller.battleTarget == null*/)

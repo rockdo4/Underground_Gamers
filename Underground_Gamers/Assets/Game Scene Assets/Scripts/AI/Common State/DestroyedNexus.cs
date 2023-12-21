@@ -25,6 +25,7 @@ public class DestroyedNexus : MonoBehaviour, IDestroyable
             {
                 gameManager.IsPlayerWin = true;
             }
+            gameManager.GetWinner();
         }
         if (gameManager != null)
         {
