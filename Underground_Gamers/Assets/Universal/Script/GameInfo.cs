@@ -236,8 +236,7 @@ public class GameInfo : MonoBehaviour
             }
         }
 
-        aiManager.RegisterMissionTargetEvent();
-
+        players.Clear();
         switch (gameType)
         {
             case GameType.Story:
@@ -541,8 +540,7 @@ public class GameInfo : MonoBehaviour
             }
         }
 
-        aiManager.RegisterMissionTargetEvent();
-
+        this.enemys.Clear();
     }
 
     public void DeletePlayers()

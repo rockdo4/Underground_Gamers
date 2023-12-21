@@ -13,6 +13,10 @@ public class BattleLayoutForge : MonoBehaviour
 
     public void ClearSlot()
     {
+        foreach(var slot in slots)
+        {
+            slot.gameObject.SetActive(false);
+        }
         slots.Clear();
     }
 

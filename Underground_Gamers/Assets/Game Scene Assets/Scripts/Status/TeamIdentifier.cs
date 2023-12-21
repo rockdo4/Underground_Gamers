@@ -51,7 +51,6 @@ public class TeamIdentifier : MonoBehaviour
                 status.Hp += recoveryValue;
                 status.Hp = Mathf.Min(status.Hp, status.maxHp);
                 status.GetHp();
-                //Debug.Log($"{gameObject.name} : {status.Hp}");
             }
         }
     }

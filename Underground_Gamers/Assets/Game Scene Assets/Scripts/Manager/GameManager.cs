@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     public SettingAIID settingAIID;
     public BattleLayoutForge battleLayoutForge;
     public Respawner respawner;
+    public Transform uiCanvas;
+    public GameSpeedFactor gameSpeedFactor;
 
     public float endTimer;
     public float endTime;
@@ -94,6 +96,11 @@ public class GameManager : MonoBehaviour
         // 넥서스 파괴 기준
         if (!IsPlaying && !IsTimeOut)
         {
+            if (!IsJudgement)
+            {
+                IsJudgement = true;
+            }
+
             if (endTimer + endTime < Time.time && !IsGameEnd)
                 EndGame();
         }
@@ -102,20 +109,18 @@ public class GameManager : MonoBehaviour
     // 징표 얻기, 승수 검사
     public void GetWinner()
     {
-         //gameRuleManager.GetWinEvidence(IsRoundWin);
+        //gameRuleManager.GetWinEvidence(IsRoundWin);
         int winEvidence = gameRuleManager.GetWinEvidence(IsRoundWin);
         if (IsRoundWin && winEvidence >= gameRuleManager.WinningCount)
         {
             IsGameWin = true;
             IsRoundEnd = true;
-            Debug.Log("게임 종료!");
         }
 
-        if(!IsRoundWin && winEvidence >= gameRuleManager.WinningCount) 
+        if (!IsRoundWin && winEvidence >= gameRuleManager.WinningCount)
         {
             IsGameWin = false;
             IsRoundEnd = true;
-            Debug.Log("게임 종료!");
         }
     }
 

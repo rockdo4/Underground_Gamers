@@ -9,6 +9,14 @@ public class LineManager : MonoBehaviour
     public List<AIController> npcTopLiner = new List<AIController>();
     public List<AIController> npcBottomLiner = new List<AIController>();
 
+    public void ResetAllLines()
+    {
+        pcTopLiner.Clear();
+        pcBottomLiner.Clear();
+        npcTopLiner.Clear();
+        npcBottomLiner.Clear();
+    }
+
     public void JoiningLine(AIController ai)
     {
         List<AIController> liner = null;

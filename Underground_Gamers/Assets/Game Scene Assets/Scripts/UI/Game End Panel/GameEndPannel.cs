@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Principal;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,6 +28,21 @@ public class GameEndPannel : MonoBehaviour
     private float maxDealtDamage = 0;
     private float maxTakenDamage = 0;
     private float maxHealAmount = 0;
+
+    public void ResetDamageGraph()
+    {
+        maxDealtDamage = 0;
+        maxTakenDamage = 0;
+        maxHealAmount = 0;
+    }
+
+    public void ResetTotalKillCount()
+    {
+        var npcKillCounttext = GameObject.FindGameObjectWithTag("NPC_Score").GetComponent<TMP_Text>();
+        npcKillCounttext.text = $"{0}";
+        var pcKillCounttext = GameObject.FindGameObjectWithTag("PC_Score").GetComponent<TMP_Text>();
+        pcKillCounttext.text = $"{0}";
+    }
 
     public void OnGameEndPanel()
     {
@@ -93,6 +109,7 @@ public class GameEndPannel : MonoBehaviour
             pc.damageGraph.DisplayDamges();
         }
     }
+
     public void EnterLobby()
     {
         SceneManager.LoadScene("Lobby Scene");
@@ -113,6 +130,7 @@ public class GameEndPannel : MonoBehaviour
         // 킬로그 패널 지우기
         // 이펙트 다 지우기
         // 라인 매니저 생각하기, 안해도 될듯
+        // 킬스코어 초기화/ 건물 체력 리셋
 
         gameManager.aiManager.ResetAI();
         gameManager.skillCoolTimeManager.ResetSkillCooldown();
@@ -122,17 +140,25 @@ public class GameEndPannel : MonoBehaviour
 
         // Time.timeScale =1f 신경쓰기
         gameManager.PlayingGame();
+        ResetDamageGraph();
+        ResetTotalKillCount();
 
         // PlayingGame안에서 처리
         //gameManager.gameEndPannel.OffGameEndPanel();
+        GameInfo.instance.MakePlayers();
+        gameManager.settingAIID.SetAIIDs();
+        gameManager.entryManager.ResetEntry();
+
         gameManager.battleLayoutForge.SetActiveBattleLayoutForge(true);
         gameManager.entryManager.RefreshSelectLineButton();
+        gameManager.lineManager.ResetAllLines();
     }
 
     public void EndRound()
     {
-        GamePlayerInfo.instance.CalculateOfficialPlayer(gameManager.IsGameWin, 
-            gameManager.gameRuleManager.PCWinEvidenceCount, 
+        gameManager.aiManager.ResetAI();
+        GamePlayerInfo.instance.CalculateOfficialPlayer(gameManager.IsGameWin,
+            gameManager.gameRuleManager.PCWinEvidenceCount,
             gameManager.gameRuleManager.NPCWinEvidenceCount);
         SceneManager.LoadScene("Lobby Scene");
     }

@@ -20,19 +20,18 @@ public class EntryManager : MonoBehaviour
         foreach (var ai in gameManager.aiManager.pc)
         {
             DragBattleLayoutSlot slot = Instantiate(slotPrefab, entryPanel);
-            slot.MatchAI(ai);
+            slot.MatchAI(ai, gameManager);
             slot.MatchPortrait();
-            Debug.Log(ai.aiIndex);
             battleLayoutForge.AddSlot(slot);
         }
 
-        gameManager.entryManager.RefreshSelectLineButton();
+        RefreshSelectLineButton();
         Time.timeScale = 0f;
     }
 
     public void SetEntry()
     {
-        gameManager.entryManager.RefreshSelectLineButton();
+        RefreshSelectLineButton();
     }
 
     public void SetAIEntry(Line line, bool isAttack, DragBattleLayoutSlot slot)

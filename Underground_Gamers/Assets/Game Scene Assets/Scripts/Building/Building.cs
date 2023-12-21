@@ -12,6 +12,12 @@ public class Building : MonoBehaviour
     {
         aiControllers.Add(ai);
     }
+
+    public void ReleaseAIController(AIController ai)
+    {
+        aiControllers.Remove(ai);
+    }
+
     public void PublishMissionTargetEvent()
     {
         foreach (var controller in aiControllers)

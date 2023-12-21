@@ -13,7 +13,7 @@ public class SettingAIID : MonoBehaviour
         int pcID = 1;
         int npcID = 1;
         // 한번만 실행해야한다.
-        if(!gameManager.IsStart)
+        if (colors.Count == 0)
         {
             colors.Add(new Color(0, 0, 1));
             colors.Add(new Color(0, 1, 0));

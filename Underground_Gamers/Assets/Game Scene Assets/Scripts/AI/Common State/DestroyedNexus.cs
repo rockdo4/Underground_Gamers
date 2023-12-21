@@ -15,6 +15,8 @@ public class DestroyedNexus : MonoBehaviour, IDestroyable
 
     public void DestoryObject(GameObject attacker)
     {
+        if (gameManager.IsJudgement)
+            return;
         if (identity != null)
         {
             if (identity.teamLayer == LayerMask.GetMask("PC"))

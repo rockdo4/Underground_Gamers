@@ -21,12 +21,21 @@ public class SelectLine : MonoBehaviour
     {
         Time.timeScale = 1f;
         gameManager.IsStart = true;
+
+        //gameManager.gameRuleManager.SetGameType(GameInfo.instance.gameType);
+
+
+        // 기존 코드
         battleLayoutForgePanel.SetActive(false);
         gameManager.entryManager.EnterGameByEntry();
         gameManager.commandManager.CreateCommandUI();
         gameManager.aiManager.RegisterMissionTargetEvent();
         gameManager.aiManager.SetAICanvas();
+        gameManager.aiManager.ResetAIStatus();
         gameManager.aiManager.ResetAIState();
+        gameManager.battleLayoutForge.ClearSlot();
+        gameManager.buildingManager.DisplayBuildingHPByReset();
+        Time.timeScale = gameManager.gameSpeedFactor.currentTimeScale;
     }
 
     public void SetActive(bool isActive)

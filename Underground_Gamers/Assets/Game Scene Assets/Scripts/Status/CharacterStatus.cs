@@ -66,6 +66,18 @@ public class CharacterStatus : MonoBehaviour
         condition = 0;
     }
 
+    public void ResetStatus()
+    {
+        IsLive = true;
+        Hp = maxHp;
+        killCount = 0;
+        deathCount = 0;
+        condition = 0;
+        dealtDamage = 0;
+        takenDamage = 0;
+        healAmount = 0;
+    }
+
     public void Respawn()
     {
         AIController aiController = GetComponent<AIController>();
@@ -121,7 +133,7 @@ public class CharacterStatus : MonoBehaviour
         var aiCanvas = GetComponentInChildren<AICanvas>();
         if (aiCanvas != null)
         {
-            aiCanvas.hpBar.value = (float)Hp / (float)maxHp;
+             aiCanvas.hpBar.value = (float)Hp / (float)maxHp;
         }
 
         var controller = GetComponent<AIController>();

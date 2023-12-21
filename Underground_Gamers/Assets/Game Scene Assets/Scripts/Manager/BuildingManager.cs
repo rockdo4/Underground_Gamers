@@ -14,38 +14,86 @@ public class BuildingManager : MonoBehaviour
     public List<Transform> originNPCBottomLineBuildings;
     public List<Transform> originNPCTopLineBuildings;
 
+    public List<Transform> allBuildings;
+
     private void Awake()
     {
-        SubScribeDestroyEvent(pcBottomLineBuildings);
-        SubScribeDestroyEvent(pcTopLineBuildings);
-        SubScribeDestroyEvent(npcBottomLineBuildings);
-        SubScribeDestroyEvent(npcTopLineBuildings);
-
-        DisplayBuildingHP(pcBottomLineBuildings[0].GetComponent<Building>());
-        DisplayBuildingHP(pcTopLineBuildings[0].GetComponent<Building>());
-        DisplayBuildingHP(npcBottomLineBuildings[0].GetComponent<Building>());
-        DisplayBuildingHP(npcTopLineBuildings[0].GetComponent<Building>());
+        AllSubscribeDestroyEvent();
+        DisplayBuildingHPByReset();
     }
 
     public void ResetBuildings()
     {
         // SetActive상태의 건물 넣어주기
-        pcBottomLineBuildings = originPCBottomLineBuildings;
-        pcTopLineBuildings = originPCTopLineBuildings;
-        npcBottomLineBuildings = originNPCBottomLineBuildings;
-        npcTopLineBuildings = originNPCTopLineBuildings;
+        ResetLineBuildings();
+        ResetBuildingsStatus();
+        AllSubscribeDestroyEvent();
         DisplayBuildingHPByReset();
+    }
+
+    public void ResetLineBuildings()
+    {
+        pcBottomLineBuildings.Clear();
+        pcTopLineBuildings.Clear();
+        npcBottomLineBuildings.Clear();
+        npcTopLineBuildings.Clear();
+
+        foreach (Transform building in originPCBottomLineBuildings)
+        {
+            building.gameObject.SetActive(true);
+            pcBottomLineBuildings.Add(building);
+        }
+        foreach (Transform building in originPCTopLineBuildings)
+        {
+            building.gameObject.SetActive(true);
+            pcTopLineBuildings.Add(building);
+        }
+        foreach (Transform building in originNPCBottomLineBuildings)
+        {
+            building.gameObject.SetActive(true);
+            npcBottomLineBuildings.Add(building);
+        }
+        foreach (Transform building in originNPCTopLineBuildings)
+        {
+            building.gameObject.SetActive(true);
+            npcTopLineBuildings.Add(building);
+        }
+        //pcBottomLineBuildings = originPCBottomLineBuildings;
+        //pcTopLineBuildings = originPCTopLineBuildings;
+        //npcBottomLineBuildings = originNPCBottomLineBuildings;
+        //npcTopLineBuildings = originNPCTopLineBuildings;
+
     }
 
     public void DisplayBuildingHPByReset()
     {
-        DisplayBuildingHP(pcBottomLineBuildings[0].GetComponent<Building>());
-        DisplayBuildingHP(pcTopLineBuildings[0].GetComponent<Building>());
-        DisplayBuildingHP(npcBottomLineBuildings[0].GetComponent<Building>());
-        DisplayBuildingHP(npcTopLineBuildings[0].GetComponent<Building>());
+        DisplayBuildingHP(pcBottomLineBuildings[0].GetComponent<Building>(), true);
+        DisplayBuildingHP(pcTopLineBuildings[0].GetComponent<Building>(), true);
+        DisplayBuildingHP(npcBottomLineBuildings[0].GetComponent<Building>(), true);
+        DisplayBuildingHP(npcTopLineBuildings[0].GetComponent<Building>(), true);
+        DisplayBuildingHP(pcTopLineBuildings[1].GetComponent<Building>(), false);
+        DisplayBuildingHP(npcTopLineBuildings[1].GetComponent<Building>(), false);
     }
 
-    public void SubScribeDestroyEvent(List<Transform> buildings)
+    public void AllSubscribeDestroyEvent()
+    {
+        SubscribeDestroyEvent(pcBottomLineBuildings);
+        SubscribeDestroyEvent(pcTopLineBuildings);
+        SubscribeDestroyEvent(npcBottomLineBuildings);
+        SubscribeDestroyEvent(npcTopLineBuildings);
+    }
+
+    public void ResetBuildingsStatus()
+    {
+        foreach (var building in allBuildings)
+        {
+            building.gameObject.SetActive(true);
+            CharacterStatus buildingStatus = building.GetComponent<CharacterStatus>();
+            buildingStatus.ResetStatus();
+        }
+    }
+
+    public void SubscribeDestroyEvent(List<Transform> buildings)
     {
         for (int i = 0; i < buildings.Count - 1; ++i)
         {
@@ -207,11 +255,12 @@ public class BuildingManager : MonoBehaviour
 
         lineBuilding.Remove(lineBuilding[0]);
         if (lineBuilding[0] != null)
-            DisplayBuildingHP(lineBuilding[0].GetComponent<Building>());
+            DisplayBuildingHP(lineBuilding[0].GetComponent<Building>(), true);
     }
 
-    public void DisplayBuildingHP(Building building)
+    public void DisplayBuildingHP(Building building, bool isActive)
     {
-        building.hpBar.SetActive(true);
+        building.hpBar.SetActive(isActive);
+        building.GetComponent<CharacterStatus>().GetHp();
     }
 }

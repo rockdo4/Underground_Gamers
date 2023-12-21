@@ -32,6 +32,18 @@ public class AIManager : MonoBehaviour
         }
     }
 
+    public void ResetAIStatus()
+    {
+        foreach(AIController controller in pc)
+        {
+            controller.status.ResetStatus();
+        }
+        foreach(AIController controller in npc)
+        {
+            controller.status.ResetStatus();
+        }
+    }
+
     public void ResetAIState()
     {
         foreach (AIController controller in pc)
