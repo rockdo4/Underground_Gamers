@@ -131,8 +131,8 @@ public class GameEndPannel : MonoBehaviour
     {
         damageGraphPanel.SetActive(true);
         SetActiveDamageOkButton(gameManager.gameRuleManager.WinningCount == 1);
-        SetActiveDamageNextRoundButton(!gameManager.IsGameEnd && gameManager.gameRuleManager.WinningCount != 1);
-        SetActiveDamageEndRoundButton(gameManager.IsGameEnd && gameManager.gameRuleManager.WinningCount != 1);
+        SetActiveDamageNextRoundButton(!gameManager.IsRoundEnd && gameManager.gameRuleManager.WinningCount != 1);
+        SetActiveDamageEndRoundButton(gameManager.IsRoundEnd && gameManager.gameRuleManager.WinningCount != 1);
     }
 
     public void OnRewardPanel()
@@ -154,7 +154,7 @@ public class GameEndPannel : MonoBehaviour
     }
     public void SetActiveDamageEndRoundButton(bool isActive)
     {
-        endRoundButton.SetActive(!isActive);
+        endRoundButton.SetActive(isActive);
     }
 
     public void OffRewardPanel()

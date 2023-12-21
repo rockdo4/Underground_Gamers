@@ -86,14 +86,14 @@ public class GameManager : MonoBehaviour
                 GetWinner();
             }
 
-            if (endTimer + endTime < Time.time && !IsRoundEnd)
+            if (endTimer + endTime < Time.time && !IsGameEnd)
                 EndGame();
         }
 
         // 넥서스 파괴 기준
         if (!IsPlaying && !IsTimeOut)
         {
-            if (endTimer + endTime < Time.time && !IsRoundEnd)
+            if (endTimer + endTime < Time.time && !IsGameEnd)
                 EndGame();
         }
     }
@@ -101,18 +101,18 @@ public class GameManager : MonoBehaviour
     // 징표 얻기, 승수 검사
     public void GetWinner()
     {
+         gameRuleManager.GetWinEvidence(IsRoundWin);
         int winEvidence = gameRuleManager.GetWinEvidence(IsRoundWin);
-        gameRuleManager.GetWinEvidence(IsRoundWin);
         if (IsRoundWin && winEvidence >= gameRuleManager.WinningCount)
         {
             IsGameWin = true;
-            IsGameEnd = true;
+            IsRoundEnd = true;
             Debug.Log("게임 종료!");
         }
         if(!IsRoundWin && winEvidence >= gameRuleManager.WinningCount) 
         {
             IsGameWin = false;
-            IsGameEnd = true;
+            IsRoundEnd = true;
             Debug.Log("게임 종료!");
         }
     }
@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        IsRoundEnd = true;
+        IsGameEnd = true;
         IsStart = false;
         IsPlaying = false;
         if (IsRoundWin)
