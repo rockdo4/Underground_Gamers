@@ -191,11 +191,12 @@ public static class ToggleExtensions
 public struct StageInfo
 {
     public int code;
-    public int mapCode;
+    public string mapCode;
     public string name;
     public int type;
     public List<int> enemys;
     public List<int> rewards;
+    public int xp;
 }
 
 public struct EnemyInfo
