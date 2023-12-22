@@ -117,21 +117,6 @@ public class GameEndPannel : MonoBehaviour
 
     public void EnterNextRound()
     {
-        // 빌딩 재건축 및, BuildingManger등록 
-        // GameRuleManager에 빌딩 등록
-
-        // AIManager에서 제거 
-        // SkillCoolTimeManager 비우기 시간 초기화, UI 신경쓰기
-        // 엔트리 지정
-        // 기존 명령 패널 있는거 삭제 
-        // 캐릭터 제거 ResetAI
-
-        // 게임 시간 리셋
-        // 킬로그 패널 지우기
-        // 이펙트 다 지우기
-        // 라인 매니저 생각하기, 안해도 될듯
-        // 킬스코어 초기화/ 건물 체력 리셋
-
         gameManager.aiManager.ResetAI();
         gameManager.skillCoolTimeManager.ResetSkillCooldown();
         gameManager.respawner.ClearRespawn();
@@ -143,14 +128,10 @@ public class GameEndPannel : MonoBehaviour
         ResetDamageGraph();
         ResetTotalKillCount();
 
-        // PlayingGame안에서 처리
-        //gameManager.gameEndPannel.OffGameEndPanel();
-        GameInfo.instance.MakePlayers();
-        gameManager.settingAIID.SetAIIDs();
-        gameManager.entryManager.ResetEntry();
+        gameManager.entryPanel.SetActiveEntryPanel(true);
+        gameManager.entryPanel.SetPlayerEntrySlotAndBenchSlot();
 
-        gameManager.battleLayoutForge.SetActiveBattleLayoutForge(true);
-        gameManager.entryManager.RefreshSelectLineButton();
+        // NextRound 시 매번 되어야 함
         gameManager.lineManager.ResetAllLines();
     }
 

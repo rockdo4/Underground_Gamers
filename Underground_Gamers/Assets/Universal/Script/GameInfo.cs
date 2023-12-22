@@ -49,6 +49,19 @@ public class GameInfo : MonoBehaviour
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
     }
 
+    public void SetEntryPlayer(int[] entryIndex)
+    {
+        entryPlayer = new List<Player>()
+        {
+            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[0]),
+            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[1]),
+            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[2]),
+            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[3]),
+            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[4])
+        };
+        GamePlayerInfo.instance.SaveFile();
+    }
+
     public void StartGame()
     {
         GamePlayerInfo.instance.SaveFile();
@@ -59,14 +72,7 @@ public class GameInfo : MonoBehaviour
                 break;
             case GameType.Official:
                 {
-                    entryPlayer = new List<Player>
-                    {
-                        GamePlayerInfo.instance.GetOfficialPlayer(0),
-                        GamePlayerInfo.instance.GetOfficialPlayer(1),
-                        GamePlayerInfo.instance.GetOfficialPlayer(2),
-                        GamePlayerInfo.instance.GetOfficialPlayer(3),
-                        GamePlayerInfo.instance.GetOfficialPlayer(4)
-                    };
+                    //SetEntryPlayer();
                 }
                 break;
             case GameType.Scrimmage:

@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public Respawner respawner;
     public Transform uiCanvas;
     public GameSpeedFactor gameSpeedFactor;
+    public EntryPanel entryPanel;
 
     public float endTimer;
     public float endTime;

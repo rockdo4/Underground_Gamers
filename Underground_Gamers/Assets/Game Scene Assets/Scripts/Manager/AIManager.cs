@@ -9,6 +9,7 @@ public class AIManager : MonoBehaviour
 
     public List<AIController> npc;
 
+
     void Update()
     {
         if (!gameManager.IsStart)

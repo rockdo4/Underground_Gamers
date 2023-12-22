@@ -7,19 +7,31 @@ public class PlayerMaker : MonoBehaviour
     public GameManager gameManager;
     private void Awake()
     {
+        // 현재 이것은 Fix
         if (GameInfo.instance != null)
         {
-            // 선수 후보 선택 만들때 적용
-            GameInfo.instance.StartGame();
             gameManager.IsStart = false;
+            gameManager.gameRuleManager.SetGameType(GameInfo.instance.gameType);
 
-            // 라인 지정이 끝난후 이 함수 호출
+            // 선수 후보 선택 만들때 적용, 엔트리 OK 버튼 누르면
+
+            // 엔트리를 결정 후, 시작
+            //GameInfo.instance.SetEntryPlayer();
+            if(gameManager.gameRuleManager.gameType == GameType.Official)
             {
+                gameManager.entryPanel.SetActiveEntryPanel(true);
+                gameManager.entryPanel.SetPlayerEntrySlotAndBenchSlot();
+            }
+            else
+            {
+                GameInfo.instance.StartGame();
                 GameInfo.instance.MakePlayers();
                 gameManager.settingAIID.SetAIIDs();
-                gameManager.entryManager.ResetEntry();
+                gameManager.entryManager.ResetBattleLayoutForge();
+                gameManager.battleLayoutForge.SetActiveBattleLayoutForge(true);
+                gameManager.IsStart = false;
+                Time.timeScale = 0f;
             }
-            gameManager.gameRuleManager.SetGameType(GameInfo.instance.gameType);
         }
     }
 }
