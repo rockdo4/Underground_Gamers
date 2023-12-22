@@ -268,6 +268,7 @@ public class SaveData
 public struct OfficialTeamData
 {
     public string name;
+    public int index;
     public int win;
     public int lose;
     public int setWin;

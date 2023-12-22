@@ -39,6 +39,9 @@ public class GameInfo : MonoBehaviour
     private List<GameObject> players;
     private List<GameObject> enemys;
     private PlayerTable pt;
+
+    private int[] rewards = new int[6] { 0, 0, 0, 0, 0, 0 };
+    private int xpRewards;
     public void Awake()
     {
         players = new List<GameObject>();
@@ -65,9 +68,26 @@ public class GameInfo : MonoBehaviour
     public void StartGame()
     {
         GamePlayerInfo.instance.SaveFile();
+       
+        rewards = new int[6] { 0,0,0,0,0,0 };
+       
         switch (gameType)
         {
-            case GameType.Story:
+            case GameType.Story: 
+                var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+                StageInfo stageInfo = st.GetStageInfo(currentStage);
+                if (GamePlayerInfo.instance.cleardStage < currentStage)
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        rewards[i] = stageInfo.rewards[i];
+                    }
+                       
+                }
+                else
+                {
+
+                }
                 entryPlayer = GamePlayerInfo.instance.usingPlayers;
                 break;
             case GameType.Official:
@@ -253,10 +273,10 @@ public class GameInfo : MonoBehaviour
                 MakeEnemys();
                 break;
             case GameType.Official:
-                MakeTemporaryEnemys();
+                MakeOfficialEnemys();
                 break;
             case GameType.Scrimmage:
-                MakeTemporaryEnemys();
+                MakeScrimmageEnemys();
                 break;
         }
     }
@@ -407,18 +427,177 @@ public class GameInfo : MonoBehaviour
         //aiManager.RegisterMissionTargetEvent();
     }
 
-    public void MakeTemporaryEnemys()
+    public void MakeOfficialEnemys()
     {
         var stateDefines = DataTableManager.instance.stateDef;
         var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
-        var enemys = st.GetStageInfo(101).enemys;
+        List<EnemyInfo> enemies = new List<EnemyInfo>();
+        if (GamePlayerInfo.instance.officialWeekNum < 7)
+        {
+            enemies = GamePlayerInfo.instance.enemyTeams
+                    [GamePlayerInfo.instance.officialPlayerMatchInfo[GamePlayerInfo.instance.officialWeekNum]];
+        }
+        else
+        {
+            if (GamePlayerInfo.instance.officialTeamDatas[10 - GamePlayerInfo.instance.officialWeekNum].isPlayer)
+            {
+                enemies = GamePlayerInfo.instance.enemyTeams[GamePlayerInfo.instance.officialTeamDatas[10 - GamePlayerInfo.instance.officialWeekNum].index];
+            }
+            else
+            {
+                enemies = GamePlayerInfo.instance.enemyTeams[GamePlayerInfo.instance.officialTeamDatas[9 - GamePlayerInfo.instance.officialWeekNum].index];
+            }
+        }
         for (int i = 0; i < 5; i++)
         {
-            int player = enemys[i];
-            EnemyInfo playerInfo = st.GetEnemyInfo(player);
+            EnemyInfo playerInfo = enemies[i];
 
             var madePlayer = Instantiate(enemyObj);
-            var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("EnemySpum", $"{player}")), madePlayer.transform);
+            var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("EnemySpum", $"{Random.Range(30001,30030) + (Random.Range(1, 5)*100)}")), madePlayer.transform);
+            madePlayerCharactor.AddComponent<LookCameraRect>();
+            var outLine = madePlayerCharactor.AddComponent<Outlinable>();
+
+            float charactorScale = madePlayer.transform.localScale.x;
+
+            var ai = madePlayer.GetComponent<AIController>();
+            ai.spum = madePlayerCharactor.GetComponent<SPUM_Prefabs>();
+            var childs = madePlayerCharactor.GetComponentsInChildren<Transform>();
+            foreach (var child in childs)
+            {
+                if (child.name == "ArmL")
+                {
+                    ai.leftHand = child;
+                }
+                else if (child.name == "ArmR")
+                {
+                    ai.rightHand = child;
+                }
+
+                ai.firePos = ai.rightHand;
+            }
+            AttackDefinition atkDef = stateDefines.attackDefs.Find(a => a.code == playerInfo.atkType).value;
+            AttackDefinition skillDef = stateDefines.skillDatas.Find(a => a.code == playerInfo.uniqueSkill).value;
+            ai.attackInfos[0] = atkDef;
+            ai.attackInfos[1] = skillDef;
+            ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
+            ai.code = playerInfo.code;
+            ai.SetInitialization();
+            ai.outlinable = outLine;
+
+            var stat = madePlayer.GetComponent<CharacterStatus>();
+
+            stat.AIName = playerInfo.name;
+            stat.Hp = playerInfo.hp;
+            stat.maxHp = stat.Hp;
+
+            stat.speed = playerInfo.moveSpeed;
+            stat.sight = playerInfo.sight;
+            stat.range = playerInfo.range;
+
+            stat.reactionSpeed = playerInfo.reaction * 15;
+            stat.damage = playerInfo.atk;
+            stat.cooldown = playerInfo.atkRate;
+            stat.critical = playerInfo.critical;
+            stat.chargeCount = playerInfo.mag;
+            stat.reloadCooldown = playerInfo.reload;
+            stat.accuracyRate = playerInfo.accuracy;
+            stat.detectionRange = playerInfo.detection;
+            stat.occupationType = (OccupationType)playerInfo.type;
+            stat.distancePriorityType = DistancePriorityType.Closer;
+
+            switch (stat.occupationType)
+            {
+                case OccupationType.Normal:
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
+                    break;
+                case OccupationType.Assault:
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
+                    break;
+                case OccupationType.Sniper:
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
+                    break;
+                case OccupationType.Support:
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 1).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 2).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 3).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 4).value);
+                    ai.priorityByOccupation.Add(stateDefines.occupationTargetPriorityDatas.Find(a => a.code == 0).value);
+                    break;
+                default:
+                    break;
+            }
+            ai.priorityByDistance = stateDefines.distanceTargetPriorityDatas.Find(a => a.code == 0).value;
+
+            madePlayer.SetActive(false);
+            this.enemys.Add(madePlayer);
+        }
+        var startPos = GameObject.FindGameObjectsWithTag("EnemyStartPos");
+        var endPos = GameObject.FindGameObjectsWithTag("PlayerStartPos");
+
+        var buildingManager = GameObject.FindGameObjectWithTag("BuildingManager").GetComponent<BuildingManager>();
+        var aiManager = GameObject.FindGameObjectWithTag("AIManager").GetComponent<AIManager>();
+
+
+        if (startPos.Length < 1)
+        {
+            return;
+        }
+        foreach (var player in this.enemys)
+        {
+            if (startPos == null) return;
+            var spawnPos = startPos[Random.Range(0, startPos.Length - 1)].transform.position + new Vector3(Random.Range(-RandomSpawnRange, RandomSpawnRange), 0, Random.Range(-RandomSpawnRange, RandomSpawnRange));
+            player.transform.position = spawnPos;
+            player.SetActive(true);
+
+            var ai = player.GetComponent<AIController>();
+            var portrait = player.GetComponent<Portrait>();
+            if (buildingManager != null)
+                ai.point = buildingManager.GetAttackPoint(Line.Bottom, TeamType.NPC);
+            ai.SetDestination(ai.point);
+            ai.spum.gameObject.AddComponent<Outlinable>();
+            ai.InitInGameScene();
+
+            portrait.SetPortrait(ai.spum);
+            player.GetComponent<LookCameraByScale>().SetPlayer();
+            player.GetComponent<RespawnableObject>().respawner = GameObject.FindGameObjectWithTag("Respawner").GetComponent<Respawner>();
+
+        }
+
+        if (this.enemys.Count > 0)
+        {
+            foreach (var player in this.enemys)
+            {
+                aiManager.npc.Add(player.GetComponent<AIController>());
+            }
+        }
+
+        this.enemys.Clear();
+    }
+    public void MakeScrimmageEnemys()
+    {
+        var stateDefines = DataTableManager.instance.stateDef;
+        var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+        var str = DataTableManager.instance.Get<StringTable>(DataType.String);
+        var enemys = st.GetScrimmageEnemies(screammageLevel);
+        var randIds = st.GenerateRandomNumbers(0, 99, 5);
+        for (int i = 0; i < 5; i++)
+        {
+            EnemyInfo playerInfo = enemys[i];
+            playerInfo.name = str.Get($"random_player_name{randIds[i]}");
+            var madePlayer = Instantiate(enemyObj);
+            var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("EnemySpum", $"{Random.Range(30001, 30030) + (Random.Range(1, 5) * 100)}")), madePlayer.transform);
             madePlayerCharactor.AddComponent<LookCameraRect>();
             var outLine = madePlayerCharactor.AddComponent<Outlinable>();
 
@@ -569,12 +748,22 @@ public class GameInfo : MonoBehaviour
 
     public void WinReward()
     {
-        if (GamePlayerInfo.instance.cleardStage < currentStage)
+        switch (gameType)
         {
-            GamePlayerInfo.instance.cleardStage = currentStage;
+            case GameType.Story:
+                if (GamePlayerInfo.instance.cleardStage < currentStage)
+                {
+                    GamePlayerInfo.instance.cleardStage = currentStage;
+                }
+                GamePlayerInfo.instance.AddMoney(currentStage * 30, currentStage * 10, 0);
+                GamePlayerInfo.instance.GetXpItems(10, 5, 1, 0);
+                break;
+            case GameType.Official:
+                break;
+            case GameType.Scrimmage:
+                
+                break;
         }
-        GamePlayerInfo.instance.AddMoney(currentStage * 30, currentStage * 10, 0);
-        GamePlayerInfo.instance.GetXpItems(10, 5, 1, 0);
     }
 
 

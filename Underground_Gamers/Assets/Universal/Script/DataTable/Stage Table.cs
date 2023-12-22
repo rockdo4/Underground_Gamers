@@ -49,7 +49,6 @@ public class StageTable : DataTable
             newStage.type = int.Parse(stage["StageType"]);
             newStage.enemys = new List<int>();
 
-            //추가 예정
             newStage.mapCode = stage["StageNum"];
             newStage.rewards = new List<int>
             {
@@ -238,28 +237,40 @@ public class StageTable : DataTable
             str = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
         List <EnemyInfo> newEnemies = new List<EnemyInfo>();
-
-        List<int> codes = new List<int>();
-        for (int i = 0; i < 5; i++)
+        var idFirst = GenerateRandomNumbers(1,9,5);
+        var randIds = GenerateRandomNumbers(0, 99, 5);
+        for (int i = 0; i < idFirst.Count; i++)
         {
+            int ids = 40000 + (level+1) * 100 + idFirst[i];
+            PlayerInfo newEnemyInfos = officialPlyaers.Find(a => a.code == ids);
 
-        }
-
-        //var ids = GenerateRandomNumbers();
-        //officialPlyaers.Find(a=>a.code == GenerateRandomNumbers())
-
-        for (int i = 0; i < 5; i++)
-        {
-            EnemyInfo newPlayer = new EnemyInfo();
-            newPlayer.name = str.Get($"random_player_name{UnityEngine.Random.Range(0, 99)}");
-            newEnemies.Add(newPlayer);
-
+            EnemyInfo newEnemy = new EnemyInfo();
+            newEnemy.name = str.Get($"random_player_name{randIds[i]}");
+            newEnemy.code = newEnemyInfos.code;
+            newEnemy.uniqueSkill = newEnemyInfos.UniqueSkillCode;
+            newEnemy.type = newEnemyInfos.type;
+            newEnemy.weaponType = newEnemyInfos.weaponType;
+            newEnemy.atkType = newEnemyInfos.atkType;
+            newEnemy.kitingType = newEnemyInfos.kitingType;
+            newEnemy.mag = newEnemyInfos.magazine;
+            newEnemy.reload = newEnemyInfos.reloadingSpeed;
+            newEnemy.hp = (int)UnityEngine.Random.Range(newEnemyInfos.hp.min, newEnemyInfos.hp.max);
+            newEnemy.atk = (int)UnityEngine.Random.Range(newEnemyInfos.atk.min, newEnemyInfos.atk.max);
+            newEnemy.atkRate = UnityEngine.Random.Range(newEnemyInfos.atkRate.min, newEnemyInfos.atkRate.max);
+            newEnemy.moveSpeed = UnityEngine.Random.Range(newEnemyInfos.moveSpeed.min, newEnemyInfos.moveSpeed.max);
+            newEnemy.sight = UnityEngine.Random.Range(newEnemyInfos.sight.min, newEnemyInfos.sight.max);
+            newEnemy.range = UnityEngine.Random.Range(newEnemyInfos.range.min, newEnemyInfos.range.max);
+            newEnemy.critical = UnityEngine.Random.Range(newEnemyInfos.critical.min, newEnemyInfos.critical.max);
+            newEnemy.accuracy = UnityEngine.Random.Range(newEnemyInfos.accuracy.min, newEnemyInfos.accuracy.max);
+            newEnemy.reaction = UnityEngine.Random.Range(newEnemyInfos.reactionSpeed.min, newEnemyInfos.reactionSpeed.max);
+            newEnemy.detection = UnityEngine.Random.Range(newEnemyInfos.detectionRange.min, newEnemyInfos.detectionRange.max);
+            newEnemies.Add(newEnemy);
         }
         
         return newEnemies;
     }
 
-    static List<int> GenerateRandomNumbers(int minValue, int maxValue, int count)
+    public List<int> GenerateRandomNumbers(int minValue, int maxValue, int count)
     {
         if (count > maxValue - minValue + 1 || count < 0)
         {
@@ -282,5 +293,19 @@ public class StageTable : DataTable
         }
 
         return numbers;
+    }
+
+    public List<EnemyInfo> GetScrimmageEnemies(int level)
+    {
+        if (str == null)
+        {
+            str = DataTableManager.instance.Get<StringTable>(DataType.String);
+        }
+        List<EnemyInfo> newEnemies = new List<EnemyInfo>();
+        for (int i = 0; i < 5; i++)
+        {
+            newEnemies.Add(scrimmPlyaers.Find(a => a.code == 31001 + i + (100 * (level + 1))));
+        }
+        return newEnemies;
     }
 }

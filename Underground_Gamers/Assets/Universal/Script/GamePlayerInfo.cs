@@ -539,7 +539,7 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.lastScrimmageTime = lastScrimmageTime;
         saveData.scrimmageCount = scrimmageCount;
 
-        var path = Path.Combine(Application.persistentDataPath, "savefile_v1.json");
+        var path = Path.Combine(Application.persistentDataPath, "savefile_v2.json");
         Debug.Log(path);
         var json = JsonConvert.SerializeObject(saveData,new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
         File.WriteAllText(path, json);
@@ -547,7 +547,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public void LoadFile()
     {
-        var path = Path.Combine(Application.persistentDataPath, "savefile_v1.json");
+        var path = Path.Combine(Application.persistentDataPath, "savefile_v2.json");
         if (!File.Exists(path))
         {
             isInit = true;
@@ -618,10 +618,12 @@ public class GamePlayerInfo : MonoBehaviour
         {
             officialTeamDatas[i].name = str.Get($"random_team_name{UnityEngine.Random.Range(0,99)}");
             officialTeamDatas[i].isPlayer = false;
+            officialTeamDatas[i].index = i;
         }
 
         officialTeamDatas[7].name = teamName;
         officialTeamDatas[7].isPlayer = true;
+        officialTeamDatas[7].index = 7;
 
         officialPlayerDatas = new OfficialPlayerData[8];
         officialWeekNum = 0;
@@ -1139,6 +1141,7 @@ public class OfficialTeamDataConverter : JsonConverter<OfficialTeamData>
         OfficialTeamData player = new OfficialTeamData();
 
         player.name = (string)jobj["name"];
+        player.index = (int)jobj["index"];
         player.win = (int)jobj["win"];
         player.lose = (int)jobj["lose"];
         player.setWin = (int)jobj["setWin"];
@@ -1155,6 +1158,8 @@ public class OfficialTeamDataConverter : JsonConverter<OfficialTeamData>
 
         writer.WritePropertyName("name");
         writer.WriteValue(value.name);
+        writer.WritePropertyName("index");
+        writer.WriteValue(value.index);
         writer.WritePropertyName("win");
         writer.WriteValue(value.win);
         writer.WritePropertyName("lose");
