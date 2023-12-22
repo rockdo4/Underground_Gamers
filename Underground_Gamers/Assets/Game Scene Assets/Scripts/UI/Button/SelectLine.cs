@@ -19,14 +19,9 @@ public class SelectLine : MonoBehaviour
 
     public void FixLine()
     {
+        // 저장된 현재 배속 적용받기
         Time.timeScale = 1f;
         gameManager.IsStart = true;
-
-        //gameManager.gameRuleManager.SetGameType(GameInfo.instance.gameType);
-
-        // 다음 라운드 시작 시, 라인 지정
-        //GameInfo.instance.MakePlayers();
-        //gameManager.settingAIID.SetAIIDs();
 
 
         // 기존 코드

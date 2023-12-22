@@ -53,12 +53,14 @@ public class BaseUIManager : LobbySceneSubscriber
                 if (GamePlayerInfo.instance.endScrimmage)
                 {
                     GamePlayerInfo.instance.isOnOfficial = false;
+                    GamePlayerInfo.instance.endScrimmage = false;
                     popupOfficialEnd.SetActive(true);
                 }
             }
             else
             {
                 GamePlayerInfo.instance.isOnOfficial = false;
+                GamePlayerInfo.instance.endScrimmage = false;
                 popupOfficialEnd.SetActive(true);
             }
             

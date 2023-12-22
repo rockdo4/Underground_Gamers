@@ -51,7 +51,6 @@ public class GameInfo : MonoBehaviour
 
     public void SetEntryPlayer(int[] entryIndex)
     {
-        entryPlayer.Clear();
         entryPlayer = new List<Player>()
         {
             GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[0]),

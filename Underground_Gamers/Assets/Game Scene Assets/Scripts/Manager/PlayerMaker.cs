@@ -14,7 +14,6 @@ public class PlayerMaker : MonoBehaviour
             gameManager.gameRuleManager.SetGameType(GameInfo.instance.gameType);
 
             // 선수 후보 선택 만들때 적용, 엔트리 OK 버튼 누르면
-            GameInfo.instance.StartGame();
 
             // 엔트리를 결정 후, 시작
             //GameInfo.instance.SetEntryPlayer();
@@ -25,15 +24,14 @@ public class PlayerMaker : MonoBehaviour
             }
             else
             {
+                GameInfo.instance.StartGame();
+                GameInfo.instance.MakePlayers();
+                gameManager.settingAIID.SetAIIDs();
+                gameManager.entryManager.ResetBattleLayoutForge();
                 gameManager.battleLayoutForge.SetActiveBattleLayoutForge(true);
+                gameManager.IsStart = false;
+                Time.timeScale = 0f;
             }
-
-
-            // 엔트리 결정 후 라인 지정 가기전에 해줘야 할 것들
-            //GameInfo.instance.MakePlayers();
-            //gameManager.settingAIID.SetAIIDs();
-            // 라인 지정 UI
-            //gameManager.entryManager.ResetBattleLayoutForge();
         }
     }
 }
