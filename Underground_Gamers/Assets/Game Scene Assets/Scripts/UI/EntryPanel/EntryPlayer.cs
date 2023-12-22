@@ -24,13 +24,12 @@ public class EntryPlayer : MonoBehaviour, IPointerClickHandler
     public bool isEntry = false;
     private bool isSelected = false;
 
-    public void SetActiveSelectOutline(bool isActive)
-    {
-        selectOutline.SetActive(isActive);
-    }
+    private GameManager gameManager;
 
-    public void SetInfo(int index, Sprite illustration, string name, int playerHp, int playerAttack, Sprite grade, Sprite type, int level, Sprite codition, int skillLevel)
+    public void SetInfo(GameManager gameManager, int index, Sprite illustration, string name, int playerHp, int playerAttack, Sprite grade, Sprite type, int level, Sprite codition, int skillLevel)
     {
+        this.gameManager = gameManager;
+        this.index = index;
         playerNameText.text = $"{name}";
         illustrationIcon.sprite = illustration;
         playerHpText.text = $"{playerHp}";
@@ -41,11 +40,29 @@ public class EntryPlayer : MonoBehaviour, IPointerClickHandler
         conditionIcon.sprite = codition;
         skillLevelText.text = $"{skillLevel}";
     }
-
+    public void SetActiveSelectOutline(bool isActive)
+    {
+        selectOutline.SetActive(isActive);
+    }
     public void ClickEntryPlayer()
     {
+
+        if (isSelected && isEntry)
+        {
+            gameManager.entryPanel.SetActiveEntryMembers(false);
+            gameManager.entryPanel.selectedEntryInedx = index;
+            Debug.Log(gameManager.entryPanel.selectedEntryInedx);
+        }
+
+        if (isSelected && !isEntry)
+        {
+            gameManager.entryPanel.SetActiveBenchMembers(false);
+            gameManager.entryPanel.selectedBenchIndex = index;
+            Debug.Log(gameManager.entryPanel.selectedBenchIndex);
+        }
         isSelected = !isSelected;
         SetActiveSelectOutline(isSelected);
+
     }
 
     public void OnPointerClick(PointerEventData eventData)

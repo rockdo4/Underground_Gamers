@@ -15,7 +15,11 @@ public class EntryPanel : MonoBehaviour
 
     public Sprite[] conditionIcon = new Sprite[5];
     private List<EntryPlayer> playerList = new List<EntryPlayer>();
+    private List<EntryPlayer> entryMembers = new List<EntryPlayer>();
+    private List<EntryPlayer> benchMembers = new List<EntryPlayer>();
 
+    public int selectedEntryInedx = 0;
+    public int selectedBenchIndex = 0;
     public void ClearPlayerList()
     {
         foreach(EntryPlayer player in playerList)
@@ -24,6 +28,22 @@ public class EntryPanel : MonoBehaviour
         }
         playerList.Clear();
     }
+
+    public void SetActiveEntryMembers(bool isActive)
+    {
+        foreach (EntryPlayer player in entryMembers)
+        {
+            player.SetActiveSelectOutline(isActive);
+        }
+    }    
+    public void SetActiveBenchMembers(bool isActive)
+    {
+        foreach (EntryPlayer player in benchMembers)
+        {
+            player.SetActiveSelectOutline(isActive);
+        }
+    }
+
     public void SetActiveEntryPanel(bool isActive)
     {
         Time.timeScale = 0f;
@@ -33,16 +53,18 @@ public class EntryPanel : MonoBehaviour
     public void CreateEntryPlayer(Transform parent, int index, Sprite illustration, string name, int playerHp, int playerAttack, Sprite grade, Sprite type, int level, Sprite codition, int skillLevel)
     {
         EntryPlayer entryPlayer = Instantiate(entryPlayerPrefab, parent);
-        entryPlayer.SetInfo(index, illustration, name, playerHp, playerAttack, grade, type, level, codition, skillLevel);
+        entryPlayer.SetInfo(gameManager, index, illustration, name, playerHp, playerAttack, grade, type, level, codition, skillLevel);
         playerList.Add(entryPlayer);
 
         if (parent == entryScrollView)
         {
             entryPlayer.isEntry = true;
+            entryMembers.Add(entryPlayer);
         }
         else
         {
             entryPlayer.isEntry = false;
+            benchMembers.Add(entryPlayer);
         }
     }
     public void SetEntryPlayerSlot(Transform parent, int index)
@@ -76,7 +98,7 @@ public class EntryPanel : MonoBehaviour
         var skillLevel = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).skillLevel;
 
         // 이 인덱스 생각하기
-        CreateEntryPlayer(parent, index - 1, illustration, name, playerHp, playerAttack, grade, type, level, conditionIcon[condition], skillLevel);
+        CreateEntryPlayer(parent, index, illustration, name, playerHp, playerAttack, grade, type, level, conditionIcon[condition], skillLevel);
     }
 
     public void SetOriginMemberIndex()
