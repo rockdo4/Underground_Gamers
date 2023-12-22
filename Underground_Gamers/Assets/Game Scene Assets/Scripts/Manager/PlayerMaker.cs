@@ -20,6 +20,7 @@ public class PlayerMaker : MonoBehaviour
             if(gameManager.gameRuleManager.gameType == GameType.Official)
             {
                 gameManager.entryPanel.SetActiveEntryPanel(true);
+                gameManager.entryPanel.SetOriginMemberIndex();
                 gameManager.entryPanel.SetPlayerEntrySlotAndBenchSlot();
             }
             else

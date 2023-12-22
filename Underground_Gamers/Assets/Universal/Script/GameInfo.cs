@@ -39,6 +39,9 @@ public class GameInfo : MonoBehaviour
     private List<GameObject> players;
     private List<GameObject> enemys;
     private PlayerTable pt;
+    public List<int> entryMembers = new List<int>();
+    public List<int> benchMembers = new List<int>();
+
     public void Awake()
     {
         players = new List<GameObject>();
@@ -49,16 +52,21 @@ public class GameInfo : MonoBehaviour
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
     }
 
-    public void SetEntryPlayer(int[] entryIndex)
+    public void SetEntryPlayer(List<int> entryIndex)
     {
-        entryPlayer = new List<Player>()
+        //entryPlayer = new List<Player>()
+        //{
+        //    GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[0]),
+        //    GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[1]),
+        //    GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[2]),
+        //    GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[3]),
+        //    GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[4])
+        //};
+
+        foreach (int index in entryIndex)
         {
-            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[0]),
-            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[1]),
-            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[2]),
-            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[3]),
-            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[4])
-        };
+            entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(index));
+        }
         GamePlayerInfo.instance.SaveFile();
     }
 

@@ -1,3 +1,4 @@
+using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
@@ -128,9 +129,9 @@ public class GameEndPannel : MonoBehaviour
         ResetDamageGraph();
         ResetTotalKillCount();
 
+        gameManager.entryPanel.ClearPlayerList();
         gameManager.entryPanel.SetActiveEntryPanel(true);
         gameManager.entryPanel.SetPlayerEntrySlotAndBenchSlot();
-
         // NextRound 시 매번 되어야 함
         gameManager.lineManager.ResetAllLines();
     }

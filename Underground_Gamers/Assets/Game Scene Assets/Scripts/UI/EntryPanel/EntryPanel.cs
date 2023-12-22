@@ -14,7 +14,16 @@ public class EntryPanel : MonoBehaviour
     private PlayerTable pt;
 
     public Sprite[] conditionIcon = new Sprite[5];
+    private List<EntryPlayer> playerList = new List<EntryPlayer>();
 
+    public void ClearPlayerList()
+    {
+        foreach(EntryPlayer player in playerList)
+        {
+            player.gameObject.SetActive(false);
+        }
+        playerList.Clear();
+    }
     public void SetActiveEntryPanel(bool isActive)
     {
         Time.timeScale = 0f;
@@ -25,47 +34,72 @@ public class EntryPanel : MonoBehaviour
     {
         EntryPlayer entryPlayer = Instantiate(entryPlayerPrefab, parent);
         entryPlayer.SetInfo(index, illustration, name, playerHp, playerAttack, grade, type, level, codition, skillLevel);
+        playerList.Add(entryPlayer);
+
+        if (parent == entryScrollView)
+        {
+            entryPlayer.isEntry = true;
+        }
+        else
+        {
+            entryPlayer.isEntry = false;
+        }
     }
     public void SetEntryPlayerSlot(Transform parent, int index)
     {
         if (pt == null)
             pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
 
-        int code = GamePlayerInfo.instance.GetOfficialPlayer(index).code;
+        int code = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).code;
         if (code < 0)
         {
             Debug.Log("Code Error");
             return;
         }
         var playerInfo = pt.GetPlayerInfo(code);
-        var player = GamePlayerInfo.instance.GetOfficialPlayer(index);
+        var player = GamePlayerInfo.instance.GetOfficialPlayer(index - 1);
         foreach (var item in player.training)
         {
             var ti = pt.GetTrainingInfo(item);
             ti.AddStats(playerInfo);
         }
         Sprite illustration = pt.GetPlayerSprite(code);
-        var name = GamePlayerInfo.instance.GetOfficialPlayer(index).name;
+        var name = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).name;
         int playerHp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
         int playerAttack = (int)pt.CalculateCurrStats(playerInfo.atk, player.level);
-        var grade = pt.starsSprites[GamePlayerInfo.instance.GetOfficialPlayer(index).grade - 3];
-        var type = pt.playerTypeSprites[GamePlayerInfo.instance.GetOfficialPlayer(index).type - 1];
-        var level = GamePlayerInfo.instance.GetOfficialPlayer(index).level;
-        var condition = GamePlayerInfo.instance.GetOfficialPlayer(index).condition;
+        var grade = pt.starsSprites[GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3];
+        var type = pt.playerTypeSprites[GamePlayerInfo.instance.GetOfficialPlayer(index - 1).type - 1];
+        var level = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).level;
+        var condition = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).condition;
         //var skillIcon;
         //var skillName;
-        var skillLevel = GamePlayerInfo.instance.GetOfficialPlayer(index).skillLevel;
-        CreateEntryPlayer(parent, index, illustration, name, playerHp, playerAttack, grade, type, level, conditionIcon[condition], skillLevel);
+        var skillLevel = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).skillLevel;
+
+        // 이 인덱스 생각하기
+        CreateEntryPlayer(parent, index - 1, illustration, name, playerHp, playerAttack, grade, type, level, conditionIcon[condition], skillLevel);
+    }
+
+    public void SetOriginMemberIndex()
+    {
+        for(int entryInedx = 1; entryInedx < 6; ++entryInedx)
+        {
+            GameInfo.instance.entryMembers.Add(entryInedx);
+        }        
+        for(int benchIndex = 6; benchIndex < 9; ++benchIndex)
+        {
+            GameInfo.instance.benchMembers.Add(benchIndex);
+        }
     }
 
     public void SetPlayerEntrySlotAndBenchSlot()
     {
-        for (int i = 0; i < GamePlayerInfo.instance.officialPlayers.Count; ++i)
+        foreach(int entryIndex in GameInfo.instance.entryMembers)
         {
-            if (i < 5)
-                SetEntryPlayerSlot(entryScrollView, i);
-            else
-                SetEntryPlayerSlot(benchScrollView, i);
+            SetEntryPlayerSlot(entryScrollView, entryIndex);
+        }
+        foreach(int benchIndex in GameInfo.instance.benchMembers)
+        {
+            SetEntryPlayerSlot(benchScrollView, benchIndex);
         }
     }
 
@@ -76,11 +110,7 @@ public class EntryPanel : MonoBehaviour
         // 엔트리 결정 후 라인 지정 가기전에 해줘야 할 것들
         gameManager.entryPanel.SetActiveEntryPanel(false);
 
-        int[] temp = new int[5]
-        {
-            0, 1, 2, 3, 4
-        };
-        GameInfo.instance.SetEntryPlayer(temp);
+        GameInfo.instance.SetEntryPlayer(GameInfo.instance.entryMembers);
         GameInfo.instance.MakePlayers();
         gameManager.settingAIID.SetAIIDs();
         //gameManager.entryManager.RefreshSelectLineButton();

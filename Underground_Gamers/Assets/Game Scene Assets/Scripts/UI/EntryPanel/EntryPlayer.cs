@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EntryPlayer : MonoBehaviour
+public class EntryPlayer : MonoBehaviour, IPointerClickHandler
 {
     int index;
 
@@ -19,6 +20,9 @@ public class EntryPlayer : MonoBehaviour
     public TextMeshProUGUI skillLevelText;
 
     public GameObject selectOutline;
+
+    public bool isEntry = false;
+    private bool isSelected = false;
 
     public void SetActiveSelectOutline(bool isActive)
     {
@@ -36,5 +40,16 @@ public class EntryPlayer : MonoBehaviour
         levelText.text = $"{level}";
         conditionIcon.sprite = codition;
         skillLevelText.text = $"{skillLevel}";
+    }
+
+    public void ClickEntryPlayer()
+    {
+        isSelected = !isSelected;
+        SetActiveSelectOutline(isSelected);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        ClickEntryPlayer();
     }
 }

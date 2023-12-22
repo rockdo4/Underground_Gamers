@@ -94,9 +94,18 @@ public class AIManager : MonoBehaviour
             ai.gameObject.SetActive(false);
         }
     }
+
+    public void SetActiveOffDamageGraph()
+    {
+        foreach (var ai in pc)
+        {
+            ai.damageGraph.gameObject.SetActive(false);
+        }
+    }
     public void ResetAI()
     {
         SetActiveOffAI();
+        SetActiveOffDamageGraph();
         pc.Clear();
         npc.Clear();
     }
