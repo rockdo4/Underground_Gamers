@@ -73,6 +73,7 @@ public class GamePlayerInfo : MonoBehaviour
     public bool isOnSchedule = false;
     private PlayerTable pt;
     private StageTable st;
+    private StringTable str;
 
     [HideInInspector]
     public List<Sprite> itemSpriteList = new List<Sprite>();
@@ -122,6 +123,7 @@ public class GamePlayerInfo : MonoBehaviour
     {
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
         st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+        str = DataTableManager.instance.Get<StringTable>(DataType.String);
     }
 
     public void SortPlayersWithLevel(bool Orderby)
@@ -602,6 +604,7 @@ public class GamePlayerInfo : MonoBehaviour
         if (st == null)
         {
             st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+            str = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
         //적 테이블 받아서 생성
         enemyTeams = new List<EnemyInfo>[7];
@@ -613,7 +616,7 @@ public class GamePlayerInfo : MonoBehaviour
         officialTeamDatas = new OfficialTeamData[8];
         for (int i = 0; i < 7; i++)
         {
-            officialTeamDatas[i].name = UnityEngine.Random.Range(0, 100).ToString();
+            officialTeamDatas[i].name = str.Get($"random_team_name{UnityEngine.Random.Range(0,99)}");
             officialTeamDatas[i].isPlayer = false;
         }
 
@@ -742,9 +745,8 @@ public class GamePlayerInfo : MonoBehaviour
                 officialTeamDatas[secondTeam].setWin += setLose;
                 officialTeamDatas[secondTeam].setLose += setWin;
 
-                officialMatchResult[officialWeekNum, (2 * i)] = officialTeamDatas[firstTeam].setWin;
-                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialTeamDatas[secondTeam].setWin;
-
+                officialMatchResult[officialWeekNum, (2 * i)] = setWin;
+                officialMatchResult[officialWeekNum, (2 * i) + 1] = setLose;
                 return;
             }
             else if (secondTeam == 7)
@@ -766,8 +768,8 @@ public class GamePlayerInfo : MonoBehaviour
                 officialTeamDatas[secondTeam].setWin += setWin;
                 officialTeamDatas[secondTeam].setLose += setLose;
 
-                officialMatchResult[officialWeekNum, (2 * i)] = officialTeamDatas[firstTeam].setWin;
-                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialTeamDatas[secondTeam].setWin;
+                officialMatchResult[officialWeekNum, (2 * i)] = setLose;
+                officialMatchResult[officialWeekNum, (2 * i) + 1] = setWin;
                 return;
             }
         }
@@ -813,12 +815,13 @@ public class GamePlayerInfo : MonoBehaviour
                     officialTeamDatas[secondTeam].lose++;
 
                     officialTeamDatas[firstTeam].setWin += 2;
-                    officialTeamDatas[firstTeam].setLose += UnityEngine.Random.Range(0,2);
-                    officialTeamDatas[secondTeam].setWin += officialTeamDatas[firstTeam].setLose;
+                    int randomLose = UnityEngine.Random.Range(0, 2);
+                    officialTeamDatas[firstTeam].setLose += randomLose;
+                    officialTeamDatas[secondTeam].setWin += randomLose;
                     officialTeamDatas[secondTeam].setLose += 2;
 
-                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialTeamDatas[firstTeam].setWin;
-                    officialMatchResult[officialWeekNum - 1, (2 * i)+1] = officialTeamDatas[secondTeam].setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i)] = 2;
+                    officialMatchResult[officialWeekNum - 1, (2 * i) + 1] = randomLose;
                 }
                 else
                 {
@@ -826,12 +829,13 @@ public class GamePlayerInfo : MonoBehaviour
                     officialTeamDatas[secondTeam].win++;
 
                     officialTeamDatas[secondTeam].setWin += 2;
-                    officialTeamDatas[secondTeam].setLose += UnityEngine.Random.Range(0, 2);
-                    officialTeamDatas[firstTeam].setWin += officialTeamDatas[secondTeam].setLose;
+                    int randomLose = UnityEngine.Random.Range(0, 2);
+                    officialTeamDatas[secondTeam].setLose += randomLose;
+                    officialTeamDatas[firstTeam].setWin += randomLose;
                     officialTeamDatas[firstTeam].setLose += 2;
 
-                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialTeamDatas[firstTeam].setWin;
-                    officialMatchResult[officialWeekNum - 1, (2 * i) + 1] = officialTeamDatas[secondTeam].setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i)] = randomLose;
+                    officialMatchResult[officialWeekNum - 1, (2 * i) + 1] = 2;
                 }
                 
 

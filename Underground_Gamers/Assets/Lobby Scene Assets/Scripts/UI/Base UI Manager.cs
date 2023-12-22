@@ -55,6 +55,7 @@ public class BaseUIManager : LobbySceneSubscriber
                     GamePlayerInfo.instance.isOnOfficial = false;
                     GamePlayerInfo.instance.endScrimmage = false;
                     popupOfficialEnd.SetActive(true);
+                    GamePlayerInfo.instance.SaveFile();
                 }
             }
             else
@@ -62,6 +63,7 @@ public class BaseUIManager : LobbySceneSubscriber
                 GamePlayerInfo.instance.isOnOfficial = false;
                 GamePlayerInfo.instance.endScrimmage = false;
                 popupOfficialEnd.SetActive(true);
+                GamePlayerInfo.instance.SaveFile();
             }
             
         }
