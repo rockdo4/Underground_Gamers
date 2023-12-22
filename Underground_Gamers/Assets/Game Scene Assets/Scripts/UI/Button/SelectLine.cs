@@ -24,6 +24,10 @@ public class SelectLine : MonoBehaviour
 
         //gameManager.gameRuleManager.SetGameType(GameInfo.instance.gameType);
 
+        // 다음 라운드 시작 시, 라인 지정
+        //GameInfo.instance.MakePlayers();
+        //gameManager.settingAIID.SetAIIDs();
+
 
         // 기존 코드
         battleLayoutForgePanel.SetActive(false);

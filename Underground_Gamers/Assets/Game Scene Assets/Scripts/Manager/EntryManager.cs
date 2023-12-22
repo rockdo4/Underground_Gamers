@@ -15,7 +15,7 @@ public class EntryManager : MonoBehaviour
     private List<AIController> bottomDefendEntryAI = new List<AIController>();
     public List<AIController> NoneEntryAI { get; private set; } = new List<AIController>();
 
-    public void ResetEntry()
+    public void ResetBattleLayoutForge()
     {
         foreach (var ai in gameManager.aiManager.pc)
         {
@@ -26,7 +26,6 @@ public class EntryManager : MonoBehaviour
         }
 
         RefreshSelectLineButton();
-        Time.timeScale = 0f;
     }
 
     public void SetEntry()
