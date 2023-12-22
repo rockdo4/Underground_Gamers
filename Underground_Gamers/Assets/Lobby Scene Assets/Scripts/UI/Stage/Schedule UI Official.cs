@@ -119,7 +119,7 @@ public class ScheduleUIOfficial : ScheduleUISubscriber
     public void StartGame()
     {
         GameInfo.instance.gameType = GameType.Official;
-
+        GamePlayerInfo.instance.endScrimmage = true;
         SceneManager.LoadScene("Game Scene");
     }
 }

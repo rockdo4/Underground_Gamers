@@ -20,6 +20,10 @@ public class BaseUIManager : LobbySceneSubscriber
     [SerializeField]
     private Button[] sideBts = new Button[2];
 
+    [Space(10f)]
+    [SerializeField]
+    private GameObject popupOfficialEnd;
+
     private List<Player> players = new List<Player>();
     private int currIndex = 0;
     private PlayerTable pt;
@@ -41,6 +45,24 @@ public class BaseUIManager : LobbySceneSubscriber
     {
         InitBaseUI();
         UIanimator = GetComponent<MainUIAnimator>();
+        if (GamePlayerInfo.instance.endScrimmage) 
+        {
+            if (GamePlayerInfo.instance.officialWeekNum <7)
+            {
+                GamePlayerInfo.instance.CalculateOfficialPlayer(false,0,2);
+                if (GamePlayerInfo.instance.endScrimmage)
+                {
+                    GamePlayerInfo.instance.isOnOfficial = false;
+                    popupOfficialEnd.SetActive(true);
+                }
+            }
+            else
+            {
+                GamePlayerInfo.instance.isOnOfficial = false;
+                popupOfficialEnd.SetActive(true);
+            }
+            
+        }
     }
 
     public void InitBaseUIWithMotion()

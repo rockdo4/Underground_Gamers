@@ -51,6 +51,8 @@ public class GamePlayerInfo : MonoBehaviour
 
     public string teamName = "드림팀";
 
+    public int playSpeed = 1;
+
     //정규전
     public bool isOnOfficial = false;
     public int officialLevel = -1;
@@ -61,7 +63,7 @@ public class GamePlayerInfo : MonoBehaviour
     public int[,] officialMatchResult = new int[7, 8];
     public string[,] officialFinalMatchResultName = new string[3, 2];
     public int[,] officialFinalMatchResult = new int[3, 2];
-    public int currPlayerIndex = 3;
+    public bool endScrimmage = false;
 
     //스크리밍
     public DateTime lastScrimmageTime = DateTime.MinValue;
@@ -499,6 +501,10 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.representativePlayer = representativePlayer;
         saveData.havePlayers = havePlayers;
         saveData.usingPlayers = usingPlayers;
+        if (usingPlayers.Count > 8)
+        {
+            Debug.Log($"{usingPlayers.Count}");
+        }
         
         saveData.cleardStage = cleardStage;
         saveData.playername = playername;
@@ -513,15 +519,33 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.lastRecruitTime = lastRecruitTime;
         saveData.Presets = Presets;
 
-        var path = Path.Combine(Application.persistentDataPath, "savefile.json");
+        saveData.officialPlayers = officialPlayers;
+        saveData.teamName = teamName;
+        saveData.playSpeed = playSpeed;
+
+        saveData.isOnOfficial = isOnOfficial;
+        saveData.officialLevel = officialLevel;
+        saveData.enemyTeams = enemyTeams;
+        saveData.officialTeamDatas = officialTeamDatas;
+        saveData.officialPlayerDatas = officialPlayerDatas;
+        saveData.officialWeekNum = officialWeekNum;
+        saveData.officialMatchResult = officialMatchResult;
+        saveData.officialFinalMatchResult = officialFinalMatchResult;
+        saveData.officialFinalMatchResultName = officialFinalMatchResultName;
+        saveData.endScrimmage = endScrimmage;
+
+        saveData.lastScrimmageTime = lastScrimmageTime;
+        saveData.scrimmageCount = scrimmageCount;
+
+        var path = Path.Combine(Application.persistentDataPath, "savefile_v1.json");
         Debug.Log(path);
-        var json = JsonConvert.SerializeObject(saveData,new PlayerConverter());
+        var json = JsonConvert.SerializeObject(saveData,new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
         File.WriteAllText(path, json);
     }
 
     public void LoadFile()
     {
-        var path = Path.Combine(Application.persistentDataPath, "savefile.json");
+        var path = Path.Combine(Application.persistentDataPath, "savefile_v1.json");
         if (!File.Exists(path))
         {
             isInit = true;
@@ -529,7 +553,7 @@ public class GamePlayerInfo : MonoBehaviour
         }
 
         var json = File.ReadAllText(path);
-        var saveData = JsonConvert.DeserializeObject<SaveData>(json, new PlayerConverter());
+        var saveData = JsonConvert.DeserializeObject<SaveData>(json, new PlayerConverter(),new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
 
         representativePlayer = saveData.representativePlayer;
         havePlayers = saveData.havePlayers;
@@ -553,6 +577,24 @@ public class GamePlayerInfo : MonoBehaviour
         tradeCenter = saveData.tradeCenter;
         lastRecruitTime = saveData.lastRecruitTime;
         Presets = saveData.Presets;
+
+        officialPlayers = saveData.officialPlayers;
+        teamName = saveData.teamName;
+        playSpeed = saveData.playSpeed;
+
+        isOnOfficial = saveData.isOnOfficial;
+        officialLevel = saveData.officialLevel;
+        enemyTeams = saveData.enemyTeams;
+        officialTeamDatas = saveData.officialTeamDatas;
+        officialPlayerDatas = saveData.officialPlayerDatas;
+        officialWeekNum = saveData.officialWeekNum;
+        officialMatchResult = saveData.officialMatchResult;
+        officialFinalMatchResult = saveData.officialFinalMatchResult;
+        officialFinalMatchResultName = saveData.officialFinalMatchResultName;
+        endScrimmage = saveData.endScrimmage;
+
+        lastScrimmageTime = saveData.lastScrimmageTime;
+        scrimmageCount = saveData.scrimmageCount;
     }
 
     public void OfficialMakeEnemyTeams(int officialLevel)
@@ -595,7 +637,6 @@ public class GamePlayerInfo : MonoBehaviour
                 officialFinalMatchResult[i, j] = 0;
             }
         }
-        currPlayerIndex = 3;
 
 
 
@@ -636,6 +677,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public void CalculateOfficialPlayer(bool isWin, int setWin, int setLose)
     {
+        endScrimmage = false;
         if (officialWeekNum < 7)
         {
             CalculateOfficialPlayerResult(isWin, setWin, setLose);
@@ -684,55 +726,48 @@ public class GamePlayerInfo : MonoBehaviour
 
             if (firstTeam == 7)
             {
-                var officialDataFrist = officialTeamDatas[firstTeam];
-                var officialDataSecond = officialTeamDatas[secondTeam];
-
                 if (isWin)
                 {
-                    officialDataFrist.win++;
-                    officialDataSecond.lose++;
+                    officialTeamDatas[firstTeam].win++;
+                    officialTeamDatas[secondTeam].lose++;
                 }
                 else
                 {
-                    officialDataFrist.lose++;
-                    officialDataSecond.win++;
+                    officialTeamDatas[firstTeam].lose++;
+                    officialTeamDatas[secondTeam].win++;
                 }
-                
 
-                officialDataFrist.setWin += setWin;
-                officialDataFrist.setLose += setLose;
-                officialDataSecond.setWin += setLose;
-                officialDataSecond.setLose += setWin;
+                officialTeamDatas[firstTeam].setWin += setWin;
+                officialTeamDatas[firstTeam].setLose += setLose;
+                officialTeamDatas[secondTeam].setWin += setLose;
+                officialTeamDatas[secondTeam].setLose += setWin;
 
-                officialMatchResult[officialWeekNum, (2 * i)] = officialDataFrist.setWin;
-                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialDataSecond.setWin;
+                officialMatchResult[officialWeekNum, (2 * i)] = officialTeamDatas[firstTeam].setWin;
+                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialTeamDatas[secondTeam].setWin;
 
                 return;
             }
             else if (secondTeam == 7)
             {
-                var officialDataFrist = officialTeamDatas[firstTeam];
-                var officialDataSecond = officialTeamDatas[secondTeam];
-
                 if (isWin)
                 {
-                    officialDataFrist.lose++;
-                    officialDataSecond.win++;
+                    officialTeamDatas[firstTeam].lose++;
+                    officialTeamDatas[secondTeam].win++;
                 }
                 else
                 {
-                    officialDataFrist.win++;
-                    officialDataSecond.lose++;
+                    officialTeamDatas[firstTeam].win++;
+                    officialTeamDatas[secondTeam].lose++;
                 }
 
 
-                officialDataFrist.setWin += setLose;
-                officialDataFrist.setLose += setWin;
-                officialDataSecond.setWin += setWin;
-                officialDataSecond.setLose += setLose;
+                officialTeamDatas[firstTeam].setWin += setLose;
+                officialTeamDatas[firstTeam].setLose += setWin;
+                officialTeamDatas[secondTeam].setWin += setWin;
+                officialTeamDatas[secondTeam].setLose += setLose;
 
-                officialMatchResult[officialWeekNum, (2 * i)] = officialDataFrist.setWin;
-                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialDataSecond.setWin;
+                officialMatchResult[officialWeekNum, (2 * i)] = officialTeamDatas[firstTeam].setWin;
+                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialTeamDatas[secondTeam].setWin;
                 return;
             }
         }
@@ -774,35 +809,29 @@ public class GamePlayerInfo : MonoBehaviour
 
                 if (firstValue > secondValue)
                 {
-                    var officialDataFrist = officialTeamDatas[firstTeam];
-                    var officialDataSecond = officialTeamDatas[secondTeam];
+                    officialTeamDatas[firstTeam].win++;
+                    officialTeamDatas[secondTeam].lose++;
 
-                    officialDataFrist.win++;
-                    officialDataSecond.lose++;
+                    officialTeamDatas[firstTeam].setWin += 2;
+                    officialTeamDatas[firstTeam].setLose += UnityEngine.Random.Range(0,2);
+                    officialTeamDatas[secondTeam].setWin += officialTeamDatas[firstTeam].setLose;
+                    officialTeamDatas[secondTeam].setLose += 2;
 
-                    officialDataFrist.setWin += 2;
-                    officialDataFrist.setLose += UnityEngine.Random.Range(0,2);
-                    officialDataSecond.setWin += officialDataFrist.setLose;
-                    officialDataSecond.setLose += 2;
-
-                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialDataFrist.setWin;
-                    officialMatchResult[officialWeekNum - 1, (2 * i)+1] = officialDataSecond.setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialTeamDatas[firstTeam].setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i)+1] = officialTeamDatas[secondTeam].setWin;
                 }
                 else
                 {
-                    var officialDataFrist = officialTeamDatas[firstTeam];
-                    var officialDataSecond = officialTeamDatas[secondTeam];
+                    officialTeamDatas[firstTeam].lose++;
+                    officialTeamDatas[secondTeam].win++;
 
-                    officialDataFrist.lose++;
-                    officialDataSecond.win++;
+                    officialTeamDatas[secondTeam].setWin += 2;
+                    officialTeamDatas[secondTeam].setLose += UnityEngine.Random.Range(0, 2);
+                    officialTeamDatas[firstTeam].setWin += officialTeamDatas[secondTeam].setLose;
+                    officialTeamDatas[firstTeam].setLose += 2;
 
-                    officialDataSecond.setWin += 2;
-                    officialDataSecond.setLose += UnityEngine.Random.Range(0, 2);
-                    officialDataFrist.setWin += officialDataSecond.setLose;
-                    officialDataFrist.setLose += 2;
-
-                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialDataFrist.setWin;
-                    officialMatchResult[officialWeekNum - 1, (2 * i) + 1] = officialDataSecond.setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialTeamDatas[firstTeam].setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i) + 1] = officialTeamDatas[secondTeam].setWin;
                 }
                 
 
@@ -923,12 +952,14 @@ public class GamePlayerInfo : MonoBehaviour
     public void ReleaseOfficial()
     {
         isOnOfficial = false;
+        endScrimmage = true;
         //officialLevel에 따라 보상
     }
 
     public void FinalWinOnOfficial()
     {
         officialLevel++;
+        endScrimmage = true;
         isOnOfficial = false;
     }
 }
@@ -1011,3 +1042,160 @@ public class PlayerConverter : JsonConverter<Player>
         writer.WriteEndObject();
     }
 }
+
+public class EnemyInfoConverter : JsonConverter<EnemyInfo>
+{
+    public override EnemyInfo ReadJson(JsonReader reader, Type objectType, EnemyInfo existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        var jobj = JObject.Load(reader);
+        EnemyInfo player = new EnemyInfo();
+
+        player.name = (string)jobj["name"];
+        player.code = (int)jobj["code"];
+        player.type = (int)jobj["type"];
+        player.grade = (int)jobj["grade"];
+        player.info = (string)jobj["info"];
+        player.weaponType = (int)jobj["weaponType"];
+        player.atkType = (int)jobj["atkType"];
+        player.kitingType = (int)jobj["kitingType"];
+        player.mag = (int)jobj["mag"];
+        player.reload = (float)jobj["reload"];
+        player.hp = (int)jobj["hp"];
+        player.atk = (int)jobj["atk"];
+        player.atkRate = (float)jobj["atkRate"];
+        player.moveSpeed = (float)jobj["moveSpeed"];
+        player.sight = (float)jobj["sight"];
+        player.range = (float)jobj["range"];
+        player.critical = (float)jobj["critical"];
+        player.accuracy = (float)jobj["accuracy"];
+        player.reaction = (float)jobj["reaction"];
+        player.detection = (float)jobj["detection"];
+
+        return player;
+    }
+
+    public override void WriteJson(JsonWriter writer, EnemyInfo value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+
+        writer.WritePropertyName("name");
+        writer.WriteValue(value.name);
+        writer.WritePropertyName("code");
+        writer.WriteValue(value.code);
+        writer.WritePropertyName("type");
+        writer.WriteValue(value.type);
+        writer.WritePropertyName("grade");
+        writer.WriteValue(value.grade);
+        writer.WritePropertyName("uniqueSkill");
+        writer.WriteValue(value.uniqueSkill);
+        writer.WritePropertyName("info");
+        writer.WriteValue(value.info);
+        writer.WritePropertyName("weaponType");
+        writer.WriteValue(value.weaponType);
+        writer.WritePropertyName("atkType");
+        writer.WriteValue(value.atkType);
+        writer.WritePropertyName("kitingType");
+        writer.WriteValue(value.kitingType);
+        writer.WritePropertyName("mag");
+        writer.WriteValue(value.mag);
+        writer.WritePropertyName("reload");
+        writer.WriteValue(value.reload);
+        writer.WritePropertyName("hp");
+        writer.WriteValue(value.hp);
+        writer.WritePropertyName("atk");
+        writer.WriteValue(value.atk);
+        writer.WritePropertyName("atkRate");
+        writer.WriteValue(value.atkRate);
+        writer.WritePropertyName("moveSpeed");
+        writer.WriteValue(value.moveSpeed);
+        writer.WritePropertyName("sight");
+        writer.WriteValue(value.sight);
+        writer.WritePropertyName("range");
+        writer.WriteValue(value.range);
+        writer.WritePropertyName("critical");
+        writer.WriteValue(value.critical);
+        writer.WritePropertyName("accuracy");
+        writer.WriteValue(value.accuracy);
+        writer.WritePropertyName("reaction");
+        writer.WriteValue(value.reaction);
+        writer.WritePropertyName("detection");
+        writer.WriteValue(value.detection);
+
+
+        writer.WriteEndObject();
+    }
+}
+
+
+public class OfficialTeamDataConverter : JsonConverter<OfficialTeamData>
+{
+    public override OfficialTeamData ReadJson(JsonReader reader, Type objectType, OfficialTeamData existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        var jobj = JObject.Load(reader);
+        OfficialTeamData player = new OfficialTeamData();
+
+        player.name = (string)jobj["name"];
+        player.win = (int)jobj["win"];
+        player.lose = (int)jobj["lose"];
+        player.setWin = (int)jobj["setWin"];
+        player.setLose = (int)jobj["setLose"];
+        player.isPlayer = (bool)jobj["isPlayer"];
+
+
+        return player;
+    }
+
+    public override void WriteJson(JsonWriter writer, OfficialTeamData value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+
+        writer.WritePropertyName("name");
+        writer.WriteValue(value.name);
+        writer.WritePropertyName("win");
+        writer.WriteValue(value.win);
+        writer.WritePropertyName("lose");
+        writer.WriteValue(value.lose);
+        writer.WritePropertyName("setWin");
+        writer.WriteValue(value.setWin);
+        writer.WritePropertyName("setLose");
+        writer.WriteValue(value.setLose);
+        writer.WritePropertyName("isPlayer");
+        writer.WriteValue(value.isPlayer);
+
+
+        writer.WriteEndObject();
+    }
+}
+
+
+public class OfficialPlayerDataConverter : JsonConverter<OfficialPlayerData>
+{
+    public override OfficialPlayerData ReadJson(JsonReader reader, Type objectType, OfficialPlayerData existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        var jobj = JObject.Load(reader);
+        OfficialPlayerData player = new OfficialPlayerData();
+
+        player.playCount = (int)jobj["playCount"];
+        player.kill = (int)jobj["kill"];
+        player.death = (int)jobj["death"];
+        player.totalDamage = (int)jobj["totalDamage"];
+        return player;
+    }
+
+    public override void WriteJson(JsonWriter writer, OfficialPlayerData value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+
+        writer.WritePropertyName("playCount");
+        writer.WriteValue(value.playCount);
+        writer.WritePropertyName("kill");
+        writer.WriteValue(value.kill);
+        writer.WritePropertyName("death");
+        writer.WriteValue(value.death);
+        writer.WritePropertyName("totalDamage");
+        writer.WriteValue(value.totalDamage);
+
+        writer.WriteEndObject();
+    }
+}
+

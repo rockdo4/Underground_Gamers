@@ -109,6 +109,8 @@ public class ManagerRecruitTrade : ManagerRecruit
             }
             count++;
         }
+
+        GamePlayerInfo.instance.SaveFile();
     }
 
     public void ShuffleCards()

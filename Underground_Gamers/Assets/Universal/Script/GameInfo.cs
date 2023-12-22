@@ -51,6 +51,7 @@ public class GameInfo : MonoBehaviour
 
     public void StartGame()
     {
+        GamePlayerInfo.instance.SaveFile();
         switch (gameType)
         {
             case GameType.Story:
@@ -58,11 +59,14 @@ public class GameInfo : MonoBehaviour
                 break;
             case GameType.Official:
                 {
-                    entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(0));
-                    entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(1));
-                    entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(2));
-                    entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(3));
-                    entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(4));
+                    entryPlayer = new List<Player>
+                    {
+                        GamePlayerInfo.instance.GetOfficialPlayer(0),
+                        GamePlayerInfo.instance.GetOfficialPlayer(1),
+                        GamePlayerInfo.instance.GetOfficialPlayer(2),
+                        GamePlayerInfo.instance.GetOfficialPlayer(3),
+                        GamePlayerInfo.instance.GetOfficialPlayer(4)
+                    };
                 }
                 break;
             case GameType.Scrimmage:
@@ -75,7 +79,7 @@ public class GameInfo : MonoBehaviour
     {
         GamePlayerInfo.instance.isOnSchedule = false;
         var stateDefines = DataTableManager.instance.stateDef;
-        
+
         for (int i = 0; i < 5; i++)
         {
             var player = entryPlayer[i];
