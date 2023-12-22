@@ -93,7 +93,7 @@ public class GameInfo : MonoBehaviour
                 ti.AddStats(playerInfo);
             }
             var madePlayer = Instantiate(playerObj);
-            madePlayer.AddComponent<DontDestroy>();
+            //madePlayer.AddComponent<DontDestroy>();
 
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{player.code}")), madePlayer.transform);
             madePlayerCharactor.AddComponent<LookCameraRect>();
