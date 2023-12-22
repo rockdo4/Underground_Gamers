@@ -726,55 +726,48 @@ public class GamePlayerInfo : MonoBehaviour
 
             if (firstTeam == 7)
             {
-                var officialDataFrist = officialTeamDatas[firstTeam];
-                var officialDataSecond = officialTeamDatas[secondTeam];
-
                 if (isWin)
                 {
-                    officialDataFrist.win++;
-                    officialDataSecond.lose++;
+                    officialTeamDatas[firstTeam].win++;
+                    officialTeamDatas[secondTeam].lose++;
                 }
                 else
                 {
-                    officialDataFrist.lose++;
-                    officialDataSecond.win++;
+                    officialTeamDatas[firstTeam].lose++;
+                    officialTeamDatas[secondTeam].win++;
                 }
-                
 
-                officialDataFrist.setWin += setWin;
-                officialDataFrist.setLose += setLose;
-                officialDataSecond.setWin += setLose;
-                officialDataSecond.setLose += setWin;
+                officialTeamDatas[firstTeam].setWin += setWin;
+                officialTeamDatas[firstTeam].setLose += setLose;
+                officialTeamDatas[secondTeam].setWin += setLose;
+                officialTeamDatas[secondTeam].setLose += setWin;
 
-                officialMatchResult[officialWeekNum, (2 * i)] = officialDataFrist.setWin;
-                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialDataSecond.setWin;
+                officialMatchResult[officialWeekNum, (2 * i)] = officialTeamDatas[firstTeam].setWin;
+                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialTeamDatas[secondTeam].setWin;
 
                 return;
             }
             else if (secondTeam == 7)
             {
-                var officialDataFrist = officialTeamDatas[firstTeam];
-                var officialDataSecond = officialTeamDatas[secondTeam];
-
                 if (isWin)
                 {
-                    officialDataFrist.lose++;
-                    officialDataSecond.win++;
+                    officialTeamDatas[firstTeam].lose++;
+                    officialTeamDatas[secondTeam].win++;
                 }
                 else
                 {
-                    officialDataFrist.win++;
-                    officialDataSecond.lose++;
+                    officialTeamDatas[firstTeam].win++;
+                    officialTeamDatas[secondTeam].lose++;
                 }
 
 
-                officialDataFrist.setWin += setLose;
-                officialDataFrist.setLose += setWin;
-                officialDataSecond.setWin += setWin;
-                officialDataSecond.setLose += setLose;
+                officialTeamDatas[firstTeam].setWin += setLose;
+                officialTeamDatas[firstTeam].setLose += setWin;
+                officialTeamDatas[secondTeam].setWin += setWin;
+                officialTeamDatas[secondTeam].setLose += setLose;
 
-                officialMatchResult[officialWeekNum, (2 * i)] = officialDataFrist.setWin;
-                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialDataSecond.setWin;
+                officialMatchResult[officialWeekNum, (2 * i)] = officialTeamDatas[firstTeam].setWin;
+                officialMatchResult[officialWeekNum, (2 * i) + 1] = officialTeamDatas[secondTeam].setWin;
                 return;
             }
         }
@@ -816,35 +809,29 @@ public class GamePlayerInfo : MonoBehaviour
 
                 if (firstValue > secondValue)
                 {
-                    var officialDataFrist = officialTeamDatas[firstTeam];
-                    var officialDataSecond = officialTeamDatas[secondTeam];
+                    officialTeamDatas[firstTeam].win++;
+                    officialTeamDatas[secondTeam].lose++;
 
-                    officialDataFrist.win++;
-                    officialDataSecond.lose++;
+                    officialTeamDatas[firstTeam].setWin += 2;
+                    officialTeamDatas[firstTeam].setLose += UnityEngine.Random.Range(0,2);
+                    officialTeamDatas[secondTeam].setWin += officialTeamDatas[firstTeam].setLose;
+                    officialTeamDatas[secondTeam].setLose += 2;
 
-                    officialDataFrist.setWin += 2;
-                    officialDataFrist.setLose += UnityEngine.Random.Range(0,2);
-                    officialDataSecond.setWin += officialDataFrist.setLose;
-                    officialDataSecond.setLose += 2;
-
-                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialDataFrist.setWin;
-                    officialMatchResult[officialWeekNum - 1, (2 * i)+1] = officialDataSecond.setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialTeamDatas[firstTeam].setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i)+1] = officialTeamDatas[secondTeam].setWin;
                 }
                 else
                 {
-                    var officialDataFrist = officialTeamDatas[firstTeam];
-                    var officialDataSecond = officialTeamDatas[secondTeam];
+                    officialTeamDatas[firstTeam].lose++;
+                    officialTeamDatas[secondTeam].win++;
 
-                    officialDataFrist.lose++;
-                    officialDataSecond.win++;
+                    officialTeamDatas[secondTeam].setWin += 2;
+                    officialTeamDatas[secondTeam].setLose += UnityEngine.Random.Range(0, 2);
+                    officialTeamDatas[firstTeam].setWin += officialTeamDatas[secondTeam].setLose;
+                    officialTeamDatas[firstTeam].setLose += 2;
 
-                    officialDataSecond.setWin += 2;
-                    officialDataSecond.setLose += UnityEngine.Random.Range(0, 2);
-                    officialDataFrist.setWin += officialDataSecond.setLose;
-                    officialDataFrist.setLose += 2;
-
-                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialDataFrist.setWin;
-                    officialMatchResult[officialWeekNum - 1, (2 * i) + 1] = officialDataSecond.setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i)] = officialTeamDatas[firstTeam].setWin;
+                    officialMatchResult[officialWeekNum - 1, (2 * i) + 1] = officialTeamDatas[secondTeam].setWin;
                 }
                 
 
