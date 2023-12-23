@@ -1,3 +1,4 @@
+using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
@@ -112,6 +113,8 @@ public class GameEndPannel : MonoBehaviour
 
     public void EnterLobby()
     {
+        GameInfo.instance.ClearEntryPlayer();
+        GameInfo.instance.ClearMembersIndex();
         SceneManager.LoadScene("Lobby Scene");
     }
 
@@ -129,18 +132,24 @@ public class GameEndPannel : MonoBehaviour
         ResetTotalKillCount();
 
         gameManager.entryPanel.SetActiveEntryPanel(true);
-        gameManager.entryPanel.SetPlayerEntrySlotAndBenchSlot();
+        // 이곳에서 entryPanel의 EntryMembers초기화 해주어야함, 변경점
+        GameInfo.instance.ClearEntryPlayer();
+        //gameManager.entryPanel.SetNextRoundMemberIndex();
+        //gameManager.entryPanel.SetPlayerEntrySlotAndBenchSlot();
 
         // NextRound 시 매번 되어야 함
         gameManager.lineManager.ResetAllLines();
+
     }
 
     public void EndRound()
     {
+        GameInfo.instance.ClearEntryPlayer();
         gameManager.aiManager.ResetAI();
         GamePlayerInfo.instance.CalculateOfficialPlayer(gameManager.IsGameWin,
             gameManager.gameRuleManager.PCWinEvidenceCount,
             gameManager.gameRuleManager.NPCWinEvidenceCount);
+        //GameInfo.instance.ClearEntryPlayer();
         SceneManager.LoadScene("Lobby Scene");
     }
 

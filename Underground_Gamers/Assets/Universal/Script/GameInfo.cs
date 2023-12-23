@@ -39,6 +39,9 @@ public class GameInfo : MonoBehaviour
     private List<GameObject> players;
     private List<GameObject> enemys;
     private PlayerTable pt;
+    public List<int> entryMembersIndex = new List<int>();
+    public List<int> benchMembersIndex = new List<int>();
+
     public void Awake()
     {
         players = new List<GameObject>();
@@ -48,18 +51,50 @@ public class GameInfo : MonoBehaviour
     {
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
     }
-
-    public void SetEntryPlayer(int[] entryIndex)
+    
+    public void SetBenchMemberIndex(List<EntryPlayer> entryMembers)
     {
-        entryPlayer = new List<Player>()
+        benchMembersIndex.Clear();
+        foreach (EntryPlayer entryPlayer in entryMembers)
         {
-            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[0]),
-            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[1]),
-            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[2]),
-            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[3]),
-            GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[4])
-        };
+            benchMembersIndex.Add(entryPlayer.Index);
+        }
+        benchMembersIndex.Sort();
+    }
+    public void SetEntryMemeberIndex(List<EntryPlayer> entryMembers)
+    {
+        entryMembersIndex.Clear();
+        foreach (EntryPlayer entryPlayer in entryMembers)
+        {
+            this.entryMembersIndex.Add(entryPlayer.Index);
+        }
+
+        entryMembersIndex.Sort();
+    }
+
+    public int SortByIndex(EntryPlayer a, EntryPlayer b)
+    {
+        return a.Index.CompareTo(b.Index);
+    }
+
+    public void SetEntryPlayer(List<int> entryIndex)
+    {
+        foreach (int index in entryIndex)
+        {
+            entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(index - 1));
+        }
         GamePlayerInfo.instance.SaveFile();
+    }
+
+    public void ClearEntryPlayer()
+    {
+        entryPlayer.Clear();
+    }
+
+    public void ClearMembersIndex()
+    {
+        entryMembersIndex.Clear();
+        benchMembersIndex.Clear();
     }
 
     public void StartGame()
@@ -68,7 +103,11 @@ public class GameInfo : MonoBehaviour
         switch (gameType)
         {
             case GameType.Story:
-                entryPlayer = GamePlayerInfo.instance.usingPlayers;
+                foreach(Player player in GamePlayerInfo.instance.usingPlayers)
+                {
+                    entryPlayer.Add(player);
+                }
+
                 break;
             case GameType.Official:
                 {
@@ -76,7 +115,10 @@ public class GameInfo : MonoBehaviour
                 }
                 break;
             case GameType.Scrimmage:
-                entryPlayer = GamePlayerInfo.instance.usingPlayers;
+                foreach (Player player in GamePlayerInfo.instance.usingPlayers)
+                {
+                    entryPlayer.Add(player);
+                }
                 break;
         }
     }

@@ -1,6 +1,8 @@
 using DG.Tweening.Core.Easing;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EntryPanel : MonoBehaviour
@@ -14,6 +16,86 @@ public class EntryPanel : MonoBehaviour
     private PlayerTable pt;
 
     public Sprite[] conditionIcon = new Sprite[5];
+    private List<EntryPlayer> entryMembers = new List<EntryPlayer>();
+    private List<EntryPlayer> benchMembers = new List<EntryPlayer>();
+
+    public EntryPlayer selectedEntryMember;
+    public EntryPlayer selectedBenchMember;
+
+    public void SwapEntryMember()
+    {
+        if(selectedEntryMember != null && selectedBenchMember != null)
+        {
+            // UI 선택 해제
+            selectedEntryMember.SetActiveSelectOutline(false);
+            selectedBenchMember.SetActiveSelectOutline(false);
+
+            // 서호 List교환 후 / 실제 정보 Index도 교환해야함
+            selectedEntryMember.transform.SetParent(benchScrollView);
+            selectedBenchMember.transform.SetParent(entryScrollView);
+
+            // 정렬 필요
+            SortMembers(benchScrollView);
+            SortMembers(entryScrollView);
+
+            selectedEntryMember.isEntry = false;
+            selectedBenchMember.isEntry = true;
+
+            entryMembers.Remove(selectedEntryMember);
+            benchMembers.Add(selectedEntryMember);
+            benchMembers.Remove(selectedBenchMember);
+            entryMembers.Add(selectedBenchMember);
+
+            // 비워주기
+            selectedEntryMember = null;
+            selectedBenchMember = null;
+        }
+    }
+
+    public void SortMembers(Transform parent)
+    {
+        var childs = parent.GetComponentsInChildren<EntryPlayer>();
+        Array.Sort(childs, CompareByIndex);
+
+        foreach(var child in childs)
+        {
+            int index = child.Index;
+            child.transform.SetSiblingIndex(index);
+        }
+
+    }
+
+    private int CompareByIndex(EntryPlayer a, EntryPlayer b)
+    {
+        return a.Index.CompareTo(b.Index);
+    }
+
+    public void SetActiveMemberOutlines(bool isEntry, bool isActive)
+    {
+        if (isEntry)
+        {
+            SetActiveEntryMemberOutlines(isActive);
+        }
+        else
+        {
+            SetActiveBenchMemberOutlines(isActive);
+        }
+    }
+
+    public void SetActiveEntryMemberOutlines(bool isActive)
+    {
+        foreach (EntryPlayer player in entryMembers)
+        {
+            player.SetActiveSelectOutline(isActive);
+        }
+    }
+    public void SetActiveBenchMemberOutlines(bool isActive)
+    {
+        foreach (EntryPlayer player in benchMembers)
+        {
+            player.SetActiveSelectOutline(isActive);
+        }
+    }
 
     public void SetActiveEntryPanel(bool isActive)
     {
@@ -24,51 +106,93 @@ public class EntryPanel : MonoBehaviour
     public void CreateEntryPlayer(Transform parent, int index, Sprite illustration, string name, int playerHp, int playerAttack, Sprite grade, Sprite type, int level, Sprite codition, int skillLevel)
     {
         EntryPlayer entryPlayer = Instantiate(entryPlayerPrefab, parent);
-        entryPlayer.SetInfo(index, illustration, name, playerHp, playerAttack, grade, type, level, codition, skillLevel);
+        entryPlayer.SetInfo(gameManager, index, illustration, name, playerHp, playerAttack, grade, type, level, codition, skillLevel);
+
+        if (parent == entryScrollView)
+        {
+            entryPlayer.isEntry = true;
+            entryMembers.Add(entryPlayer);
+        }
+        else
+        {
+            entryPlayer.isEntry = false;
+            benchMembers.Add(entryPlayer);
+        }
     }
     public void SetEntryPlayerSlot(Transform parent, int index)
     {
         if (pt == null)
             pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
 
-        int code = GamePlayerInfo.instance.GetOfficialPlayer(index).code;
+        int code = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).code;
         if (code < 0)
         {
             Debug.Log("Code Error");
             return;
         }
         var playerInfo = pt.GetPlayerInfo(code);
-        var player = GamePlayerInfo.instance.GetOfficialPlayer(index);
+        var player = GamePlayerInfo.instance.GetOfficialPlayer(index - 1);
         foreach (var item in player.training)
         {
             var ti = pt.GetTrainingInfo(item);
             ti.AddStats(playerInfo);
         }
         Sprite illustration = pt.GetPlayerSprite(code);
-        var name = GamePlayerInfo.instance.GetOfficialPlayer(index).name;
+        var name = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).name;
         int playerHp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
         int playerAttack = (int)pt.CalculateCurrStats(playerInfo.atk, player.level);
-        var grade = pt.starsSprites[GamePlayerInfo.instance.GetOfficialPlayer(index).grade - 3];
-        var type = pt.playerTypeSprites[GamePlayerInfo.instance.GetOfficialPlayer(index).type - 1];
-        var level = GamePlayerInfo.instance.GetOfficialPlayer(index).level;
-        var condition = GamePlayerInfo.instance.GetOfficialPlayer(index).condition;
+        var grade = pt.starsSprites[GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3];
+        var type = pt.playerTypeSprites[GamePlayerInfo.instance.GetOfficialPlayer(index - 1).type - 1];
+        var level = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).level;
+        var condition = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).condition;
         //var skillIcon;
         //var skillName;
-        var skillLevel = GamePlayerInfo.instance.GetOfficialPlayer(index).skillLevel;
+        var skillLevel = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).skillLevel;
+
+        // 이 인덱스 생각하기
         CreateEntryPlayer(parent, index, illustration, name, playerHp, playerAttack, grade, type, level, conditionIcon[condition], skillLevel);
     }
 
+    public void SetOriginMemberIndex()
+    {
+        for (int entryInedx = 1; entryInedx < 6; ++entryInedx)
+        {
+            GameInfo.instance.entryMembersIndex.Add(entryInedx);
+        }
+        for (int benchIndex = 6; benchIndex < 9; ++benchIndex)
+        {
+            GameInfo.instance.benchMembersIndex.Add(benchIndex);
+        }
+    }    
+    
+    public void SetNextRoundMemberIndex()
+    {
+        // 한번만 해주면 된다.
+        //foreach(EntryPlayer entryPlayer in entryMembers)
+        //{
+        //    GameInfo.instance.entryMembersIndex.Add(entryPlayer.Index);
+        //}        
+        
+        //foreach(EntryPlayer entryPlayer in benchMembers)
+        //{
+        //    GameInfo.instance.benchMembersIndex.Add(entryPlayer.Index);
+        //}
+    }
+
+
     public void SetPlayerEntrySlotAndBenchSlot()
     {
-        for (int i = 0; i < GamePlayerInfo.instance.officialPlayers.Count; ++i)
+        foreach (int entryIndex in GameInfo.instance.entryMembersIndex)
         {
-            if (i < 5)
-                SetEntryPlayerSlot(entryScrollView, i);
-            else
-                SetEntryPlayerSlot(benchScrollView, i);
+            SetEntryPlayerSlot(entryScrollView, entryIndex);
+        }
+        foreach (int benchIndex in GameInfo.instance.benchMembersIndex)
+        {
+            SetEntryPlayerSlot(benchScrollView, benchIndex);
         }
     }
 
+    // 배틀레이아웃 포지로 넘어가는 함수
     public void SetBattleLayoutForge()
     {
         GameInfo.instance.StartGame();
@@ -76,11 +200,11 @@ public class EntryPanel : MonoBehaviour
         // 엔트리 결정 후 라인 지정 가기전에 해줘야 할 것들
         gameManager.entryPanel.SetActiveEntryPanel(false);
 
-        int[] temp = new int[5]
-        {
-            0, 1, 2, 3, 4
-        };
-        GameInfo.instance.SetEntryPlayer(temp);
+
+        SetNextRoundMemberIndex();
+        GameInfo.instance.SetEntryMemeberIndex(entryMembers);
+        GameInfo.instance.SetBenchMemberIndex(benchMembers);
+        GameInfo.instance.SetEntryPlayer(GameInfo.instance.entryMembersIndex);
         GameInfo.instance.MakePlayers();
         gameManager.settingAIID.SetAIIDs();
         //gameManager.entryManager.RefreshSelectLineButton();
