@@ -22,7 +22,7 @@ public class OfficialPlayerTable : MonoBehaviour
     private TMP_Text[] popupText = new TMP_Text[18];
 
 
-    public void SetInfos(OfficialPlayerData officialPlayerData,int index)
+    public void SetInfos(OfficialPlayerData officialPlayerData, int index)
     {
         playerIndex = index;
         button.onClick.RemoveAllListeners();
@@ -35,8 +35,22 @@ public class OfficialPlayerTable : MonoBehaviour
             infos[1].text = officialPlayerData.playCount.ToString();
             infos[2].text = officialPlayerData.kill.ToString();
             infos[3].text = officialPlayerData.death.ToString();
-            infos[4].text = ((float)officialPlayerData.kill/ officialPlayerData.death).ToString("1F");
-            infos[5].text = ((float)officialPlayerData.totalDamage / officialPlayerData.playCount).ToString("1F");
+            if (officialPlayerData.death != 0f)
+            {
+                infos[4].text = ((float)officialPlayerData.kill / officialPlayerData.death).ToString("1F");
+            }
+            else
+            {
+                infos[4].text = ((float)officialPlayerData.kill).ToString("1F");
+            }
+            if (officialPlayerData.playCount != 0f)
+            {
+                infos[5].text = ((float)officialPlayerData.totalDamage / officialPlayerData.playCount).ToString("1F");
+            }
+            else
+            {
+                infos[5].text = ((float)officialPlayerData.totalDamage).ToString("1F");
+            }
             infos[6].text = officialPlayerData.totalDamage.ToString();
             button.onClick.AddListener(OpenInfoWindow);
         }
@@ -62,19 +76,19 @@ public class OfficialPlayerTable : MonoBehaviour
             ti.AddStats(currPlayerInfo);
         }
 
-        if (currPlayer != null && currPlayer.code >= 0) 
+        if (currPlayer != null && currPlayer.code >= 0)
         {
             popupPlayerDetailInfo.SetActive(true);
             popupImages[0].sprite = image.sprite;
-            popupImages[1].sprite = pt.playerTypeSprites[currPlayer.type -1];
+            popupImages[1].sprite = pt.playerTypeSprites[currPlayer.type - 1];
             popupImages[2].sprite = pt.starsSprites[currPlayer.grade - 3];
             //popupImages[3].sprite = image.sprite;
             //스킬이미지
             popupText[0].text = currPlayer.name;
             popupText[1].text = st.Get($"type{currPlayer.type}");
-            popupText[2].text = st.Get("level") +$" : {currPlayer.level}";
-            popupText[3].text = st.Get("break") +$" : {currPlayer.breakthrough}";
-            popupText[4].text = st.Get("skill_level") +$" : {currPlayer.skillLevel}";
+            popupText[2].text = st.Get("level") + $" : {currPlayer.level}";
+            popupText[3].text = st.Get("break") + $" : {currPlayer.breakthrough}";
+            popupText[4].text = st.Get("skill_level") + $" : {currPlayer.skillLevel}";
             //popupText[5].text = $" : {currentPlayer.skillLevel}";
             //스킬이름
             popupText[6].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp, currPlayer.level).ToString("F0")}";

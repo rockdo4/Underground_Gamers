@@ -21,18 +21,18 @@ public class PopupOfficialFinalSchedule : MonoBehaviour
 
             if (first == second)
             {
-                teamNamesBack[i].color = Color.white;
-                teamNamesBack[i + 1].color = Color.white;
+                teamNamesBack[(i * 2)].color = Color.white;
+                teamNamesBack[(i * 2) + 1].color = Color.white;
             }
             else if (first > second)
             {
-                teamNamesBack[i].color = Color.green;
-                teamNamesBack[i + 1].color = Color.red;
+                teamNamesBack[(i * 2)].color = Color.green;
+                teamNamesBack[(i * 2) + 1].color = Color.red;
             }
             else
             {
-                teamNamesBack[i].color = Color.red;
-                teamNamesBack[i + 1].color = Color.green;
+                teamNamesBack[(i * 2)].color = Color.red;
+                teamNamesBack[(i * 2) + 1].color = Color.green;
             }
 
             for (int j = 0; j < 2; j++)

@@ -10,18 +10,27 @@ public class PopupOfficialEnds : MonoBehaviour
 
     private void OnEnable()
     {
-        var st = DataTableManager.instance.Get<StringTable>(DataType.String);
+        var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+        var str = DataTableManager.instance.Get<StringTable>(DataType.String);
         if(GamePlayerInfo.instance.officialWeekNum <= 7)
         {
-            title.text = st.Get("playoff_fail");
+            title.text = str.Get("playoff_fail");
         }
-        else if(GamePlayerInfo.instance.officialWeekNum < 10)
+        else if(GamePlayerInfo.instance.officialWeekNum <= 10)
         {
-            title.text = st.Get($"grade{11 - GamePlayerInfo.instance.officialWeekNum}");
+            title.text = str.Get($"grade{12 - GamePlayerInfo.instance.officialWeekNum}");
         }
         else
         {
-            title.text = st.Get("win_official");
+            title.text = str.Get("win_official");
         }
+
+        var rewards = st.GetOfficialRewards();
+        for (int i = 0; i < counts.Length; i++)
+        {
+            counts[i].text = rewards[i].ToString();
+        }
+        GamePlayerInfo.instance.AddMoney(rewards[4], rewards[5], 0);
+        GamePlayerInfo.instance.GetXpItems(rewards[0], rewards[1], rewards[2], rewards[3]);
     }
 }
