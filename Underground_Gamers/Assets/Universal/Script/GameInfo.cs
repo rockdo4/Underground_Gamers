@@ -79,15 +79,6 @@ public class GameInfo : MonoBehaviour
 
     public void SetEntryPlayer(List<int> entryIndex)
     {
-        //entryPlayer = new List<Player>()
-        //{
-        //    GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[0]),
-        //    GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[1]),
-        //    GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[2]),
-        //    GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[3]),
-        //    GamePlayerInfo.instance.GetOfficialPlayer(entryIndex[4])
-        //};
-
         foreach (int index in entryIndex)
         {
             entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(index - 1));
@@ -100,13 +91,23 @@ public class GameInfo : MonoBehaviour
         entryPlayer.Clear();
     }
 
+    public void ClearMembersIndex()
+    {
+        entryMembersIndex.Clear();
+        benchMembersIndex.Clear();
+    }
+
     public void StartGame()
     {
         GamePlayerInfo.instance.SaveFile();
         switch (gameType)
         {
             case GameType.Story:
-                entryPlayer = GamePlayerInfo.instance.usingPlayers;
+                foreach(Player player in GamePlayerInfo.instance.usingPlayers)
+                {
+                    entryPlayer.Add(player);
+                }
+
                 break;
             case GameType.Official:
                 {
@@ -114,7 +115,10 @@ public class GameInfo : MonoBehaviour
                 }
                 break;
             case GameType.Scrimmage:
-                entryPlayer = GamePlayerInfo.instance.usingPlayers;
+                foreach (Player player in GamePlayerInfo.instance.usingPlayers)
+                {
+                    entryPlayer.Add(player);
+                }
                 break;
         }
     }

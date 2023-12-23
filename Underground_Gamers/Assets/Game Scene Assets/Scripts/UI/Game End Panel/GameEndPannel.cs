@@ -113,6 +113,8 @@ public class GameEndPannel : MonoBehaviour
 
     public void EnterLobby()
     {
+        GameInfo.instance.ClearEntryPlayer();
+        GameInfo.instance.ClearMembersIndex();
         SceneManager.LoadScene("Lobby Scene");
     }
 
@@ -142,6 +144,7 @@ public class GameEndPannel : MonoBehaviour
 
     public void EndRound()
     {
+        GameInfo.instance.ClearEntryPlayer();
         gameManager.aiManager.ResetAI();
         GamePlayerInfo.instance.CalculateOfficialPlayer(gameManager.IsGameWin,
             gameManager.gameRuleManager.PCWinEvidenceCount,
