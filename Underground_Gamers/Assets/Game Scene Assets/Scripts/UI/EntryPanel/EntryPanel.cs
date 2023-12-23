@@ -24,7 +24,7 @@ public class EntryPanel : MonoBehaviour
 
     public void SwapEntryMember()
     {
-        if(selectedEntryMember != null && selectedBenchMember != null)
+        if (selectedEntryMember != null && selectedBenchMember != null)
         {
             // UI 선택 해제
             selectedEntryMember.SetActiveSelectOutline(false);
@@ -57,7 +57,7 @@ public class EntryPanel : MonoBehaviour
         var childs = parent.GetComponentsInChildren<EntryPlayer>();
         Array.Sort(childs, CompareByIndex);
 
-        foreach(var child in childs)
+        foreach (var child in childs)
         {
             int index = child.Index;
             child.transform.SetSiblingIndex(index);
@@ -165,7 +165,7 @@ public class EntryPanel : MonoBehaviour
         {
             GameInfo.instance.benchMembersIndex.Add(benchIndex);
         }
-    }    
+    }
     public void SetPlayerEntrySlotAndBenchSlot()
     {
         foreach (int entryIndex in GameInfo.instance.entryMembersIndex)
@@ -186,15 +186,19 @@ public class EntryPanel : MonoBehaviour
         // 엔트리 결정 후 라인 지정 가기전에 해줘야 할 것들
         gameManager.entryPanel.SetActiveEntryPanel(false);
 
-        GameInfo.instance.SetEntryMemeberIndex(entryMembers);
-        GameInfo.instance.SetBenchMemberIndex(benchMembers);
-        GameInfo.instance.SetEntryPlayer(GameInfo.instance.entryMembersIndex);
+        if (gameManager.gameRuleManager.gameType == GameType.Official)
+        {
+            GameInfo.instance.SetEntryMemeberIndex(entryMembers);
+            GameInfo.instance.SetBenchMemberIndex(benchMembers);
+            GameInfo.instance.SetEntryPlayer(GameInfo.instance.entryMembersIndex);
+        }
         GameInfo.instance.MakePlayers();
         gameManager.settingAIID.SetAIIDs();
         //gameManager.entryManager.RefreshSelectLineButton();
 
         // 라인 지정 UI
-        gameManager.entryManager.ResetBattleLayoutForge(GameInfo.instance.entryMembersIndex);
+        if (gameManager.gameRuleManager.gameType == GameType.Official)
+            gameManager.entryManager.ResetBattleLayoutForge(GameInfo.instance.entryMembersIndex);
         // 라인 지정 UI On
         gameManager.battleLayoutForge.SetActiveBattleLayoutForge(true);
     }

@@ -67,11 +67,16 @@ public class DragBattleLayoutSlot : DragSlot
     public void MatchAI(AIController ai, GameManager gameManager, int index)
     {
         this.AI = ai;
-        var grade = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3;
+        this.gameManager = gameManager;
+        int grade = 0;
+        if (this.gameManager.gameRuleManager.gameType == GameType.Official)
+             grade = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3;
+        else
+            grade = GamePlayerInfo.instance.usingPlayers[index].grade - 3;
+
         outline.color = outlineColors[grade];
         AI.commandInfoOutlineColor = outlineColors[grade];
         this.battleLayoutForge = gameManager.battleLayoutForge;
-        this.gameManager = gameManager;
         this.gameManager.uiCanvas = gameManager.uiCanvas;
         ghostImage = Instantiate(ghostImagePrefab, this.gameManager.uiCanvas);
         ghostImage.SetGhostImage(AI.status.illustration);

@@ -7,9 +7,11 @@ using UnityEngine.UI;
 
 public enum Condition
 {
-    Smile,
-    Neutral,
-    Sad,
+    Best,
+    Good,
+    Moderate,
+    Poor,
+    Worst,
     Count
 }
 
