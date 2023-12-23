@@ -30,6 +30,8 @@ public class BaseUIManager : LobbySceneSubscriber
     private StringTable st;
     private MainUIAnimator UIanimator;
 
+    [SerializeField]
+    private MenuMover menuMover;
     public override void OnEnter()
     {
         base.OnEnter();
@@ -67,10 +69,15 @@ public class BaseUIManager : LobbySceneSubscriber
             }
             
         }
+        menuMover.StartMenuMove();
     }
 
     public void InitBaseUIWithMotion()
     {
+        if (UIanimator == null)
+        {
+            UIanimator = GetComponent<MainUIAnimator>();
+        }
         UIanimator.DoOpen();
         InitBaseUI();
     }

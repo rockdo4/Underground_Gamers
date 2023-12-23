@@ -41,7 +41,7 @@ public class OfficialPlayerTable : MonoBehaviour
             }
             else
             {
-                infos[4].text = ((float)officialPlayerData.kill).ToString("1F");
+                infos[4].text = officialPlayerData.kill.ToString();
             }
             if (officialPlayerData.playCount != 0f)
             {
@@ -49,7 +49,7 @@ public class OfficialPlayerTable : MonoBehaviour
             }
             else
             {
-                infos[5].text = ((float)officialPlayerData.totalDamage).ToString("1F");
+                infos[5].text = officialPlayerData.totalDamage.ToString();
             }
             infos[6].text = officialPlayerData.totalDamage.ToString();
             button.onClick.AddListener(OpenInfoWindow);

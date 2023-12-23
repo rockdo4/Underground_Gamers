@@ -74,6 +74,7 @@ public class GamePlayerInfo : MonoBehaviour
     private PlayerTable pt;
     private StageTable st;
     private StringTable str;
+    public int willOpenMenu = 0;
 
     [HideInInspector]
     public List<Sprite> itemSpriteList = new List<Sprite>();
