@@ -43,6 +43,8 @@ public class CommandInfo : MonoBehaviour
     public Image internalClassIcon;
     public Image externalClassIcon;
 
+    public Image outline;
+
     private void Awake()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -117,5 +119,10 @@ public class CommandInfo : MonoBehaviour
     {
         internalClassIcon.sprite = sprite;
         externalClassIcon.sprite = sprite;
+    }
+
+    public void SetOutlineColor(Color color)
+    {
+        outline.color = color;
     }
 }

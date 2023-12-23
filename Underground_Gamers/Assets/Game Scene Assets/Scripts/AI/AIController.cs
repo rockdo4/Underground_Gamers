@@ -165,6 +165,7 @@ public class AIController : MonoBehaviour
     public string statusName;
     public DebugAIStatusInfo debugAIStatusInfo;
     public CommandInfo aiCommandInfo;
+    public Color commandInfoOutlineColor;
     public TextMeshProUGUI aiType;
     public int aiIndex;
     public AICanvas canvas;

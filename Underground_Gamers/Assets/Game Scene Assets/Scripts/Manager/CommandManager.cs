@@ -169,6 +169,7 @@ public class CommandManager : MonoBehaviour
             ai.aiCommandInfo.aiName.text = ai.status.AIName;
             info.aiController = ai;
             info.SetClassIcon(ai.status.aiClass);
+            info.SetOutlineColor(ai.commandInfoOutlineColor);
 
             // 초상화 생성
             var portrait = info.portrait;
@@ -176,8 +177,9 @@ public class CommandManager : MonoBehaviour
             var conditions = info.conditions;
 
             // 테스트 코드, 0~3, Lobby에서 받을때 사용 금지 / 컨디션 입력
-            portrait.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(ai.code);
+            portrait.sprite = gameManager.pt.GetPlayerSprite(ai.code);
             conditionIcon.sprite = conditions[ai.status.condition];
+
 
             // 텍스트 입히기
             info.name = $"{info.name}{pcNum}";

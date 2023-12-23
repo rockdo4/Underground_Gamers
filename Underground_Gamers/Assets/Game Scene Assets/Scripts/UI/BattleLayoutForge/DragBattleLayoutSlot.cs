@@ -16,6 +16,8 @@ public class DragBattleLayoutSlot : DragSlot
     private BattleLayoutForge battleLayoutForge;
 
     private List<AIController> currentEntry;
+    public Color[] outlineColors = new Color[3];
+    public Image outline;
 
     public AIController AI { get; private set; }
 
@@ -62,9 +64,12 @@ public class DragBattleLayoutSlot : DragSlot
         }
     }
 
-    public void MatchAI(AIController ai, GameManager gameManager)
+    public void MatchAI(AIController ai, GameManager gameManager, int index)
     {
         this.AI = ai;
+        var grade = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3;
+        outline.color = outlineColors[grade];
+        AI.commandInfoOutlineColor = outlineColors[grade];
         this.battleLayoutForge = gameManager.battleLayoutForge;
         this.gameManager = gameManager;
         this.gameManager.uiCanvas = gameManager.uiCanvas;

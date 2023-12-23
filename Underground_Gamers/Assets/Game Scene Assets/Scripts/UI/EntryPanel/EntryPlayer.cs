@@ -21,25 +21,33 @@ public class EntryPlayer : MonoBehaviour, IPointerClickHandler
     public TextMeshProUGUI skillLevelText;
 
     public GameObject selectOutline;
+    public Image bg;
 
     public bool isEntry = false;
     public bool isSelected = false;
 
     private GameManager gameManager;
+    public Color[] outlineColors = new Color[3];
 
-    public void SetInfo(GameManager gameManager, int index, Sprite illustration, string name, int playerHp, int playerAttack, Sprite grade, Sprite type, int level, Sprite codition, int skillLevel)
+    public void SetInfo(GameManager gameManager, int index, Sprite illustration, string name, int playerHp, int playerAttack, int grade, Sprite type, int level, Sprite codition, int skillLevel)
     {
         this.gameManager = gameManager;
         this.Index = index;
         playerNameText.text = $"{name}";
         illustrationIcon.sprite = illustration;
-        playerHpText.text = $"{playerHp}";
-        playerAttackText.text = $"{playerAttack}";
-        gradeIcon.sprite = grade;
+        playerHpText.text = $"{this.gameManager.str.Get("hp")} {playerHp}";
+        playerAttackText.text = $"{this.gameManager.str.Get("atk")} {playerAttack}";
+        gradeIcon.sprite = this.gameManager.pt.starsSprites[grade];
+        SetBgColor(grade);
         classIcon.sprite = type;
-        levelText.text = $"{level}";
+        levelText.text = $"{this.gameManager.str.Get("lv")} {level}";
         conditionIcon.sprite = codition;
-        skillLevelText.text = $"{skillLevel}";
+        skillLevelText.text = $"{this.gameManager.str.Get("skill lv")} {skillLevel}";
+    }
+
+    public void SetBgColor(int grade)
+    {
+        bg.color = outlineColors[grade];
     }
     public void SetActiveSelectOutline(bool isActive)
     {

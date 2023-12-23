@@ -37,6 +37,10 @@ public class GameManager : MonoBehaviour
     public GameSpeedFactor gameSpeedFactor;
     public EntryPanel entryPanel;
 
+    public PlayerTable pt;
+    public StringTable str;
+
+
     public float endTimer;
     public float endTime;
 
@@ -49,6 +53,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         PlayingGame();
+        pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        str = DataTableManager.instance.Get<StringTable>(DataType.String);
     }
 
     private void DisplayGameTimer(float time)

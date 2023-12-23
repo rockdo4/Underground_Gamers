@@ -103,7 +103,7 @@ public class EntryPanel : MonoBehaviour
         gameManager.IsStart = false;
         gameObject.SetActive(isActive);
     }
-    public void CreateEntryPlayer(Transform parent, int index, Sprite illustration, string name, int playerHp, int playerAttack, Sprite grade, Sprite type, int level, Sprite codition, int skillLevel)
+    public void CreateEntryPlayer(Transform parent, int index, Sprite illustration, string name, int playerHp, int playerAttack, int grade, Sprite type, int level, Sprite codition, int skillLevel)
     {
         EntryPlayer entryPlayer = Instantiate(entryPlayerPrefab, parent);
         entryPlayer.SetInfo(gameManager, index, illustration, name, playerHp, playerAttack, grade, type, level, codition, skillLevel);
@@ -141,7 +141,9 @@ public class EntryPanel : MonoBehaviour
         var name = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).name;
         int playerHp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
         int playerAttack = (int)pt.CalculateCurrStats(playerInfo.atk, player.level);
-        var grade = pt.starsSprites[GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3];
+        //var grade = pt.starsSprites[GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3];
+        var grade = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3;
+
         var type = pt.playerTypeSprites[GamePlayerInfo.instance.GetOfficialPlayer(index - 1).type - 1];
         var level = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).level;
         var condition = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).condition;
@@ -164,22 +166,6 @@ public class EntryPanel : MonoBehaviour
             GameInfo.instance.benchMembersIndex.Add(benchIndex);
         }
     }    
-    
-    public void SetNextRoundMemberIndex()
-    {
-        // 한번만 해주면 된다.
-        //foreach(EntryPlayer entryPlayer in entryMembers)
-        //{
-        //    GameInfo.instance.entryMembersIndex.Add(entryPlayer.Index);
-        //}        
-        
-        //foreach(EntryPlayer entryPlayer in benchMembers)
-        //{
-        //    GameInfo.instance.benchMembersIndex.Add(entryPlayer.Index);
-        //}
-    }
-
-
     public void SetPlayerEntrySlotAndBenchSlot()
     {
         foreach (int entryIndex in GameInfo.instance.entryMembersIndex)
@@ -200,8 +186,6 @@ public class EntryPanel : MonoBehaviour
         // 엔트리 결정 후 라인 지정 가기전에 해줘야 할 것들
         gameManager.entryPanel.SetActiveEntryPanel(false);
 
-
-        SetNextRoundMemberIndex();
         GameInfo.instance.SetEntryMemeberIndex(entryMembers);
         GameInfo.instance.SetBenchMemberIndex(benchMembers);
         GameInfo.instance.SetEntryPlayer(GameInfo.instance.entryMembersIndex);
@@ -210,7 +194,7 @@ public class EntryPanel : MonoBehaviour
         //gameManager.entryManager.RefreshSelectLineButton();
 
         // 라인 지정 UI
-        gameManager.entryManager.ResetBattleLayoutForge();
+        gameManager.entryManager.ResetBattleLayoutForge(GameInfo.instance.entryMembersIndex);
         // 라인 지정 UI On
         gameManager.battleLayoutForge.SetActiveBattleLayoutForge(true);
     }
