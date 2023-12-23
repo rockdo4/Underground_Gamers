@@ -17,12 +17,30 @@ public class EntryManager : MonoBehaviour
 
     public void ResetBattleLayoutForge()
     {
+        int index = 0;
         foreach (var ai in gameManager.aiManager.pc)
         {
             DragBattleLayoutSlot slot = Instantiate(slotPrefab, entryPanel);
-            slot.MatchAI(ai, gameManager);
+            slot.MatchAI(ai, gameManager, index);
             slot.MatchPortrait();
             battleLayoutForge.AddSlot(slot);
+            index++;
+        }
+
+        RefreshSelectLineButton();
+    }    
+    
+    public void ResetBattleLayoutForge(List<int> indexs)
+    {
+        int index = 0;
+        
+        foreach (var ai in gameManager.aiManager.pc)
+        {
+            DragBattleLayoutSlot slot = Instantiate(slotPrefab, entryPanel);
+            slot.MatchAI(ai, gameManager, indexs[index]);
+            slot.MatchPortrait();
+            battleLayoutForge.AddSlot(slot);
+            index++;
         }
 
         RefreshSelectLineButton();
