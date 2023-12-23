@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -308,4 +309,38 @@ public class StageTable : DataTable
         }
         return newEnemies;
     }
+
+    public List<int> GetScrimmageRewards(int level)
+    {
+        var newRewardsInfo = screanRewards.Find(a => a.id == ((level+1)*100) +(((int)DateTime.Now.DayOfWeek + 6) % 7)+1);
+        List<int> newRewards = new List<int>();
+        for (int i = 0; i < 5; i++)
+        {
+            if (newRewardsInfo.max[i] != 0)
+            {
+                newRewards.Add(UnityEngine.Random.Range(newRewardsInfo.min[i], newRewardsInfo.max[i] + 1));
+            }
+            else
+            {
+                newRewards.Add(0);
+            }
+        }
+        return newRewards;
+    }
+
+    public int[] GetOfficialRewards()
+    {
+        int grade = GamePlayerInfo.instance.officialWeekNum switch 
+        {
+            <= 7 => 4,
+            8 => 3,
+            9 => 2,
+            10 => 1,
+            _ => 0
+        };
+        int level = (GamePlayerInfo.instance.officialLevel + 1) * 100;
+
+        return officialRewards.Find(a => a.id == grade + level).reward;
+    }
+
 }

@@ -40,6 +40,7 @@ public class GameInfo : MonoBehaviour
     private List<GameObject> enemys;
     private PlayerTable pt;
 
+    //0부터 각각 경험치재화 1,2,3,4 ,골드, 크리스탈 순임
     private int[] rewards = new int[6] { 0, 0, 0, 0, 0, 0 };
     private int xpRewards;
     public void Awake()
@@ -73,22 +74,26 @@ public class GameInfo : MonoBehaviour
        
         switch (gameType)
         {
-            case GameType.Story: 
-                var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
-                StageInfo stageInfo = st.GetStageInfo(currentStage);
-                if (GamePlayerInfo.instance.cleardStage < currentStage)
+            case GameType.Story:
                 {
-                    for (int i = 0; i < 6; i++)
+                    var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+                    StageInfo stageInfo = st.GetStageInfo(currentStage);
+                    if (GamePlayerInfo.instance.cleardStage < currentStage)
                     {
-                        rewards[i] = stageInfo.rewards[i];
+                        for (int i = 0; i < 6; i++)
+                        {
+                            rewards[i] = stageInfo.rewards[i];
+                        }
                     }
-                       
+                    else
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            rewards[i] = stageInfo.rewards[i];
+                        }
+                    }
+                    entryPlayer = GamePlayerInfo.instance.usingPlayers;
                 }
-                else
-                {
-
-                }
-                entryPlayer = GamePlayerInfo.instance.usingPlayers;
                 break;
             case GameType.Official:
                 {
@@ -96,7 +101,15 @@ public class GameInfo : MonoBehaviour
                 }
                 break;
             case GameType.Scrimmage:
-                entryPlayer = GamePlayerInfo.instance.usingPlayers;
+                {
+                    entryPlayer = GamePlayerInfo.instance.usingPlayers;
+                    var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+                    var rewardInfo = st.GetScrimmageRewards(screammageLevel);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        rewards[i] = rewardInfo[i];
+                    }
+                }
                 break;
         }
     }
@@ -441,11 +454,11 @@ public class GameInfo : MonoBehaviour
         {
             if (GamePlayerInfo.instance.officialTeamDatas[10 - GamePlayerInfo.instance.officialWeekNum].isPlayer)
             {
-                enemies = GamePlayerInfo.instance.enemyTeams[GamePlayerInfo.instance.officialTeamDatas[10 - GamePlayerInfo.instance.officialWeekNum].index];
+                enemies = GamePlayerInfo.instance.enemyTeams[GamePlayerInfo.instance.officialTeamDatas[9 - GamePlayerInfo.instance.officialWeekNum].index];
             }
             else
             {
-                enemies = GamePlayerInfo.instance.enemyTeams[GamePlayerInfo.instance.officialTeamDatas[9 - GamePlayerInfo.instance.officialWeekNum].index];
+                enemies = GamePlayerInfo.instance.enemyTeams[GamePlayerInfo.instance.officialTeamDatas[10 - GamePlayerInfo.instance.officialWeekNum].index];
             }
         }
         for (int i = 0; i < 5; i++)
@@ -595,7 +608,7 @@ public class GameInfo : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             EnemyInfo playerInfo = enemys[i];
-            playerInfo.name = str.Get($"random_player_name{randIds[i]}");
+            playerInfo.name = $"{str.Get($"random_player_name{randIds[i]}")}";
             var madePlayer = Instantiate(enemyObj);
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("EnemySpum", $"{Random.Range(30001, 30030) + (Random.Range(1, 5) * 100)}")), madePlayer.transform);
             madePlayerCharactor.AddComponent<LookCameraRect>();
@@ -755,16 +768,23 @@ public class GameInfo : MonoBehaviour
                 {
                     GamePlayerInfo.instance.cleardStage = currentStage;
                 }
-                GamePlayerInfo.instance.AddMoney(currentStage * 30, currentStage * 10, 0);
-                GamePlayerInfo.instance.GetXpItems(10, 5, 1, 0);
+                GamePlayerInfo.instance.AddMoney(rewards[4], rewards[5], 0);
+                GamePlayerInfo.instance.GetXpItems(rewards[0], rewards[1], rewards[2], rewards[3]);
                 break;
             case GameType.Official:
                 break;
             case GameType.Scrimmage:
-                
+                GamePlayerInfo.instance.AddMoney(rewards[4], rewards[5], 0);
+                GamePlayerInfo.instance.GetXpItems(rewards[0], rewards[1], rewards[2], rewards[3]);
                 break;
         }
     }
 
-
+    public void UpdateOfficialPlayerResults(int index,int kill,int death,int totalDamage )
+    {
+        GamePlayerInfo.instance.officialPlayerDatas[index].playCount++;
+        GamePlayerInfo.instance.officialPlayerDatas[index].kill += kill;
+        GamePlayerInfo.instance.officialPlayerDatas[index].death += death;
+        GamePlayerInfo.instance.officialPlayerDatas[index].totalDamage += totalDamage;
+    }
 }

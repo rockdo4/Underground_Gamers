@@ -707,6 +707,7 @@ public class GamePlayerInfo : MonoBehaviour
         }
         else if (officialWeekNum == 7)
         {
+            CalculateOfficialRandomResults();
             CalculateOfficialToFinals();
         }
         else if(isWin && officialWeekNum >= 10)
@@ -964,7 +965,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public void FinalWinOnOfficial()
     {
-        officialLevel++;
+        officialWeekNum++;
         endScrimmage = true;
         isOnOfficial = false;
     }
