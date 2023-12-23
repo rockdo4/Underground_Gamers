@@ -1,6 +1,8 @@
 using DG.Tweening.Core.Easing;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EntryPanel : MonoBehaviour
@@ -14,29 +16,80 @@ public class EntryPanel : MonoBehaviour
     private PlayerTable pt;
 
     public Sprite[] conditionIcon = new Sprite[5];
-    private List<EntryPlayer> playerList = new List<EntryPlayer>();
     private List<EntryPlayer> entryMembers = new List<EntryPlayer>();
     private List<EntryPlayer> benchMembers = new List<EntryPlayer>();
 
-    public int selectedEntryInedx = 0;
-    public int selectedBenchIndex = 0;
-    public void ClearPlayerList()
+    public EntryPlayer selectedEntryMember;
+    public EntryPlayer selectedBenchMember;
+
+    public void SwapEntryMember()
     {
-        foreach(EntryPlayer player in playerList)
+        if(selectedEntryMember != null && selectedBenchMember != null)
         {
-            player.gameObject.SetActive(false);
+            // UI 선택 해제
+            selectedEntryMember.SetActiveSelectOutline(false);
+            selectedBenchMember.SetActiveSelectOutline(false);
+
+            // 서호 List교환 후 / 실제 정보 Index도 교환해야함
+            selectedEntryMember.transform.SetParent(benchScrollView);
+            selectedBenchMember.transform.SetParent(entryScrollView);
+
+            // 정렬 필요
+            SortMembers(benchScrollView);
+            SortMembers(entryScrollView);
+
+            selectedEntryMember.isEntry = false;
+            selectedBenchMember.isEntry = true;
+
+            entryMembers.Remove(selectedEntryMember);
+            benchMembers.Add(selectedEntryMember);
+            benchMembers.Remove(selectedBenchMember);
+            entryMembers.Add(selectedBenchMember);
+
+            // 비워주기
+            selectedEntryMember = null;
+            selectedBenchMember = null;
         }
-        playerList.Clear();
     }
 
-    public void SetActiveEntryMembers(bool isActive)
+    public void SortMembers(Transform parent)
+    {
+        var childs = parent.GetComponentsInChildren<EntryPlayer>();
+        Array.Sort(childs, CompareByIndex);
+
+        foreach(var child in childs)
+        {
+            int index = child.Index;
+            child.transform.SetSiblingIndex(index);
+        }
+
+    }
+
+    private int CompareByIndex(EntryPlayer a, EntryPlayer b)
+    {
+        return a.Index.CompareTo(b.Index);
+    }
+
+    public void SetActiveMemberOutlines(bool isEntry, bool isActive)
+    {
+        if (isEntry)
+        {
+            SetActiveEntryMemberOutlines(isActive);
+        }
+        else
+        {
+            SetActiveBenchMemberOutlines(isActive);
+        }
+    }
+
+    public void SetActiveEntryMemberOutlines(bool isActive)
     {
         foreach (EntryPlayer player in entryMembers)
         {
             player.SetActiveSelectOutline(isActive);
         }
-    }    
-    public void SetActiveBenchMembers(bool isActive)
+    }
+    public void SetActiveBenchMemberOutlines(bool isActive)
     {
         foreach (EntryPlayer player in benchMembers)
         {
@@ -54,7 +107,6 @@ public class EntryPanel : MonoBehaviour
     {
         EntryPlayer entryPlayer = Instantiate(entryPlayerPrefab, parent);
         entryPlayer.SetInfo(gameManager, index, illustration, name, playerHp, playerAttack, grade, type, level, codition, skillLevel);
-        playerList.Add(entryPlayer);
 
         if (parent == entryScrollView)
         {
@@ -103,28 +155,44 @@ public class EntryPanel : MonoBehaviour
 
     public void SetOriginMemberIndex()
     {
-        for(int entryInedx = 1; entryInedx < 6; ++entryInedx)
+        for (int entryInedx = 1; entryInedx < 6; ++entryInedx)
         {
-            GameInfo.instance.entryMembers.Add(entryInedx);
-        }        
-        for(int benchIndex = 6; benchIndex < 9; ++benchIndex)
-        {
-            GameInfo.instance.benchMembers.Add(benchIndex);
+            GameInfo.instance.entryMembersIndex.Add(entryInedx);
         }
+        for (int benchIndex = 6; benchIndex < 9; ++benchIndex)
+        {
+            GameInfo.instance.benchMembersIndex.Add(benchIndex);
+        }
+    }    
+    
+    public void SetNextRoundMemberIndex()
+    {
+        // 한번만 해주면 된다.
+        //foreach(EntryPlayer entryPlayer in entryMembers)
+        //{
+        //    GameInfo.instance.entryMembersIndex.Add(entryPlayer.Index);
+        //}        
+        
+        //foreach(EntryPlayer entryPlayer in benchMembers)
+        //{
+        //    GameInfo.instance.benchMembersIndex.Add(entryPlayer.Index);
+        //}
     }
+
 
     public void SetPlayerEntrySlotAndBenchSlot()
     {
-        foreach(int entryIndex in GameInfo.instance.entryMembers)
+        foreach (int entryIndex in GameInfo.instance.entryMembersIndex)
         {
             SetEntryPlayerSlot(entryScrollView, entryIndex);
         }
-        foreach(int benchIndex in GameInfo.instance.benchMembers)
+        foreach (int benchIndex in GameInfo.instance.benchMembersIndex)
         {
             SetEntryPlayerSlot(benchScrollView, benchIndex);
         }
     }
 
+    // 배틀레이아웃 포지로 넘어가는 함수
     public void SetBattleLayoutForge()
     {
         GameInfo.instance.StartGame();
@@ -132,7 +200,11 @@ public class EntryPanel : MonoBehaviour
         // 엔트리 결정 후 라인 지정 가기전에 해줘야 할 것들
         gameManager.entryPanel.SetActiveEntryPanel(false);
 
-        GameInfo.instance.SetEntryPlayer(GameInfo.instance.entryMembers);
+
+        SetNextRoundMemberIndex();
+        GameInfo.instance.SetEntryMemeberIndex(entryMembers);
+        GameInfo.instance.SetBenchMemberIndex(benchMembers);
+        GameInfo.instance.SetEntryPlayer(GameInfo.instance.entryMembersIndex);
         GameInfo.instance.MakePlayers();
         gameManager.settingAIID.SetAIIDs();
         //gameManager.entryManager.RefreshSelectLineButton();

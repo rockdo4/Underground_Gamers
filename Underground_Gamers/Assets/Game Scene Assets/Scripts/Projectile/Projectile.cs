@@ -83,7 +83,7 @@ public class Projectile : MonoBehaviour
     public void SingleAttack(Collider other)
     {
         GameObject colEffect = Instantiate(colEffectPrefab, other.transform.position, Quaternion.identity);
-        Destroy(colEffect, 1f);
+        Destroy(colEffect, 2f);
 
         CharacterStatus dStatus = other.GetComponent<CharacterStatus>();
         var attackables = other.GetComponents<IAttackable>();
@@ -97,14 +97,14 @@ public class Projectile : MonoBehaviour
     public void AreaAttack(Collider other)
     {
         GameObject colEffect = Instantiate(colEffectPrefab, other.transform.position, Quaternion.identity);
-        Destroy(colEffect, 1f);
+        Destroy(colEffect, 2f);
 
         var cols = Physics.OverlapSphere(transform.position, status.explosionRange, ai.enemyLayer);
 
         foreach (var col in cols)
         {
             GameObject explosionEffect = Instantiate(colEffectPrefab, col.transform.position, Quaternion.identity);
-            Destroy(colEffect, 1f);
+            Destroy(colEffect, 2f);
 
             CharacterStatus dStatus = col.GetComponent<CharacterStatus>();
             var attackables = col.GetComponents<IAttackable>();
