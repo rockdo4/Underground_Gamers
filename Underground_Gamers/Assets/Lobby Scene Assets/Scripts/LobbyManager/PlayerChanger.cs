@@ -1,10 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -82,7 +80,6 @@ public class PlayerChanger : MonoBehaviour
                     slot.skillNameText.text = st.Get($"skillName{player.gearCode}");
                     slot.skillLevelText.text = $"Lv.{player.gearLevel}";
                     slot.xpGauge.value = player.xp / player.maxXp;
-                    slot.costText.text = player.cost.ToString();
                 }
                 slot.star.sprite = player.grade switch
                 {
@@ -211,7 +208,7 @@ public class PlayerChanger : MonoBehaviour
                 pb.index = index++;
                 pb.playerNameCard.text = st.Get($"playerName{player.code}");
                 pb.Level.text = $"Lv.{player.level}";
-                pb.isUsing.color = Color.green;
+                pb.isUsing.color = UnityEngine.Color.green;
                 pb.ID = player.ID;
                 pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
                 pb.stars.sprite = player.grade switch
@@ -251,7 +248,7 @@ public class PlayerChanger : MonoBehaviour
             pb.index = index++;
             pb.playerNameCard.text = st.Get($"playerName{player.code}");
             pb.Level.text = $"Lv.{player.level}";
-            pb.isUsing.color = Color.red;
+            pb.isUsing.color = UnityEngine.Color.red;
             pb.ID = player.ID;
             pb.typeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", player.type.ToString()));
             pb.stars.sprite = player.grade switch
@@ -278,8 +275,7 @@ public class PlayerChanger : MonoBehaviour
             }
             oldsPlayerList.Add(bt);
         }
-
-        playerCounter.text = $"{oldsPlayerList.Count} / 200";
+        playerCounter.text = $"{oldsPlayerList.Count}<color=#91AAB9><size=22> / 200</size></color>";
     }
 
     public void ToUse(int index)

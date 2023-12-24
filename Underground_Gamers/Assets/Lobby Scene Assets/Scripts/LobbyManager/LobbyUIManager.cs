@@ -24,7 +24,6 @@ public class LobbyUIManager : MonoBehaviour
     public ScheduleUIManager scheduleUIManager;
     public GameObject schedule;
     public GameObject stage;
-    public GameObject playerCountLackWarning;
 
     [Header("LobbyUI")]
     [SerializeField]
@@ -168,15 +167,5 @@ public class LobbyUIManager : MonoBehaviour
     {
         GameInfo.instance.gameType = GameType.Story;
         SceneManager.LoadScene("Game Scene");
-    }
-
-    public void ActivePlayerCountLackWarning(bool on)
-    {
-        playerCountLackWarning.SetActive(on);
-    }
-
-    public void ActivePlayerSlotLackWarning(bool on)
-    {
-        playerSlotLackWarning.SetActive(on);
     }
 }

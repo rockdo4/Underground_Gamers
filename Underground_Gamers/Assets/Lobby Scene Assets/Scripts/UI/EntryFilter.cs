@@ -17,6 +17,10 @@ public class EntryFilter : MonoBehaviour
     public Toggle OrderByToggle;
     public Image filterButton;
     public TMP_Text filterButtonText;
+    [SerializeField]
+    private Sprite filterOnSprite;
+    [SerializeField]
+    private Sprite filterOffSprite;
 
     private StringTable st;
     private void Start()
@@ -67,7 +71,7 @@ public class EntryFilter : MonoBehaviour
         foreach (var player in players)
         {
             if (EntrySearch.text != "" &&
-            !player.name.Contains(EntrySearch.text))
+            !player.name.ToLower().Contains(EntrySearch.text.ToLower()))
             {
                 buttons[index].gameObject.SetActive(false);
             }
@@ -87,7 +91,7 @@ public class EntryFilter : MonoBehaviour
 
     public bool CanActiveWithFilter(Player player)
     {
-        filterButton.color = Color.yellow;
+        filterButton.sprite = filterOnSprite;
         filterButtonText.text = st.Get("filter");
 
         //Grade
@@ -153,7 +157,7 @@ public class EntryFilter : MonoBehaviour
 
         if (isOnLevel && isOnBreak && isOnType)
         {
-            filterButton.color = Color.white;
+            filterButton.sprite = filterOffSprite;
             filterButtonText.text = st.Get("all");
             return true;
         }
@@ -177,7 +181,7 @@ public class EntryFilter : MonoBehaviour
         {
             toggles.isOn = false;
         }
-        filterButton.color = Color.white;
+        filterButton.sprite = filterOffSprite;
         filterButtonText.text = st.Get("all");
     }
 

@@ -18,5 +18,4 @@ public class UIPlayerSlots : MonoBehaviour
     public TMP_Text nameText;
     public TMP_Text skillNameText;
     public TMP_Text skillLevelText;
-    public TMP_Text costText;
 }
