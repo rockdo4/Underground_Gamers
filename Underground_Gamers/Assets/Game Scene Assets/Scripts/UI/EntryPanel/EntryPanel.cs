@@ -2,6 +2,7 @@ using DG.Tweening.Core.Easing;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,6 +22,22 @@ public class EntryPanel : MonoBehaviour
 
     public EntryPlayer selectedEntryMember;
     public EntryPlayer selectedBenchMember;
+
+    public TextMeshProUGUI pickEntryMemberText;
+    public TextMeshProUGUI entryMemberText;
+    public TextMeshProUGUI benchMemberText;
+    public TextMeshProUGUI okButtonText;
+    public TextMeshProUGUI giveUpButtonText;
+
+
+    private void Start()
+    {
+        pickEntryMemberText.text = gameManager.str.Get("pick entry member");
+        entryMemberText.text = gameManager.str.Get("entry member");
+        benchMemberText.text = gameManager.str.Get("bench member");
+        okButtonText.text = gameManager.str.Get("ok");
+        giveUpButtonText.text = gameManager.str.Get("give up");
+    }
 
     public void SwapEntryMember()
     {
