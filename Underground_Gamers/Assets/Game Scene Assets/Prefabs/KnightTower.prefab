@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupationType: 0
   distancePriorityType: 0
-  name: 
+  AIName: 
   maxHp: 500
   speed: 0
   sight: 0
@@ -150,9 +150,21 @@ MonoBehaviour:
   reloadCooldown: 0
   accuracyRate: 0
   armor: 0
+  condition: 0
+  killCount: 0
   deathCount: 0
   respawnTime: 0
   respawnTimeIncreaseRate: 0
+  illustration: {fileID: 0}
+  aiClass: {fileID: 0}
+  lv: 0
+  maxLv: 0
+  xp: 0
+  maxXp: 0
+  grade: {fileID: 0}
+  dealtDamage: 0
+  takenDamage: 0
+  healAmount: 0
 --- !u!114 &5433075569598262135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337f83062b3fcb542b6d59da449ade31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portrait: {fileID: 0}
+  portrait: {fileID: 5253157738453185406, guid: 44ae9eb055b40674787fa493c34efd4a, type: 3}
 --- !u!114 &3023768620251760173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpBar: {fileID: 5665158527991327867}
+  defendPoint: {fileID: 0}
 --- !u!114 &8332847381663555111
 MonoBehaviour:
   m_ObjectHideFlags: 0

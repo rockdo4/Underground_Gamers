@@ -23,6 +23,11 @@ public class DestroyedObject : MonoBehaviour, IDestroyable
         {
             controller.battleTarget = null;
             particlePrefab = aiParticlePrefabs[controller.aiIndex];
+
+            if(gameManager.commandManager.currentAI == controller)
+            {
+                gameManager.commandManager.UnSelect();
+            }
         }
 
         //Destroy(gameObject);

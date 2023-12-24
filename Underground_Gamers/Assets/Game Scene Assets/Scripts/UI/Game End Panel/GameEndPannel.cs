@@ -147,7 +147,7 @@ public class GameEndPannel : MonoBehaviour
 
         // NextRound 시 매번 되어야 함
         gameManager.lineManager.ResetAllLines();
-
+        gameManager.commandManager.UnSelect();
     }
 
     public void EndRound()
