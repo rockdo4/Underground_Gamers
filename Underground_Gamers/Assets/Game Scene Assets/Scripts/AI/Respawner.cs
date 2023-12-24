@@ -29,6 +29,8 @@ public class Respawner : MonoBehaviour
                 //aiManager.pc.Add(pcRespawnTimers[i].Item1);
                 pcRespawnTimers[i].Item1.gameObject.SetActive(true);
                 pcRespawnTimers[i].Item1.SetState(States.Idle);
+                pcRespawnTimers[i].Item1.isMission = false;
+                pcRespawnTimers[i].Item1.isRetreat = false;
                 pcRespawnTimers[i].Item1.status.Respawn();
                 pcRespawnTimers[i].Item1.SetInitialization();
                 ParticleSystem effect = aiParticlePrefabs[pcRespawnTimers[i].Item1.aiIndex];

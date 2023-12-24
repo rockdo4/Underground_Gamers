@@ -116,10 +116,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.1801196
+  m_Radius: 1.3304644
   m_Height: 6.6205807
   m_Direction: 1
-  m_Center: {x: -0.017738933, y: 0.26041698, z: 0.3498254}
+  m_Center: {x: -0.017738938, y: 0.26041698, z: 0.32178688}
 --- !u!114 &3085833959774793329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupationType: 0
   distancePriorityType: 0
-  name: 
+  AIName: 
   maxHp: 500
   speed: 0
   sight: 0
@@ -150,9 +150,21 @@ MonoBehaviour:
   reloadCooldown: 0
   accuracyRate: 0
   armor: 0
+  condition: 0
+  killCount: 0
   deathCount: 0
   respawnTime: 0
   respawnTimeIncreaseRate: 0
+  illustration: {fileID: 0}
+  aiClass: {fileID: 0}
+  lv: 0
+  maxLv: 0
+  xp: 0
+  maxXp: 0
+  grade: {fileID: 0}
+  dealtDamage: 0
+  takenDamage: 0
+  healAmount: 0
 --- !u!114 &7974335420721694690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpBar: {fileID: 2439222286016983097}
+  defendPoint: {fileID: 0}
 --- !u!114 &6194178618036739742
 MonoBehaviour:
   m_ObjectHideFlags: 0

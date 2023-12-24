@@ -15,18 +15,26 @@ public class AvoidKiting : KitingData
         targetPos.y = target.position.y;
         Collider col = target.GetComponent<Collider>();
 
-
-
         Vector3 enemyLook = ctrl.transform.position - targetPos;
         enemyLook.Normalize();
-        float distanceToTarget = Vector3.Distance(ctrl.transform.position, targetPos);
+
+        float colDis = 0;
         if (col != null)
         {
-            var colDir = ctrl.transform.position - targetPos;
-            colDir.Normalize();
-            var colDis = colDir * col.bounds.extents.x;
-            targetPos += colDis;
+            if (col.bounds.extents.x >= col.bounds.extents.z)
+                colDis = col.bounds.extents.x;
+            else
+                colDis = col.bounds.extents.z;
         }
+
+        float distanceToTarget = Vector3.Distance(ctrl.transform.position, targetPos) - colDis;
+        //if (col != null)
+        //{
+        //    var colDir = ctrl.transform.position - targetPos;
+        //    colDir.Normalize();
+        //    var colDis = colDir * col.bounds.extents.x;
+        //    targetPos += colDis;
+        //}
         Vector3 kitingPos = Vector3.zero;
 
         while (attempt < 30)

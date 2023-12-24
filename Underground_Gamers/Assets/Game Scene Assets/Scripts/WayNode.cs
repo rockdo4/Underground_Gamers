@@ -16,21 +16,24 @@ public class WayNode : MonoBehaviour
             //    Debug.Log(dis);
             if (dis < distance)
             {
-                if(!controller.isMission)
+                if (!controller.isMission && controller.isAttack)
                 {
-                    controller.RefreshBuilding();
-                    controller.SetMissionTarget(controller.missionTarget);
+                    Transform attackTarget = controller.buildingManager.GetAttackPoint(controller.currentLine, controller.teamIdentity.teamType);
+                    controller.SetMissionTarget(attackTarget);
                     controller.isMission = true;
-                    if (controller.isAttack)
-                        controller.SetState(States.MissionExecution);
+
+                    // if문 분기
+                    controller.SetState(States.MissionExecution);
                 }
 
-                if (!controller.isRetreat)
+                if (!controller.isRetreat && controller.isDefend)
                 {
-                    controller.SetMissionTarget(controller.missionTarget);
                     controller.isRetreat = true;
-                    if (controller.isDefend)
-                        controller.SetState(States.Retreat);
+                    Transform defendTarget = controller.buildingManager.GetDefendPoint(controller.currentLine, controller.teamIdentity.teamType).GetComponent<Building>().defendPoint;
+                    controller.SetMissionTarget(defendTarget);
+
+                    // if문
+                    controller.SetState(States.Retreat);
                 }
             }
         }

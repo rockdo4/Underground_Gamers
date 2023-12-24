@@ -27,7 +27,10 @@ public abstract class AIState : BaseState
     {
         if (aiController.battleTarget == null || aiTr == null)
             return;
-        Quaternion targetRotation = Quaternion.LookRotation(aiController.battleTarget.position - aiTr.position);
+        Vector3 targetPos = aiController.battleTarget.position;
+        targetPos.y = aiTr.position.y;
+        //Quaternion targetRotation = Quaternion.LookRotation(aiController.battleTarget.position - aiTr.position);
+        Quaternion targetRotation = Quaternion.LookRotation(targetPos - aiTr.position);
         aiTr.rotation = Quaternion.RotateTowards(aiTr.rotation, targetRotation, aiStatus.reactionSpeed * Time.deltaTime);
     }
 

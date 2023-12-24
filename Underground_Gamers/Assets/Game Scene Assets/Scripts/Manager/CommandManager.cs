@@ -17,6 +17,7 @@ public enum CommandType
 public class CommandManager : MonoBehaviour
 {
     [Header("Ä³½Ì")]
+    public GameManager gameManager;
     public AIManager aiManager;
     public WayPoint wayPoint;
 
@@ -43,11 +44,13 @@ public class CommandManager : MonoBehaviour
     private CommandInfo currentCommandInfo = null;
     public bool isInfoOn = true;
 
-    public GameManager gameManager;
 
     public Button InfoIcon;
 
     public SkillModeButton skillModeButton;
+
+    public TextMeshProUGUI attackButtonText;
+    public TextMeshProUGUI defendButtonText;
 
 
     private void Awake()
@@ -56,6 +59,8 @@ public class CommandManager : MonoBehaviour
 
     private void Start()
     {
+        attackButtonText.text = gameManager.str.Get("attack command");
+        defendButtonText.text = gameManager.str.Get("defend command");
         CreateCommands();
     }
 

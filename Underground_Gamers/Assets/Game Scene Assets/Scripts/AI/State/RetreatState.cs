@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RetreatState : AIState
 {
+    private float timer;
+    private float time = 1f;
     public RetreatState(AIController aiController) : base(aiController)
     {
     }
@@ -16,9 +18,11 @@ public class RetreatState : AIState
 
         agent.isStopped = false;
         agent.speed = aiController.status.speed;
-        Transform defendTarget = aiController.buildingManager.GetDefendPoint(aiController.currentLine, aiController.teamIdentity.teamType).GetComponent<Building>().defendPoint;
         aiController.battleTarget = null;
-        aiController.SetMissionTarget(defendTarget);
+        timer = Time.time - time;
+        //Transform defendTarget = aiController.buildingManager.GetDefendPoint(aiController.currentLine, aiController.teamIdentity.teamType).GetComponent<Building>().defendPoint;
+        //aiController.SetMissionTarget(defendTarget);
+        aiController.SetMissionTarget(aiController.missionTarget);
     }
 
     public override void Exit()
@@ -34,6 +38,15 @@ public class RetreatState : AIState
             aiController.SetState(States.MissionExecution);
             return;
         }
+        //if (timer + time > Time.time)
+        //{
+        //    timer = Time.time;
+        //    if (aiController.isDefend)
+        //    {
+        //        aiController.RefreshBuilding();
+        //        aiController.SetMissionTarget(aiController.missionTarget);
+        //    }
+        //}
 
         if(aiController.DistanceToMissionTarget < 3f)
         {

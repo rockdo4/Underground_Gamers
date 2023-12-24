@@ -30,5 +30,14 @@ public class SwitchLineCommand : Command
             ai.missionTarget = lineWayPoint;
             //ai.SetMissionTarget(lineWayPoint);
         }
+
+        if(ai.status.IsLive)
+        {
+            if (ai.isAttack)
+                gameManager.commandManager.ExecuteCommand(CommandType.Attack, ai);
+
+            if(ai.isDefend)
+                gameManager.commandManager.ExecuteCommand(CommandType.Defend, ai);
+        }
     }
 }
