@@ -40,8 +40,22 @@ public class KillLog : MonoBehaviour
 
     private void SetPortrait(GameObject portrait, Transform parent)
     {
-        portrait.layer = LayerMask.NameToLayer("OverUI");
-        portrait.transform.localScale = Vector3.one * scale;
-        portrait.transform.position = parent.position;
+        var towerPortrait = portrait.GetComponent<TowerKillLog>();
+        if(towerPortrait != null)
+        {
+            portrait.transform.position = parent.position;
+        }
+        else
+        {
+            portrait.layer = LayerMask.NameToLayer("OverUI");
+            portrait.transform.localScale = Vector3.one * scale;
+            portrait.transform.position = parent.position;
+
+            var portraitPos = portrait.transform.position;
+            portraitPos.y = -26f;
+            portraitPos.x = 3f;
+
+            portrait.transform.localPosition = portraitPos;
+        }
     }
 }
