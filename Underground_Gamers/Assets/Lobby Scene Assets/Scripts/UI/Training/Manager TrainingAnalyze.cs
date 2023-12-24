@@ -330,7 +330,14 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
         growInfoDatas[1].text = $"Lv.{currlevel.ToString("F0")}";
         growInfoDatas[2].text = $"{currXp.ToString("F0")}/{currMaxXp.ToString("F0")}";
-        xpBar.value = currXp / currMaxXp;
+        if (currMaxXp != 0)
+        {
+            xpBar.value = currXp / currMaxXp;
+        }
+        else
+        {
+            xpBar.value = Mathf.Min(currXp,1);
+        }
         growInfoDatas[4].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp, currlevel).ToString("F0")}";
         growInfoDatas[6].text = $"{pt.CalculateCurrStats(currPlayerInfo.atk, currlevel).ToString("F0")}";
         growInfoDatas[8].text = $"{pt.CalculateCurrStats(currPlayerInfo.atkRate, currlevel).ToString("F1")}";

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -85,6 +86,9 @@ public class ManagerRecruitTryout : ManagerRecruit
     private GameObject recruitCardEffetRare;
     [SerializeField]
     private GameObject recruitCardEffetUnique;
+
+    [SerializeField]
+    private GameObject selectEffect;
 
     private RecruitTable rt;
     private PlayerTable pt;
@@ -196,6 +200,9 @@ public class ManagerRecruitTryout : ManagerRecruit
         {
             return;
         }
+        selectEffect.SetActive(false);
+        selectEffect.transform.SetParent(tryoutUpperPos);
+
 
         foreach (var card in oldtryoutCards)
         {
@@ -259,17 +266,21 @@ public class ManagerRecruitTryout : ManagerRecruit
         if (currTryout == index)
         {
             currTryout = -1;
-            oldtryoutCards[index].transform.SetParent(tryoutUpperPos);
+            selectEffect.SetActive(false);
+            //oldtryoutCards[index].transform.SetParent(tryoutUpperPos);
             tryoutStartButton.interactable = false;
         }
         else
         {
-            if (currTryout != -1)
-            {
-                oldtryoutCards[currTryout].transform.SetParent(tryoutUpperPos);
-            }
+            //if (currTryout != -1)
+            //{
+            //    oldtryoutCards[currTryout].transform.SetParent(tryoutUpperPos);
+            //}
             currTryout = index;
-            oldtryoutCards[index].transform.SetParent(tryoutSelectPos);
+            //oldtryoutCards[index].transform.SetParent(tryoutSelectPos);
+            selectEffect.SetActive(true);
+            selectEffect.transform.SetParent(oldtryoutCards[index].transform);
+            selectEffect.transform.position = oldtryoutCards[index].transform.position;
             tryoutStartButton.interactable = true;
         }
     }

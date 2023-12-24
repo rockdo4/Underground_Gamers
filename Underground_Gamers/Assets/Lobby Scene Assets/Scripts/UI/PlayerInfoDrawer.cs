@@ -16,7 +16,7 @@ public class PlayerInfoDrawer : MonoBehaviour
     public Image Stars;
     public TMP_Text breakThrough;
 
-    public TMP_Text XpVal;
+    public TMP_Text[] XpVal = new TMP_Text[2];
     public Slider XpBar;
     public Button growB;
     public Transform PlayerCharPos;
@@ -62,7 +62,8 @@ public class PlayerInfoDrawer : MonoBehaviour
         PlayerImage.sprite = pt.GetPlayerFullSprite(currPlayer.code);
         PlayerName.text = currPlayer.name;
         breakThrough.text = $"{st.Get("break")}: {currPlayer.breakthrough}";
-        XpVal.text = $"{currPlayer.level}/{currPlayer.maxLevel}";
+        XpVal[0].text = $"Lv.{currPlayer.level}/";
+        XpVal[1].text = $"{currPlayer.maxLevel}";
         XpBar.value = currPlayer.xp / currPlayer.maxXp;
         PlayerChar = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{currPlayer.code}")), PlayerCharPos);
         PlayerChar.layer = 10;

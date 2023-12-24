@@ -39,6 +39,8 @@ public class ManagerTrainingbreak : ManagerTraining
     [SerializeField]
     private GameObject popUpbreakResultArea;
     [SerializeField]
+    private GameObject popUpbreak5warning;
+    [SerializeField]
     private Image popUpbreakResultImage;
     [SerializeField]
     private List<TMP_Text> popUpbreakResultTexts = new List<TMP_Text>();
@@ -47,6 +49,8 @@ public class ManagerTrainingbreak : ManagerTraining
 
     [SerializeField]
     private Button breakStartB;
+    [SerializeField]
+    private PopupDeleteOfficial popupDeleteOfficial;
 
 
     private PlayerTable pt;
@@ -276,6 +280,35 @@ public class ManagerTrainingbreak : ManagerTraining
                 willDestroyPlayerList.Add(canUsingPlayerList[index]);
             }
             index++;
+        }
+
+        List<string> names = new List<string>();
+        foreach (var item in willDestroyPlayerList)
+        {
+            if (GamePlayerInfo.instance.officialPlayers.Contains(item.ID))
+            {
+                names.Add(item.name);
+            }
+        }
+        if (names.Count > 0)
+        {
+            popupDeleteOfficial.ActiveWarning(names);
+            return;
+        }
+
+        int playerCount = GamePlayerInfo.instance.havePlayers.Count;
+        foreach (var item in GamePlayerInfo.instance.usingPlayers)
+        {
+            if (item.code != -1)
+            {
+                playerCount++;
+            }
+        }
+
+        if (playerCount - willDestroyPlayerList.Count < 5)
+        {
+            popUpbreak5warning.SetActive(true);
+            return;
         }
 
         foreach (var item in willDestroyPlayerList)

@@ -961,12 +961,14 @@ public class GamePlayerInfo : MonoBehaviour
     {
         isOnOfficial = false;
         endScrimmage = true;
+        officialPlayers.Clear();
         //officialLevel에 따라 보상
     }
 
     public void FinalWinOnOfficial()
     {
         officialWeekNum++;
+        officialPlayers.Clear();
         endScrimmage = true;
         isOnOfficial = false;
     }

@@ -36,6 +36,8 @@ public class PlayerReleaser : MonoBehaviour
     [SerializeField]
     private GameObject popupCant5Release;
     [SerializeField]
+    private PopupDeleteOfficial popupDeleteOfficial;
+    [SerializeField]
     private Transform relesaseOriginCardsPos;
     [SerializeField]
     private Button relesaseAllButton;
@@ -226,6 +228,29 @@ public class PlayerReleaser : MonoBehaviour
         if (playerCount < 5)
         {
             popupCant5Release.SetActive(true);
+            return;
+        }
+
+        List<string> names = new List<string>();
+        foreach (var player in releasePlayers)
+        {
+            if (GamePlayerInfo.instance.officialPlayers.Contains(player.ID))
+            {
+                names.Add(player.name);
+            }
+        }
+        foreach (var player in usingReleasePlayers)
+        {
+            if (GamePlayerInfo.instance.officialPlayers.Contains(player.ID))
+            {
+                names.Add(player.name);
+            }
+        }
+
+
+        if (names.Count > 0)
+        {
+            popupDeleteOfficial.ActiveWarning(names);
         }
         else if (isHighLevel)
         {
