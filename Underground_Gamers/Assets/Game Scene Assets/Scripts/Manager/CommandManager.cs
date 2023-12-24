@@ -107,7 +107,7 @@ public class CommandManager : MonoBehaviour
         skillModeButton.SetActiveSkillModeButton(true);
         skillModeButton.SetAI(currentAI);
         skillModeButton.SetPriorSkill(currentAI.isPrior);
-        if(skillModeButton.IsAutoMode)
+        if (skillModeButton.IsAutoMode)
         {
             if (currentAI.isOnCoolOriginalSkill)
             {
@@ -122,7 +122,7 @@ public class CommandManager : MonoBehaviour
         }
         else
         {
-            if(currentAI.isOnCoolOriginalSkill)
+            if (currentAI.isOnCoolOriginalSkill)
             {
                 skillModeButton.SetActiveCoolTimeFillImage(false);
                 skillModeButton.SetActiveCoolTimeText(false);
@@ -146,7 +146,8 @@ public class CommandManager : MonoBehaviour
 
     public void UnSelect()
     {
-        currentAI.UnSelectAI();
+        if (currentAI != null)
+            currentAI.UnSelectAI();
         currentAI = null;
         skillModeButton.SetAI(null);
         skillModeButton.SetPriorSkill(false);
