@@ -35,19 +35,41 @@ public class ManagerRecruitTrade : ManagerRecruit
     [SerializeField]
     private TMP_Text storeTimer;
 
-    [SerializeField]
-    private GameObject popupCompleteRecruit;
-    [SerializeField]
-    private List<TMP_Text> popupCompleteTexts;
-    [SerializeField]
-    private List<Image> popupCompleteImages;
+    //[SerializeField]
+    //private GameObject popupCompleteRecruit;
+    //[SerializeField]
+    //private List<TMP_Text> popupCompleteTexts;
+    //[SerializeField]
+    //private List<Image> popupCompleteImages;
     [SerializeField]
     private GameObject popupResetList;
     [SerializeField]
     private TMP_Text popupResetListMoney;
     [SerializeField]
     private TMP_Text popupResetListMoneyCurr;
+    [SerializeField]
+    private GameObject recruitCardEffetRare;
+    [SerializeField]
+    private GameObject recruitCardEffetUnique;
+    [SerializeField]
+    private GameObject recruitCardBoard;
+    [SerializeField]
+    private GameObject recruitEffect;
+    [SerializeField]
+    private Image recruitEffrctCharImage;
+    [SerializeField]
+    private Image recruitEffrctTypeImage;
+    [SerializeField]
+    private Image recruitEffrctStars;
+    [SerializeField]
+    private TMP_Text recruitEffrctName;
+    [SerializeField]
+    private Transform recruitCardPos;
+    [SerializeField]
+    private GameObject recruitCardPrefab;
 
+
+    private List<GameObject> oldRecruitCards;
     private RecruitTable rt;
     private PlayerTable pt;
     private StringTable st;
@@ -58,6 +80,10 @@ public class ManagerRecruitTrade : ManagerRecruit
     private int currIndex = 0;
     private int currcost = 0;
 
+    private void Start()
+    {
+        oldRecruitCards = new List<GameObject>();
+    }
     public override void OnEnter()
     {
         if (rt == null)
@@ -217,26 +243,84 @@ public class ManagerRecruitTrade : ManagerRecruit
         {
             return;
         }
-        GamePlayerInfo.instance.AddPlayer(GamePlayerInfo.instance.tradeCenter[currIndex]);
-        var info = pt.GetPlayerInfo(GamePlayerInfo.instance.tradeCenter[currIndex]);
-        GamePlayerInfo.instance.tradeCenter[currIndex] = -1;
 
-        recruitCheckWindow.SetActive(false);
-        popupCompleteTexts[0].text = info.name;
-        popupCompleteTexts[1].text = $"{info.name}{st.Get("with1")} {currcost}{st.Get("recruit_with_tradepoint")}";
-        popupCompleteImages[0].sprite = pt.GetPlayerSprite(info.code);
-        popupCompleteImages[1].sprite = info.grade switch
+        foreach (var item in oldRecruitCards)
+        {
+            Destroy(item);
+        }
+        oldRecruitCards.Clear();
+
+        int playerCode = GamePlayerInfo.instance.tradeCenter[currIndex]; 
+
+        var card = Instantiate(recruitCardPrefab, recruitCardPos);
+        card.GetComponent<RecruitCards>().image.sprite = pt.GetPlayerSprite(playerCode);
+        var rc = card.GetComponent<RecruitCards>();
+        rc.image.sprite = pt.GetPlayerSprite(playerCode);
+        PlayerInfo playerInfo = pt.playerDatabase[playerCode];
+        rc.stars.sprite = playerInfo.grade switch
         {
             3 => pt.starsSprites[0],
             4 => pt.starsSprites[1],
             5 => pt.starsSprites[2],
             _ => pt.starsSprites[0],
         };
+        int grade = pt.GetPlayerInfo(playerCode).grade;
+        if (grade >= 5)
+        {
+            var effect = Instantiate(recruitCardEffetUnique, card.transform);
+            effect.transform.SetSiblingIndex(0);
+        }
+        else if (grade >= 4)
+        {
+            var effect = Instantiate(recruitCardEffetRare, card.transform);
+            effect.transform.SetSiblingIndex(0);
+        }
+        oldRecruitCards.Add(card);
+
+
+        RecruitEffrctNextPlayer();
+
+        recruitCardBoard.SetActive(true);
+        recruitEffect.SetActive(true);
+
+        GamePlayerInfo.instance.AddPlayer(GamePlayerInfo.instance.tradeCenter[currIndex]);
+        var info = pt.GetPlayerInfo(GamePlayerInfo.instance.tradeCenter[currIndex]);
+        GamePlayerInfo.instance.tradeCenter[currIndex] = -1;
+
+        recruitCheckWindow.SetActive(false);
+        //popupCompleteTexts[0].text = info.name;
+        //popupCompleteTexts[1].text = $"{info.name}{st.Get("with1")} {currcost}{st.Get("recruit_with_tradepoint")}";
+        //popupCompleteImages[0].sprite = pt.GetPlayerSprite(info.code);
+        //popupCompleteImages[1].sprite = info.grade switch
+        //{
+        //    3 => pt.starsSprites[0],
+        //    4 => pt.starsSprites[1],
+        //    5 => pt.starsSprites[2],
+        //    _ => pt.starsSprites[0],
+        //};
+
+
         MakeCards();
         UpdateMoneyInfo();
-        popupCompleteRecruit.SetActive(true);
+        //popupCompleteRecruit.SetActive(true);
     }
-    
+
+    public void RecruitEffrctNextPlayer()
+    {
+        int currMakeCode = GamePlayerInfo.instance.tradeCenter[currIndex];
+        PlayerInfo pi = pt.GetPlayerInfo(currMakeCode);
+        recruitEffrctCharImage.sprite = pt.GetPlayerFullSprite(currMakeCode);
+        recruitEffrctTypeImage.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", pi.type.ToString()));
+        recruitEffrctName.text = pi.name;
+        recruitEffrctStars.sprite = pi.grade switch
+        {
+            3 => pt.starsSprites[0],
+            4 => pt.starsSprites[1],
+            5 => pt.starsSprites[2],
+            _ => pt.starsSprites[0],
+        };
+    }
+
     public void UpdateMoneyInfo()
     {
         moneyListText[0].text = "C : " + GamePlayerInfo.instance.crystal.ToString();
@@ -258,4 +342,5 @@ public class ManagerRecruitTrade : ManagerRecruit
         }
         storeTimer.text = $"{timer.Hours} : {timer.Minutes} : {timer.Seconds}";
     }
+
 }

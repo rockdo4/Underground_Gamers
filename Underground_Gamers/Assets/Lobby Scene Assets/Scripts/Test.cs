@@ -17,7 +17,7 @@ public class Test : MonoBehaviour
             init = false;
             //LobbyUIManager.instance.UpdateMoneyInfo();
         }
-        Destroy(gameObject);
+       Destroy(gameObject);
     }
 
 }
