@@ -19,7 +19,7 @@ public class KitingState : AIState
         aiController.RefreshDebugAIStatus(this.ToString());
         lastKitingTime = Time.time - kitingCoolTime;
         agent.isStopped = false;
-        agent.speed = aiController.kitingInfo.kitingSpeed;
+        agent.speed = aiController.status.speed;
     }
 
     public override void Exit()

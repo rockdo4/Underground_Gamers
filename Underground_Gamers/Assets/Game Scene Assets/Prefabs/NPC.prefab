@@ -325,7 +325,7 @@ MonoBehaviour:
   lastSupportTime: 0
   isAttack: 1
   isDefend: 0
-  isMission: 1
+  isMission: 0
   isRetreat: 0
   occupationIndex: 2147483647
   priorityByDistance: {fileID: 0}
@@ -353,6 +353,7 @@ MonoBehaviour:
   statusName: 
   debugAIStatusInfo: {fileID: 0}
   aiCommandInfo: {fileID: 0}
+  commandInfoOutlineColor: {r: 0, g: 0, b: 0, a: 0}
   aiType: {fileID: 7521221403050446438}
   aiIndex: 0
   canvas: {fileID: 8875618295526777781}
@@ -396,7 +397,6 @@ MonoBehaviour:
   deathCount: 0
   respawnTime: 8
   respawnTimeIncreaseRate: 3
-  ai: {fileID: 0}
   illustration: {fileID: 0}
   aiClass: {fileID: 0}
   lv: 0
@@ -406,6 +406,7 @@ MonoBehaviour:
   grade: {fileID: 0}
   dealtDamage: 0
   takenDamage: 0
+  healAmount: 0
 --- !u!136 &4762857722842106087
 CapsuleCollider:
   m_ObjectHideFlags: 0

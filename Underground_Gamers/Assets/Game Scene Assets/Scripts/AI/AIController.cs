@@ -72,7 +72,6 @@ public class AIController : MonoBehaviour
     public Transform firePos;
     public Line currentLine = Line.Bottom;
 
-
     public LayerMask layer;
     public SPUM_Prefabs spum;
 
@@ -107,7 +106,7 @@ public class AIController : MonoBehaviour
     [Header("명령 상태")]
     public bool isAttack = true;
     public bool isDefend = false;
-    public bool isMission = true;
+    public bool isMission = false;
     public bool isRetreat = false;
 
     [Header("우선 순위 설정")]
@@ -237,14 +236,22 @@ public class AIController : MonoBehaviour
             Vector3 targetPos = missionTarget.transform.position;
             targetPos.y = transform.position.y;
             Collider col = missionTarget.GetComponent<Collider>();
+            //if (col != null)
+            //{
+            //    var colDir = transform.position - targetPos;
+            //    colDir.Normalize();
+            //    var colDis = colDir * col.bounds.extents.x;
+            //    targetPos += colDis;
+            //}
+            float colDis = 0;
             if (col != null)
             {
-                var colDir = transform.position - targetPos;
-                colDir.Normalize();
-                var colDis = colDir * col.bounds.extents.x;
-                targetPos += colDis;
+                if (col.bounds.extents.x >= col.bounds.extents.z)
+                    colDis = col.bounds.extents.x;
+                else
+                    colDis = col.bounds.extents.z;
             }
-            return Vector3.Distance(transform.position, targetPos);
+            return Vector3.Distance(transform.position, targetPos) - colDis;
         }
     }
 
@@ -262,14 +269,23 @@ public class AIController : MonoBehaviour
             targetPos.y = transform.position.y;
 
             Collider col = battleTarget.GetComponent<Collider>();
+            //if (col != null)
+            //{
+            //    var colDir = transform.position - targetPos;
+            //    colDir.Normalize();
+            //    var colDis = colDir * col.bounds.extents.x;
+            //    targetPos += colDis;
+            //}
+
+            float colDis = 0;
             if (col != null)
             {
-                var colDir = transform.position - targetPos;
-                colDir.Normalize();
-                var colDis = colDir * col.bounds.extents.x;
-                targetPos += colDis;
+                if (col.bounds.extents.x >= col.bounds.extents.z)
+                    colDis = col.bounds.extents.x;
+                else
+                    colDis = col.bounds.extents.z;
             }
-            return Vector3.Distance(transform.position, targetPos);
+            return Vector3.Distance(transform.position, targetPos) - colDis;
         }
     }
     private void Awake()
@@ -322,23 +338,12 @@ public class AIController : MonoBehaviour
         states.Add(new PatrolState(this));
 
         agent.speed = status.speed;
-        //agent.SetDestination(point.position);
-
-        //SetState(States.Idle);
 
         if (teamIdentity.teamType == TeamType.PC)
             gameManager.lineManager.JoiningLine(this);
         if (teamIdentity.teamType == TeamType.NPC)
             gameManager.npcManager.SelectLineByInit(this);
-        //point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
-        //missionTarget = point;
 
-        // 임시 꺼둠
-        //MissionTargetEventBus.Subscribe(transform, RefreshBuilding);
-
-        //outlinable = spum.AddComponent<Outlinable>();
-        //outlinable.AddAllChildRenderersToRenderingList();
-        //outlinable.OutlineParameters.Color = unselectOutlineColor;
     }
 
     public void InitInGameScene()
@@ -351,22 +356,11 @@ public class AIController : MonoBehaviour
     }
     private void Update()
     {
-        //if (lastOriginalSkillTime + originalSkillCoolTime < Time.time
-        //    && attackInfos[(int)SkillTypes.Original] != null)
-        //{
-        //    lastOriginalSkillTime = Time.time;
-        //    isOnCoolOriginalSkill = true;
-        //}
-
         if (lastBaseAttackTime + baseAttackCoolTime < Time.time)
         {
             lastBaseAttackTime = Time.time;
             isOnCoolBaseAttack = true;
         }
-
-        //if (!isOnCoolOriginalSkill)
-        //{
-        //}
 
         // 수비 소강 상태일때도 재장전
         if (isReloading)
@@ -480,16 +474,33 @@ public class AIController : MonoBehaviour
 
     public void RefreshBuilding()
     {
-        if (isAttack)
+        isRetreat = false;
+        isMission = false;
+        Transform[] wayPoints = currentLine switch
         {
-            point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
-            missionTarget = point;
-        }
-        else
+            Line.Bottom => gameManager.wayPoint.bottomWayPoints,
+            Line.Top => gameManager.wayPoint.topWayPoints,
+            _ => gameManager.wayPoint.bottomWayPoints
+        };
+
+        Transform lineWayPoint = Utils.FindNearestPoint(this, wayPoints);
+        if (lineWayPoint != null)
         {
-            point = buildingManager.GetDefendPoint(currentLine, teamIdentity.teamType).GetComponent<Building>().defendPoint;
-            missionTarget = point;
+            // 여기서 타겟만 잡아준다, 죽은 이후 명령 수행하기 위함
+            missionTarget = lineWayPoint;
+            //ai.SetMissionTarget(lineWayPoint);
         }
+
+        //if (isAttack)
+        //{
+        //    point = buildingManager.GetAttackPoint(currentLine, teamIdentity.teamType);
+        //    missionTarget = point;
+        //}
+        //else
+        //{
+        //    point = buildingManager.GetDefendPoint(currentLine, teamIdentity.teamType).GetComponent<Building>().defendPoint;
+        //    missionTarget = point;
+        //}
     }
 
     public void ReleaseTarget()
@@ -503,13 +514,13 @@ public class AIController : MonoBehaviour
         Collider col = target.GetComponent<Collider>();
         Vector3 destination = target.position;
         destination.y = transform.position.y;
-        if (col != null)
-        {
-            var colDir = transform.position - destination;
-            colDir.Normalize();
-            var colDis = colDir * col.bounds.extents.x;
-            destination += colDis;
-        }
+        //if (col != null)
+        //{
+        //    var colDir = transform.position - destination;
+        //    colDir.Normalize();
+        //    var colDis = colDir * col.bounds.extents.x;
+        //    destination += colDis;
+        //}
         agent.SetDestination(destination);
     }
 

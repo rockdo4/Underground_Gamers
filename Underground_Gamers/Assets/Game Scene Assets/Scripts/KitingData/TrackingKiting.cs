@@ -20,22 +20,32 @@ public class TrackingKiting : KitingData
         Vector3 targetPos = target.position;
         targetPos.y = ctrl.transform.position.y;
 
+        float colDis = 0;
+        if (coltarget != null)
+        {
+            if (coltarget.bounds.extents.x >= coltarget.bounds.extents.z)
+                colDis = coltarget.bounds.extents.x;
+            else
+                colDis = coltarget.bounds.extents.z;
+        }
+
+
         // 타겟과의 중간지점 계산
-        float dis = Vector3.Distance(targetPos, origin);
+        float dis = Vector3.Distance(targetPos, origin) - colDis;
         Vector3 dirToTarget = targetPos - origin;
         dirToTarget.Normalize();
         Vector3 midPoint = (dirToTarget * (dis * 0.5f)) + origin;
 
         // 콜라이더 반경, 굳이 해야될까?
-        if (coltarget != null)
-        {
-            var targetpos = target.position;
-            targetpos.y = origin.y;
-            var coldir = origin - target.position;
-            coldir.Normalize();
-            var coldis = coldir * coltarget.bounds.extents.x;
-            midPoint += coldis;
-        }
+        //if (coltarget != null)
+        //{
+        //    var targetpos = target.position;
+        //    targetpos.y = origin.y;
+        //    var coldir = origin - target.position;
+        //    coldir.Normalize();
+        //    var coldis = coldir * coltarget.bounds.extents.x;
+        //    midPoint += coldis;
+        //}
 
         Vector3 pointInNavMesh = Vector3.zero;
 

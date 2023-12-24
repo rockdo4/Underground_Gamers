@@ -19,6 +19,22 @@ public class DefendCommand : Command
                 aiController.isRetreat = false;
                 aiController.isAttack = false;
                 aiController.isMission = false;
+
+                Transform[] wayPoints = aiController.currentLine switch
+                {
+                    Line.Bottom => wayPoint.bottomWayPoints,
+                    Line.Top => wayPoint.topWayPoints,
+                    _ => wayPoint.bottomWayPoints
+                };
+
+                Transform lineWayPoint = Utils.FindNearestPoint(aiController, wayPoints);
+                if (lineWayPoint != null)
+                {
+                    // 여기서 타겟만 잡아준다, 죽은 이후 명령 수행하기 위함
+                    aiController.missionTarget = lineWayPoint;
+                    //ai.SetMissionTarget(lineWayPoint);
+                }
+
                 if (aiController.status.IsLive)
                     aiController.SetState(States.Retreat);
 
@@ -31,6 +47,22 @@ public class DefendCommand : Command
             ai.isRetreat = false;
             ai.isAttack = false;
             ai.isMission = false;
+
+            Transform[] wayPoints = ai.currentLine switch
+            {
+                Line.Bottom => wayPoint.bottomWayPoints,
+                Line.Top => wayPoint.topWayPoints,
+                _ => wayPoint.bottomWayPoints
+            };
+
+            Transform lineWayPoint = Utils.FindNearestPoint(ai, wayPoints);
+            if (lineWayPoint != null)
+            {
+                // 여기서 타겟만 잡아준다, 죽은 이후 명령 수행하기 위함
+                ai.missionTarget = lineWayPoint;
+                //ai.SetMissionTarget(lineWayPoint);
+            }
+
             if (ai.status.IsLive)
                 ai.SetState(States.Retreat);
             if (ai.teamIdentity.teamType == TeamType.PC)

@@ -27,9 +27,22 @@ public class AttackCommand : Command
                 aiController.isDefend = false;
                 aiController.isRetreat = false;
 
-                Transform attackTarget = aiController.buildingManager.GetAttackPoint(aiController.currentLine, aiController.teamIdentity.teamType);
+                Transform[] wayPoints = aiController.currentLine switch
+                {
+                    Line.Bottom => wayPoint.bottomWayPoints,
+                    Line.Top => wayPoint.topWayPoints,
+                    _ => wayPoint.bottomWayPoints
+                };
+
+                Transform lineWayPoint = Utils.FindNearestPoint(aiController, wayPoints);
+                if (lineWayPoint != null)
+                {
+                    // 여기서 타겟만 잡아준다, 죽은 이후 명령 수행하기 위함
+                    aiController.missionTarget = lineWayPoint;
+                    //ai.SetMissionTarget(lineWayPoint);
+                }
+
                 aiController.battleTarget = null;
-                aiController.SetMissionTarget(attackTarget);
                 aiController.SetState(States.MissionExecution);
 
                 Debug.Log($"{aiController.aiType.text} : Attack Command Execute");
@@ -43,9 +56,24 @@ public class AttackCommand : Command
             ai.isRetreat = false;
             ai.SetState(States.MissionExecution);
 
-            Transform attackTarget = ai.buildingManager.GetAttackPoint(ai.currentLine, ai.teamIdentity.teamType);
+            Transform[] wayPoints = ai.currentLine switch
+            {
+                Line.Bottom => wayPoint.bottomWayPoints,
+                Line.Top => wayPoint.topWayPoints,
+                _ => wayPoint.bottomWayPoints
+            };
+
+            Transform lineWayPoint = Utils.FindNearestPoint(ai, wayPoints);
+            if (lineWayPoint != null)
+            {
+                // 여기서 타겟만 잡아준다, 죽은 이후 명령 수행하기 위함
+                ai.missionTarget = lineWayPoint;
+                //ai.SetMissionTarget(lineWayPoint);
+            }
+
+            //Transform attackTarget = ai.buildingManager.GetAttackPoint(ai.currentLine, ai.teamIdentity.teamType);
+            //ai.SetMissionTarget(attackTarget);
             ai.battleTarget = null;
-            ai.SetMissionTarget(attackTarget);
             ai.SetState(States.MissionExecution);
 
             if (ai.teamIdentity.teamType == TeamType.PC)
