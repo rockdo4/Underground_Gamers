@@ -29,8 +29,7 @@ public class DragBattleLayoutSlot : DragSlot
     }
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        List<DragBattleLayoutSlot> slots = battleLayoutForge.GetSlots();
-        foreach (DragBattleLayoutSlot slot in slots)
+        foreach (DragBattleLayoutSlot slot in battleLayoutForge.Slots)
         {
             slot.SetActiveAllRayCast(false);
         }
@@ -46,8 +45,7 @@ public class DragBattleLayoutSlot : DragSlot
 
     public override void OnEndDrag(PointerEventData eventData)
     {
-        List<DragBattleLayoutSlot> slots = battleLayoutForge.GetSlots();
-        foreach (DragBattleLayoutSlot slot in slots)
+        foreach (DragBattleLayoutSlot slot in battleLayoutForge.Slots)
         {
             slot.SetActiveAllRayCast(true);
         }
@@ -81,7 +79,6 @@ public class DragBattleLayoutSlot : DragSlot
         ghostImage = Instantiate(ghostImagePrefab, this.gameManager.uiCanvas);
         ghostImage.SetGhostImage(AI.status.illustration);
         ghostImage.SetActiveGhostImage(false);
-        this.battleLayoutForge.AddSlot(this);
         RegistEntry(this.gameManager.entryManager.NoneEntryAI);
     }
 

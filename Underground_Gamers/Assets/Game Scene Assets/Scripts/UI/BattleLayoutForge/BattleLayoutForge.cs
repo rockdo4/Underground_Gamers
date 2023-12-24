@@ -4,26 +4,22 @@ using UnityEngine;
 
 public class BattleLayoutForge : MonoBehaviour
 {
-    private List<DragBattleLayoutSlot> slots = new List<DragBattleLayoutSlot>();
+    public List<DragBattleLayoutSlot> Slots { get; private set; } = new List<DragBattleLayoutSlot>();
     public SelectLine selectLineButton;
     public void AddSlot(DragBattleLayoutSlot slot)
     {
-        slots.Add(slot);
+        Slots.Add(slot);
     }
 
     public void ClearSlot()
     {
-        foreach(var slot in slots)
+        foreach(var slot in Slots)
         {
             slot.gameObject.SetActive(false);
         }
-        slots.Clear();
+        Slots.Clear();
     }
 
-    public List<DragBattleLayoutSlot> GetSlots()
-    {
-        return slots;
-    }
 
     public void SetActiveSelectLineButton(bool isActive)
     {

@@ -9,11 +9,16 @@ public class EntryManager : MonoBehaviour
     public DragBattleLayoutSlot slotPrefab;
     public Transform entryPanel;
 
-    private List<AIController> topAttackEntryAI = new List<AIController>();
-    private List<AIController> topDefendEntryAI = new List<AIController>();
-    private List<AIController> bottomAttackEntryAI = new List<AIController>();
-    private List<AIController> bottomDefendEntryAI = new List<AIController>();
+    public List<AIController> TopAttackEntryAI { get; private set; } = new List<AIController>();
+    public List<AIController> TopDefendEntryAI { get; private set; } = new List<AIController>();
+    public List<AIController> BottomAttackEntryAI { get; private set; } = new List<AIController>();
+    public List<AIController> BottomDefendEntryAI { get; private set; } = new List<AIController>();
     public List<AIController> NoneEntryAI { get; private set; } = new List<AIController>();
+
+    public Transform topAttackEntry;
+    public Transform bottomAttackEntry;
+    public Transform topDefendEntry;
+    public Transform bottomDefendEntry;
 
     public void ResetBattleLayoutForge()
     {
@@ -46,10 +51,6 @@ public class EntryManager : MonoBehaviour
         RefreshSelectLineButton();
     }
 
-    public void SetEntry()
-    {
-        RefreshSelectLineButton();
-    }
 
     public void SetAIEntry(Line line, bool isAttack, DragBattleLayoutSlot slot)
     {
@@ -60,10 +61,10 @@ public class EntryManager : MonoBehaviour
                 switch (isAttack)
                 {
                     case true:
-                        slot.RegistEntry(topAttackEntryAI);
+                        slot.RegistEntry(TopAttackEntryAI);
                         break;
                     case false:
-                        slot.RegistEntry(topDefendEntryAI);
+                        slot.RegistEntry(TopDefendEntryAI);
                         break;
                 }
                 break;
@@ -71,10 +72,10 @@ public class EntryManager : MonoBehaviour
                 switch (isAttack)
                 {
                     case true:
-                        slot.RegistEntry(bottomAttackEntryAI);
+                        slot.RegistEntry(BottomAttackEntryAI);
                         break;
                     case false:
-                        slot.RegistEntry(bottomDefendEntryAI);
+                        slot.RegistEntry(BottomDefendEntryAI);
                         break;
                 }
                 break;
@@ -85,30 +86,39 @@ public class EntryManager : MonoBehaviour
     }
     public void EnterGameByEntry()
     {
-        foreach(var ai in topAttackEntryAI)
+        foreach(var ai in TopAttackEntryAI)
         {
             ai.currentLine = Line.Top;
             ai.isAttack = true;
             ai.isDefend = false;
         }
-        foreach(var ai in topDefendEntryAI)
+        foreach(var ai in TopDefendEntryAI)
         {
             ai.currentLine = Line.Top;
             ai.isAttack = false;
             ai.isDefend = true;
         }
-        foreach (var ai in bottomAttackEntryAI)
+        foreach (var ai in BottomAttackEntryAI)
         {
             ai.currentLine = Line.Bottom;
             ai.isAttack = true;
             ai.isDefend = false;
         }
-        foreach(var ai in bottomDefendEntryAI)
+        foreach(var ai in BottomDefendEntryAI)
         {
             ai.currentLine = Line.Bottom;
             ai.isAttack = false;
             ai.isDefend = true;
         }
+    }
+
+    public void ClearEntry()
+    {
+        TopAttackEntryAI.Clear();
+        TopDefendEntryAI.Clear();
+        BottomAttackEntryAI.Clear();
+        BottomDefendEntryAI.Clear();
+        NoneEntryAI.Clear();
     }
 
     public void RefreshSelectLineButton()

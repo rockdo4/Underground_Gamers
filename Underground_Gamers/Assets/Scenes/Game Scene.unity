@@ -591,7 +591,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select Line
+  m_text: Top Defend Select
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 232afa81e6a6ecc4cbea09c0ba721f09, type: 2}
   m_sharedMaterial: {fileID: -5756189594224823419, guid: 232afa81e6a6ecc4cbea09c0ba721f09, type: 2}
@@ -618,12 +618,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 30
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 30
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -2221,9 +2221,8 @@ GameObject:
   - component: {fileID: 188226365}
   - component: {fileID: 188226364}
   - component: {fileID: 188226363}
-  - component: {fileID: 188226362}
   m_Layer: 5
-  m_Name: Select Line Button (2)
+  m_Name: Attack Select Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2246,26 +2245,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -750, y: 0}
+  m_AnchoredPosition: {x: -690, y: 0}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 1, y: 0.5}
---- !u!114 &188226362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188226360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f83a600517487445966713fd452d63e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameManager: {fileID: 1474967924}
-  battleLayoutForgePanel: {fileID: 1297009214}
-  button: {fileID: 188226363}
-  buttonImage: {fileID: 188226364}
-  text: {fileID: 598770179}
 --- !u!114 &188226363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2310,9 +2292,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 188226362}
-        m_TargetAssemblyTypeName: SelectLine, Assembly-CSharp
-        m_MethodName: FixLine
+      - m_Target: {fileID: 1249091410}
+        m_TargetAssemblyTypeName: AutoSelect, Assembly-CSharp
+        m_MethodName: SelectAutoAttack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4821,6 +4803,10 @@ MonoBehaviour:
   gameManager: {fileID: 1474967924}
   slotPrefab: {fileID: 8255120634477877218, guid: 2ff732ee6b5e15e448b52bac8659d62e, type: 3}
   entryPanel: {fileID: 1041835660}
+  topAttackEntry: {fileID: 618145551}
+  bottomAttackEntry: {fileID: 850531989}
+  topDefendEntry: {fileID: 706402716}
+  bottomDefendEntry: {fileID: 2062931737}
 --- !u!1001 &424691230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7212,7 +7198,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select Line
+  m_text: Top Attack Select
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 232afa81e6a6ecc4cbea09c0ba721f09, type: 2}
   m_sharedMaterial: {fileID: -5756189594224823419, guid: 232afa81e6a6ecc4cbea09c0ba721f09, type: 2}
@@ -7239,12 +7225,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 28
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 28
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -21071,12 +21057,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 30
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 30
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -21155,9 +21141,9 @@ GameObject:
   - component: {fileID: 1249091409}
   - component: {fileID: 1249091408}
   - component: {fileID: 1249091407}
-  - component: {fileID: 1249091406}
+  - component: {fileID: 1249091410}
   m_Layer: 5
-  m_Name: Select Line Button (1)
+  m_Name: Auto Select Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21180,26 +21166,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -500, y: 0}
+  m_AnchoredPosition: {x: -470, y: 0}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 1, y: 0.5}
---- !u!114 &1249091406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1249091404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f83a600517487445966713fd452d63e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameManager: {fileID: 1474967924}
-  battleLayoutForgePanel: {fileID: 1297009214}
-  button: {fileID: 1249091407}
-  buttonImage: {fileID: 1249091408}
-  text: {fileID: 1924151520}
 --- !u!114 &1249091407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21244,9 +21213,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1249091406}
-        m_TargetAssemblyTypeName: SelectLine, Assembly-CSharp
-        m_MethodName: FixLine
+      - m_Target: {fileID: 1249091410}
+        m_TargetAssemblyTypeName: AutoSelect, Assembly-CSharp
+        m_MethodName: SelectAutoAll
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21294,6 +21263,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249091404}
   m_CullTransparentMesh: 1
+--- !u!114 &1249091410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249091404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6434a3d14acf49c45b8f31c29fe00b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1474967924}
+  selectLineButtonText: {fileID: 1242381224}
+  autoSelectButtonText: {fileID: 1924151520}
+  attackSelectButtonText: {fileID: 598770179}
+  defendSelectButtonText: {fileID: 66016196}
 --- !u!1 &1250554224 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2592613926006959887, guid: c79709f23ede3124b92521b4de19f175, type: 3}
@@ -22007,8 +21993,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -125, y: 0}
-  m_SizeDelta: {x: -250, y: 0}
+  m_AnchoredPosition: {x: -454.99997, y: 0}
+  m_SizeDelta: {x: -910, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1341912870
 MonoBehaviour:
@@ -26699,9 +26685,8 @@ GameObject:
   - component: {fileID: 1667981851}
   - component: {fileID: 1667981850}
   - component: {fileID: 1667981849}
-  - component: {fileID: 1667981848}
   m_Layer: 5
-  m_Name: Select Line Button (3)
+  m_Name: Defend Select Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26724,26 +26709,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -1000, y: 0}
+  m_AnchoredPosition: {x: -910, y: 0}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 1, y: 0.5}
---- !u!114 &1667981848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1667981846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f83a600517487445966713fd452d63e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameManager: {fileID: 1474967924}
-  battleLayoutForgePanel: {fileID: 1297009214}
-  button: {fileID: 1667981849}
-  buttonImage: {fileID: 1667981850}
-  text: {fileID: 66016196}
 --- !u!114 &1667981849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26788,9 +26756,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1667981848}
-        m_TargetAssemblyTypeName: SelectLine, Assembly-CSharp
-        m_MethodName: FixLine
+      - m_Target: {fileID: 1249091410}
+        m_TargetAssemblyTypeName: AutoSelect, Assembly-CSharp
+        m_MethodName: SelectAutoDefend
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -29561,7 +29529,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select Line
+  m_text: Auto Select
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 232afa81e6a6ecc4cbea09c0ba721f09, type: 2}
   m_sharedMaterial: {fileID: -5756189594224823419, guid: 232afa81e6a6ecc4cbea09c0ba721f09, type: 2}
@@ -29588,12 +29556,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 30
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 30
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
