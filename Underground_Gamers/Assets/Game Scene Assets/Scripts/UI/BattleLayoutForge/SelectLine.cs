@@ -27,6 +27,7 @@ public class SelectLine : MonoBehaviour
         // 기존 코드
         battleLayoutForgePanel.SetActive(false);
         gameManager.entryManager.EnterGameByEntry();
+        gameManager.entryManager.ClearEntry();
         gameManager.commandManager.CreateCommandUI();
         gameManager.aiManager.RegisterMissionTargetEvent();
         gameManager.aiManager.SetAICanvas();

@@ -1,29 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BattleLayoutForge : MonoBehaviour
 {
-    private List<DragBattleLayoutSlot> slots = new List<DragBattleLayoutSlot>();
+    public GameManager gameManager;
+    public List<DragBattleLayoutSlot> Slots { get; private set; } = new List<DragBattleLayoutSlot>();
     public SelectLine selectLineButton;
+
+    public TextMeshProUGUI giveUpButtomText;
+
+    private void Start()
+    {
+        giveUpButtomText.text = gameManager.str.Get("give up");
+    }
     public void AddSlot(DragBattleLayoutSlot slot)
     {
-        slots.Add(slot);
+        Slots.Add(slot);
     }
 
     public void ClearSlot()
     {
-        foreach(var slot in slots)
+        foreach(var slot in Slots)
         {
             slot.gameObject.SetActive(false);
         }
-        slots.Clear();
+        Slots.Clear();
     }
 
-    public List<DragBattleLayoutSlot> GetSlots()
-    {
-        return slots;
-    }
 
     public void SetActiveSelectLineButton(bool isActive)
     {
