@@ -7,16 +7,11 @@ public class PlayerMaker : MonoBehaviour
     public GameManager gameManager;
     private void Awake()
     {
-        // 현재 이것은 Fix
         if (GameInfo.instance != null)
         {
             gameManager.IsStart = false;
             gameManager.gameRuleManager.SetGameType(GameInfo.instance.gameType);
 
-            // 선수 후보 선택 만들때 적용, 엔트리 OK 버튼 누르면
-
-            // 엔트리를 결정 후, 시작
-            //GameInfo.instance.SetEntryPlayer();
             if(gameManager.gameRuleManager.gameType == GameType.Official)
             {
                 gameManager.entryPanel.SetActiveEntryPanel(true);

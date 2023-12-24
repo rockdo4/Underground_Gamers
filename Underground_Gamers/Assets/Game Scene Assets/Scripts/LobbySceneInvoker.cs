@@ -7,6 +7,7 @@ public enum LobbyOpenFunc
     None,
     Schedule,
 }
+
 public class LobbySceneInvoker : MonoBehaviour
 {
     [SerializeField]

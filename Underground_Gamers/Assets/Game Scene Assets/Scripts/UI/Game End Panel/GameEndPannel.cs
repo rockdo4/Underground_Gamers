@@ -118,6 +118,12 @@ public class GameEndPannel : MonoBehaviour
         SceneManager.LoadScene("Lobby Scene");
     }
 
+    public void ClearEntry()
+    {
+        GameInfo.instance.ClearEntryPlayer();
+        GameInfo.instance.ClearMembersIndex();
+    }
+
     public void EnterNextRound()
     {
         gameManager.aiManager.ResetAI();
@@ -134,6 +140,8 @@ public class GameEndPannel : MonoBehaviour
         gameManager.entryPanel.SetActiveEntryPanel(true);
         // 이곳에서 entryPanel의 EntryMembers초기화 해주어야함, 변경점
         GameInfo.instance.ClearEntryPlayer();
+        GameInfo.instance.ClearMembersIndex();
+
         //gameManager.entryPanel.SetNextRoundMemberIndex();
         //gameManager.entryPanel.SetPlayerEntrySlotAndBenchSlot();
 
@@ -145,6 +153,7 @@ public class GameEndPannel : MonoBehaviour
     public void EndRound()
     {
         GameInfo.instance.ClearEntryPlayer();
+        GameInfo.instance.ClearMembersIndex();
         gameManager.aiManager.ResetAI();
         GamePlayerInfo.instance.CalculateOfficialPlayer(gameManager.IsGameWin,
             gameManager.gameRuleManager.PCWinEvidenceCount,
