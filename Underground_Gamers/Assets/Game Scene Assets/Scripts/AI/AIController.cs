@@ -54,6 +54,7 @@ public enum SkillActionTypes
 
 public class AIController : MonoBehaviour
 {
+    public Player playerInfo;
     public int code;
     public NavMeshAgent agent;
     public CharacterStatus status;

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,6 +31,16 @@ public class GameEndPannel : MonoBehaviour
     private float maxTakenDamage = 0;
     private float maxHealAmount = 0;
 
+    public GameObject nextButton;
+    public GameObject damageGraphButton;
+
+
+    public void SetActiveGameEndPanelButton(bool isActive)
+    {
+        nextButton.SetActive(isActive);
+        damageGraphButton.SetActive(isActive);
+    }
+
     public void ResetDamageGraph()
     {
         maxDealtDamage = 0;
@@ -52,16 +63,38 @@ public class GameEndPannel : MonoBehaviour
         {
             OffDamageGraph();
             OnRewardPanel();
+            SetActiveGameEndPanelButton(true);
         }
         else
         {
             OnDamageGraph();
             OffRewardPanel();
+            SetActiveGameEndPanelButton(false);
         }
         CreateAIReward();
         CreateDamageGraph();
 
-        gameManager.aiRewardManager.DisplayXpGauge();
+        // 집계 하기전
+        gameManager.aiRewardManager.DisplayRewardResult();
+
+        // 집계 중
+        if (gameManager.IsRoundWin)
+        {
+            GameInfo.instance.WinReward(); 
+            DOTween.timeScale = 1f;
+            DOTween.defaultTimeScaleIndependent = true;
+            gameManager.aiRewardManager.DisplayFillXpGauage();
+            gameManager.aiRewardManager.DisplayGetXp(GameInfo.instance.XpRewards);
+        }
+        else
+        {
+            gameManager.aiRewardManager.DisplayGetXp(0);
+        }
+
+        // 집계 후
+        // 애니메이션 끝난 후 분기 필요
+        //gameManager.aiRewardManager.DisplayRewardResult();
+        GamePlayerInfo.instance.ClearLvUpCount();
     }
 
     public void CreateAIReward()
@@ -77,7 +110,7 @@ public class GameEndPannel : MonoBehaviour
             aiReward.grade.sprite = pc.status.grade;
             aiReward.currentXP = pc.status.xp;
             aiReward.maxXP = pc.status.maxXp;
-            aiReward.aiStatus = pc.status;
+            aiReward.ai = pc;
             gameManager.aiRewardManager.rewards.Add(aiReward);
         }
     }

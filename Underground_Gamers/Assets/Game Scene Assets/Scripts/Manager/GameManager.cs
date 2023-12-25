@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public SkillCoolTimeManager skillCoolTimeManager;
     public EntryManager entryManager;
     public AIRewardManager aiRewardManager;
+    public StageInfoManager stageInfoManager;
 
     [Header("Ä³½Ì")]
     public GameEndPannel gameEndPannel;
@@ -39,8 +40,10 @@ public class GameManager : MonoBehaviour
     public EntryPanel entryPanel;
     public WayPoint wayPoint;
 
+    [Header("Å×ÀÌºí Ä³½Ì")]
     public PlayerTable pt;
     public StringTable str;
+    public StageTable stageTable;
 
 
     public float endTimer;
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviour
         PlayingGame();
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
         str = DataTableManager.instance.Get<StringTable>(DataType.String);
+        stageTable = DataTableManager.instance.Get<StageTable>(DataType.Stage);
     }
 
     private void DisplayGameTimer(float time)
@@ -157,7 +161,6 @@ public class GameManager : MonoBehaviour
         {
             gameEndPannel.winText.gameObject.SetActive(true);
             gameEndPannel.LoseText.gameObject.SetActive(false);
-            GameInfo.instance.WinReward();
         }
         else
         {
