@@ -130,6 +130,7 @@ public class GameInfo : MonoBehaviour
                             rewards[i] = stageInfo.rewards[i];
                         }
                     }
+                    xpRewards = stageInfo.xp;
                 }
                 break;
             case GameType.Official:
@@ -809,6 +810,7 @@ public class GameInfo : MonoBehaviour
                 }
                 GamePlayerInfo.instance.AddMoney(rewards[4], rewards[5], 0);
                 GamePlayerInfo.instance.GetXpItems(rewards[0], rewards[1], rewards[2], rewards[3]);
+                GamePlayerInfo.instance.LevelUpTeams(xpRewards);
                 break;
             case GameType.Official:
                 break;

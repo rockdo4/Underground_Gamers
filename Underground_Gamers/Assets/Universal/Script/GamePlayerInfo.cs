@@ -49,7 +49,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public bool isInit = false;
 
-    public string teamName = "µå¸²ÆÀ";
+    public string teamName = "Underground GamerZ";
 
     public int playSpeed = 1;
 
@@ -157,8 +157,8 @@ public class GamePlayerInfo : MonoBehaviour
 
     public void SortPlayersWithID(bool Orderby)
     {
-        if (!Orderby) 
-        { 
+        if (!Orderby)
+        {
             var sortedPeople = havePlayers.OrderBy(p => p.ID);
             havePlayers = sortedPeople.ToList();
         }
@@ -167,7 +167,7 @@ public class GamePlayerInfo : MonoBehaviour
             var sortedPeople = havePlayers.OrderByDescending(p => p.ID);
             havePlayers = sortedPeople.ToList();
         }
-        
+
     }
 
     public Player AddPlayer(int code)
@@ -249,7 +249,7 @@ public class GamePlayerInfo : MonoBehaviour
 
         int count = 0;
         List<Player> deletePlayer = new List<Player>();
-        foreach (float presetCode in presetCodeList) 
+        foreach (float presetCode in presetCodeList)
         {
             if (presetCode != -1)
             {
@@ -274,11 +274,11 @@ public class GamePlayerInfo : MonoBehaviour
     }
     public bool AddMoney(int money, int crystal, int contractTicket)
     {
-        if (this.money + money > 999999999||
+        if (this.money + money > 999999999 ||
             this.crystal + crystal > 999999999 ||
             this.contractTicket + contractTicket > 99999)
         {
-            this.money = Mathf.Min(this.money+money, 999999999);
+            this.money = Mathf.Min(this.money + money, 999999999);
             this.money = Mathf.Min(this.crystal + crystal, 999999999);
             this.money = Mathf.Min(this.contractTicket + contractTicket, 99999);
             SaveFile();
@@ -375,7 +375,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public void AnalyzePlayer(Player player, int level, float xp, float maxXp)
     {
-        foreach (var item in usingPlayers) 
+        foreach (var item in usingPlayers)
         {
             if (item.code != -1 && item.ID == player.ID)
             {
@@ -397,10 +397,9 @@ public class GamePlayerInfo : MonoBehaviour
                 return;
             }
         }
-        Debug.Log("Can't find Char");
     }
 
-    public bool GetXpItems(int one,int two, int three, int four)
+    public bool GetXpItems(int one, int two, int three, int four)
     {
 
         if (XpItem[0] + one > 9999 ||
@@ -408,7 +407,7 @@ public class GamePlayerInfo : MonoBehaviour
             XpItem[2] + three > 9999 ||
             XpItem[3] + four > 9999)
         {
-            XpItem[0] = Math.Min(XpItem[0] + one , 9999);
+            XpItem[0] = Math.Min(XpItem[0] + one, 9999);
             XpItem[1] = Math.Min(XpItem[1] + two, 9999);
             XpItem[2] = Math.Min(XpItem[2] + three, 9999);
             XpItem[3] = Math.Min(XpItem[3] + four, 9999);
@@ -423,7 +422,7 @@ public class GamePlayerInfo : MonoBehaviour
         return true;
     }
 
-    public void TrainPlayer(Player player, List<int>train,int potential)
+    public void TrainPlayer(Player player, List<int> train, int potential)
     {
         foreach (var item in usingPlayers)
         {
@@ -508,10 +507,10 @@ public class GamePlayerInfo : MonoBehaviour
         {
             Debug.Log($"{usingPlayers.Count}");
         }
-        
+
         saveData.cleardStage = cleardStage;
         saveData.playername = playername;
-        saveData.money  = money;
+        saveData.money = money;
         saveData.crystal = crystal;
         saveData.contractTicket = contractTicket;
         saveData.stamina = stamina;
@@ -542,7 +541,7 @@ public class GamePlayerInfo : MonoBehaviour
 
         var path = Path.Combine(Application.persistentDataPath, "savefile_v2.json");
         Debug.Log(path);
-        var json = JsonConvert.SerializeObject(saveData,new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
+        var json = JsonConvert.SerializeObject(saveData, new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
         File.WriteAllText(path, json);
     }
 
@@ -556,7 +555,7 @@ public class GamePlayerInfo : MonoBehaviour
         }
 
         var json = File.ReadAllText(path);
-        var saveData = JsonConvert.DeserializeObject<SaveData>(json, new PlayerConverter(),new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
+        var saveData = JsonConvert.DeserializeObject<SaveData>(json, new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
 
         representativePlayer = saveData.representativePlayer;
         havePlayers = saveData.havePlayers;
@@ -572,7 +571,7 @@ public class GamePlayerInfo : MonoBehaviour
         playername = saveData.playername;
         money = saveData.money;
         crystal = saveData.crystal;
-        contractTicket  = saveData.contractTicket;
+        contractTicket = saveData.contractTicket;
         stamina = saveData.stamina;
         XpItem = saveData.XpItem;
         IDcode = saveData.IDcode;
@@ -617,7 +616,7 @@ public class GamePlayerInfo : MonoBehaviour
         officialTeamDatas = new OfficialTeamData[8];
         for (int i = 0; i < 7; i++)
         {
-            officialTeamDatas[i].name = str.Get($"random_team_name{UnityEngine.Random.Range(0,99)}");
+            officialTeamDatas[i].name = str.Get($"random_team_name{UnityEngine.Random.Range(0, 99)}");
             officialTeamDatas[i].isPlayer = false;
             officialTeamDatas[i].index = i;
         }
@@ -688,7 +687,7 @@ public class GamePlayerInfo : MonoBehaviour
         {
             CalculateOfficialPlayerResult(isWin, setWin, setLose);
         }
-        else if(officialWeekNum < 9)
+        else if (officialWeekNum < 9)
         {
             CalculateOfficialFinalsPlayerResult(setWin, setLose);
         }
@@ -711,7 +710,7 @@ public class GamePlayerInfo : MonoBehaviour
             CalculateOfficialRandomResults();
             CalculateOfficialToFinals();
         }
-        else if(isWin && officialWeekNum >= 10)
+        else if (isWin && officialWeekNum >= 10)
         {
             FinalWinOnOfficial();
         }
@@ -728,7 +727,7 @@ public class GamePlayerInfo : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            int firstTeam = officialMatchInfo[officialWeekNum , (2 * i)];
+            int firstTeam = officialMatchInfo[officialWeekNum, (2 * i)];
             int secondTeam = officialMatchInfo[officialWeekNum, (2 * i) + 1];
 
             if (firstTeam == 7)
@@ -777,7 +776,40 @@ public class GamePlayerInfo : MonoBehaviour
                 return;
             }
         }
+    }
 
+    public void LevelUpTeams(int xp)
+    {
+        foreach (var item in usingPlayers)
+        {
+            if (item.code > 0 && item.level < item.maxLevel)
+            {
+                item.xp += xp;
+
+                while (item.xp >= item.maxXp)
+                {
+                    item.level++;
+                    if (item.level >= item.maxLevel)
+                    {
+                        item.xp = 0;
+                        if (item.maxLevel >= 50)
+                        {
+                            item.maxXp = 0;
+                            break;
+                        }
+                        else
+                        {
+                            item.maxXp = pt.GetLevelUpXp(item.level + 1);
+                        }
+                    }
+                    else
+                    {
+                        item.xp = item.xp - item.maxXp;
+                        item.maxXp = pt.GetLevelUpXp(item.level + 1);
+                    }
+                }
+            }
+        }
     }
 
     public void CalculateOfficialRandomResults()
@@ -841,11 +873,11 @@ public class GamePlayerInfo : MonoBehaviour
                     officialMatchResult[officialWeekNum - 1, (2 * i)] = randomLose;
                     officialMatchResult[officialWeekNum - 1, (2 * i) + 1] = 2;
                 }
-                
+
 
             }
         }
-        
+
     }
 
     public void CalculateOfficialToFinals()
@@ -878,7 +910,7 @@ public class GamePlayerInfo : MonoBehaviour
                     officialFinalMatchResult[1, 1] = UnityEngine.Random.Range(0, 2);
                     officialFinalMatchResult[1, 0] = 2;
                 }
-                
+
                 break;
             case 1:
                 {
@@ -889,7 +921,7 @@ public class GamePlayerInfo : MonoBehaviour
                     officialFinalMatchResultName[1, 1] = officialTeamDatas[2].name;
                     officialFinalMatchResultName[2, 0] = officialTeamDatas[0].name;
 
-                    officialFinalMatchResult[0, 1] = UnityEngine.Random.Range(0,2);
+                    officialFinalMatchResult[0, 1] = UnityEngine.Random.Range(0, 2);
                     officialFinalMatchResult[0, 0] = 2;
                 }
                 break;
@@ -909,7 +941,7 @@ public class GamePlayerInfo : MonoBehaviour
     }
 
     //ÇÃ·¹ÀÌ¿ÀÇÁ ½Â¸®
-    public void CalculateOfficialFinalsPlayerResult(int setWin,int setLose)
+    public void CalculateOfficialFinalsPlayerResult(int setWin, int setLose)
     {
         switch (officialWeekNum)
         {

@@ -11,7 +11,9 @@ public class BaseUIManager : LobbySceneSubscriber
     [SerializeField]
     private Sprite nullPortrait;
     [SerializeField]
-    private TMP_Text playerInfo;
+    private TMP_Text playerName;
+    [SerializeField]
+    private TMP_Text teamName;
 
     [Space(10f)]
     [Header("Back")]
@@ -47,11 +49,11 @@ public class BaseUIManager : LobbySceneSubscriber
     {
         InitBaseUI();
         UIanimator = GetComponent<MainUIAnimator>();
-        if (GamePlayerInfo.instance.endScrimmage) 
+        if (GamePlayerInfo.instance.endScrimmage)
         {
-            if (GamePlayerInfo.instance.officialWeekNum <7)
+            if (GamePlayerInfo.instance.officialWeekNum < 7)
             {
-                GamePlayerInfo.instance.CalculateOfficialPlayer(false,0,2);
+                GamePlayerInfo.instance.CalculateOfficialPlayer(false, 0, 2);
                 if (GamePlayerInfo.instance.endScrimmage)
                 {
                     GamePlayerInfo.instance.isOnOfficial = false;
@@ -67,7 +69,7 @@ public class BaseUIManager : LobbySceneSubscriber
                 popupOfficialEnd.SetActive(true);
                 GamePlayerInfo.instance.SaveFile();
             }
-            
+
         }
         menuMover.StartMenuMove();
     }
@@ -121,19 +123,9 @@ public class BaseUIManager : LobbySceneSubscriber
 
     public void UpdateProfile()
     {
-        int code = GamePlayerInfo.instance.representativePlayer;
-        if (code < 0)
-        {
-            portrait.sprite = nullPortrait;
-            playerInfo.text = $"{GamePlayerInfo.instance.playername}" +
-                     $"\n{st.Get("representative_player")} : X";
-        }
-        else
-        {
-            portrait.sprite = pt.GetPlayerSprite(code);
-            playerInfo.text = $"{GamePlayerInfo.instance.playername}" +
-                     $"\n{st.Get("representative_player")} : {pt.GetPlayerInfo(code).name}";
-        }
+        portrait.sprite = nullPortrait;
+        playerName.text = $"{GamePlayerInfo.instance.playername}";
+        teamName.text = $"{GamePlayerInfo.instance.teamName}";
     }
 
     public void OpenOption()
