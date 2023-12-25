@@ -25,6 +25,7 @@ public class TrainingUIManager : LobbySceneSubscriber
     private static TrainingUIManager trainingUIManager;
     [SerializeField]
     private Transform upperUITransform;
+    [SerializeField]
     private Transform originPos;
 
 
@@ -33,7 +34,6 @@ public class TrainingUIManager : LobbySceneSubscriber
     {
         base.OnEnter();
         lobbyTopMenu.AddFunction(OnBack);
-        originPos = lobbyTopMenu.transform.parent;
         lobbyTopMenu.transform.SetParent(upperUITransform);
         lobbySceneUIManager.lobbyTopMenu.ActiveTop(true);
     }
