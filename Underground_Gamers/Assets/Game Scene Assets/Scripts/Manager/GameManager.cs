@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public GameRuleManager gameRuleManager;
     public SkillCoolTimeManager skillCoolTimeManager;
     public EntryManager entryManager;
+    public AIRewardManager aiRewardManager;
 
     [Header("Ä³½Ì")]
     public GameEndPannel gameEndPannel;
