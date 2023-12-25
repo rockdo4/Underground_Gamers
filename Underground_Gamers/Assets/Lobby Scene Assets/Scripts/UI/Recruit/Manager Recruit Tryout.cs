@@ -10,10 +10,6 @@ public class ManagerRecruitTryout : ManagerRecruit
 {
     [SerializeField]
     private List<Toggle> toggleList;
-    [SerializeField]
-    private GameObject moneyList;
-    [SerializeField]
-    private TMP_Text moneyListText;
     [Space(5f)]
     [Header("Recruit")]
     public Image recruitImage;
@@ -332,7 +328,6 @@ public class ManagerRecruitTryout : ManagerRecruit
 
         recruitCardBoard.SetActive(true);
         recruitEffect.SetActive(true);
-        moneyList.SetActive(false);
         UpdateMoneyInfo();
         LobbyUIManager.instance.UpdateMoneyInfo();
     }
@@ -355,7 +350,7 @@ public class ManagerRecruitTryout : ManagerRecruit
 
     public void UpdateMoneyInfo()
     {
-        moneyListText.text = GamePlayerInfo.instance.crystal.ToString();
+        RecruitUIManager.instance.lobbyTopMenu.UpdateMoney();
         ticketRewardText.text = "<sprite=2>" + GamePlayerInfo.instance.contractTicket.ToString();
         LobbyUIManager.instance.UpdateMoneyInfo();
     }

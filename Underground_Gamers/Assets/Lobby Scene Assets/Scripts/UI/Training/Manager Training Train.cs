@@ -8,7 +8,8 @@ using UnityEngine.UI;
 
 public class ManagerTrainingTrain : ManagerTraining
 {
-
+    [SerializeField]
+    private Transform upperUITransform;
     [Space(10f)]
     [Header("Left")]
     [SerializeField]
@@ -71,6 +72,7 @@ public class ManagerTrainingTrain : ManagerTraining
     public override void OnEnter()
     {
         gameObject.SetActive(true);
+        TrainingUIManager.instance.lobbyTopMenu.transform.SetParent(upperUITransform);
         LoadPlayers();
     }
 

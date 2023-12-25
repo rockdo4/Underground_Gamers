@@ -31,6 +31,9 @@ public class RecruitUIManager : LobbySceneSubscriber
     [SerializeField]
     private List<Toggle> recruitToggles = new List<Toggle>();
 
+    [SerializeField]
+    private Transform[] upperUITransforms = new Transform[3];
+    private Transform originPos;
 
     protected override void Awake()
     {
@@ -44,6 +47,7 @@ public class RecruitUIManager : LobbySceneSubscriber
                 if (value)
                 {
                     SetRecruitMode(code);
+                    lobbyTopMenu.transform.SetParent(upperUITransforms[code]);
                 }
             }
             );
@@ -55,13 +59,25 @@ public class RecruitUIManager : LobbySceneSubscriber
     {
         base.OnEnter();
         lobbySceneUIManager.lobbyTopMenu.ActiveTop(true);
+        lobbyTopMenu.AddFunction(OnBack);
+        originPos = lobbyTopMenu.transform.parent;
+        lobbyTopMenu.transform.SetParent(upperUITransforms[0]);
+        StartRecruit();
     }
 
     public override void OnExit()
     {
         base.OnExit();
+        LobbyUIManager.instance.ActiveLobby(true);
         lobbySceneUIManager.lobbyTopMenu.ActiveTop(false);
+        lobbyTopMenu.transform.SetParent(originPos);
     }
+
+    public void OnBack()
+    {
+        lobbySceneUIManager.OpenWindow(1);
+    }
+
     public void SetRecruitMode(int code)
     {
         if (code > 2)

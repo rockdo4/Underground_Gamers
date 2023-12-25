@@ -111,6 +111,7 @@ public class PlayerInfoDrawer : MonoBehaviour
 
     public void ToPlayerAnalyze()
     {
+        PlayerListManager.instance.OnExit();
         LobbyUIManager.instance.ActivePlayerListAnyway(false);
         training.SetActive(true);
         TrainingUIManager.instance.SetTraining(0);
@@ -141,5 +142,10 @@ public class PlayerInfoDrawer : MonoBehaviour
         var mta = TrainingUIManager.instance.trainingManagers[0] as ManagerTrainingAnalyze;
         mta.OpenPlayerGrowInfo(sortedPlayerList.IndexOf(currPlayer));
         gameObject.SetActive(false);
+        TrainingUIManager.instance.lobbyTopMenu.gameObject.SetActive(true);
+        TrainingUIManager.instance.lobbyTopMenu.DeleteAllFunction();
+        TrainingUIManager.instance.lobbyTopMenu.AddFunction(TrainingUIManager.instance.OnBack);
+        TrainingUIManager.instance.lobbyTopMenu.AddFunction(TrainingUIManager.instance.FunctionBack);
+        LobbySceneUIManager.instance.currUIIndex = (int)LobbyType.Upgrade;
     }
 }

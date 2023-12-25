@@ -34,7 +34,7 @@ public class LobbySceneUIManager : MonoBehaviour
     [SerializeField]
     public LobbyTopMenu lobbyTopMenu;
 
-    private int currUIIndex = 1;
+    public int currUIIndex = 1;
     public void Subscribe(LobbySceneSubscriber lobbySceneSubscriber, LobbyType type)
     {
         if (lobbySceneSubscribers == null)

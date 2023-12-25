@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class PlayerListManager : LobbySceneSubscriber
 {
+    public static PlayerListManager instance
+    {
+        get
+        {
+            if (playerListManager == null)
+            {
+                playerListManager = FindObjectOfType<PlayerListManager>();
+            }
+            return playerListManager;
+        }
+    }
+
+    private static PlayerListManager playerListManager;
+
     [SerializeField]
     private Transform lobbyTopMenuTransform;
     [SerializeField]
@@ -11,6 +25,8 @@ public class PlayerListManager : LobbySceneSubscriber
     [SerializeField]
     private Transform originPos;
     private PlayersFilter playersFilter;
+
+
 
     protected override void Awake()
     {
