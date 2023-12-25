@@ -397,7 +397,6 @@ public class GamePlayerInfo : MonoBehaviour
                 return;
             }
         }
-        Debug.Log("Can't find Char");
     }
 
     public bool GetXpItems(int one, int two, int three, int four)
@@ -777,7 +776,40 @@ public class GamePlayerInfo : MonoBehaviour
                 return;
             }
         }
+    }
 
+    public void LevelUpTeams(int xp)
+    {
+        foreach (var item in usingPlayers)
+        {
+            if (item.code > 0 && item.level < item.maxLevel)
+            {
+                item.xp += xp;
+
+                while (item.xp >= item.maxXp)
+                {
+                    item.level++;
+                    if (item.level >= item.maxLevel)
+                    {
+                        item.xp = 0;
+                        if (item.maxLevel >= 50)
+                        {
+                            item.maxXp = 0;
+                            break;
+                        }
+                        else
+                        {
+                            item.maxXp = pt.GetLevelUpXp(item.level + 1);
+                        }
+                    }
+                    else
+                    {
+                        item.xp = item.xp - item.maxXp;
+                        item.maxXp = pt.GetLevelUpXp(item.level + 1);
+                    }
+                }
+            }
+        }
     }
 
     public void CalculateOfficialRandomResults()
