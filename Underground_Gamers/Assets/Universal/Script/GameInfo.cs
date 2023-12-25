@@ -42,6 +42,8 @@ public class GameInfo : MonoBehaviour
     public List<int> entryMembersIndex = new List<int>();
     public List<int> benchMembersIndex = new List<int>();
 
+    public string storyTeamName;
+
     //0부터 각각 경험치재화 1,2,3,4 ,골드, 크리스탈 순임
     private int[] rewards = new int[6] { 0, 0, 0, 0, 0, 0 };
     private int xpRewards;
@@ -130,6 +132,7 @@ public class GameInfo : MonoBehaviour
                             rewards[i] = stageInfo.rewards[i];
                         }
                     }
+                    storyTeamName = stageInfo.teamName;
                     xpRewards = stageInfo.xp;
                 }
                 break;

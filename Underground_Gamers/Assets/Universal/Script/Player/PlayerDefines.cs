@@ -197,6 +197,7 @@ public struct StageInfo
     public List<int> enemys;
     public List<int> rewards;
     public int xp;
+    public string teamName;
 }
 
 public struct EnemyInfo

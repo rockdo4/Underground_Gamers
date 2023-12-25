@@ -66,6 +66,7 @@ public class StageTable : DataTable
             {
                 newStage.enemys.Add(int.Parse(stage[$"StageMon{i + 1}"]));
             }
+            newStage.teamName = stage["TeamName"];
             stageInfoTable.Add(newStage);
         }
 
