@@ -20,6 +20,7 @@ public class Player
     public int grade = 3;
     public int level = 1;
     public int maxLevel = 35;
+    public int levelUpCount = 0;
     public int breakthrough = 0;
 
     public int skillLevel = 1;

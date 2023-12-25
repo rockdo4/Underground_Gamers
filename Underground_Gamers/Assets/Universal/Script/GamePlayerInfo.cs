@@ -778,6 +778,14 @@ public class GamePlayerInfo : MonoBehaviour
         }
     }
 
+    public void ClearLvUpCount()
+    {
+        foreach (var player in usingPlayers)
+        {
+            player.levelUpCount = 0;
+        }
+    }
+
     public void LevelUpTeams(int xp)
     {
         foreach (var item in usingPlayers)
@@ -804,6 +812,7 @@ public class GamePlayerInfo : MonoBehaviour
                     }
                     else
                     {
+                        item.levelUpCount++;
                         item.xp = item.xp - item.maxXp;
                         item.maxXp = pt.GetLevelUpXp(item.level + 1);
                     }

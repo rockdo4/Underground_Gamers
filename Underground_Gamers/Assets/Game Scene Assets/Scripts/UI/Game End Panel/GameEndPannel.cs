@@ -61,7 +61,20 @@ public class GameEndPannel : MonoBehaviour
         CreateAIReward();
         CreateDamageGraph();
 
-        gameManager.aiRewardManager.DisplayXpGauge();
+        // 집계 하기전
+        //gameManager.aiRewardManager.DisplayRewardResult();
+
+        // 집계 중
+        if (gameManager.IsRoundWin)
+        {
+            GameInfo.instance.WinReward();
+            gameManager.aiRewardManager.DisplayFillXpGauage();
+        }
+
+        // 집계 후
+        // 애니메이션 끝난 후 분기 필요
+        //gameManager.aiRewardManager.DisplayRewardResult();
+        GamePlayerInfo.instance.ClearLvUpCount();
     }
 
     public void CreateAIReward()
@@ -77,7 +90,7 @@ public class GameEndPannel : MonoBehaviour
             aiReward.grade.sprite = pc.status.grade;
             aiReward.currentXP = pc.status.xp;
             aiReward.maxXP = pc.status.maxXp;
-            aiReward.aiStatus = pc.status;
+            aiReward.ai = pc;
             gameManager.aiRewardManager.rewards.Add(aiReward);
         }
     }

@@ -203,6 +203,7 @@ public class GameInfo : MonoBehaviour
             ai.attackInfos[1] = skillDef;
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
             ai.code = playerInfo.code;
+            ai.playerInfo = player;
             ai.SetInitialization();
             //ai.aiCommandInfo.SetPortraitInCommandInfo(player.code);
             ai.outlinable = outLine;
