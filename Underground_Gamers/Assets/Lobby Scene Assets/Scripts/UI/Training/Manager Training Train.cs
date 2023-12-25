@@ -140,6 +140,21 @@ public class ManagerTrainingTrain : ManagerTraining
                     _ => pt.berakSprites[0],
                 };
             }
+
+            card.typeIcon.sprite = pt.playerTypeSprites[player.type - 1];
+            card.stars.sprite = pt.starsSprites[player.grade - 3];
+            card.isUsing.color = Color.red;
+            foreach (var item in GamePlayerInfo.instance.usingPlayers)
+            {
+                if (item.ID == player.ID)
+                {
+                    card.isUsing.color = Color.green;
+                    break;
+                }
+            }
+            card.playerName.text = player.name;
+
+
             MadeBList.Add(bt);
         }
 
@@ -156,7 +171,7 @@ public class ManagerTrainingTrain : ManagerTraining
         currIndex = index;
 
         currPlayer = sortedPlayerList[index];
-        
+
 
         if (trainToggles.Count <= 0)
         {
@@ -168,7 +183,7 @@ public class ManagerTrainingTrain : ManagerTraining
                 var tg = toggle.GetComponent<Toggle>();
                 tt.id = info.id;
                 tt.MakeButton();
-                tg.onValueChanged.AddListener(value => SelectTraining(value,tt));
+                tg.onValueChanged.AddListener(value => SelectTraining(value, tt));
                 trainToggles.Add(toggle);
 
                 var have = Instantiate(trainResultPrefab, haveTransform);
@@ -176,7 +191,7 @@ public class ManagerTrainingTrain : ManagerTraining
                 haveLists.Add(have);
             }
         }
-  
+
         OpenToggle(1);
 
         slotType.text = st.Get($"type{currPlayer.type.ToString("F0")}");
@@ -224,8 +239,8 @@ public class ManagerTrainingTrain : ManagerTraining
                 }
             }
 
-            if (tt.id >= level*100 &&
-                tt.id < (level+1) * 100)
+            if (tt.id >= level * 100 &&
+                tt.id < (level + 1) * 100)
             {
                 toggle.SetActive(true);
             }
@@ -236,7 +251,7 @@ public class ManagerTrainingTrain : ManagerTraining
         }
     }
 
-    public void SelectTraining(bool isOn,TrainToggle tt)
+    public void SelectTraining(bool isOn, TrainToggle tt)
     {
         trainStartB.interactable = false;
         foreach (var item in trainToggles)
@@ -282,7 +297,7 @@ public class ManagerTrainingTrain : ManagerTraining
         trainStartB.interactable = false;
     }
 
-    public void StartTraining() 
+    public void StartTraining()
     {
         foreach (var item in MadeResultList)
         {
@@ -303,7 +318,7 @@ public class ManagerTrainingTrain : ManagerTraining
             }
         }
 
-        GamePlayerInfo.instance.TrainPlayer(currPlayer,ids,currPotential);
+        GamePlayerInfo.instance.TrainPlayer(currPlayer, ids, currPotential);
 
         List<Player> playerList = new List<Player>();
         List<Player> usingPlayers = GamePlayerInfo.instance.GetUsingPlayers();
@@ -319,7 +334,7 @@ public class ManagerTrainingTrain : ManagerTraining
             .ThenByDescending(p => p.breakthrough)
             .ThenByDescending(p => p.grade)
             .ThenByDescending(p => p.type)
-            .ThenByDescending (p => p.name)
+            .ThenByDescending(p => p.name)
             .ToList();
 
         trainResultArea.SetActive(true);

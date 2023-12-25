@@ -9,4 +9,8 @@ public class PlayerLevelCard : MonoBehaviour
     public Image image;
     public TMP_Text level;
     public Image breakImage;
+    public Image typeIcon;
+    public Image stars;
+    public Image isUsing;
+    public TMP_Text playerName;
 }

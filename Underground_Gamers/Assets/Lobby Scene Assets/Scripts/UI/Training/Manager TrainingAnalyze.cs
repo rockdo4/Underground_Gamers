@@ -163,6 +163,20 @@ public class ManagerTrainingAnalyze : ManagerTraining
                     _ => pt.berakSprites[0],
                 };
             }
+
+            card.typeIcon.sprite = pt.playerTypeSprites[player.type - 1];
+            card.stars.sprite = pt.starsSprites[player.grade - 3];
+            card.isUsing.color = Color.red;
+            foreach (var item in GamePlayerInfo.instance.usingPlayers)
+            {
+                if (item.ID == player.ID)
+                {
+                    card.isUsing.color = Color.green;
+                    break;
+                }
+            }
+            card.playerName.text = player.name;
+
             MadeBList.Add(bt);
         }
 
@@ -339,7 +353,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
         }
         else
         {
-            xpBar.value = Mathf.Min(currXp,1);
+            xpBar.value = Mathf.Min(currXp, 1);
         }
         growInfoDatas[4].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp, currlevel).ToString("F0")}";
         growInfoDatas[6].text = $"{pt.CalculateCurrStats(currPlayerInfo.atk, currlevel).ToString("F0")}";
