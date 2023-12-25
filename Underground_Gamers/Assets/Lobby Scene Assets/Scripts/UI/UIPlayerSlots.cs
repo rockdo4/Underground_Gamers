@@ -9,6 +9,7 @@ public class UIPlayerSlots : MonoBehaviour
     public bool isSpare = false;
     public Image FrontPanel;
     public Image image;
+    public Image typeImage;
 
     public TMP_Text typeText;
     public Image star;

@@ -13,6 +13,9 @@ public class RecruitTradeCard : MonoBehaviour
     public GameObject effectRare;
     public GameObject effectUnique;
 
+    public Image typeIcon;
+    public TMP_Text name;
+
     private Button bt;
 
     public void Awake()
@@ -28,31 +31,32 @@ public class RecruitTradeCard : MonoBehaviour
         bt.interactable = true;
         cover.SetActive(false);
         PlayerTable pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        StringTable st = DataTableManager.instance.Get<StringTable>(DataType.String);
         var pi = pt.GetPlayerInfo(playerID);
-        switch (pi.grade) 
+        switch (pi.grade)
         {
             case 3:
                 cost = 100;
                 effectRare.SetActive(false);
                 effectUnique.SetActive(false);
-                break; 
+                break;
             case 4:
                 cost = 150;
                 effectRare.SetActive(true);
                 effectUnique.SetActive(false);
-                break; 
+                break;
             case 5:
                 cost = 200;
                 effectRare.SetActive(false);
                 effectUnique.SetActive(true);
-                break; 
+                break;
             default:
                 cost = 300;
                 effectRare.SetActive(false);
                 effectUnique.SetActive(false);
                 break;
         }
-        costText.text = "M : " + cost.ToString();
+        costText.text = cost.ToString();
         image.sprite = pt.GetPlayerSprite(playerID);
         stars.sprite = pi.grade switch
         {
@@ -61,6 +65,9 @@ public class RecruitTradeCard : MonoBehaviour
             5 => pt.starsSprites[2],
             _ => pt.starsSprites[0],
         };
+
+        typeIcon.sprite = pt.playerTypeSprites[pi.type - 1];
+        name.text = st.Get($"playerName{pi.code}");
     }
 
     public void CloseCards()

@@ -18,7 +18,7 @@ public class ScheduleUIStory : ScheduleUISubscriber
     [SerializeField]
     private StageEnemyInfoImage[] enemyImages = new StageEnemyInfoImage[5];
     [SerializeField]
-    private GameObject[] rewardItems = new GameObject[3];
+    private GameObject[] rewardItems = new GameObject[6];
 
     public GameObject panel;        // ¶ç¿öÁú ÆÐ³Î
     [SerializeField]
@@ -28,11 +28,10 @@ public class ScheduleUIStory : ScheduleUISubscriber
 
     private bool isPanelVisible = false;
     private StageTable st;
-    private PlayerTable pt;
-    private Vector3 enemySpriteSet = new Vector3(40, 20);
+    //private PlayerTable pt;
+    //private Vector3 enemySpriteSet = new Vector3(40, 20);
 
     private List<GameObject> oldPlayerImages = new List<GameObject>();
-    private GameObject a;
     private void Start()
     {
         int count = 0;
@@ -42,7 +41,7 @@ public class ScheduleUIStory : ScheduleUISubscriber
             item.GetComponent<Button>().onClick.AddListener(() => TogglePanelVisibility(val));
         }
         st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
-        pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        //pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
     }
 
     public override void OnEnter()
@@ -85,7 +84,7 @@ public class ScheduleUIStory : ScheduleUISubscriber
         if (st == null)
         {
             st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
-            pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+            //pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
         }
         if (oldPlayerImages == null)
         {
@@ -96,7 +95,19 @@ public class ScheduleUIStory : ScheduleUISubscriber
             Destroy(item);
         }
         oldPlayerImages.Clear();
-        var enemysCode = st.GetStageInfo(code).enemys;
+
+        Debug.Log(code);
+        StageInfo stageInfo = st.GetStageInfo(code);
+        for (int i = 0; i < 6; i++)
+        {
+            rewardItems[i].SetActive(stageInfo.rewards[i] > 0);
+        }
+        if (stageInfo.code <= GamePlayerInfo.instance.cleardStage)
+        {
+            rewardItems[5].SetActive(false);
+        }
+
+        var enemysCode = stageInfo.enemys;
 
         if (enemysCode == null)
         {
@@ -153,7 +164,7 @@ public class ScheduleUIStory : ScheduleUISubscriber
         //    //}
         //    oldPlayerImages.Add(img);
         //    enemyImages[i].images[1].sprite = pt.playerTypeSprites[enemyInfo.type - 1];
-            
+
         //}
         GameInfo.instance.currentStage = code;
     }
@@ -187,7 +198,7 @@ public class ScheduleUIStory : ScheduleUISubscriber
                     touchPos.y < panelMin.y || touchPos.y > panelMax.y)
                 {
                     HidePanel();
-                   
+
                 }
 
             }

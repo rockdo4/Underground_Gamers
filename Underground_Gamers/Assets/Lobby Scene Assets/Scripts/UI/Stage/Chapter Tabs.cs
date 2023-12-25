@@ -39,5 +39,6 @@ public class ChapterTabs : MonoBehaviour
         }
         firstStage.interactable = true;
         firstStage.isOn = true;
+        firstStage.onValueChanged.Invoke(firstStage);
     }
 }

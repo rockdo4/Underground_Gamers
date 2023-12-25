@@ -43,12 +43,13 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
     private int selectedWeekNumber = 0;
     private StringTable st;
     private bool isPanelVisible = false;
+    private bool isInit = false;
 
     protected override void Awake()
     {
         base.Awake();
         int count = 0;
-        foreach (var week in WeekToggles) 
+        foreach (var week in WeekToggles)
         {
             int index = count;
             week.onValueChanged.AddListener(value =>
@@ -74,6 +75,7 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
             });
             count++;
         }
+        isInit = true;
     }
 
     private void Start()
@@ -87,6 +89,10 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
     }
     public override void OnEnter()
     {
+        if (st == null)
+        {
+            st = DataTableManager.instance.Get<StringTable>(DataType.String);
+        }
         System.DateTime currentDate = System.DateTime.Now;
         if (System.DateTime.Now.Day > GamePlayerInfo.instance.lastScrimmageTime.Day)
         {
@@ -94,7 +100,40 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
             GamePlayerInfo.instance.scrimmageCount = 3;
         }
         dayOfWeekNumber = ((int)currentDate.DayOfWeek + 6) % 7;
+
+        if (!isInit)
+        {
+            int count = 0;
+            foreach (var week in WeekToggles)
+            {
+                int index = count;
+                week.onValueChanged.AddListener(value =>
+                {
+                    if (value)
+                    {
+                        OpenWeekToggle(index);
+                    }
+                });
+                count++;
+            }
+
+            count = 0;
+            foreach (var StartToggle in StartToggles)
+            {
+                int level = count;
+                StartToggle.onValueChanged.AddListener(value =>
+                {
+                    if (value)
+                    {
+                        ScreammageGradeToggle(level);
+                    }
+                });
+                count++;
+            }
+            isInit = true;
+        }
         WeekToggles[dayOfWeekNumber].isOn = true;
+        WeekToggles[dayOfWeekNumber].onValueChanged.Invoke(WeekToggles[dayOfWeekNumber]);
         enterCountTexts.text = st.Get("daily_scream_count") + $" {GamePlayerInfo.instance.scrimmageCount}/3";
 
         base.OnEnter();
@@ -119,7 +158,7 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
         selectedWeekNumber = index;
 
 
-        if (index != dayOfWeekNumber || GamePlayerInfo.instance.scrimmageCount <= 0 || GamePlayerInfo.instance.cleardStage< minLevel[0])
+        if (index != dayOfWeekNumber || GamePlayerInfo.instance.scrimmageCount <= 0 || GamePlayerInfo.instance.cleardStage < minLevel[0])
         {
             foreach (var item in StartToggles)
             {
@@ -156,9 +195,23 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
                 }
             }
             StartButton.interactable = true;
+            int currStageGrade = 0;
+            for (int i = 0; i < StartToggles.Length; i++)
+            {
+                bool gradeChecker = currStage >= minLevel[i];
+                if (gradeChecker)
+                {
+                    currStageGrade = i;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            ScreammageGradeToggle(currStageGrade);
         }
-        
-        switch(index)
+
+        switch (index)
         {
             case 0:
             case 2:
@@ -191,7 +244,7 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                        if (i < screammageLevel+1)
+                        if (i < screammageLevel + 1)
                         {
                             itemButtons[i].gameObject.SetActive(true);
                         }

@@ -138,7 +138,7 @@ public class ManagerRecruitTryout : ManagerRecruit
 
         recruitImage.sprite = Resources.Load<Sprite>(Path.Combine("RecruitSprite", currCode.ToString()));
         recruitInfo.text = info.info;
-        MoneyText5.text = $"C :  {info.crystal * 5}";
+        MoneyText5.text = $"<sprite=1> :  {info.crystal * 5}";
         ticketRewardText.text = GamePlayerInfo.instance.contractTicket.ToString();
     }
 
@@ -164,8 +164,8 @@ public class ManagerRecruitTryout : ManagerRecruit
             string messege = "";
             string submessege = st.Get("recruitMoneyLackMessegeCurr");
 
-            messege += $" {st.Get("crystal")} {currCost - GamePlayerInfo.instance.crystal}{st.Get("count")}";
-            submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
+            messege += $" <sprite=1> {currCost - GamePlayerInfo.instance.crystal}{st.Get("count")}";
+            submessege += $" <sprite=1> {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
 
             messege += st.Get("recruitMoneyLackMessege");
             moneyWarningWindowMoney.text = messege;
@@ -183,8 +183,8 @@ public class ManagerRecruitTryout : ManagerRecruit
             string messege = "";
             string submessege = st.Get("recruitCheckCurrMessege");
 
-            messege += $" {st.Get("crystal")} {currCost}{st.Get("count")}";
-            submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
+            messege += $" <sprite=1> {currCost}{st.Get("count")}";
+            submessege += $" <sprite=1> {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
 
             messege += st.Get("recruitCheckMessege");
             recruitCheckWindowMoney.text = messege;
@@ -300,9 +300,9 @@ public class ManagerRecruitTryout : ManagerRecruit
 
         int playerCode = outPut[currTryout];
         GamePlayerInfo.instance.AddPlayer(playerCode);
-        GamePlayerInfo.instance.AddMoney(0,0,currReward);
+        GamePlayerInfo.instance.AddMoney(0, 0, currReward);
 
-       var card = Instantiate(recruitCardPrefab, recruitCardPos);
+        var card = Instantiate(recruitCardPrefab, recruitCardPos);
         card.GetComponent<RecruitCards>().image.sprite = pt.GetPlayerSprite(playerCode);
         var rc = card.GetComponent<RecruitCards>();
         rc.image.sprite = pt.GetPlayerSprite(playerCode);
@@ -355,8 +355,8 @@ public class ManagerRecruitTryout : ManagerRecruit
 
     public void UpdateMoneyInfo()
     {
-        moneyListText.text = "C : " + GamePlayerInfo.instance.crystal.ToString();
-        ticketRewardText.text = "M : " + GamePlayerInfo.instance.contractTicket.ToString();
+        moneyListText.text = GamePlayerInfo.instance.crystal.ToString();
+        ticketRewardText.text = "<sprite=2>" + GamePlayerInfo.instance.contractTicket.ToString();
         LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
