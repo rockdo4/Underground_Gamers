@@ -24,8 +24,8 @@ public class LobbyTopMenu : MonoBehaviour
     }
     public void UpdateMoney()
     {
-        moneyText[0].text = "G : "+ GamePlayerInfo.instance.money.ToString();
-        moneyText[1].text = "C : " + GamePlayerInfo.instance.crystal.ToString();
+        moneyText[0].text = GamePlayerInfo.instance.money.ToString("N0");
+        moneyText[1].text = GamePlayerInfo.instance.crystal.ToString("N0");
     }
 
     public void AddFunction(Action action)

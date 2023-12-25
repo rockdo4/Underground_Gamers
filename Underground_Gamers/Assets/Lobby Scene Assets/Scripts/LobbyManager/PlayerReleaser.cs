@@ -76,7 +76,7 @@ public class PlayerReleaser : MonoBehaviour
             st = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
         isReleaseMod = true;
-        selectCountText.text = st.Get("curr_selected_player") + ": 0/10";
+        selectCountText.text = $"<size=24>{st.Get("curr_selected_player")} : </size><color=\"yellow\">0/10</color>";
     }
     public void EndReleaseMod()
     {
@@ -88,11 +88,11 @@ public class PlayerReleaser : MonoBehaviour
     {
         if (!isReleaseMod || (btList.Count >= 10 && !playerButtons.willRelease)) { return; }
         playerButtons.SetReleaseSelect();
-        if (playerButtons.willRelease) 
+        if (playerButtons.willRelease)
         {
             btList.Add(playerButtons);
         }
-        else 
+        else
         {
             btList.Remove(playerButtons);
         }
@@ -104,7 +104,7 @@ public class PlayerReleaser : MonoBehaviour
         bool isAvailableButtons = btList.Count > 0;
         relesaseAllButton.interactable = isAvailableButtons;
         relesaseStartButton.interactable = isAvailableButtons;
-        selectCountText.text = st.Get("curr_selected_player") + $": {btList.Count}/10";
+        selectCountText.text = $"<size=24>{st.Get("curr_selected_player")} : </size><color=\"yellow\">{btList.Count}/10</color>";
     }
 
     public void SelectAllForRelease()
@@ -112,7 +112,7 @@ public class PlayerReleaser : MonoBehaviour
         PlayerButtons[] buttons = relesaseOriginCardsPos.GetComponentsInChildren<PlayerButtons>(false);
         foreach (var item in buttons)
         {
-            if (btList.Count>=10)
+            if (btList.Count >= 10)
             {
                 ButtonChecker();
                 return;
@@ -135,16 +135,20 @@ public class PlayerReleaser : MonoBehaviour
         }
         btList.Clear();
         relesaseAllButton.interactable = false;
-        relesaseStartButton.interactable= false;
+        relesaseStartButton.interactable = false;
         if (st == null)
         {
             st = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
-        selectCountText.text = st.Get("curr_selected_player") + ": 0/10";
+        selectCountText.text = $"<size=24>{st.Get("curr_selected_player")} : </size><color=\"yellow\">0/10</color>";
     }
 
     public void MakeReleaseCheckCards(bool on)
     {
+        if (st == null)
+        {
+            st = DataTableManager.instance.Get<StringTable>(DataType.String);
+        }
         if (on)
         {
             rewardSum = 0;
@@ -184,7 +188,7 @@ public class PlayerReleaser : MonoBehaviour
                 copyB.gameObject.SetActive(true);
                 buttonCopys.Add(copyB.gameObject);
             }
-            releaseRewardText.text = rewardSum.ToString();
+            releaseRewardText.text = $"{st.Get("when_release")} <sprite=2> {rewardSum} {st.Get("get")}";
         }
         else
         {

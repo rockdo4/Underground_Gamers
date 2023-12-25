@@ -59,8 +59,8 @@ public class LobbyUIManager : MonoBehaviour
     }
     public void UpdateMoneyInfo()
     {
-        MoneyList[0].text = GamePlayerInfo.instance.money.ToString();
-        MoneyList[1].text = GamePlayerInfo.instance.crystal.ToString();
+        MoneyList[0].text = GamePlayerInfo.instance.money.ToString("N0");
+        MoneyList[1].text = GamePlayerInfo.instance.crystal.ToString("N0");
     }
 
     public void ActiveLobby(bool on)

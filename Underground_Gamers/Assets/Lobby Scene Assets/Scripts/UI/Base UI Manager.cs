@@ -34,6 +34,8 @@ public class BaseUIManager : LobbySceneSubscriber
 
     [SerializeField]
     private MenuMover menuMover;
+    [SerializeField]
+    private PopupRepresentPlayers popupRepresentPlayers;
     public override void OnEnter()
     {
         base.OnEnter();
@@ -123,7 +125,14 @@ public class BaseUIManager : LobbySceneSubscriber
 
     public void UpdateProfile()
     {
-        portrait.sprite = nullPortrait;
+        if (GamePlayerInfo.instance.representativePlayer > 0)
+        {
+            portrait.sprite = pt.GetPlayerSprite(GamePlayerInfo.instance.representativePlayer);
+        }
+        else
+        {
+            portrait.sprite = popupRepresentPlayers.nullSprite;
+        }
         playerName.text = $"{GamePlayerInfo.instance.playername}";
         teamName.text = $"{GamePlayerInfo.instance.teamName}";
     }

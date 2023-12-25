@@ -18,8 +18,7 @@ public class PopupRepresentPlayers : MonoBehaviour
     private ToggleGroup toggleGroup;
     [SerializeField]
     private Transform togglePos;
-    [SerializeField]
-    private Sprite nullSprite;
+    public Sprite nullSprite;
 
     private List<GameObject> toggles = new List<GameObject>();
     private int currCode = -1;

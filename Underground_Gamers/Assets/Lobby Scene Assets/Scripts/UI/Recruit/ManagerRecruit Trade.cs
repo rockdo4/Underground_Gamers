@@ -107,7 +107,7 @@ public class ManagerRecruitTrade : ManagerRecruit
 
     private void MakeCards()
     {
-        if (GamePlayerInfo.instance.lastRecruitTime.AddDays(1) 
+        if (GamePlayerInfo.instance.lastRecruitTime.AddDays(1)
             < DateTime.Now)
         {
             ShuffleCards();
@@ -116,11 +116,11 @@ public class ManagerRecruitTrade : ManagerRecruit
         }
 
         lastResetTime = GamePlayerInfo.instance.lastRecruitTime;
-        
+
         int count = 0;
         foreach (var card in recruitTradeCards)
         {
-            if (GamePlayerInfo.instance.tradeCenter.Count-1 < count )
+            if (GamePlayerInfo.instance.tradeCenter.Count - 1 < count)
             {
                 break;
             }
@@ -152,8 +152,8 @@ public class ManagerRecruitTrade : ManagerRecruit
             string messege = "";
             string submessege = st.Get("recruitMoneyLackMessegeCurr");
 
-            messege += $" {st.Get("crystal")} {resetCost - GamePlayerInfo.instance.crystal}{st.Get("count")}";
-            submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}";
+            messege += $"<sprite=1> {resetCost - GamePlayerInfo.instance.crystal}{st.Get("count")}";
+            submessege += $"<sprite=1> {GamePlayerInfo.instance.crystal}{st.Get("count")}";
 
             messege += st.Get("recruitMoneyLackMessege");
             moneyWarningWindowMoney.text = messege;
@@ -166,8 +166,8 @@ public class ManagerRecruitTrade : ManagerRecruit
             string messege = "";
             string submessege = st.Get("recruitCheckCurrMessege");
 
-            messege += $" {st.Get("crystal")} {resetCost}{st.Get("count")}";
-            submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
+            messege += $"<sprite=1> {resetCost}{st.Get("count")}";
+            submessege += $"<sprite=1> {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
 
             messege += st.Get("reset_list_check");
             popupResetListMoney.text = messege;
@@ -207,8 +207,8 @@ public class ManagerRecruitTrade : ManagerRecruit
             string messege = "";
             string submessege = st.Get("recruitMoneyLackMessegeCurr");
 
-            messege += $" {st.Get("ticket")} {cost - GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
-            submessege += $" {st.Get("ticket")} {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
+            messege += $"<sprite=2> {cost - GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
+            submessege += $"<sprite=2> {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
 
             messege += st.Get("recruitMoneyLackMessege");
             moneyWarningWindowMoney.text = messege;
@@ -227,8 +227,8 @@ public class ManagerRecruitTrade : ManagerRecruit
             currIndex = index;
             string messege = "";
             string submessege = st.Get("recruitCheckCurrMessege");
-            messege += $" {st.Get("ticket")} {cost}{st.Get("count")}";
-            submessege += $" {st.Get("ticket")} {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
+            messege += $"<sprite=2> {cost}{st.Get("count")}";
+            submessege += $"<sprite=2> {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
             messege += st.Get("recruitCheckMessege");
             recruitCheckWindowMoney.text = messege;
             recruitCheckWindowMoneyCurr.text = submessege;
@@ -239,7 +239,7 @@ public class ManagerRecruitTrade : ManagerRecruit
 
     public void DoTrade()
     {
-        if (!GamePlayerInfo.instance.UseMoney(0,0, currcost))
+        if (!GamePlayerInfo.instance.UseMoney(0, 0, currcost))
         {
             return;
         }
@@ -250,7 +250,7 @@ public class ManagerRecruitTrade : ManagerRecruit
         }
         oldRecruitCards.Clear();
 
-        int playerCode = GamePlayerInfo.instance.tradeCenter[currIndex]; 
+        int playerCode = GamePlayerInfo.instance.tradeCenter[currIndex];
 
         var card = Instantiate(recruitCardPrefab, recruitCardPos);
         card.GetComponent<RecruitCards>().image.sprite = pt.GetPlayerSprite(playerCode);
@@ -323,8 +323,8 @@ public class ManagerRecruitTrade : ManagerRecruit
 
     public void UpdateMoneyInfo()
     {
-        moneyListText[0].text = "C : " + GamePlayerInfo.instance.crystal.ToString();
-        moneyListText[1].text = "M : " + GamePlayerInfo.instance.contractTicket.ToString();
+        moneyListText[0].text = GamePlayerInfo.instance.crystal.ToString();
+        moneyListText[1].text = GamePlayerInfo.instance.contractTicket.ToString();
         LobbyUIManager.instance.UpdateMoneyInfo();
     }
 

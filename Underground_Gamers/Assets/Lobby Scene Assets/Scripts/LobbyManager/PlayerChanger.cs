@@ -75,6 +75,7 @@ public class PlayerChanger : MonoBehaviour
                 if (!slot.isSpare)
                 {
                     slot.typeText.text = st.Get($"type{player.type}");
+                    slot.typeImage.sprite = pt.playerTypeSprites[player.type - 1];
                     slot.levelText.text = $"Lv.{player.level}";
                     slot.nameText.text = st.Get($"playerName{player.code}");
                     slot.skillNameText.text = st.Get($"skillName{player.gearCode}");
@@ -130,7 +131,7 @@ public class PlayerChanger : MonoBehaviour
             dupleBllockCodes = dupleBllockCodes.Distinct().ToList();
             dupleBllockCodes.Remove(usingList[currentSlotIndex].code);
         }
-        
+
 
         foreach (var old in olds)
         {
@@ -296,6 +297,21 @@ public class PlayerChanger : MonoBehaviour
         {
             haveList.Add(usingList[currentSlotIndex]);
             GamePlayerInfo.instance.RemoveUsePlayer(currentSlotIndex);
+        }
+        SlotChecker();
+    }
+
+    public void ReturnAllPlayer()
+    {
+        haveList = GamePlayerInfo.instance.havePlayers;
+        usingList = GamePlayerInfo.instance.usingPlayers;
+        for (int i = 0; i < 8; i++)
+        {
+            if (usingList[i].code >= 0)
+            {
+                haveList.Add(usingList[i]);
+                GamePlayerInfo.instance.RemoveUsePlayer(i);
+            }
         }
         SlotChecker();
     }

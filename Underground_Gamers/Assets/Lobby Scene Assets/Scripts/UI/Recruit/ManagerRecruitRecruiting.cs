@@ -111,8 +111,8 @@ public class ManagerRecruitRecruiting : ManagerRecruit
 
         recruitImage.sprite = Resources.Load<Sprite>(Path.Combine("RecruitSprite", currCode.ToString()));
         recruitInfo.text = info.info;
-        MoneyText1.text = $"C : {info.crystal}";
-        MoneyText10.text = $"C : {info.crystal * 10}";
+        MoneyText1.text = $"<sprite=1> : {info.crystal}";
+        MoneyText10.text = $"<sprite=1>  : {info.crystal * 10}";
     }
 
     public void TryRecruit(int count)
@@ -137,20 +137,20 @@ public class ManagerRecruitRecruiting : ManagerRecruit
         {
             string messege = "";
             string submessege = st.Get("recruitMoneyLackMessegeCurr");
-            if (needMoney - GamePlayerInfo.instance.money> 0)
+            if (needMoney - GamePlayerInfo.instance.money > 0)
             {
-                messege += $" {st.Get("money")} {needMoney - GamePlayerInfo.instance.money}{st.Get("count")}" ;
-                submessege += $"{st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")} ";
+                messege += $"<sprite=0> {needMoney - GamePlayerInfo.instance.money}{st.Get("count")}";
+                submessege += $"<sprite=0> {GamePlayerInfo.instance.money}{st.Get("count")} ";
             }
             if (needCrystal - GamePlayerInfo.instance.crystal > 0)
             {
-                messege += $" {st.Get("crystal")} {needCrystal - GamePlayerInfo.instance.crystal}{st.Get("count")}";
-                submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
+                messege += $"<sprite=1> {needCrystal - GamePlayerInfo.instance.crystal}{st.Get("count")}";
+                submessege += $"<sprite=1> {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
             }
             if (needTicket - GamePlayerInfo.instance.contractTicket > 0)
             {
-                messege += $" {st.Get("ticket")} {needTicket - GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
-                submessege += $" {st.Get("ticket")} {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
+                messege += $"<sprite=2> {needTicket - GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
+                submessege += $"<sprite=2> {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
             }
             messege += st.Get("recruitMoneyLackMessege");
             moneyWarningWindowMoney.text = messege;
@@ -169,18 +169,18 @@ public class ManagerRecruitRecruiting : ManagerRecruit
             string submessege = st.Get("recruitCheckCurrMessege");
             if (needMoney > 0)
             {
-                messege += $" {st.Get("money")} {needMoney}{st.Get("count")}";
-                submessege += $"{st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")} ";
+                messege += $"<sprite=0> {needMoney}{st.Get("count")}";
+                submessege += $"<sprite=0> {GamePlayerInfo.instance.money}{st.Get("count")} ";
             }
-            if (needCrystal> 0)
+            if (needCrystal > 0)
             {
-                messege += $" {st.Get("crystal")} {needCrystal}{st.Get("count")}";
-                submessege += $" {st.Get("crystal")} {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
+                messege += $"<sprite=1> {needCrystal}{st.Get("count")}";
+                submessege += $"<sprite=1> {GamePlayerInfo.instance.crystal}{st.Get("count")}"; ;
             }
             if (needTicket > 0)
             {
-                messege += $" {st.Get("ticket")} {needTicket}{st.Get("count")}";
-                submessege += $" {st.Get("ticket")} {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
+                messege += $"<sprite=2> {needTicket}{st.Get("count")}";
+                submessege += $"<sprite=2> {GamePlayerInfo.instance.contractTicket}{st.Get("count")}";
             }
             messege += st.Get("recruitCheckMessege");
             recruitCheckWindowMoney.text = messege;
@@ -203,12 +203,12 @@ public class ManagerRecruitRecruiting : ManagerRecruit
         }
         oldRecruitCards.Clear();
 
-        
+
 
         outPut = rt.RecruitRandom(currCode, recruitCount);
         currCount = recruitCount;
         bool isHaveUnique = false;
-        foreach (int i in outPut) 
+        foreach (int i in outPut)
         {
             GamePlayerInfo.instance.AddPlayer(i);
             GamePlayerInfo.instance.AddMoney(0, 0, 1);
@@ -247,7 +247,7 @@ public class ManagerRecruitRecruiting : ManagerRecruit
         {
             Instantiate(recruitEffrctPrefabNomal, recruitEffrctPos);
         }
-       
+
         RecruitEffrctNextPlayer();
 
         recruitCardBoard.SetActive(true);
