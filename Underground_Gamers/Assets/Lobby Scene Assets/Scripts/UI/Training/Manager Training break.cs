@@ -68,7 +68,7 @@ public class ManagerTrainingbreak : ManagerTraining
     private int curruseCount;
     private int currIndex = 0;
     private Player currPlayer;
-    private Color disableColor = new Color(0,0,0,0.5f);
+    private Color disableColor = new Color(0, 0, 0, 0.5f);
     private void Start()
     {
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
@@ -111,7 +111,7 @@ public class ManagerTrainingbreak : ManagerTraining
                 playerList.Add(item);
             }
         }
-        foreach(var item in GamePlayerInfo.instance.havePlayers)
+        foreach (var item in GamePlayerInfo.instance.havePlayers)
         {
             if (item.breakthrough < 3)
             {
@@ -120,7 +120,7 @@ public class ManagerTrainingbreak : ManagerTraining
         }
 
         UpdateSortedPlayerList();
-        
+
 
         int count = 0;
         foreach (var player in sortedPlayerList)
@@ -144,7 +144,20 @@ public class ManagerTrainingbreak : ManagerTraining
                     _ => pt.berakSprites[0],
                 };
             }
-           
+            card.typeIcon.sprite = pt.playerTypeSprites[player.type - 1];
+            card.stars.sprite = pt.starsSprites[player.grade - 3];
+            card.isUsing.color = Color.red;
+            foreach (var item in GamePlayerInfo.instance.usingPlayers)
+            {
+                if (item.ID == player.ID)
+                {
+                    card.isUsing.color = Color.green;
+                    break;
+                }
+            }
+            card.playerName.text = player.name;
+
+
 
             int index = count++;
             bt.GetComponent<Button>().onClick.AddListener(() => OpenPlayerBreakInfo(index));
@@ -178,7 +191,7 @@ public class ManagerTrainingbreak : ManagerTraining
         breakInfoTexts[0].text = "Lv." + currPlayer.maxLevel.ToString();
         breakInfoTexts[1].text = "Lv." + (currPlayer.maxLevel + 5).ToString();
         breakInfoTexts[2].text = currPlayer.breakthrough.ToString();
-        breakInfoTexts[3].text = (currPlayer.breakthrough+1).ToString();
+        breakInfoTexts[3].text = (currPlayer.breakthrough + 1).ToString();
         //나중에 스킬테이블 완성되면..
         breakInfoTexts[4].text = currPlayer.name;
         breakInfoTexts[5].text = "Lv." + currPlayer.skillLevel.ToString();
@@ -224,9 +237,21 @@ public class ManagerTrainingbreak : ManagerTraining
                     _ => pt.berakSprites[0],
                 };
             }
+            card.typeIcon.sprite = pt.playerTypeSprites[player.type - 1];
+            card.stars.sprite = pt.starsSprites[player.grade - 3];
+            card.isUsing.color = Color.red;
+            foreach (var item in GamePlayerInfo.instance.usingPlayers)
+            {
+                if (item.ID == player.ID)
+                {
+                    card.isUsing.color = Color.green;
+                    break;
+                }
+            }
+            card.playerName.text = player.name;
 
             int useIndex = count++;
-            bt.GetComponent<Toggle>().onValueChanged.AddListener(value => SelectBreaking(useIndex,value));
+            bt.GetComponent<Toggle>().onValueChanged.AddListener(value => SelectBreaking(useIndex, value));
             MadeIngredientsList.Add(bt);
         }
     }
@@ -237,7 +262,7 @@ public class ManagerTrainingbreak : ManagerTraining
         LoadPlayers();
     }
 
-    public void SelectBreaking(int index,bool isOn)
+    public void SelectBreaking(int index, bool isOn)
     {
         if (isOn)
         {
@@ -277,7 +302,7 @@ public class ManagerTrainingbreak : ManagerTraining
         int index = 0;
         foreach (var item in MadeIngredientsList)
         {
-            if (item.GetComponent<Toggle>().isOn ==  true)
+            if (item.GetComponent<Toggle>().isOn == true)
             {
                 willDestroyPlayerList.Add(canUsingPlayerList[index]);
             }
