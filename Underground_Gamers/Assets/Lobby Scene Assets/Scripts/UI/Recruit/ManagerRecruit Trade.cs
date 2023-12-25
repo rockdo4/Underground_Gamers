@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ManagerRecruitTrade : ManagerRecruit
 {
     [SerializeField]
-    private List<TMP_Text> moneyListText;
+    private TMP_Text moneyListText;
     [SerializeField]
     private int resetCost = 50;
 
@@ -323,8 +323,8 @@ public class ManagerRecruitTrade : ManagerRecruit
 
     public void UpdateMoneyInfo()
     {
-        moneyListText[0].text = GamePlayerInfo.instance.crystal.ToString();
-        moneyListText[1].text = GamePlayerInfo.instance.contractTicket.ToString();
+        RecruitUIManager.instance.lobbyTopMenu.UpdateMoney();
+        moneyListText.text = GamePlayerInfo.instance.contractTicket.ToString();
         LobbyUIManager.instance.UpdateMoneyInfo();
     }
 

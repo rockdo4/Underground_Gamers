@@ -23,18 +23,32 @@ public class TrainingUIManager : LobbySceneSubscriber
     }
 
     private static TrainingUIManager trainingUIManager;
+    [SerializeField]
+    private Transform upperUITransform;
+    private Transform originPos;
+
 
     public List<ManagerTraining> trainingManagers = new List<ManagerTraining>();
     public override void OnEnter()
     {
         base.OnEnter();
+        lobbyTopMenu.AddFunction(OnBack);
+        originPos = lobbyTopMenu.transform.parent;
+        lobbyTopMenu.transform.SetParent(upperUITransform);
         lobbySceneUIManager.lobbyTopMenu.ActiveTop(true);
     }
 
     public override void OnExit()
     {
         base.OnExit();
+        LobbyUIManager.instance.ActiveLobby(true);
         lobbySceneUIManager.lobbyTopMenu.ActiveTop(false);
+        lobbyTopMenu.transform.SetParent(originPos);
+    }
+
+    public void OnBack()
+    {
+        lobbySceneUIManager.OpenWindow(1);
     }
     public void SetTraining(int code)
     {
@@ -55,4 +69,18 @@ public class TrainingUIManager : LobbySceneSubscriber
             }
         }
     }    
+
+    public void AddFunctionBack()
+    {
+        lobbyTopMenu.AddFunction(FunctionBack);
+    }
+
+    public void FunctionBack()
+    {
+        foreach (var item in trainingManagers)
+        {
+            item.OnExit();
+        }
+        lobbyTopMenu.transform.SetParent(upperUITransform);
+    }
 }

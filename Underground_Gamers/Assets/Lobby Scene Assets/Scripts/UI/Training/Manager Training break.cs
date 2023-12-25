@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class ManagerTrainingbreak : ManagerTraining
 {
+    [SerializeField]
+    private Transform upperUITransform;
     [Space(10f)]
     [Header("Left")]
     [SerializeField]
@@ -67,7 +69,6 @@ public class ManagerTrainingbreak : ManagerTraining
     private int currIndex = 0;
     private Player currPlayer;
     private Color disableColor = new Color(0,0,0,0.5f);
-
     private void Start()
     {
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
@@ -76,6 +77,7 @@ public class ManagerTrainingbreak : ManagerTraining
     public override void OnEnter()
     {
         gameObject.SetActive(true);
+        TrainingUIManager.instance.lobbyTopMenu.transform.SetParent(upperUITransform);
         LoadPlayers();
     }
 

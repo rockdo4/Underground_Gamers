@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class ManagerTrainingAnalyze : ManagerTraining
 {
     [SerializeField]
+    private Transform upperUITransform;
+    [SerializeField]
     private SwipeDetector swipeDetector;
     [SerializeField]
     private GameObject popupMoneyWarning;
@@ -87,6 +89,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
     public override void OnEnter()
     {
         gameObject.SetActive(true);
+        TrainingUIManager.instance.lobbyTopMenu.transform.SetParent(upperUITransform);
         LoadPlayers();
     }
 
