@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Scrolling : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Scrolling : MonoBehaviour
     public Color color = Color.white;
 
     private TextMeshPro textMesh;
+    public Image image;
     private float timer = 0f;
 
     private Transform lookTarget;
@@ -24,7 +26,15 @@ public class Scrolling : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
-        textMesh.alpha = 1f - (timer / duration);
+        if (textMesh != null)
+            textMesh.alpha = 1f - (timer / duration);
+
+        if(image != null)
+        {
+            Color color = image.color;
+            color.a = 1f - (timer / duration);
+            image.color = color;
+        }
 
         transform.position += Vector3.up * speed * Time.deltaTime;
         transform.LookAt(lookTarget);

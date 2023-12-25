@@ -1,3 +1,4 @@
+using DG.Tweening;
 using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,6 +31,16 @@ public class GameEndPannel : MonoBehaviour
     private float maxTakenDamage = 0;
     private float maxHealAmount = 0;
 
+    public GameObject nextButton;
+    public GameObject damageGraphButton;
+
+
+    public void SetActiveGameEndPanelButton(bool isActive)
+    {
+        nextButton.SetActive(isActive);
+        damageGraphButton.SetActive(isActive);
+    }
+
     public void ResetDamageGraph()
     {
         maxDealtDamage = 0;
@@ -52,23 +63,32 @@ public class GameEndPannel : MonoBehaviour
         {
             OffDamageGraph();
             OnRewardPanel();
+            SetActiveGameEndPanelButton(true);
         }
         else
         {
             OnDamageGraph();
             OffRewardPanel();
+            SetActiveGameEndPanelButton(false);
         }
         CreateAIReward();
         CreateDamageGraph();
 
         // 집계 하기전
-        //gameManager.aiRewardManager.DisplayRewardResult();
+        gameManager.aiRewardManager.DisplayRewardResult();
 
         // 집계 중
         if (gameManager.IsRoundWin)
         {
-            GameInfo.instance.WinReward();
+            GameInfo.instance.WinReward(); 
+            DOTween.timeScale = 1f;
+            DOTween.defaultTimeScaleIndependent = true;
             gameManager.aiRewardManager.DisplayFillXpGauage();
+            gameManager.aiRewardManager.DisplayGetXp(GameInfo.instance.XpRewards);
+        }
+        else
+        {
+            gameManager.aiRewardManager.DisplayGetXp(0);
         }
 
         // 집계 후

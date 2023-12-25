@@ -1,4 +1,5 @@
 using DG.Tweening;
+using DG.Tweening.Core.Easing;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -15,15 +16,26 @@ public class AIReward : MonoBehaviour
 
     public Slider xpGauge;
     public TextMeshProUGUI xpText;
+    public GameObject levelUpPrefab;
+    public Transform levelUpPoint;
+
     public float currentXP;
     public float maxXP;
     public float maxLv;
     public int currentLv;
+    private int completedTweenCount = 0;
+    private int loopCount = 0;
 
-
+    private float levelUpXpTime;
+    private float remainedXpTime = 0.3f;
     public void DisplayXpGauge(float value)
     {
         xpGauge.value = value;
+    }
+
+    public void DisplayGetXp(int getXp)
+    {
+        xpText.text = $"Xp + {getXp}";
     }
 
     public void CalXp()
@@ -33,33 +45,62 @@ public class AIReward : MonoBehaviour
         DisplayXpGauge(currentXP / maxXP);
     }
 
-    public void DisplayLevel()
+    public void DisplayLevel(int level)
     {
-        currentLv = ai.playerInfo.level;
+        currentLv = level;
         lvText.text = $"Lv. {currentLv}";
     }
-    public void FillXpGauge(float duration)
+    public void FillXpGauge(int loopCount, float duration)
     {
-        xpGauge.DOValue(1.0f, duration); // DOTween을 사용하여 슬라이더를 채웁니다.
+        levelUpXpTime = (duration - remainedXpTime) / loopCount;
+        this.loopCount = loopCount;
+        if (this.loopCount > completedTweenCount)
+        {
+            completedTweenCount++;
+            //Tween sliderTween = xpGauge.DOValue(1, 1.0f).SetEase(Ease.InOutQuint).SetLoops(3, LoopType.Restart);
+            xpGauge.DOValue(1, levelUpXpTime).SetEase(Ease.InOutQuint).OnComplete(TweenCompleted);
+        }
+        else
+        {
+            DisplayRemainedXp();
+        }
+    }
+    public void TweenCompleted()
+    {
+        xpGauge.value = 0f;
+        Debug.Log($"{ai.playerInfo.name} {currentLv + loopCount - (loopCount - completedTweenCount)}");
+        DisplayLevel(currentLv + loopCount - (loopCount - completedTweenCount));
+        CreateLevelUpImage();
+        if (loopCount > completedTweenCount)
+        {
+            // 레벨업 표시하기
+            xpGauge.DOValue(1, levelUpXpTime).SetEase(Ease.InOutQuint).OnComplete(() => TweenCompleted());
+            completedTweenCount++;
+
+        }
+        else
+        {
+            Debug.Log("Loop End");
+            completedTweenCount = 0;
+            levelUpXpTime = 0;
+            DisplayRemainedXp();
+        }
     }
 
-    //public void FillXpGauge(float duration)
-    //{
-    //    //StartCoroutine(FillSliderOverTime(duration));
-    //}
-    //public IEnumerator FillXpGauge(float duration)
-    //{
-    //    float elapsedTime = 0f;
-    //    float startValue = xpGauge.value;
-    //    float endValue = 1.0f;
+    public void CreateLevelUpImage()
+    {
+        GameObject levelUpImage = Instantiate(levelUpPrefab, levelUpPoint);
+    }
 
-    //    while (elapsedTime < duration)
-    //    {
-    //        elapsedTime += Time.deltaTime;
-    //        xpGauge.value = Mathf.Lerp(startValue, endValue, elapsedTime / duration);
-    //        yield return null;
-    //    }
+    public void DisplayRemainedXp()
+    {
+        xpGauge.DOValue(ai.playerInfo.xp / ai.playerInfo.maxXp, remainedXpTime).SetEase(Ease.InOutQuint).OnComplete(CalXp);
+    }
 
-    //    xpGauge.value = endValue; // 슬라이더를 최종 값으로 설정
-    //}
+    void AdditionalTween()
+    {
+        Debug.Log("All tweens completed!");
+        xpGauge.DOValue(1, 1.0f).SetEase(Ease.InOutQuint); // 추가적인 Tweener 실행
+    }
 }
+

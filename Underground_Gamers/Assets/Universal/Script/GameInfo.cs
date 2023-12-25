@@ -44,7 +44,7 @@ public class GameInfo : MonoBehaviour
 
     //0부터 각각 경험치재화 1,2,3,4 ,골드, 크리스탈 순임
     private int[] rewards = new int[6] { 0, 0, 0, 0, 0, 0 };
-    private int xpRewards;
+    public int XpRewards { get; private set; }
     public void Awake()
     {
         players = new List<GameObject>();
@@ -130,7 +130,7 @@ public class GameInfo : MonoBehaviour
                             rewards[i] = stageInfo.rewards[i];
                         }
                     }
-                    xpRewards = stageInfo.xp;
+                    XpRewards = stageInfo.xp;
                 }
                 break;
             case GameType.Official:
@@ -811,7 +811,7 @@ public class GameInfo : MonoBehaviour
                 }
                 GamePlayerInfo.instance.AddMoney(rewards[4], rewards[5], 0);
                 GamePlayerInfo.instance.GetXpItems(rewards[0], rewards[1], rewards[2], rewards[3]);
-                GamePlayerInfo.instance.LevelUpTeams(xpRewards);
+                GamePlayerInfo.instance.LevelUpTeams(XpRewards);
                 break;
             case GameType.Official:
                 break;

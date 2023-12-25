@@ -28,6 +28,11 @@ public class PlayerMaker : MonoBehaviour
                 gameManager.IsStart = false;
                 Time.timeScale = 0f;
             }
+
+
+            // 경기 이름
+            gameManager.stageInfoManager.InitString();
+            gameManager.stageInfoManager.SetStageInfo();
         }
     }
 }
