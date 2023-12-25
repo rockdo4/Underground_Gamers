@@ -133,7 +133,7 @@ public class GameInfo : MonoBehaviour
                         }
                     }
                     storyTeamName = stageInfo.teamName;
-                    xpRewards = stageInfo.xp;
+                    XpRewards = stageInfo.xp;
                 }
                 break;
             case GameType.Official:
