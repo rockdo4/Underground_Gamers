@@ -60,6 +60,8 @@ public class GameEndPannel : MonoBehaviour
         }
         CreateAIReward();
         CreateDamageGraph();
+
+        gameManager.aiRewardManager.DisplayXpGauge();
     }
 
     public void CreateAIReward()
@@ -73,6 +75,10 @@ public class GameEndPannel : MonoBehaviour
             aiReward.illustration.sprite = pc.status.illustration;
             aiReward.aiClass.sprite = pc.status.aiClass;
             aiReward.grade.sprite = pc.status.grade;
+            aiReward.currentXP = pc.status.xp;
+            aiReward.maxXP = pc.status.maxXp;
+            aiReward.aiStatus = pc.status;
+            gameManager.aiRewardManager.rewards.Add(aiReward);
         }
     }
 
@@ -115,6 +121,7 @@ public class GameEndPannel : MonoBehaviour
     {
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
+        gameManager.aiRewardManager.ClearRewards();
         SceneManager.LoadScene("Lobby Scene");
     }
 
@@ -142,12 +149,10 @@ public class GameEndPannel : MonoBehaviour
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
 
-        //gameManager.entryPanel.SetNextRoundMemberIndex();
-        //gameManager.entryPanel.SetPlayerEntrySlotAndBenchSlot();
-
         // NextRound 시 매번 되어야 함
         gameManager.lineManager.ResetAllLines();
         gameManager.commandManager.UnSelect();
+        gameManager.aiRewardManager.ClearRewards();
     }
 
     public void EndRound()
@@ -155,10 +160,10 @@ public class GameEndPannel : MonoBehaviour
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
         gameManager.aiManager.ResetAI();
+        gameManager.aiRewardManager.ClearRewards();
         GamePlayerInfo.instance.CalculateOfficialPlayer(gameManager.IsGameWin,
             gameManager.gameRuleManager.PCWinEvidenceCount,
             gameManager.gameRuleManager.NPCWinEvidenceCount);
-        //GameInfo.instance.ClearEntryPlayer();
         SceneManager.LoadScene("Lobby Scene");
     }
 

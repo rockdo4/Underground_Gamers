@@ -4,14 +4,27 @@ using UnityEngine.UI;
 
 public class AIReward : MonoBehaviour
 {
-    public GameObject ai;
+    public CharacterStatus aiStatus;
     public Image illustration;
     public Image aiClass;
     public TextMeshProUGUI lvText;
     public Image grade;
     public TextMeshProUGUI aiNameText;
 
-    public Slider expGauage;
-    public float currentEXP;
-    public float maxEXP;
+    public Slider xpGauge;
+    public TextMeshProUGUI xpText;
+    public float currentXP;
+    public float maxXP;
+    public float maxLv;
+
+
+    public void DisplayExpGauge(float value)
+    {
+        xpGauge.value = value;
+    }
+
+    public void CalXp()
+    {
+        DisplayExpGauge(currentXP / maxXP);
+    }
 }
