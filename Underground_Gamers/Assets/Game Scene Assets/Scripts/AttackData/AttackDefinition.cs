@@ -50,7 +50,7 @@ public class AttackDefinition : ScriptableObject
             damage = Mathf.Max(0, damage);
         }
 
-        return new Attack((int)damage, isCritical);
+        return new Attack((int)damage, isCritical, false);
     }
 
     public virtual void ExecuteAttack(GameObject attacker, GameObject defender)

@@ -12,6 +12,7 @@ public class HealSkill : AttackDefinition
 
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
+        AIController controller = attacker.GetComponent<AIController>();
         CharacterStatus aStatus = attacker.GetComponent<CharacterStatus>();
         TeamIdentifier identity = attacker.GetComponent<TeamIdentifier>();
 
@@ -21,8 +22,13 @@ public class HealSkill : AttackDefinition
         foreach (var col in cols)
         {
             var colIdentity = col.GetComponent<TeamIdentifier>();
+
+            if (colIdentity == null)
+                continue;
+
             if (colIdentity.isBuilding)
                 continue;
+
 
             CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
             float colHpRate = colStatus.Hp / colStatus.maxHp;
@@ -33,12 +39,20 @@ public class HealSkill : AttackDefinition
             }
         }
 
+
+        if (select == null)
+        {
+            controller.isOnCoolOriginalSkill = true;
+            return;
+        }
+
         Attack heal = CreateHeal(aStatus, select);
 
         GameObject healPrefab = Instantiate(effectPrefab, select.transform);
         Destroy(healPrefab, 1f);
 
-        var attackables = defender.GetComponents<IAttackable>();
+
+        var attackables = select.GetComponents<IAttackable>();
         foreach (var attackable in attackables)
         {
             attackable.OnAttack(attacker, heal);
@@ -48,6 +62,6 @@ public class HealSkill : AttackDefinition
     public Attack CreateHeal(CharacterStatus attacker, CharacterStatus defender)
     {
         damage = -(defender.maxHp * healRate);
-        return new Attack((int)damage, false);
+        return new Attack((int)damage, false, true);
     }
 }
