@@ -57,7 +57,6 @@ public class AIReward : MonoBehaviour
         if (this.loopCount > completedTweenCount)
         {
             completedTweenCount++;
-            //Tween sliderTween = xpGauge.DOValue(1, 1.0f).SetEase(Ease.InOutQuint).SetLoops(3, LoopType.Restart);
             xpGauge.DOValue(1, levelUpXpTime).SetEase(Ease.InOutQuint).OnComplete(TweenCompleted);
         }
         else
@@ -68,7 +67,6 @@ public class AIReward : MonoBehaviour
     public void TweenCompleted()
     {
         xpGauge.value = 0f;
-        Debug.Log($"{ai.playerInfo.name} {currentLv + loopCount - (loopCount - completedTweenCount)}");
         DisplayLevel(currentLv + loopCount - (loopCount - completedTweenCount));
         CreateLevelUpImage();
         if (loopCount > completedTweenCount)
@@ -80,7 +78,6 @@ public class AIReward : MonoBehaviour
         }
         else
         {
-            Debug.Log("Loop End");
             completedTweenCount = 0;
             levelUpXpTime = 0;
             DisplayRemainedXp();
@@ -99,7 +96,6 @@ public class AIReward : MonoBehaviour
 
     void AdditionalTween()
     {
-        Debug.Log("All tweens completed!");
         xpGauge.DOValue(1, 1.0f).SetEase(Ease.InOutQuint); // 추가적인 Tweener 실행
     }
 }

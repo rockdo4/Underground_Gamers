@@ -41,43 +41,50 @@ public class StageInfoManager : MonoBehaviour
         switch (GameInfo.instance.gameType)
         {
             case GameType.Story:
+                string storyOurTeamName = GamePlayerInfo.instance.teamName;
+                string storyEnemyName = GameInfo.instance.storyTeamName;
+
                 SetGameTypeText(gameManager.str.Get("story"));
                 SetStageNameText(gameManager.stageTable.GetStageInfo(GameInfo.instance.currentStage).name);
-                //SetEnemyTeamNameText(name);
-                //SetPauseEnemyTeamNameText($"VS {name}");
+                SetOurTeamNameText(storyOurTeamName);
+                SetEnemyTeamNameText(storyEnemyName);
+                SetPauseEnemyTeamNameText($"VS {storyEnemyName}");
 
                 break;
             case GameType.Official:
                 // 정규전 적 팀 이름
-                string name;
+                string officialOurTeamName = GamePlayerInfo.instance.teamName;
+                string officialEnemyName;
                 if (GamePlayerInfo.instance.officialWeekNum < 7)
                 {
-                    name = GamePlayerInfo.instance.officialTeamDatas[GamePlayerInfo.instance.officialPlayerMatchInfo[GamePlayerInfo.instance.officialWeekNum]].name;
+                    officialEnemyName = GamePlayerInfo.instance.officialTeamDatas[GamePlayerInfo.instance.officialPlayerMatchInfo[GamePlayerInfo.instance.officialWeekNum]].name;
                 }
                 else
                 {
                     if (GamePlayerInfo.instance.officialTeamDatas[10 - GamePlayerInfo.instance.officialWeekNum].isPlayer)
                     {
-                        name = GamePlayerInfo.instance.officialTeamDatas[9 - GamePlayerInfo.instance.officialWeekNum].name;
+                        officialEnemyName = GamePlayerInfo.instance.officialTeamDatas[9 - GamePlayerInfo.instance.officialWeekNum].name;
                     }
                     else
                     {
-                        name = GamePlayerInfo.instance.officialTeamDatas[10 - GamePlayerInfo.instance.officialWeekNum].name;
+                        officialEnemyName = GamePlayerInfo.instance.officialTeamDatas[10 - GamePlayerInfo.instance.officialWeekNum].name;
                     }
                 }
                 SetGameTypeText(gameManager.str.Get("regular match"));
-                Debug.Log(gameManager.str.Get("regular weeks match"));
                 SetStageNameText($"{(GamePlayerInfo.instance.officialWeekNum + 1).ToString()}{gameManager.str.Get("regular weeks match")}");
-                SetEnemyTeamNameText(name);
-                SetPauseEnemyTeamNameText($"VS {name}");
+                SetOurTeamNameText(officialOurTeamName);
+                SetEnemyTeamNameText(officialEnemyName);
+                SetPauseEnemyTeamNameText($"VS {officialEnemyName}");
 
                 break;
             case GameType.Scrimmage:
-                string enemyTeamName = gameManager.str.Get($"random_team_name{UnityEngine.Random.Range(0, 99)}");
+                string scrimmageOurTeamName = GamePlayerInfo.instance.teamName;
+                string scrimmageEnemyTeamName = gameManager.str.Get($"random_team_name{UnityEngine.Random.Range(0, 99)}");
                 SetGameTypeText(gameManager.str.Get("scrimmage"));
                 SetStageNameText($"{gameManager.str.Get(days[((int)DateTime.Now.DayOfWeek + 6) % 7])} {gameManager.str.Get(leagueLevel[GameInfo.instance.screammageLevel])}");
-                SetEnemyTeamNameText(enemyTeamName);
-                SetPauseEnemyTeamNameText($"VS {enemyTeamName}");
+                SetOurTeamNameText(scrimmageOurTeamName);
+                SetEnemyTeamNameText(scrimmageEnemyTeamName);
+                SetPauseEnemyTeamNameText($"VS {scrimmageEnemyTeamName}");
                 break;
         }
     }
@@ -91,7 +98,7 @@ public class StageInfoManager : MonoBehaviour
     {
         stageNameText.text = stageName;
     }
-    public void SetOutTeamNameText(string ourTeamName)
+    public void SetOurTeamNameText(string ourTeamName)
     {
         ourTeamNameText.text = ourTeamName;
     }
