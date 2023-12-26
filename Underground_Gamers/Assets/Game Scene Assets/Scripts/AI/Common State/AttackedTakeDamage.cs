@@ -36,7 +36,7 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
                 }
             }
         }
-
+        
         defenderStatus.Hp -= attack.Damage;
         defenderStatus.Hp = Mathf.Min(defenderStatus.Hp, defenderStatus.maxHp);
         defenderStatus.Hp = Mathf.Max(0, defenderStatus.Hp);

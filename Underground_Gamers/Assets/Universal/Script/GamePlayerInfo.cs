@@ -790,7 +790,7 @@ public class GamePlayerInfo : MonoBehaviour
     {
         foreach (var item in usingPlayers)
         {
-            if (item.code > 0 && item.level < item.maxLevel)
+            if (item.code >= 0 && item.level < item.maxLevel)
             {
                 item.xp += xp;
 

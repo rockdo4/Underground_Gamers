@@ -56,6 +56,7 @@ public class AIController : MonoBehaviour
 {
     public Player playerInfo;
     public int code;
+
     public NavMeshAgent agent;
     public CharacterStatus status;
 
@@ -456,7 +457,7 @@ public class AIController : MonoBehaviour
     public void SetMissionTarget(Transform target)
     {
         Building prevBuilding = this.missionTarget.GetComponent<Building>();
-        if(prevBuilding != null)
+        if (prevBuilding != null)
         {
             prevBuilding.ReleaseAIController(this);
         }

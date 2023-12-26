@@ -32,6 +32,8 @@ public class Player
     public int cost = 0;
     public int potential = 10;
     public List<int> training = new List<int>();
+
+    public int index;
 }
 
 public struct PlayerInfo

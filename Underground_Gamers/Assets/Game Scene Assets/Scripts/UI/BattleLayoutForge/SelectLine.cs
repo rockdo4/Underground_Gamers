@@ -23,7 +23,6 @@ public class SelectLine : MonoBehaviour
         Time.timeScale = 1f;
         gameManager.IsStart = true;
 
-
         // 기존 코드
         battleLayoutForgePanel.SetActive(false);
         gameManager.entryManager.EnterGameByEntry();

@@ -141,32 +141,33 @@ public class EntryPanel : MonoBehaviour
         if (pt == null)
             pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
 
-        int code = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).code;
+        int code = GamePlayerInfo.instance.GetOfficialPlayer(index).code;
         if (code < 0)
         {
             Debug.Log("Code Error");
             return;
         }
         var playerInfo = pt.GetPlayerInfo(code);
-        var player = GamePlayerInfo.instance.GetOfficialPlayer(index - 1);
+        var player = GamePlayerInfo.instance.GetOfficialPlayer(index);
+        player.index = index;
         foreach (var item in player.training)
         {
             var ti = pt.GetTrainingInfo(item);
             ti.AddStats(playerInfo);
         }
         Sprite illustration = pt.GetPlayerSprite(code);
-        var name = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).name;
+        var name = GamePlayerInfo.instance.GetOfficialPlayer(index).name;
         int playerHp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
         int playerAttack = (int)pt.CalculateCurrStats(playerInfo.atk, player.level);
         //var grade = pt.starsSprites[GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3];
-        var grade = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3;
+        var grade = GamePlayerInfo.instance.GetOfficialPlayer(index).grade - 3;
 
-        var type = pt.playerTypeSprites[GamePlayerInfo.instance.GetOfficialPlayer(index - 1).type - 1];
-        var level = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).level;
-        var condition = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).condition;
+        var type = pt.playerTypeSprites[GamePlayerInfo.instance.GetOfficialPlayer(index).type - 1];
+        var level = GamePlayerInfo.instance.GetOfficialPlayer(index).level;
+        var condition = GamePlayerInfo.instance.GetOfficialPlayer(index).condition;
         //var skillIcon;
         //var skillName;
-        var skillLevel = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).skillLevel;
+        var skillLevel = GamePlayerInfo.instance.GetOfficialPlayer(index).skillLevel;
 
         // 이 인덱스 생각하기
         CreateEntryPlayer(parent, index, illustration, name, playerHp, playerAttack, grade, type, level, conditionIcon[condition], skillLevel);
@@ -174,11 +175,11 @@ public class EntryPanel : MonoBehaviour
 
     public void SetOriginMemberIndex()
     {
-        for (int entryInedx = 1; entryInedx < 6; ++entryInedx)
+        for (int entryInedx = 0; entryInedx < 5; ++entryInedx)
         {
             GameInfo.instance.entryMembersIndex.Add(entryInedx);
         }
-        for (int benchIndex = 6; benchIndex < 9; ++benchIndex)
+        for (int benchIndex = 5; benchIndex < 8; ++benchIndex)
         {
             GameInfo.instance.benchMembersIndex.Add(benchIndex);
         }

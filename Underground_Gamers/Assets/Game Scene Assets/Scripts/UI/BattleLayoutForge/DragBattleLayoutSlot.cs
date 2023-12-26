@@ -68,7 +68,7 @@ public class DragBattleLayoutSlot : DragSlot
         this.gameManager = gameManager;
         int grade = 0;
         if (this.gameManager.gameRuleManager.gameType == GameType.Official)
-             grade = GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3;
+             grade = GamePlayerInfo.instance.GetOfficialPlayer(index).grade - 3;
         else
             grade = GamePlayerInfo.instance.usingPlayers[index].grade - 3;
 
