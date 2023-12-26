@@ -6,10 +6,16 @@ using UnityEngine;
 public class StraightProjectileAttack : ProjectileAttack
 {
     [Header("직선 투사체")]
-    public float damageRate;
+    public float damageRateLevel1;
+    public float damageRateLevel2;
+    public float damageRateLevel3;
     public bool isPenetrating;
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
+        int skillLevel = 1;
+        if (attacker.GetComponent<AIController>().playerInfo != null)
+            skillLevel = attacker.GetComponent<AIController>().playerInfo.skillLevel;
+
         AIController ai = attacker.GetComponent<AIController>();
         CharacterStatus aStatus = attacker.GetComponent<CharacterStatus>();
         CharacterStatus dStatus = defender.GetComponent<CharacterStatus>();
@@ -24,7 +30,15 @@ public class StraightProjectileAttack : ProjectileAttack
             Debug.Log("Create Projectile");
 
             if (aStatus != null)
-                projectileStatus.damage = aStatus.damage * damageRate;
+            {
+                projectileStatus.damage = skillLevel switch
+                {
+                    1 => aStatus.damage * damageRateLevel1,
+                    2 => aStatus.damage * damageRateLevel2,
+                    3 => aStatus.damage * damageRateLevel3,
+                    _ => aStatus.damage * damageRateLevel1,
+                };
+            }
             projectileStatus.speed = speed;
             projectileStatus.lifeCycle = lifeCycle;
             projectileStatus.isPenetrating = isPenetrating;

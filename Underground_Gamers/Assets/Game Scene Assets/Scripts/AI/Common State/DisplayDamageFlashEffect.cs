@@ -33,6 +33,8 @@ public class DisplayDamageFlashEffect : MonoBehaviour, IAttackable
         var renderers = GetComponentsInChildren<Renderer>();
         foreach(Renderer renderer in renderers)
         {
+            if (renderer.tag == "Effect")
+                continue;
             renderer.material.color = newColor;
         }
     }

@@ -7,7 +7,9 @@ public class HealSkill : AttackDefinition
 {
     [Header("Èú")]
     public GameObject effectPrefab;
-    public float healRate = 0.25f;
+    public float healRateLevel1;
+    public float healRateLevel2;
+    public float healRateLevel3;
     public float delayTime;
 
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
@@ -29,7 +31,6 @@ public class HealSkill : AttackDefinition
             if (colIdentity.isBuilding)
                 continue;
 
-
             CharacterStatus colStatus = col.GetComponent<CharacterStatus>();
             float colHpRate = colStatus.Hp / colStatus.maxHp;
             if(colHpRate < minHpRate)
@@ -38,7 +39,6 @@ public class HealSkill : AttackDefinition
                 select = colStatus;
             }
         }
-
 
         if (select == null)
         {
@@ -61,6 +61,18 @@ public class HealSkill : AttackDefinition
 
     public Attack CreateHeal(CharacterStatus attacker, CharacterStatus defender)
     {
+        int skillLevel = 1;
+        if (attacker.GetComponent<AIController>().playerInfo != null)
+            skillLevel = attacker.GetComponent<AIController>().playerInfo.skillLevel;
+
+        float healRate = skillLevel switch
+        {
+            1 => healRateLevel1,
+            2 => healRateLevel2,
+            3 => healRateLevel3,
+            _ => healRateLevel1
+        };
+
         damage = -(defender.maxHp * healRate);
         return new Attack((int)damage, false, true);
     }

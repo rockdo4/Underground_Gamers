@@ -312,7 +312,7 @@ public class AIController : MonoBehaviour
         teamIdentity = GetComponent<TeamIdentifier>();
 
         //missionTarget = point;
-        SetInitialization();
+        //SetInitialization();
 
         teamLayer = layer;
 
@@ -346,7 +346,12 @@ public class AIController : MonoBehaviour
             gameManager.lineManager.JoiningLine(this);
         if (teamIdentity.teamType == TeamType.NPC)
             gameManager.npcManager.SelectLineByInit(this);
+    }
 
+    private void OnDisable()
+    {
+        appliedBuffs.Clear();
+        removedBuffs.Clear();
     }
 
     public void InitInGameScene()
@@ -694,7 +699,7 @@ public class AIController : MonoBehaviour
     {
         if (attackInfos[(int)SkillTypes.Base] != null)
         {
-            baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown;
+            baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown + status.cooldown;
             reloadCoolTime = attackInfos[(int)SkillTypes.Base].reloadCooldown;
             maxAmmo = attackInfos[(int)SkillTypes.Base].chargeCount;
         }

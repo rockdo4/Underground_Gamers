@@ -6,11 +6,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "IncreaseAttackDamageBuff.Asset", menuName = "BuffSkill/IncreaseAttackDamageBuff")]
 public class IncreaseAttackDamageBuff : BuffSkill
 {
-    public float increaseAttackDamageRate;
-    public float increaseReactionSpeedRate;
+    public float increaseAttackDamageRateLevel1;
+    public float increaseAttackDamageRateLevel2;
+    public float increaseAttackDamageRateLevel3;
+
+    public float increaseReactionSpeedRateLevel1;
+    public float increaseReactionSpeedRateLevel2;
+    public float increaseReactionSpeedRateLevel3;
 
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
+        int skillLevel = 1;
+        if (attacker.GetComponent<AIController>().playerInfo != null)
+            skillLevel = attacker.GetComponent<AIController>().playerInfo.skillLevel;
+
         AIController buffAi = type switch
         {
             BuffType.Self => attacker.GetComponent<AIController>(),
@@ -26,16 +35,29 @@ public class IncreaseAttackDamageBuff : BuffSkill
 
         AttackBuff attackBuff = new AttackBuff();
         attackBuff.duration = duration;
-        attackBuff.increaseDamageRate = increaseAttackDamageRate;
+
+        attackBuff.increaseDamageRate = skillLevel switch
+        {
+            1 => increaseAttackDamageRateLevel1,
+            2 => increaseAttackDamageRateLevel2,
+            3 => increaseAttackDamageRateLevel3,
+            _ => increaseAttackDamageRateLevel1,
+        };
 
         ReactionSpeedBuff reactionSpeedBuff = new ReactionSpeedBuff();
         reactionSpeedBuff.duration = duration;
-        reactionSpeedBuff.increaseReactionSpeedRate = increaseReactionSpeedRate;
+        reactionSpeedBuff.increaseReactionSpeedRate = skillLevel switch
+        {
+            1 => increaseReactionSpeedRateLevel1,
+            2 => increaseReactionSpeedRateLevel2,
+            3 => increaseReactionSpeedRateLevel3,
+            _ => increaseReactionSpeedRateLevel1,
+        };
 
         attackBuff.ApplyBuff(buffAi);
         reactionSpeedBuff.ApplyBuff(buffAi);
 
-        GameObject buffEffect = Instantiate(effectPrefab, buffAi.transform);
+        GameObject buffEffect = Instantiate(durationEffectPrefab, buffAi.transform);
         Destroy(buffEffect, duration);
     }
 }

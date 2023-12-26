@@ -13,12 +13,15 @@ public enum BuffType
 public class BuffSkill : AttackDefinition
 {
     [Header("น๖วม")]
-    public float coolTime;
+    public float castDuration = 1f;
     public float duration;
     public BuffType type;
-    public GameObject effectPrefab;
+    public CastEffect castEffectPrefab;
+    public GameObject durationEffectPrefab;
     public TextMeshPro scrollingBuffText;
     public float offsetText;
+    public float offsetDurationEffct;
+    public float offsetCastEffct;
 
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
