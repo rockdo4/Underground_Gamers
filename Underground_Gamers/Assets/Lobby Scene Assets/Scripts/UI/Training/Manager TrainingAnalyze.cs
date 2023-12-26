@@ -214,7 +214,6 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
         growInfoDatas[0].text = $"Lv.{currPlayer.level.ToString("F0")}";
         growInfoDatas[1].text = $"Lv.{currPlayer.level.ToString("F0")}";
-        growInfoDatas[1].color = Color.black;
         growInfoDatas[2].text = $"{currPlayer.xp.ToString("F0")}/{currPlayer.maxXp.ToString("F0")}";
         xpBar.value = currPlayer.xp / currPlayer.maxXp;
         growInfoDatas[3].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp, currPlayer.level).ToString("F0")}";
