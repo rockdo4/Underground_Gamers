@@ -109,4 +109,12 @@ public class AIManager : MonoBehaviour
         pc.Clear();
         npc.Clear();
     }
+
+    public void UpdateOfficialResult()
+    {
+        foreach(var ai in pc)
+        {
+            GameInfo.instance.UpdateOfficialPlayerResults(ai.playerInfo.index, ai.status.killCount, ai.status.deathCount, Mathf.RoundToInt(ai.status.dealtDamage));
+        }
+    }
 }

@@ -21,6 +21,14 @@ public class AutoSelect : MonoBehaviour
         defendSelectButtonText.text = gameManager.str.Get("bottom defend select");
     }
 
+    public void ResetButton()
+    {
+        isAttackBottom = true;
+        isDefendBottom = true;
+        attackSelectButtonText.text = gameManager.str.Get("bottom attack select");
+        defendSelectButtonText.text = gameManager.str.Get("bottom defend select");
+    }
+
     public void SelectAutoAll()
     {
         SelectAuto(0, 2, 3);
@@ -82,7 +90,6 @@ public class AutoSelect : MonoBehaviour
             slot.RegistEntry(randEntry);
             SetParentByRandom(slot, rand);
         }
-
 
         SortByAINum(gameManager.entryManager.bottomAttackEntry);
         SortByAINum(gameManager.entryManager.topAttackEntry);

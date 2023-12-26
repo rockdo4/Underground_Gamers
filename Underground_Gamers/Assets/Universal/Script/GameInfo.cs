@@ -63,12 +63,14 @@ public class GameInfo : MonoBehaviour
         foreach (EntryPlayer entryPlayer in entryMembers)
         {
             benchMembersIndex.Add(entryPlayer.Index);
+            
         }
         benchMembersIndex.Sort();
     }
     public void SetEntryMemeberIndex(List<EntryPlayer> entryMembers)
     {
         entryMembersIndex.Clear();
+
         foreach (EntryPlayer entryPlayer in entryMembers)
         {
             this.entryMembersIndex.Add(entryPlayer.Index);
@@ -86,7 +88,7 @@ public class GameInfo : MonoBehaviour
     {
         foreach (int index in entryIndex)
         {
-            entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(index - 1));
+            entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(index));
         }
         GamePlayerInfo.instance.SaveFile();
     }

@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public GameSpeedFactor gameSpeedFactor;
     public EntryPanel entryPanel;
     public WayPoint wayPoint;
+    public AutoSelect autoSelect;
 
     [Header("Å×ÀÌºí Ä³½Ì")]
     public PlayerTable pt;

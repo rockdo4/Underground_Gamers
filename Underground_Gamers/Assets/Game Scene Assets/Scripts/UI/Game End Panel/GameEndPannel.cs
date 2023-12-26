@@ -166,6 +166,9 @@ public class GameEndPannel : MonoBehaviour
 
     public void EnterNextRound()
     {
+        gameManager.aiManager.UpdateOfficialResult();
+        gameManager.autoSelect.ResetButton();
+
         gameManager.aiManager.ResetAI();
         gameManager.skillCoolTimeManager.ResetSkillCooldown();
         gameManager.respawner.ClearRespawn();
@@ -190,6 +193,8 @@ public class GameEndPannel : MonoBehaviour
 
     public void EndRound()
     {
+        gameManager.aiManager.UpdateOfficialResult();
+
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
         gameManager.aiManager.ResetAI();
