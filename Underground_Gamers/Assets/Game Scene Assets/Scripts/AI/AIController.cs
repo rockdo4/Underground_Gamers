@@ -158,9 +158,10 @@ public class AIController : MonoBehaviour
     public bool isInvalid = false;
 
     [Header("·¹ÀÌ¾î")]
-    public int teamLayer;
-    public int enemyLayer;
-    public int obstacleLayer;
+    public LayerMask teamLayer;
+    public LayerMask enemyLayer;
+    public LayerMask obstacleLayer;
+    public LayerMask nodeLayer;
 
     [Header("UI")]
     public string statusName;

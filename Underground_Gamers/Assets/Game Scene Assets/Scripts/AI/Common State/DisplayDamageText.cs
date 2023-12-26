@@ -9,8 +9,19 @@ public class DisplayDamageText : MonoBehaviour, IAttackable
     {
         Vector3 pos = transform.position;
         pos.y += OffsetText;
-
         TextMeshPro text = Instantiate(damageText, pos, Quaternion.identity);
+
+        var defenderController = GetComponent<AIController>();
+        if (defenderController != null)
+        {
+            if (defenderController.isInvalid)
+            {
+                text.text = "Shield";
+                text.color = Color.green;
+                return;
+            }
+        }
+
         if (attack.IsCritical)
         {
             text.color = Color.yellow;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 [CreateAssetMenu(fileName = "ArcProjectileAttack.Asset", menuName = "ProjectileAttack/ArcProjectileAttack")]
 public class ArcProjectileAttack : ProjectileAttack
@@ -22,6 +23,7 @@ public class ArcProjectileAttack : ProjectileAttack
             Projectile arcrojectile = Instantiate(projectilePrefab, firePos.position, fireRotation);
             ProjectileStatus projectileStatus = arcrojectile.GetComponent<ProjectileStatus>();
             arcrojectile.ai = ai;
+            arcrojectile.gameObject.layer = ai.gameObject.layer;
 
             if (aStatus != null)
                 projectileStatus.damage = aStatus.damage * damageRate;

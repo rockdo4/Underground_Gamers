@@ -17,10 +17,14 @@ public class TraceState : AIState
         aiController.RefreshDebugAIStatus(this.ToString());
         if(aiController.battleTarget != null)
         {
-            if (!aiController.battleTarget.GetComponent<TeamIdentifier>().isBuilding)
-                aiController.isBattle = true;
-            else
-                aiController.isBattle = false;
+            var teamIdentity = aiController.battleTarget.GetComponent<TeamIdentifier>();
+            if(teamIdentity != null)
+            {
+                if (!teamIdentity.isBuilding)
+                    aiController.isBattle = true;
+                else
+                    aiController.isBattle = false;
+            }
         }
 
         lastDetectTime = Time.time - aiController.detectTime;

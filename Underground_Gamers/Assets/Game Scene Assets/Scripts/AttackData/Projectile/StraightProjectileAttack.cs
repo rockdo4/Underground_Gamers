@@ -20,6 +20,8 @@ public class StraightProjectileAttack : ProjectileAttack
             Projectile projectile = Instantiate(projectilePrefab, firePos.position, ai.transform.rotation);
             ProjectileStatus projectileStatus = projectile.GetComponent<ProjectileStatus>();
             projectile.ai = ai;
+            projectile.gameObject.layer = ai.gameObject.layer;
+            Debug.Log("Create Projectile");
 
             if (aStatus != null)
                 projectileStatus.damage = aStatus.damage * damageRate;

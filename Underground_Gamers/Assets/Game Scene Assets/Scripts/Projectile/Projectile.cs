@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
     public float criticalMultiplier;
     public float minDamageRate;
     public float maxDamageRate;
+    public float offsetY = 0.5f;
 
     public GameObject colEffectPrefab;
 
@@ -35,6 +36,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"COL {other.name}");
         if (ai.enemyLayer == 1 << other.gameObject.layer)
         {
             if (status.isAreaAttack)
@@ -50,7 +52,8 @@ public class Projectile : MonoBehaviour
         }
 
         if (ai.teamLayer != 1 << other.gameObject.layer
-            && ai.enemyLayer != 1 << other.gameObject.layer)
+            && ai.enemyLayer != 1 << other.gameObject.layer
+            && ai.nodeLayer != 1 << other.gameObject.layer)
         {
             if (status.isAreaAttack)
                 AreaAttack(other);
@@ -82,7 +85,10 @@ public class Projectile : MonoBehaviour
     }
     public void SingleAttack(Collider other)
     {
-        GameObject colEffect = Instantiate(colEffectPrefab, other.transform.position, Quaternion.identity);
+        Vector3 effectPos = other.transform.position;
+        effectPos.y += offsetY;
+
+        GameObject colEffect = Instantiate(colEffectPrefab, effectPos, Quaternion.identity);
         Destroy(colEffect, 2f);
 
         CharacterStatus dStatus = other.GetComponent<CharacterStatus>();
@@ -96,7 +102,10 @@ public class Projectile : MonoBehaviour
 
     public void AreaAttack(Collider other)
     {
-        GameObject colEffect = Instantiate(colEffectPrefab, other.transform.position, Quaternion.identity);
+        Vector3 effectPos = other.transform.position;
+        effectPos.y += offsetY;
+
+        GameObject colEffect = Instantiate(colEffectPrefab, effectPos, Quaternion.identity);
         Destroy(colEffect, 2f);
 
         var cols = Physics.OverlapSphere(transform.position, status.explosionRange, ai.enemyLayer);

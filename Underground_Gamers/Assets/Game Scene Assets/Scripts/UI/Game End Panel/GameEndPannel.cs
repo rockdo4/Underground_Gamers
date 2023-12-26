@@ -160,6 +160,7 @@ public class GameEndPannel : MonoBehaviour
 
     public void ClearEntry()
     {
+        gameManager.commandManager.UnSelect();
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
     }
