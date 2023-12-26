@@ -277,6 +277,7 @@ public class ManagerTrainingbreak : ManagerTraining
                     if (!toggle.isOn)
                     {
                         toggle.interactable = false;
+                        item.GetComponent<ToggleDisabled>().InteractableCheck();
                     }
                 }
             }
@@ -288,6 +289,7 @@ public class ManagerTrainingbreak : ManagerTraining
                 foreach (var item in MadeIngredientsList)
                 {
                     item.GetComponent<Toggle>().interactable = true;
+                    item.GetComponent<ToggleDisabled>().InteractableCheck();
                 }
             }
             curruseCount--;

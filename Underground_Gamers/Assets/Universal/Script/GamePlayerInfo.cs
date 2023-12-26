@@ -683,6 +683,7 @@ public class GamePlayerInfo : MonoBehaviour
     public void CalculateOfficialPlayer(bool isWin, int setWin, int setLose)
     {
         endScrimmage = false;
+        willOpenMenu = 2;
         if (officialWeekNum < 7)
         {
             CalculateOfficialPlayerResult(isWin, setWin, setLose);
@@ -1003,6 +1004,7 @@ public class GamePlayerInfo : MonoBehaviour
         isOnOfficial = false;
         endScrimmage = true;
         officialPlayers.Clear();
+        willOpenMenu = -1;
         //officialLevel에 따라 보상
     }
 
@@ -1012,6 +1014,7 @@ public class GamePlayerInfo : MonoBehaviour
         officialPlayers.Clear();
         endScrimmage = true;
         isOnOfficial = false;
+        willOpenMenu = -1;
     }
 }
 public class PlayerConverter : JsonConverter<Player>
