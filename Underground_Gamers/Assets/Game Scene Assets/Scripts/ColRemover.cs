@@ -11,8 +11,8 @@ public class ColRemover : MonoBehaviour
         foreach (var obj in objs)
         {
             DestroyImmediate(obj);
-        }        
-        
+        }
+
         //foreach (var obj in boxs)
         //{
         //    DestroyImmediate(obj);
