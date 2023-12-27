@@ -340,7 +340,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
                 currMaxXp = pt.GetLevelUpXp(currlevel + 1);
                 currCost = pt.GetLevelUpCost(currlevel);
             }
-            growItemUseMoneyText.text = "G : " + currCost.ToString();
+            growItemUseMoneyText.text = "<sprite=0> : " + currCost.ToString();
         }
 
 
@@ -367,8 +367,8 @@ public class ManagerTrainingAnalyze : ManagerTraining
             string messege = "";
             string submessege = st.Get("recruitMoneyLackMessegeCurr");
 
-            messege += $" {st.Get("money")} {currCost - GamePlayerInfo.instance.money}{st.Get("count")}";
-            submessege += $" {st.Get("money")} {GamePlayerInfo.instance.money}{st.Get("count")}";
+            messege += $"<sprite=0> {currCost - GamePlayerInfo.instance.money}{st.Get("count")}";
+            submessege += $"<sprite=0> {GamePlayerInfo.instance.money}{st.Get("count")}";
 
             messege += st.Get("recruitMoneyLackMessegeUpgrade");
             popupMoneyWarningTexts[0].text = messege;

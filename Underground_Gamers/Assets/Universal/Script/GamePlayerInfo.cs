@@ -614,9 +614,10 @@ public class GamePlayerInfo : MonoBehaviour
         }
 
         officialTeamDatas = new OfficialTeamData[8];
+        var randNums = st.GenerateRandomNumbers(0, 99,7);
         for (int i = 0; i < 7; i++)
         {
-            officialTeamDatas[i].name = str.Get($"random_team_name{UnityEngine.Random.Range(0, 99)}");
+            officialTeamDatas[i].name = str.Get($"random_team_name{randNums[i]}");
             officialTeamDatas[i].isPlayer = false;
             officialTeamDatas[i].index = i;
         }

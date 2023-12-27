@@ -24,6 +24,7 @@ public class ChapterTabs : MonoBehaviour
         firstStage = stageTabs[0];
         int stageLevel = LeagueType;
         int currstage = GamePlayerInfo.instance.cleardStage;
+        int count = 1;
         foreach (var item in stageTabs)
         {
             if (currstage >= stageLevel++)
@@ -35,10 +36,22 @@ public class ChapterTabs : MonoBehaviour
             {
                 item.interactable = false;
             }
-            item.GetComponentInChildren<TMP_Text>(true).text = st.GetStageInfo(stageLevel).name;
+            var nameText = item.GetComponentInChildren<TMP_Text>(true);
+           nameText.text = st.GetStageInfo(stageLevel).name;
+            if (item.interactable)
+            {
+                nameText.color = Color.white;
+            }
+            else
+            {
+                nameText.color = Color.gray;
+            }
+            item.GetComponent<StageTabs>().stageNum.text = $"{LeagueType / 100} - {count++}";
+
         }
         firstStage.interactable = true;
         firstStage.isOn = true;
         firstStage.onValueChanged.Invoke(firstStage);
+        firstStage.GetComponentInChildren<TMP_Text>(true).color = Color.white;
     }
 }

@@ -54,6 +54,14 @@ public class ScheduleUIStory : ScheduleUISubscriber
             bool isAvailable = lastLevel >= minStage[i];
             stageToggles[i].interactable = isAvailable;
             stageToggles[i].isOn = isAvailable;
+            if (isAvailable)
+            {
+                stageToggles[i].GetComponentInChildren<TMP_Text>().color = Color.white;
+            }
+            else
+            {
+                stageToggles[i].GetComponentInChildren<TMP_Text>().color = Color.gray;
+            }
         }
     }
 
