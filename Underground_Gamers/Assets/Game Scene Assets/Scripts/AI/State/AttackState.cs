@@ -50,10 +50,11 @@ public class AttackState : AIState
     private void AttackByOriginSkill()
     {
         // 이 곳에서 스킬 누를 수 있도록, 그리고 유효한지 확인 / 사거리 안에 적이 있는지
-        if (aiController.attackInfos[(int)SkillTypes.Original] != null
+        if (aiController.attackInfos[(int)SkillMode.Original] != null
             && aiController.battleTarget != null && aiController != null
             && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget
-            && (aiController.gameManager.skillModeButton.IsAutoMode || (!aiController.gameManager.skillModeButton.IsAutoMode && aiController.isPrior)))
+            && (aiController.gameManager.skillModeButton.IsAutoMode || (!aiController.gameManager.skillModeButton.IsAutoMode && aiController.isPrior))
+            && (!aiController.battleTarget.GetComponent<TeamIdentifier>().isBuilding && aiController.attackInfos[(int)SkillMode.Original].skillType != SkillType.Attack))
         {
             aiController.isOnCoolOriginalSkill = false;
             if (aiController.aiCommandInfo != null)
@@ -74,18 +75,18 @@ public class AttackState : AIState
                 aiController.gameManager.skillModeButton.SetActiveCoolTimeText(true);
             }
 
-            aiController.attackInfos[(int)SkillTypes.Original].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
+            aiController.attackInfos[(int)SkillMode.Original].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
         }
     }
 
     private void AttackByBase()
     {
-        if (aiController.attackInfos[(int)SkillTypes.Base] != null
+        if (aiController.attackInfos[(int)SkillMode.Base] != null
             && aiController.battleTarget != null && aiController != null
             && aiController.isOnCoolBaseAttack && aiController.RaycastToTarget)
         {
             aiController.isOnCoolBaseAttack = false;
-            aiController.attackInfos[(int)SkillTypes.Base].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
+            aiController.attackInfos[(int)SkillMode.Base].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
             UseAmmo();
             if(aiController.isReloading)
             {

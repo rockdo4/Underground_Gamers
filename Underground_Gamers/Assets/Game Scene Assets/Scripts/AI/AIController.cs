@@ -38,12 +38,19 @@ public enum States
     Patrol
 }
 
-public enum SkillTypes
+public enum SkillMode
 {
     Base,                    // 기본공격
     Original,                // 고유스킬
     General,                // 공용스킬
     Count
+}
+
+public enum SkillType
+{
+    Attack,
+    Buff,
+    Heal
 }
 
 public enum SkillActionTypes
@@ -95,7 +102,7 @@ public class AIController : MonoBehaviour
     public bool isBattle = false;
 
     [Header("공격 & 카이팅 상태")]
-    public AttackDefinition[] attackInfos = new AttackDefinition[(int)SkillTypes.Count];
+    public AttackDefinition[] attackInfos = new AttackDefinition[(int)SkillMode.Count];
     public KitingData kitingInfo;
     public KitingData reloadingKitingInfo;
 
@@ -706,23 +713,23 @@ public class AIController : MonoBehaviour
 
     public void SetInitialization()
     {
-        if (attackInfos[(int)SkillTypes.Base] != null)
+        if (attackInfos[(int)SkillMode.Base] != null)
         {
-            baseAttackCoolTime = attackInfos[(int)SkillTypes.Base].cooldown + status.cooldown;
-            reloadCoolTime = attackInfos[(int)SkillTypes.Base].reloadCooldown;
-            maxAmmo = attackInfos[(int)SkillTypes.Base].chargeCount;
+            baseAttackCoolTime = attackInfos[(int)SkillMode.Base].cooldown + status.cooldown;
+            reloadCoolTime = attackInfos[(int)SkillMode.Base].reloadCooldown;
+            maxAmmo = attackInfos[(int)SkillMode.Base].chargeCount;
         }
         lastReloadTime = Time.time - reloadCoolTime;
         lastBaseAttackTime = Time.time - baseAttackCoolTime;
         isOnCoolBaseAttack = true;
 
-        if (attackInfos[(int)SkillTypes.Original] != null)
-            originalSkillCoolTime = attackInfos[(int)SkillTypes.Original].cooldown;
+        if (attackInfos[(int)SkillMode.Original] != null)
+            originalSkillCoolTime = attackInfos[(int)SkillMode.Original].cooldown;
         lastOriginalSkillTime = Time.time - originalSkillCoolTime;
         isOnCoolOriginalSkill = true;
 
-        if (attackInfos[(int)SkillTypes.General] != null)
-            generalSkillCoolTime = attackInfos[(int)SkillTypes.General].cooldown;
+        if (attackInfos[(int)SkillMode.General] != null)
+            generalSkillCoolTime = attackInfos[(int)SkillMode.General].cooldown;
         lastGeneralSkillTime = Time.time - generalSkillCoolTime;
 
         lastSupportTime = Time.time - supportTime;

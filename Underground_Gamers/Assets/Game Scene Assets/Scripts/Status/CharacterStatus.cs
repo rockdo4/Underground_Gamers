@@ -85,17 +85,17 @@ public class CharacterStatus : MonoBehaviour
 
         if (aiController != null)
         {
-            if (aiController.attackInfos[(int)SkillTypes.Base] != null)
+            if (aiController.attackInfos[(int)SkillMode.Base] != null)
                 aiController.isOnCoolBaseAttack = true;
             else
                 aiController.isOnCoolBaseAttack = false;
 
-            if (aiController.attackInfos[(int)SkillTypes.Original] != null)
+            if (aiController.attackInfos[(int)SkillMode.Original] != null)
                 aiController.isOnCoolOriginalSkill = true;
             else
                 aiController.isOnCoolOriginalSkill = false;
 
-            if (aiController.attackInfos[(int)SkillTypes.General] != null)
+            if (aiController.attackInfos[(int)SkillMode.General] != null)
                 aiController.isOnCoolGeneralSkill = true;
             else
                 aiController.isOnCoolGeneralSkill = false;
