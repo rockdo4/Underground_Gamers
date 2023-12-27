@@ -401,5 +401,6 @@ public class ManagerTrainingAnalyze : ManagerTraining
             popupFullLevel.SetActive(true);
         }
         LobbyUIManager.instance.UpdateMoneyInfo();
+        LobbySceneUIManager.instance.lobbyTopMenu.UpdateMoney();
     }
 }
