@@ -735,7 +735,12 @@ public class AIController : MonoBehaviour
         lastSupportTime = Time.time - supportTime;
 
         Reload();
+    }
 
-
+    public void Respawn()
+    {
+        lastReloadTime = Time.time - reloadCoolTime;
+        lastSupportTime = Time.time - supportTime;
+        Reload();
     }
 }
