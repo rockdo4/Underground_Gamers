@@ -5,13 +5,13 @@ using UnityEngine;
 public class Chain : BuffSkill
 {
     [Header("디버프 / 음수")]
-    public float decreaseSpeedRateLevel1;
-    public float decreaseSpeedRateLevel2;
-    public float decreaseSpeedRateLevel3;
+    public float decreasedSpeedRateLevel1;
+    public float decreasedSpeedRateLevel2;
+    public float decreasedSpeedRateLevel3;
 
-    public float decreaseAttackSpeedRateLevel1;
-    public float decreaseAttackSpeedRateLevel2;
-    public float decreaseAttackSpeedRateLevel3;
+    public float decreasedAttackSpeedRateLevel1;
+    public float decreasedAttackSpeedRateLevel2;
+    public float decreasedAttackSpeedRateLevel3;
 
 
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
@@ -34,10 +34,10 @@ public class Chain : BuffSkill
         speedBuff.duration = duration + castDuration;
         speedBuff.increasedSpeedRate = skillLevel switch
         {
-            1 => decreaseSpeedRateLevel1,
-            2 => decreaseSpeedRateLevel2,
-            3 => decreaseSpeedRateLevel3,
-            _ => decreaseSpeedRateLevel1,
+            1 => decreasedSpeedRateLevel1,
+            2 => decreasedSpeedRateLevel2,
+            3 => decreasedSpeedRateLevel3,
+            _ => decreasedSpeedRateLevel1,
         };
 
 
@@ -45,10 +45,10 @@ public class Chain : BuffSkill
         attackSpeedBuff.duration = duration + castDuration;
         attackSpeedBuff.increasedAttackSpeedRate = skillLevel switch
         {
-            1 => decreaseAttackSpeedRateLevel1,
-            2 => decreaseAttackSpeedRateLevel2,
-            3 => decreaseAttackSpeedRateLevel3,
-            _ => decreaseAttackSpeedRateLevel1,
+            1 => decreasedAttackSpeedRateLevel1,
+            2 => decreasedAttackSpeedRateLevel2,
+            3 => decreasedAttackSpeedRateLevel3,
+            _ => decreasedAttackSpeedRateLevel1,
         };
 
         speedBuff.ApplyBuff(buffAi);

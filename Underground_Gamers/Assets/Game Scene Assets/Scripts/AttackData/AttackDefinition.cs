@@ -30,7 +30,8 @@ public class AttackDefinition : ScriptableObject
     public float criticalRate;
     public float criticalMultiplier;
 
-    public SkillTypes skillType;
+    public SkillMode skillMode;
+    public SkillType skillType;
 
     public Attack CreateAttack(CharacterStatus attacker, CharacterStatus defender)
     {
