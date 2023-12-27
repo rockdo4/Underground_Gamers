@@ -79,8 +79,8 @@ public class GamePlayerInfo : MonoBehaviour
     //¿É¼Ç
     public int quality = 2;
     public int resolution = 2;
-    public bool isPost_fx = true;
     public int textureQuality = 2;
+    public bool isPost_fx = true;
     public bool isShadowOn = true;
     public bool is60FPS = true;
     public int language = 0;
@@ -145,6 +145,7 @@ public class GamePlayerInfo : MonoBehaviour
         pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
         st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
         str = DataTableManager.instance.Get<StringTable>(DataType.String);
+        OptionUI.instance.RefreshOptionSettings();
     }
 
     public void SortPlayersWithLevel(bool Orderby)
@@ -559,7 +560,26 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.lastScrimmageTime = lastScrimmageTime;
         saveData.scrimmageCount = scrimmageCount;
 
-        var path = Path.Combine(Application.persistentDataPath, "savefile_v2.json");
+        saveData.quality = quality;
+        saveData.resolution = resolution;
+        saveData.textureQuality = textureQuality;
+        saveData.isPost_fx = isPost_fx;
+        saveData.isShadowOn = isShadowOn;
+        saveData.is60FPS = is60FPS;
+        saveData.language = language;
+
+        saveData.isSkillIllust = isSkillIllust;
+        saveData.isSkillEffect = isSkillEffect;
+
+        saveData.muteMaster = muteMaster;
+        saveData.muteBackground = muteBackground;
+        saveData.muteEffect = muteEffect;
+
+        saveData.volumeMaster = volumeMaster;
+        saveData.volumeBackground = volumeBackground;
+        saveData.volumeEffect = volumeEffect;
+
+        var path = Path.Combine(Application.persistentDataPath, "52743890.json");
         Debug.Log(path);
         var json = JsonConvert.SerializeObject(saveData, new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
         File.WriteAllText(path, json);
@@ -567,7 +587,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public void LoadFile()
     {
-        var path = Path.Combine(Application.persistentDataPath, "savefile_v2.json");
+        var path = Path.Combine(Application.persistentDataPath, "52743890.json");
         if (!File.Exists(path))
         {
             isInit = true;
@@ -617,6 +637,25 @@ public class GamePlayerInfo : MonoBehaviour
 
         lastScrimmageTime = saveData.lastScrimmageTime;
         scrimmageCount = saveData.scrimmageCount;
+
+        quality = saveData.quality;
+        resolution = saveData.resolution;
+        textureQuality = saveData.textureQuality;
+        isPost_fx = saveData.isPost_fx;
+        isShadowOn = saveData.isShadowOn;
+        is60FPS = saveData.is60FPS;
+        language = saveData.language;
+
+        isSkillIllust = saveData.isSkillIllust;
+        isSkillEffect = saveData.isSkillEffect;
+
+        muteMaster = saveData.muteMaster;
+        muteBackground = saveData.muteBackground;
+        muteEffect = saveData.muteEffect;
+
+        volumeMaster = saveData.volumeMaster;
+        volumeBackground = saveData.volumeBackground;
+        volumeEffect = saveData.volumeEffect;
     }
 
     public void OfficialMakeEnemyTeams(int officialLevel)

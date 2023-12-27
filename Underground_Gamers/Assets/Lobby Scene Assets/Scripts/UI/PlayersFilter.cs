@@ -21,6 +21,8 @@ public class PlayersFilter : MonoBehaviour
     private Sprite filterOnSprite;
     [SerializeField]
     private Sprite filterOffSprite;
+    [SerializeField]
+    private Transform depositPos;
 
     private StringTable st;
     private void Start()
@@ -69,15 +71,15 @@ public class PlayersFilter : MonoBehaviour
 
         var buttons = PlayerChanger.instance.oldsPlayerList;
 
-        //foreach (var button in buttons)
-        //{
-        //    button.transform.SetParent(null);
-        //}
+        foreach (var button in buttons)
+        {
+            button.transform.SetParent(depositPos);
+        }
 
-        //foreach (var item in list)
-        //{
-        //    buttons.Find(b => b.GetComponent<PlayerButtons>().ID == item.ID).transform.SetParent(EntryField.transform);
-        //}
+        foreach (var item in list)
+        {
+            buttons.Find(b => b.GetComponent<PlayerButtons>().ID == item.ID).transform.SetParent(EntryField.transform);
+        }
 
         int index = 0;
         foreach (var player in players)
