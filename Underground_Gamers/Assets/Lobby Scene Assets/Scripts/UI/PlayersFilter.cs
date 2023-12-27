@@ -68,6 +68,17 @@ public class PlayersFilter : MonoBehaviour
         }
 
         var buttons = PlayerChanger.instance.oldsPlayerList;
+
+        //foreach (var button in buttons)
+        //{
+        //    button.transform.SetParent(null);
+        //}
+
+        //foreach (var item in list)
+        //{
+        //    buttons.Find(b => b.GetComponent<PlayerButtons>().ID == item.ID).transform.SetParent(EntryField.transform);
+        //}
+
         int index = 0;
         foreach (var player in players)
         {
@@ -84,15 +95,6 @@ public class PlayersFilter : MonoBehaviour
             }
         }
 
-        foreach (var button in buttons)
-        {
-            button.transform.SetParent(null);
-        }
-
-        foreach (var item in list)
-        {
-            buttons.Find(b => b.GetComponent<PlayerButtons>().ID == item.ID).transform.SetParent(EntryField.transform);
-        }
     }
 
     public bool CanActiveWithFilter(Player player)

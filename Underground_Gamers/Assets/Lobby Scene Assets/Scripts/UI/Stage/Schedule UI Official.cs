@@ -14,6 +14,8 @@ public class ScheduleUIOfficial : ScheduleUISubscriber
     private Button[] levelButtons = new Button[4];
     [SerializeField]
     private int[] lastLevels = new int[4];
+    [SerializeField]
+    private TMP_Text popupStartOfficialText;
 
     [SerializeField]
     private GameObject UI_OfficialMain;
@@ -26,6 +28,8 @@ public class ScheduleUIOfficial : ScheduleUISubscriber
     private TMP_Text[] nextLeagueInfo = new TMP_Text[8];
     [SerializeField]
     private Image[] nextLeagueInfoBack = new Image[8];
+
+    private StringTable st;
     public override void OnEnter()
     {
         base.OnEnter();
@@ -59,7 +63,21 @@ public class ScheduleUIOfficial : ScheduleUISubscriber
 
     public void SaveOfficialLevel(int level)
     {
+        if (st == null)
+        {
+            st = DataTableManager.instance.Get<StringTable>(DataType.String);
+        }
         officialLevel = level;
+        popupStartOfficialText.text = level switch
+        {
+            1 => st.Get("2nd"),
+            2 => st.Get("1st"),
+            3 => st.Get("champions"),
+            _ => st.Get("3rd"),
+        };
+        popupStartOfficialText.text += " "+st.Get("official_entry_warning1") + "\n\n<color=\"yellow\">" + st.Get("official_entry_warning2") + "</color>";
+
+
     }
 
     public void StartOfficial()

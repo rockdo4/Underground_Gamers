@@ -37,6 +37,7 @@ public class MenuMover : MonoBehaviour
                 break;
         }
         GamePlayerInfo.instance.willOpenMenu = -1;
+        GamePlayerInfo.instance.SaveFile();
     }
 
 }

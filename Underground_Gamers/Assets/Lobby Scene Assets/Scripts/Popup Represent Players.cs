@@ -105,6 +105,7 @@ public class PopupRepresentPlayers : MonoBehaviour
     public void EndSelect()
     {
         GamePlayerInfo.instance.representativePlayer = currCode;
+        GamePlayerInfo.instance.SaveFile();
     }
 
 }

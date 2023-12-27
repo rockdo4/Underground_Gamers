@@ -614,9 +614,10 @@ public class GamePlayerInfo : MonoBehaviour
         }
 
         officialTeamDatas = new OfficialTeamData[8];
+        var randNums = st.GenerateRandomNumbers(0, 99,7);
         for (int i = 0; i < 7; i++)
         {
-            officialTeamDatas[i].name = str.Get($"random_team_name{UnityEngine.Random.Range(0, 99)}");
+            officialTeamDatas[i].name = str.Get($"random_team_name{randNums[i]}");
             officialTeamDatas[i].isPlayer = false;
             officialTeamDatas[i].index = i;
         }
@@ -683,6 +684,7 @@ public class GamePlayerInfo : MonoBehaviour
     public void CalculateOfficialPlayer(bool isWin, int setWin, int setLose)
     {
         endScrimmage = false;
+        willOpenMenu = 2;
         if (officialWeekNum < 7)
         {
             CalculateOfficialPlayerResult(isWin, setWin, setLose);
@@ -1003,6 +1005,7 @@ public class GamePlayerInfo : MonoBehaviour
         isOnOfficial = false;
         endScrimmage = true;
         officialPlayers.Clear();
+        willOpenMenu = -1;
         //officialLevel에 따라 보상
     }
 
@@ -1012,6 +1015,7 @@ public class GamePlayerInfo : MonoBehaviour
         officialPlayers.Clear();
         endScrimmage = true;
         isOnOfficial = false;
+        willOpenMenu = -1;
     }
 }
 public class PlayerConverter : JsonConverter<Player>
