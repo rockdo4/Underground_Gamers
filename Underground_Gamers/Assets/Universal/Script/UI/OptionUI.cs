@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 
@@ -21,6 +22,7 @@ public class OptionUI : MonoBehaviour
     }
    
     private static OptionUI optionUI;
+    public AudioMixer audioMixer;
 
     [SerializeField]
     private GameObject popupOption;
@@ -43,17 +45,24 @@ public class OptionUI : MonoBehaviour
     [SerializeField]
     private Toggle[] toggleLanguage;
     [SerializeField]
+    private Toggle[] muteToggles;
+    [SerializeField]
     private Slider[] volumes;
 
-
+    private int quality = 2;
     private int resolution = 2;
     private bool isPost_fx = true;
     private int textureQuality = 2;
     private bool isShadowOn = true;
     private bool is60FPS = true;
+    private int language = 0;
 
     private bool isSkillIllust = true;
     private bool isSkillEffect = true;
+
+    private bool muteMaster = false;
+    private bool muteBackground = false;
+    private bool muteEffect = false;
 
     private float volumeMaster = 1f;
     private float volumeBackground = 1f;
@@ -77,6 +86,8 @@ public class OptionUI : MonoBehaviour
     public void OpenOption()
     {
         popupOption.SetActive(true);
+        GetInfoFromSave();
+        SetButtons();
     }
     public void EndGame()
     {
@@ -129,7 +140,7 @@ public class OptionUI : MonoBehaviour
         Screen.SetResolution((int)(originWidth * resolutionValue), (int)(originHeight * resolutionValue),true);
         InvokeGlobalSettings(isPost_fx);
         QualitySettings.globalTextureMipmapLimit = 2 - textureQuality;
-        //인게임은 그림자
+
         if (isShadowOn)
         {
             QualitySettings.shadows = ShadowQuality.All;
@@ -138,6 +149,72 @@ public class OptionUI : MonoBehaviour
         {
             QualitySettings.shadows = ShadowQuality.Disable;
         }
-       
+
+        if(muteMaster)
+        {
+            audioMixer.SetFloat("Master", Mathf.Log10(0.001f) * 20);
+        }
+        else
+        {
+            audioMixer.SetFloat("Master", Mathf.Log10(volumeMaster) * 20);
+        }
+        if (muteBackground)
+        {
+            audioMixer.SetFloat("BGM", Mathf.Log10(0.001f) * 20);
+        }
+        else
+        {
+            audioMixer.SetFloat("BGM", Mathf.Log10(volumeBackground) * 20);
+        }
+        if (muteEffect)
+        {
+            audioMixer.SetFloat("SFX", Mathf.Log10(0.001f) * 20);
+        }
+        else
+        {
+            audioMixer.SetFloat("SFX", Mathf.Log10(volumeEffect) * 20);
+        }
+
+        if (language != GamePlayerInfo.instance.language) 
+        {
+            GamePlayerInfo.instance.language = language;
+            DataTableManager.instance.Get<StringTable>(DataType.String).DataAdder();
+            var texts = FindObjectsOfType<SetString>();
+            foreach ( var text in texts ) 
+            {
+                text.ResetString();
+            }
+        }
+        //인게임 이펙트/일러는 부탁드리겠습니다..
+    }
+
+    public void GetInfoFromSave()
+    {
+        quality = GamePlayerInfo.instance.quality;
+        resolution = GamePlayerInfo.instance.resolution;
+        isPost_fx = GamePlayerInfo.instance.isPost_fx;
+        textureQuality = GamePlayerInfo.instance.textureQuality;
+        isShadowOn = GamePlayerInfo.instance.isShadowOn;
+        is60FPS = GamePlayerInfo.instance.is60FPS;
+        language = GamePlayerInfo.instance.language;
+        isSkillIllust = GamePlayerInfo.instance.isSkillIllust;
+        isSkillEffect = GamePlayerInfo.instance.isSkillEffect;
+        muteMaster = GamePlayerInfo.instance.muteMaster;
+        muteBackground = GamePlayerInfo.instance.muteBackground;
+        muteEffect = GamePlayerInfo.instance.muteEffect;
+        volumeMaster = GamePlayerInfo.instance.volumeMaster;
+        volumeBackground = GamePlayerInfo.instance.volumeBackground;
+        volumeEffect = GamePlayerInfo.instance.volumeEffect;
+    }
+
+    public void RefreshOptionSettings()
+    {
+        GetInfoFromSave();
+        InvokeOptionSettingLobby();
+    }
+
+    public void SetButtons()
+    {
+
     }
 }

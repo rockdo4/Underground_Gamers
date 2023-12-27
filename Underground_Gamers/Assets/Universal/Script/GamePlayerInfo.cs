@@ -88,6 +88,10 @@ public class GamePlayerInfo : MonoBehaviour
     public bool isSkillIllust = true;
     public bool isSkillEffect = true;
 
+    public bool muteMaster = false;
+    public bool muteBackground = false;
+    public bool muteEffect = false;
+
     public float volumeMaster = 1f;
     public float volumeBackground = 1f;
     public float volumeEffect = 1f;

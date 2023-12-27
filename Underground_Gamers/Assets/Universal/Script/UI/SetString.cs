@@ -10,4 +10,9 @@ public class SetString : MonoBehaviour
     {
         GetComponent<TMP_Text>().text = DataTableManager.instance.Get<StringTable>(DataType.String).Get(textId);
     }
+
+    public void ResetString()
+    {
+        GetComponent<TMP_Text>().text = DataTableManager.instance.Get<StringTable>(DataType.String).Get(textId);
+    }
 }
