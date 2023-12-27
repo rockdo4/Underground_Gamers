@@ -65,7 +65,7 @@ public class TimeHole : BuffSkill
         Vector3 castPos = timeHoleCastEffect.transform.position;
         castPos.y += offsetTimeHoleCastEffct;
         timeHoleCastEffect.transform.position = castPos;
-        timeHoleCastEffect.transform.localScale *= scaleCastEffct;
+        timeHoleCastEffect.transform.localScale *= scaleTimeHoleCastEffct;
         Destroy(timeHoleCastEffect.gameObject, durationTimeHoleCastEffect);
     }
 }
