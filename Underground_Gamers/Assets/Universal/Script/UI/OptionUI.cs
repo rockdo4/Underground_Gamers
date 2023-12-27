@@ -47,7 +47,7 @@ public class OptionUI : MonoBehaviour
 
 
     private int resolution = 2;
-    private int post_fx = 2;
+    private bool isPost_fx = true;
     private int textureQuality = 2;
     private bool isShadowOn = true;
     private bool is60FPS = true;
@@ -102,7 +102,7 @@ public class OptionUI : MonoBehaviour
 #endif
     }
 
-    public void InvokeOptionSetting()
+    public void InvokeOptionSettingLobby()
     {
         float resolutionValue = 0f;
         switch (resolution)
@@ -127,6 +127,17 @@ public class OptionUI : MonoBehaviour
             false => 30,
         };
         Screen.SetResolution((int)(originWidth * resolutionValue), (int)(originHeight * resolutionValue),true);
-        //InvokeGlobalSettings();
+        InvokeGlobalSettings(isPost_fx);
+        QualitySettings.globalTextureMipmapLimit = 2 - textureQuality;
+        //인게임은 그림자
+        if (isShadowOn)
+        {
+            QualitySettings.shadows = ShadowQuality.All;
+        }
+        else
+        {
+            QualitySettings.shadows = ShadowQuality.Disable;
+        }
+       
     }
 }

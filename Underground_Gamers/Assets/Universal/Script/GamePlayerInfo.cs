@@ -79,7 +79,7 @@ public class GamePlayerInfo : MonoBehaviour
     //¿É¼Ç
     public int quality = 2;
     public int resolution = 2;
-    public int post_fx = 2;
+    public bool isPost_fx = true;
     public int textureQuality = 2;
     public bool isShadowOn = true;
     public bool is60FPS = true;
