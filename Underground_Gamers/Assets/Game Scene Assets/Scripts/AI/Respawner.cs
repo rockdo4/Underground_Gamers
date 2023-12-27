@@ -59,7 +59,7 @@ public class Respawner : MonoBehaviour
                 npcRespawnTimers[i].Item1.gameObject.SetActive(true);
                 npcRespawnTimers[i].Item1.SetState(States.Idle);
                 npcRespawnTimers[i].Item1.status.Respawn();
-                pcRespawnTimers[i].Item1.Respawn();
+                npcRespawnTimers[i].Item1.Respawn();
                 ParticleSystem effect = aiParticlePrefabs[npcRespawnTimers[i].Item1.aiIndex];
                 if (effect != null)
                 {

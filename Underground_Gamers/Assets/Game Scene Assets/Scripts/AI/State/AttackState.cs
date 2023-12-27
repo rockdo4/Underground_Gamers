@@ -53,14 +53,20 @@ public class AttackState : AIState
         if (aiController.attackInfos[(int)SkillMode.Original] != null
             && aiController.battleTarget != null && aiController != null
             && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget
-            && (aiController.gameManager.skillModeButton.IsAutoMode || (!aiController.gameManager.skillModeButton.IsAutoMode && aiController.isPrior))
-            && (!aiController.battleTarget.GetComponent<TeamIdentifier>().isBuilding && aiController.attackInfos[(int)SkillMode.Original].skillType != SkillType.Attack))
+            && (aiController.gameManager.skillModeButton.IsAutoMode || (!aiController.gameManager.skillModeButton.IsAutoMode && aiController.isPrior)))
         {
+            TeamIdentifier identity = aiController.battleTarget.GetComponent<TeamIdentifier>();
+
+            if (identity != null && 
+                identity.isBuilding && 
+                aiController.attackInfos[(int)SkillMode.Original].skillType != SkillType.Attack)
+                return;
+
             aiController.isOnCoolOriginalSkill = false;
             if (aiController.aiCommandInfo != null)
                 aiController.gameManager.skillCoolTimeManager.StartSkillCooldown(aiController, Time.time);
 
-            if(aiController.gameManager.skillModeButton.IsAutoMode)
+            if (aiController.gameManager.skillModeButton.IsAutoMode)
             {
                 aiController.gameManager.skillModeButton.SetActiveCoolTimeFillImage(true);
             }
@@ -88,7 +94,7 @@ public class AttackState : AIState
             aiController.isOnCoolBaseAttack = false;
             aiController.attackInfos[(int)SkillMode.Base].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
             UseAmmo();
-            if(aiController.isReloading)
+            if (aiController.isReloading)
             {
                 aiController.TryReloading();
                 aiController.SetState(States.Reloading);
