@@ -13,14 +13,14 @@ public class CriticalBuff : Buff
     public override void ApplyBuff(AIController ai)
     {
         timer = Time.time;
-        prevCritical = ai.status.accuracyRate;
-        ai.status.accuracyRate += (prevCritical * increasedCriticalRate);
+        prevCritical = ai.status.critical;
+        ai.status.critical += (prevCritical * increasedCriticalRate);
         ai.appliedBuffs.Add(this);
     }
 
     public override void RemoveBuff(AIController ai)
     {
-        ai.status.accuracyRate -= (prevCritical * increasedCriticalRate);
+        ai.status.critical -= (prevCritical * increasedCriticalRate);
         ai.removedBuffs.Add(this);
     }
 }

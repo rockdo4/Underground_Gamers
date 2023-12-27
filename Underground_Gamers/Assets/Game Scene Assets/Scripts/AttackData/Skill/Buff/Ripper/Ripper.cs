@@ -49,6 +49,9 @@ public class Ripper : BuffSkill
             if (col.gameObject.layer != attacker.layer)
                 continue;
 
+            if (col.gameObject == attacker.gameObject)
+                continue;
+
             AIController selectAi = col.GetComponent<AIController>();
             float colDis = Vector3.Distance(attacker.transform.position, col.transform.position);
             if (colDis < minDis)
@@ -59,7 +62,9 @@ public class Ripper : BuffSkill
         }
 
         if (buffAi == null)
-            return;
+        {
+            buffAi = controller;
+        }
 
         CriticalBuff criticalBuff = new CriticalBuff();
         criticalBuff.duration = duration + castDuration;
