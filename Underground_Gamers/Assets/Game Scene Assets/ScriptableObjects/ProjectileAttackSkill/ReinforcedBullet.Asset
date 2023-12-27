@@ -15,7 +15,8 @@ MonoBehaviour:
   damage: 0
   maxDamageRate: 1
   minDamageRate: 0.8
-  cooldown: 10
+  cooldown: 7
+  fixedCooldown: 0
   reloadCooldown: 0
   chargeCount: 0
   accuracyRate: 0
@@ -25,7 +26,11 @@ MonoBehaviour:
   skillType: 1
   projectilePrefab: {fileID: -7088508087202059376, guid: 11bfe95022b90f44bb8181bd2b2c090c, type: 3}
   colEffectPrefab: {fileID: 269022784060649644, guid: d3dfc66e7087a2746a7bb9787bdf7650, type: 3}
-  damageRate: 2
-  speed: 12
+  speed: 14
   lifeCycle: 2.5
+  explosionRange: 0
+  isAreaAttack: 0
+  damageRateLevel1: 1.1
+  damageRateLevel2: 1.2
+  damageRateLevel3: 1.4
   isPenetrating: 1

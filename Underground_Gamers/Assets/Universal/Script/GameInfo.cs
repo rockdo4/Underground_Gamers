@@ -209,7 +209,6 @@ public class GameInfo : MonoBehaviour
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
             ai.code = playerInfo.code;
             ai.playerInfo = player;
-            ai.SetInitialization();
             //ai.aiCommandInfo.SetPortraitInCommandInfo(player.code);
             ai.outlinable = outLine;
 
@@ -239,6 +238,7 @@ public class GameInfo : MonoBehaviour
             stat.xp = player.xp;
             stat.maxXp = player.maxXp;
             stat.condition = player.condition;
+            ai.SetInitialization();
 
             switch (stat.occupationType)
             {
@@ -380,7 +380,6 @@ public class GameInfo : MonoBehaviour
             ai.attackInfos[1] = skillDef;
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
             ai.code = playerInfo.code;
-            ai.SetInitialization();
             //ai.aiCommandInfo.SetPortraitInCommandInfo(player.code);
             ai.outlinable = outLine;
 
@@ -404,6 +403,7 @@ public class GameInfo : MonoBehaviour
             stat.detectionRange = playerInfo.detection;
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
+            ai.SetInitialization();
 
             switch (stat.occupationType)
             {
@@ -540,7 +540,6 @@ public class GameInfo : MonoBehaviour
             ai.attackInfos[1] = skillDef;
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
             ai.code = playerInfo.code;
-            ai.SetInitialization();
             ai.outlinable = outLine;
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
@@ -563,6 +562,7 @@ public class GameInfo : MonoBehaviour
             stat.detectionRange = playerInfo.detection;
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
+            ai.SetInitialization();
 
             switch (stat.occupationType)
             {
@@ -685,7 +685,6 @@ public class GameInfo : MonoBehaviour
             ai.attackInfos[1] = skillDef;
             ai.kitingInfo = stateDefines.kitingDatas.Find(a => a.code == playerInfo.kitingType).value;
             ai.code = playerInfo.code;
-            ai.SetInitialization();
             //ai.aiCommandInfo.SetPortraitInCommandInfo(player.code);
             ai.outlinable = outLine;
 
@@ -709,6 +708,7 @@ public class GameInfo : MonoBehaviour
             stat.detectionRange = playerInfo.detection;
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
+            ai.SetInitialization();
 
             switch (stat.occupationType)
             {

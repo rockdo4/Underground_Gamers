@@ -81,7 +81,7 @@ public class Projectile : MonoBehaviour
             damage = Mathf.Max(0, damage);
         }
 
-        return new Attack((int)damage, isCritical);
+        return new Attack((int)damage, isCritical, false);
     }
     public void SingleAttack(Collider other)
     {

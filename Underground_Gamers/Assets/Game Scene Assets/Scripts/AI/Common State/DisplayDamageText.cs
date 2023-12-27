@@ -5,6 +5,15 @@ public class DisplayDamageText : MonoBehaviour, IAttackable
 {
     public TextMeshPro damageText;
     public float OffsetText = 5f;
+    private Color shiledColor;
+    private Color healColor;
+
+    private void Awake()
+    {
+        shiledColor = new Color(0f, 0.5f, 0f);
+        healColor = new Color(0f, 1f, 0f);
+    }
+
     public void OnAttack(GameObject attacker, Attack attack)
     {
         Vector3 pos = transform.position;
@@ -17,9 +26,14 @@ public class DisplayDamageText : MonoBehaviour, IAttackable
             if (defenderController.isInvalid)
             {
                 text.text = "Shield";
-                text.color = Color.green;
+                text.color = shiledColor;
                 return;
             }
+        }
+
+        if(attack.IsHeal)
+        {
+            text.color = healColor;
         }
 
         if (attack.IsCritical)

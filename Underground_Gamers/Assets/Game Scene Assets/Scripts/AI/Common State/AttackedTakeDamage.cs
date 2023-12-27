@@ -50,12 +50,9 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
             attackerStatus.healAmount -= attack.Damage;
 
         // 반격, 수정
-        if (defenderController != null/* && controller.battleTarget == null*/)
+        if (defenderController != null && !attack.IsHeal)
         {
-            //controller.battleTarget = attacker.transform;
-            //TeamIdentifier targetIdentity = controller.battleTarget.GetComponent<TeamIdentifier>();
-
-            if (!defenderController.isBattle && !defenderController.isReloading/* || controller.battleTarget == null || targetIdentity.isBuilding*/)
+            if (!defenderController.isBattle && !defenderController.isReloading)
             {
                 defenderController.SetBattleTarget(attacker.transform);
                 defenderController.SetState(States.Trace);

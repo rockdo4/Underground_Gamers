@@ -19,13 +19,6 @@ public class InvalidAttackBuff : Buff
     public override void RemoveBuff(AIController ai)
     {
         ai.removedBuffs.Add(this);
-        foreach(var buff in ai.appliedBuffs)
-        {
-            if(buff is InvalidAttackBuff)
-            {
-                return;
-            }
-        }
         ai.isInvalid = false;
     }
 }
