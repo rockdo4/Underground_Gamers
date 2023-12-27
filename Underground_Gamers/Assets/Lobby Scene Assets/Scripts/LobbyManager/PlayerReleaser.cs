@@ -219,17 +219,31 @@ public class PlayerReleaser : MonoBehaviour
             }
         }
 
-        int playerCount = GamePlayerInfo.instance.havePlayers.Count;
+        var playerCount = new List<Player>();
+        playerCount.AddRange(GamePlayerInfo.instance.havePlayers);
         foreach (var item in GamePlayerInfo.instance.usingPlayers)
         {
             if (item.code != -1)
             {
-                playerCount++;
+                playerCount.Add(item);
             }
         }
-        playerCount = playerCount - (releasePlayers.Count + usingReleasePlayers.Count);
+        foreach (var item in releasePlayers)
+        {
+            playerCount.Remove(item);
+        }
+        foreach (var item in usingReleasePlayers)
+        {
+            playerCount.Remove(item);
+        }
+        List<int> codes = new List<int>();
+        foreach (var item in playerCount)
+        {
+            codes.Add(item.code);
+        }
 
-        if (playerCount < 5)
+
+        if (codes.Distinct().ToList().Count() < 5)
         {
             popupCant5Release.SetActive(true);
             return;

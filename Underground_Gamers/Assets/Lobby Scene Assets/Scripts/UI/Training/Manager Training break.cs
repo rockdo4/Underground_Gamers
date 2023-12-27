@@ -325,16 +325,27 @@ public class ManagerTrainingbreak : ManagerTraining
             return;
         }
 
-        int playerCount = GamePlayerInfo.instance.havePlayers.Count;
+        var playerCount = new List<Player>();
+        playerCount.AddRange(GamePlayerInfo.instance.havePlayers);
         foreach (var item in GamePlayerInfo.instance.usingPlayers)
         {
             if (item.code != -1)
             {
-                playerCount++;
+                playerCount.Add(item);
             }
         }
+        foreach (var item in willDestroyPlayerList)
+        {
+            playerCount.Remove(item);
+        }
+        List<int> codes = new List<int>();
+        foreach (var item in playerCount)
+        {
+            codes.Add(item.code);
+        }
 
-        if (playerCount - willDestroyPlayerList.Count < 5)
+
+        if (codes.Distinct().ToList().Count() < 5)
         {
             popUpbreak5warning.SetActive(true);
             return;

@@ -76,6 +76,22 @@ public class GamePlayerInfo : MonoBehaviour
     private StringTable str;
     public int willOpenMenu = 0;
 
+    //¿É¼Ç
+    public int quality = 2;
+    public int resolution = 2;
+    public int post_fx = 2;
+    public int textureQuality = 2;
+    public bool isShadowOn = true;
+    public bool is60FPS = true;
+    public int language = 0;
+
+    public bool isSkillIllust = true;
+    public bool isSkillEffect = true;
+
+    public float volumeMaster = 1f;
+    public float volumeBackground = 1f;
+    public float volumeEffect = 1f;
+
     [HideInInspector]
     public List<Sprite> itemSpriteList = new List<Sprite>();
     public int[,] officialMatchInfo = new int[7, 8]

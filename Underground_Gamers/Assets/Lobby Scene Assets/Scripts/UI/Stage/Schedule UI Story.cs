@@ -103,8 +103,6 @@ public class ScheduleUIStory : ScheduleUISubscriber
             Destroy(item);
         }
         oldPlayerImages.Clear();
-
-        Debug.Log(code);
         StageInfo stageInfo = st.GetStageInfo(code);
         for (int i = 0; i < 6; i++)
         {
