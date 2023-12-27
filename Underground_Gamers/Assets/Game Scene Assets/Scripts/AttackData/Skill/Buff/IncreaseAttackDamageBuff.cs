@@ -27,6 +27,9 @@ public class IncreaseAttackDamageBuff : BuffSkill
             _ => attacker.GetComponent<AIController>()
         };
 
+        if (buffAi == null)
+            return;
+
         Vector3 textPos = attacker.transform.position;
         textPos.y += offsetText;
         TextMeshPro text = Instantiate(scrollingBuffText, textPos, Quaternion.identity);

@@ -350,6 +350,15 @@ public class AIController : MonoBehaviour
 
     private void OnDisable()
     {
+        foreach(var buff in appliedBuffs)
+        {
+            buff.RemoveBuff(this);
+        }
+
+        foreach (var buff in removedBuffs)
+        {
+            appliedBuffs.Remove(buff);
+        }
         appliedBuffs.Clear();
         removedBuffs.Clear();
     }

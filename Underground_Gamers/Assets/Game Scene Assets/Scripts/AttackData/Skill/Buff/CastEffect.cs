@@ -8,8 +8,7 @@ public class CastEffect : MonoBehaviour
     private GameObject durationEffectPrefab;
     private float offset;
     private float duration;
-
-
+    private float scale;
 
     private void OnDisable()
     {
@@ -17,14 +16,16 @@ public class CastEffect : MonoBehaviour
         Vector3 pos = durationEffect.transform.position;
         pos.y += offset;
         durationEffect.transform.position = pos;
+        durationEffect.transform.localScale *= scale;
         Destroy(durationEffect, duration);
         Destroy(gameObject);
     }
-    public void SetDurationEffect(GameObject durationEffectPrefab, Transform parent, float duration, float offset)
+    public void SetDurationEffect(GameObject durationEffectPrefab, Transform parent, float duration, float offset, float scale)
     {
         this.durationEffectPrefab = durationEffectPrefab;
         this.parent = parent;
         this.duration = duration;
         this.offset = offset;
+        this.scale = scale;
     }
 }

@@ -26,6 +26,10 @@ public class Chain : BuffSkill
             BuffType.Other => defender.GetComponent<AIController>(),
             _ => attacker.GetComponent<AIController>()
         };
+
+        if (buffAi == null)
+            return;
+
         SpeedBuff speedBuff = new SpeedBuff();
         speedBuff.duration = duration + castDuration;
         speedBuff.increasedSpeedRate = skillLevel switch
@@ -51,10 +55,11 @@ public class Chain : BuffSkill
         attackSpeedBuff.ApplyBuff(buffAi);
 
         CastEffect castEffect = Instantiate(castEffectPrefab, buffAi.transform);
-        castEffect.SetDurationEffect(durationEffectPrefab, buffAi.transform, duration + castDuration, offsetDurationEffct);
+        castEffect.SetDurationEffect(durationEffectPrefab, buffAi.transform, duration + castDuration, offsetDurationEffct, scaleDurationEffct);
         Vector3 pos = castEffect.transform.position;
         pos.y += offsetCastEffct;
         castEffect.transform.position = pos;
+        castEffect.transform.localScale *= scaleCastEffct;
         Destroy(castEffect, castDuration);
     }
 }
