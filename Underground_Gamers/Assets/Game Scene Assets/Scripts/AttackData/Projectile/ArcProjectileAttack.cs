@@ -20,10 +20,10 @@ public class ArcProjectileAttack : ProjectileAttack
         if(ai != null)
         {
             firePos = ai.firePos;
-            Projectile arcrojectile = Instantiate(projectilePrefab, firePos.position, fireRotation);
-            ProjectileStatus projectileStatus = arcrojectile.GetComponent<ProjectileStatus>();
-            arcrojectile.ai = ai;
-            arcrojectile.gameObject.layer = ai.gameObject.layer;
+            Projectile arcProjectile = Instantiate(projectilePrefab, firePos.position, fireRotation);
+            ProjectileStatus projectileStatus = arcProjectile.GetComponent<ProjectileStatus>();
+            arcProjectile.ai = ai;
+            arcProjectile.gameObject.layer = ai.gameObject.layer;
 
             if (aStatus != null)
                 projectileStatus.damage = aStatus.damage * damageRate;
@@ -32,8 +32,9 @@ public class ArcProjectileAttack : ProjectileAttack
             //projectileStatus.isPenetrating = isPenetrating;
             projectileStatus.isAreaAttack = isAreaAttack;
             projectileStatus.explosionRange = explosionRange;
+            projectileStatus.accuracyRate = ai.status.accuracyRate;
 
-            arcrojectile.colEffectPrefab = colEffectPrefab;
+            arcProjectile.colEffectPrefab = colEffectPrefab;
         }
 
     }
