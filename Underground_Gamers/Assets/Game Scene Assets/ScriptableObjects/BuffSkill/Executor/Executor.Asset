@@ -15,18 +15,18 @@ MonoBehaviour:
   damage: 0
   maxDamageRate: 0
   minDamageRate: 0
-  cooldown: 0
+  cooldown: 15
   fixedCooldown: 0
   reloadCooldown: 0
   chargeCount: 0
   accuracyRate: 0
   spreadRate: 0
-  criticalRate: 0
-  criticalMultiplier: 0
+  criticalRate: 0.3
+  criticalMultiplier: 1.2
   skillMode: 1
   skillType: 1
   castDuration: 1
-  duration: 0
+  duration: 7.5
   type: 0
   castEffectPrefab: {fileID: 0}
   durationEffectPrefab: {fileID: -4256485846617041332, guid: 142a730a3de7bea409513f4f03162d37, type: 3}
@@ -37,6 +37,7 @@ MonoBehaviour:
   scaleText: 1
   scaleDurationEffct: 1
   scaleCastEffct: 1
-  increaseDamageRateLevel1: 0
-  increaseDamageRateLevel2: 0
-  increaseDamageRateLevel3: 0
+  increaseDamageRateLevel1: 1.3
+  increaseDamageRateLevel2: 1.4
+  increaseDamageRateLevel3: 1.5
+  attackExecutor: {fileID: 11400000, guid: e4df1049117711341976fcbd97095464, type: 2}

@@ -5,59 +5,75 @@ using UnityEngine;
 public class ExecutorEffect : MonoBehaviour
 {
     public AIController controller;
-
+    public DurationEffect durationEffectPrefab;
+    
     public Collider col;
-    private float delay;
-    private float onColtime;
+    private Attack attack;
+
+    private float hitDuration;
+
     private float timer;
-    private bool isStart = false;
-    private int count;
+    private float[] timing;
+    private int hitCount = 0;
+
+    private float delayTimer;
+    private float delay;
 
     private void OnDisable()
     {
         col.enabled = false;
-        isStart = false;
     }
 
     private void Update()
     {
-        if(onColtime + timer < Time.time && !isStart)
+        if (hitCount < timing.Length)
         {
-            isStart = true;
-            col.enabled = true;
-            timer = Time.time;
-        }
-
-        if(isStart)
-        {
-            if (delay + timer < Time.time && isStart && count < 2)
+            if (timing[hitCount] + timer < Time.time && !col.enabled)
             {
-                count++;
-                timer = Time.time;
+                hitCount++;
                 col.enabled = true;
-                // bool
+                delayTimer = Time.time;
+            }
+
+            if (delay + delayTimer < Time.time && col.enabled)
+            {
+                col.enabled = false;
             }
         }
-
-
+        else
+        {
+            col.enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         TeamIdentifier identity = other.GetComponent<TeamIdentifier>();
+        CharacterStatus aStatus = controller.GetComponent<CharacterStatus>();
+        CharacterStatus dStatus = other.GetComponent<CharacterStatus>();
         if (identity == null)
             return;
         if (other.gameObject.layer == controller.gameObject.layer)
             return;
 
+        DurationEffect durationEffect = Instantiate(durationEffectPrefab, other.transform.position, durationEffectPrefab.transform.rotation);
+        Destroy(durationEffect, hitDuration);
+        var attackables = other.GetComponentsInChildren<IAttackable>();
+
+        foreach( var attackable in attackables )
+        {
+            attackable.OnAttack(controller.gameObject, attack);
+        }
     }
 
-    public void SetEffect(AIController ai, float delay, float onColTime, float timer)
+    public void SetEffect(AIController ai, Attack attack, float[] timing, float delay, float timer, float hitDuration)
     {
         this.controller = ai;
+        this.attack = attack;
+        this.timing = timing;
         this.delay = delay;
-        this.onColtime = onColTime;
         this.timer = timer;
+        this.hitDuration = hitDuration;
     }
 
     public void SetOffsetNScale(float offset, float scale)
