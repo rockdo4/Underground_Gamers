@@ -390,7 +390,6 @@ MonoBehaviour:
   deathCount: 0
   respawnTime: 0
   respawnTimeIncreaseRate: 0
-  ai: {fileID: 0}
   illustration: {fileID: 0}
   aiClass: {fileID: 0}
   lv: 0
@@ -400,6 +399,7 @@ MonoBehaviour:
   grade: {fileID: 0}
   dealtDamage: 0
   takenDamage: 0
+  healAmount: 0
 --- !u!114 &805535796499616381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,6 +680,14 @@ PrefabInstance:
     - target: {fileID: 3008061790151529644, guid: a667dcf4925d81d45a46e143f3fd2e8e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3008061790151529644, guid: a667dcf4925d81d45a46e143f3fd2e8e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3008061790151529644, guid: a667dcf4925d81d45a46e143f3fd2e8e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.0027999878
       objectReference: {fileID: 0}
     - target: {fileID: 3088043621124940822, guid: a667dcf4925d81d45a46e143f3fd2e8e, type: 3}
       propertyPath: m_Name
