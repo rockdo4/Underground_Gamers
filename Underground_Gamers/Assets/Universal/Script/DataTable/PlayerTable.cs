@@ -11,6 +11,7 @@ public class PlayerTable : DataTable
     public List<LevelUpCost> levelUpCostDatabase = null;
     public List<Sprite> playerSprites;
     public List<Sprite> playerFullSprites;
+    public List<Sprite> playerStandingSprites;
     public List<Sprite> starsSprites = new List<Sprite>();
     public List<Sprite> berakSprites = new List<Sprite>();
     public List<Sprite> playerTypeSprites = new List<Sprite>();
@@ -29,7 +30,7 @@ public class PlayerTable : DataTable
         levelUpCostDatabase = new List<LevelUpCost>();
         playerSprites = new List<Sprite>();
         playerFullSprites = new List<Sprite>();
-
+        playerStandingSprites = new List<Sprite>();
         foreach (var player in players)
         {
             PlayerInfo playerInfo = new PlayerInfo();
@@ -74,6 +75,8 @@ public class PlayerTable : DataTable
                 Path.Combine("PlayerSprite", playerInfo.code.ToString())));
             playerFullSprites.Add(Resources.Load<Sprite>(
                 Path.Combine("PlayerFullSprite", playerInfo.code.ToString())));
+            playerStandingSprites.Add(Resources.Load<Sprite>(
+                Path.Combine("PlayerStandingSprite", playerInfo.code.ToString())));
         }
 
         List<Dictionary<string, string>> training = CSVReader.Read(Path.Combine("CSV", "TrainingStatTable"));
@@ -146,6 +149,10 @@ public class PlayerTable : DataTable
     public Sprite GetPlayerFullSprite(int code)
     {
         return playerFullSprites[PlayerIndexSearch(code)];
+    }
+    public Sprite GetPlayerStandingSprite(int code)
+    {
+        return playerStandingSprites[PlayerIndexSearch(code)];
     }
 
     public float CalculateCurrStats(GrowableStats stats,int level)

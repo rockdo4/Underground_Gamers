@@ -243,7 +243,7 @@ public class ManagerRecruitTrade : ManagerRecruit
         {
             return;
         }
-
+        SoundPlayer.instance.PauseMusic();
         foreach (var item in oldRecruitCards)
         {
             Destroy(item);
@@ -342,5 +342,8 @@ public class ManagerRecruitTrade : ManagerRecruit
         }
         storeTimer.text = $"{timer.Hours} : {timer.Minutes} : {timer.Seconds}";
     }
-
+    public void RestartBGM()
+    {
+        SoundPlayer.instance.ResumeMusic();
+    }
 }

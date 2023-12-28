@@ -22,6 +22,7 @@ public class SelectLine : MonoBehaviour
         // 저장된 현재 배속 적용받기
         Time.timeScale = 1f;
         gameManager.IsStart = true;
+        SoundPlayer.instance.PauseMusic();
 
         // 기존 코드
         battleLayoutForgePanel.SetActive(false);

@@ -190,6 +190,7 @@ public class ManagerRecruitRecruiting : ManagerRecruit
 
     public void StartRecruit()
     {
+        SoundPlayer.instance.PauseMusic();
         RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
         if (!GamePlayerInfo.instance.UseMoney(info.money * recruitCount, info.crystal * recruitCount, info.contractTicket * recruitCount))
         {
@@ -281,5 +282,10 @@ public class ManagerRecruitRecruiting : ManagerRecruit
     {
         RecruitUIManager.instance.lobbyTopMenu.UpdateMoney();
         LobbyUIManager.instance.UpdateMoneyInfo();
+    }
+
+    public void RestartBGM()
+    {
+        SoundPlayer.instance.ResumeMusic();
     }
 }

@@ -192,6 +192,7 @@ public class ManagerRecruitTryout : ManagerRecruit
 
     public void StartTryout()
     {
+        SoundPlayer.instance.PauseMusic();
         if (!GamePlayerInfo.instance.UseMoney(0, currCost, 0))
         {
             return;
@@ -355,4 +356,8 @@ public class ManagerRecruitTryout : ManagerRecruit
         LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
+    public void RestartBGM()
+    {
+        SoundPlayer.instance.ResumeMusic();
+    }
 }

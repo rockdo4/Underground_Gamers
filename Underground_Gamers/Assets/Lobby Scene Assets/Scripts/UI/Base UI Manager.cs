@@ -97,7 +97,7 @@ public class BaseUIManager : LobbySceneSubscriber
         if (players.Count > 0)
         {
             charImage.gameObject.SetActive(true);
-            charImage.sprite = pt.GetPlayerSprite(players[0].code);
+            charImage.sprite = pt.GetPlayerStandingSprite(players[0].code);
             bool enables = players.Count != 1;
             sideBts[0].gameObject.SetActive(enables);
             sideBts[1].gameObject.SetActive(enables);
@@ -115,17 +115,17 @@ public class BaseUIManager : LobbySceneSubscriber
     public void LobbyCharLeft()
     {
         currIndex = (currIndex - 1 + players.Count) % players.Count;
-        charImage.sprite = pt.GetPlayerSprite(players[currIndex].code);
+        charImage.sprite = pt.GetPlayerStandingSprite(players[currIndex].code);
     }
     public void LobbyCharRight()
     {
         currIndex = (currIndex + 1) % players.Count;
-        charImage.sprite = pt.GetPlayerSprite(players[currIndex].code);
+        charImage.sprite = pt.GetPlayerStandingSprite(players[currIndex].code);
     }
 
     public void UpdateProfile()
     {
-        if (GamePlayerInfo.instance.representativePlayer > 0)
+        if (GamePlayerInfo.instance.representativePlayer >= 0)
         {
             portrait.sprite = pt.GetPlayerSprite(GamePlayerInfo.instance.representativePlayer);
         }
