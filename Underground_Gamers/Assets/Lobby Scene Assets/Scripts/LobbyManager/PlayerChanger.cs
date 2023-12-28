@@ -206,7 +206,7 @@ public class PlayerChanger : MonoBehaviour
                 var pb = bt.GetComponent<PlayerButtons>();
                 pb.SetImage(pt.playerSprites[pt.PlayerIndexSearch(player.code)]);
                 pb.GetComponent<Button>().onClick.AddListener(() => PlayerListButtonFunc(true, currIndex, true, pb));
-                pb.index = index++;
+                pb.index = index;
                 pb.playerNameCard.text = st.Get($"playerName{player.code}");
                 pb.Level.text = $"Lv.{player.level}";
                 pb.isUsing.color = UnityEngine.Color.green;
@@ -236,6 +236,7 @@ public class PlayerChanger : MonoBehaviour
                 }
                 oldsPlayerList.Add(bt);
             }
+            index++;
         }
 
         index = 0;

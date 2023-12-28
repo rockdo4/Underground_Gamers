@@ -267,6 +267,26 @@ public class SaveData
     //胶农府怪
     public DateTime lastScrimmageTime = DateTime.MinValue;
     public int scrimmageCount = 3;
+
+    //可记
+    public int quality = 2;
+    public int resolution = 2;
+    public int textureQuality = 2;
+    public bool isPost_fx = true;
+    public bool isShadowOn = true;
+    public bool is60FPS = true;
+    public int language = 0;
+
+    public bool isSkillIllust = true;
+    public bool isSkillEffect = true;
+
+    public bool muteMaster = false;
+    public bool muteBackground = false;
+    public bool muteEffect = false;
+
+    public float volumeMaster = 1f;
+    public float volumeBackground = 1f;
+    public float volumeEffect = 1f;
 }
 
 public struct OfficialTeamData

@@ -10,7 +10,10 @@ public class ResetScroll : MonoBehaviour
     {
         scrollRect = GetComponent<ScrollRect>();
     }
-
+    private void OnEnable()
+    {
+        ResetScrollView();
+    }
     public void ResetScrollView()
     {
         if(scrollRect.horizontal)

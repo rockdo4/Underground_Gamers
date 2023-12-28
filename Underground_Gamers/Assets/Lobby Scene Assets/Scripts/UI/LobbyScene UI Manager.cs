@@ -28,7 +28,10 @@ public class LobbySceneUIManager : MonoBehaviour
 
     private static LobbySceneUIManager lobbySceneUIManager;
 
-
+    public void Start()
+    {
+        SoundPlayer.instance.EnterLobbyMusic();
+    }
 
     private Dictionary<LobbyType, LobbySceneSubscriber> lobbySceneSubscribers;
     [SerializeField]

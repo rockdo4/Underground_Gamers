@@ -189,7 +189,6 @@ public class ManagerTrainingAnalyze : ManagerTraining
     public void OpenPlayerGrowInfo(int index)
     {
         growInfoArea.SetActive(true);
-        swipeDetector.isSwipeable = true;
         currIndex = index;
 
         currPlayer = sortedPlayerList[index];
@@ -238,9 +237,15 @@ public class ManagerTrainingAnalyze : ManagerTraining
                 growItems[i].interactable = true;
             }
         }
-        growItemUseMoneyText.text = "G : " + currCost.ToString();
+        growItemUseMoneyText.text = "<sprite=0> " + currCost.ToString();
 
         analyzeStartB.interactable = false;
+        Invoke("EnableSwipe", 0.1f);
+    }
+
+    private void EnableSwipe()
+    {
+        swipeDetector.isSwipeable = true;
     }
 
     public void ExitPlayerGrowInfo()

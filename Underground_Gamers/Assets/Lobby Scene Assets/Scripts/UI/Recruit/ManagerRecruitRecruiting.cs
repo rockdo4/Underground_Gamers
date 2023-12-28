@@ -47,6 +47,7 @@ public class ManagerRecruitRecruiting : ManagerRecruit
     private GameObject recruitEffect;
     public GameObject recruitEffrctPrefabNomal;
     public GameObject recruitEffrctPrefabRare;
+    public GameObject recruitEffrctPrefabNormalPass;
     [SerializeField]
     private Image recruitEffrctCharImage;
     [SerializeField]
@@ -189,6 +190,7 @@ public class ManagerRecruitRecruiting : ManagerRecruit
 
     public void StartRecruit()
     {
+        SoundPlayer.instance.PauseMusic();
         RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
         if (!GamePlayerInfo.instance.UseMoney(info.money * recruitCount, info.crystal * recruitCount, info.contractTicket * recruitCount))
         {
@@ -225,13 +227,13 @@ public class ManagerRecruitRecruiting : ManagerRecruit
             if (grade >= 5)
             {
                 var effect = Instantiate(recruitCardEffetUnique, card.transform);
-                effect.transform.SetSiblingIndex(0);
+                effect.transform.SetSiblingIndex(1);
                 isHaveUnique = true;
             }
             else if (grade >= 4)
             {
                 var effect = Instantiate(recruitCardEffetRare, card.transform);
-                effect.transform.SetSiblingIndex(0);
+                effect.transform.SetSiblingIndex(1);
             }
             oldRecruitCards.Add(card);
         }
@@ -255,6 +257,7 @@ public class ManagerRecruitRecruiting : ManagerRecruit
 
     public void RecruitEffrctNextPlayer()
     {
+        Instantiate(recruitEffrctPrefabNormalPass, recruitEffrctPos);
         if (currCount == 0)
         {
             recruitEffrctWindow.SetActive(false);
@@ -279,5 +282,10 @@ public class ManagerRecruitRecruiting : ManagerRecruit
     {
         RecruitUIManager.instance.lobbyTopMenu.UpdateMoney();
         LobbyUIManager.instance.UpdateMoneyInfo();
+    }
+
+    public void RestartBGM()
+    {
+        SoundPlayer.instance.ResumeMusic();
     }
 }

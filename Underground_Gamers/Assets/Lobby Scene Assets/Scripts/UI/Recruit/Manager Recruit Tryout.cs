@@ -192,6 +192,7 @@ public class ManagerRecruitTryout : ManagerRecruit
 
     public void StartTryout()
     {
+        SoundPlayer.instance.PauseMusic();
         if (!GamePlayerInfo.instance.UseMoney(0, currCost, 0))
         {
             return;
@@ -314,12 +315,12 @@ public class ManagerRecruitTryout : ManagerRecruit
         if (grade >= 5)
         {
             var effect = Instantiate(recruitCardEffetUnique, card.transform);
-            effect.transform.SetSiblingIndex(0);
+            effect.transform.SetSiblingIndex(1);
         }
         else if (grade >= 4)
         {
             var effect = Instantiate(recruitCardEffetRare, card.transform);
-            effect.transform.SetSiblingIndex(0);
+            effect.transform.SetSiblingIndex(1);
         }
         oldRecruitCards.Add(card);
 
@@ -355,4 +356,8 @@ public class ManagerRecruitTryout : ManagerRecruit
         LobbyUIManager.instance.UpdateMoneyInfo();
     }
 
+    public void RestartBGM()
+    {
+        SoundPlayer.instance.ResumeMusic();
+    }
 }

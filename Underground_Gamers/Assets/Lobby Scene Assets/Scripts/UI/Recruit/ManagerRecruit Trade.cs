@@ -243,7 +243,7 @@ public class ManagerRecruitTrade : ManagerRecruit
         {
             return;
         }
-
+        SoundPlayer.instance.PauseMusic();
         foreach (var item in oldRecruitCards)
         {
             Destroy(item);
@@ -268,12 +268,12 @@ public class ManagerRecruitTrade : ManagerRecruit
         if (grade >= 5)
         {
             var effect = Instantiate(recruitCardEffetUnique, card.transform);
-            effect.transform.SetSiblingIndex(0);
+            effect.transform.SetSiblingIndex(1);
         }
         else if (grade >= 4)
         {
             var effect = Instantiate(recruitCardEffetRare, card.transform);
-            effect.transform.SetSiblingIndex(0);
+            effect.transform.SetSiblingIndex(1);
         }
         oldRecruitCards.Add(card);
 
@@ -342,5 +342,8 @@ public class ManagerRecruitTrade : ManagerRecruit
         }
         storeTimer.text = $"{timer.Hours} : {timer.Minutes} : {timer.Seconds}";
     }
-
+    public void RestartBGM()
+    {
+        SoundPlayer.instance.ResumeMusic();
+    }
 }
