@@ -25,6 +25,7 @@ public class TimeHoleCastEffect : MonoBehaviour
         Vector3 explosionPos = explosion.transform.position;
         explosionPos.y += explosionOffset;
         explosion.transform.position = explosionPos;
+        explosion.transform.localScale *= explosionScale;
         Destroy(explosion.gameObject, explosionDuration);
     }
 

@@ -36,7 +36,9 @@ public class AttackDefinition : ScriptableObject
     public Attack CreateAttack(CharacterStatus attacker, CharacterStatus defender)
     {
         float damage = this.damage + attacker.damage;
-        damage *= Random.Range(minDamageRate, maxDamageRate);
+        //damage *= Random.Range(minDamageRate, maxDamageRate);
+        damage = Utils.GetRandomDamageByAccuracy(damage, attacker);
+
         // 캐릭터의 공속 + 무기의 공속(스킬, 평타)
         bool isCritical = Random.value < attacker.critical;
 

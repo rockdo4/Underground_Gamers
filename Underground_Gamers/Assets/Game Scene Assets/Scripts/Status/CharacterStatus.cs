@@ -30,7 +30,7 @@ public class CharacterStatus : MonoBehaviour
     public float critical;
     public int chargeCount;
     public float reloadCooldown;
-    public float accuracyRate;
+    public float accuracyRate;      // ¸íÁß·ü
 
     public int armor;
 

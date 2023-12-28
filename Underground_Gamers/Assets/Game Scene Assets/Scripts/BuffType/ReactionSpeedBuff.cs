@@ -2,27 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackBuff : Buff
+public class ReactionSpeedBuff : Buff
 {
-    public float increaseDamageRate;
-    private float prevDamage;
-
+    public float increasedReactionSpeedRate;
+    private float prevReactionSpeed;
     public override void UpdateBuff(AIController ai)
     {
         base.UpdateBuff(ai);
     }
-
     public override void ApplyBuff(AIController ai)
     {
         timer = Time.time;
-        prevDamage = ai.status.damage;
-        ai.status.damage += (prevDamage * increaseDamageRate);
+        prevReactionSpeed = ai.status.reactionSpeed;
+        ai.status.reactionSpeed += (prevReactionSpeed * increasedReactionSpeedRate);
         ai.appliedBuffs.Add(this);
     }
-
     public override void RemoveBuff(AIController ai)
     {
-        ai.status.damage -= (prevDamage * increaseDamageRate);
+        ai.status.reactionSpeed -= (prevReactionSpeed * increasedReactionSpeedRate);
         ai.removedBuffs.Add(this);
     }
 }

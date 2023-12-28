@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReactionSpeedBuff : Buff
+public class CriticalBuff : Buff
 {
-    public float increaseReactionSpeedRate;
-    private float prevReactionSpeed;
+    public float increasedCriticalRate;
+    private float prevCritical;
     public override void UpdateBuff(AIController ai)
     {
         base.UpdateBuff(ai);
@@ -13,13 +13,14 @@ public class ReactionSpeedBuff : Buff
     public override void ApplyBuff(AIController ai)
     {
         timer = Time.time;
-        prevReactionSpeed = ai.status.reactionSpeed;
-        ai.status.reactionSpeed += (prevReactionSpeed * increaseReactionSpeedRate);
+        prevCritical = ai.status.critical;
+        ai.status.critical += (prevCritical * increasedCriticalRate);
         ai.appliedBuffs.Add(this);
     }
+
     public override void RemoveBuff(AIController ai)
     {
-        ai.status.reactionSpeed -= (prevReactionSpeed * increaseReactionSpeedRate);
+        ai.status.critical -= (prevCritical * increasedCriticalRate);
         ai.removedBuffs.Add(this);
     }
 }

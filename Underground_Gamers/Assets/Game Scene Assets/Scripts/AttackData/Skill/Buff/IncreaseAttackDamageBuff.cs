@@ -39,7 +39,7 @@ public class IncreaseAttackDamageBuff : BuffSkill
         AttackBuff attackBuff = new AttackBuff();
         attackBuff.duration = duration;
 
-        attackBuff.increaseDamageRate = skillLevel switch
+        attackBuff.increasedDamageRate = skillLevel switch
         {
             1 => increaseAttackDamageRateLevel1,
             2 => increaseAttackDamageRateLevel2,
@@ -49,7 +49,7 @@ public class IncreaseAttackDamageBuff : BuffSkill
 
         ReactionSpeedBuff reactionSpeedBuff = new ReactionSpeedBuff();
         reactionSpeedBuff.duration = duration;
-        reactionSpeedBuff.increaseReactionSpeedRate = skillLevel switch
+        reactionSpeedBuff.increasedReactionSpeedRate = skillLevel switch
         {
             1 => increaseReactionSpeedRateLevel1,
             2 => increaseReactionSpeedRateLevel2,

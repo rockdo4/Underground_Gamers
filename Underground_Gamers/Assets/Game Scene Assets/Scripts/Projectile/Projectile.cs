@@ -66,8 +66,8 @@ public class Projectile : MonoBehaviour
     public Attack CreateAttack(CharacterStatus attacker, CharacterStatus defender)
     {
         float damage = attacker.damage;
-        damage *= Random.Range(minDamageRate, maxDamageRate);
-
+        //damage *= Random.Range(minDamageRate, maxDamageRate);
+        damage = Utils.GetRandomDamageByAccuracy(damage, attacker);
         bool isCritical = Random.value < attacker.critical;
 
         if (isCritical)

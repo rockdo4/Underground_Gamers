@@ -45,4 +45,18 @@ public static class Utils
 
         return wayPoint;
     }
+
+    public static float GetRandomDamageByAccuracy(float damage, CharacterStatus aStatus)
+    {
+        float u1 = 1f - Random.Range(0f, 1f);
+        float u2 = 1f - Random.Range(0f, 1f);
+
+        float randStdNormal = Mathf.Sqrt(-2f * Mathf.Log(u1)) * Mathf.Sin(2f * Mathf.PI * u2);
+        float randResult = Mathf.Abs((randStdNormal * 50.0f / aStatus.accuracyRate));
+        if (randResult >= 3)
+            randResult = 3;
+        damage *= (1.1f - (randResult * 0.2f));
+        return damage;
+    }
 }
+    

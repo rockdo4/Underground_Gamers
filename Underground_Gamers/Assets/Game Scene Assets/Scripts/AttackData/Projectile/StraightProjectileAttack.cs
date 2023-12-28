@@ -27,7 +27,6 @@ public class StraightProjectileAttack : ProjectileAttack
             ProjectileStatus projectileStatus = projectile.GetComponent<ProjectileStatus>();
             projectile.ai = ai;
             projectile.gameObject.layer = ai.gameObject.layer;
-            Debug.Log("Create Projectile");
 
             if (aStatus != null)
             {
@@ -44,6 +43,7 @@ public class StraightProjectileAttack : ProjectileAttack
             projectileStatus.isPenetrating = isPenetrating;
             projectileStatus.isAreaAttack = isAreaAttack;
             projectileStatus.explosionRange = explosionRange;
+            projectileStatus.accuracyRate = ai.status.accuracyRate;
 
             projectile.colEffectPrefab = colEffectPrefab;
         }
