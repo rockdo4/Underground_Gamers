@@ -18,6 +18,10 @@ public class ExecutorEffect : MonoBehaviour
 
     private float delayTimer;
     private float delay;
+    private int originDamage;
+
+    public float firstDamage = 0.7f;
+    public float secondDamage = 0.8f;
 
     private void OnDisable()
     {
@@ -58,6 +62,16 @@ public class ExecutorEffect : MonoBehaviour
 
         DurationEffect durationEffect = Instantiate(durationEffectPrefab, other.transform.position, durationEffectPrefab.transform.rotation);
         Destroy(durationEffect, hitDuration);
+
+
+        attack.Damage = hitCount switch
+        {
+            1 => Mathf.RoundToInt(attack.Damage * firstDamage),
+            2 => Mathf.RoundToInt(attack.Damage * secondDamage),
+            3 => originDamage,
+            _ => Mathf.RoundToInt(attack.Damage * firstDamage)
+        };
+
         var attackables = other.GetComponentsInChildren<IAttackable>();
 
         foreach( var attackable in attackables )
@@ -74,6 +88,7 @@ public class ExecutorEffect : MonoBehaviour
         this.delay = delay;
         this.timer = timer;
         this.hitDuration = hitDuration;
+        originDamage = this.attack.Damage;
     }
 
     public void SetOffsetNScale(float offset, float scale)

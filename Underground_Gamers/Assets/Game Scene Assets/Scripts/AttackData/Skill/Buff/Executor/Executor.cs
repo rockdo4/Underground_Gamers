@@ -39,7 +39,11 @@ public class Executor : BuffSkill
         };
 
         Attack attack = CreateAttack(aStatus, dStatus);
-
+        attack.Damage = Mathf.RoundToInt(damage);
+        if (attack.IsCritical)
+        {
+            attack.IsCritical = false;
+        }
         ExecutorBuff executorBuff = new ExecutorBuff();
         executorBuff.duration = duration;
         executorBuff.attackExecutor = attackExecutor;
