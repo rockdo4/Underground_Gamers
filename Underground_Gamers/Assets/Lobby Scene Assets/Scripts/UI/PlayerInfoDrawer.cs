@@ -111,7 +111,10 @@ public class PlayerInfoDrawer : MonoBehaviour
 
     public void ToPlayerAnalyze()
     {
-        PlayerListManager.instance.OnExit();
+        if (PlayerListManager.instance != null)
+        {
+            PlayerListManager.instance.OnExit();
+        }
         LobbyUIManager.instance.ActivePlayerListAnyway(false);
         training.SetActive(true);
         TrainingUIManager.instance.SetTraining(0);

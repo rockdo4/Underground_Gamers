@@ -151,7 +151,6 @@ public class GameManager : MonoBehaviour
         gameEndPannel.OffGameEndPanel();
         Time.timeScale = 1f;
         gameTimer = gameTime;
-        SoundPlayer.instance.EnterGameMusic();
     }
 
     public void EndGame()

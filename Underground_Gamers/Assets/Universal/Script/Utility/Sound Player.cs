@@ -38,7 +38,7 @@ public class SoundPlayer : MonoBehaviour
 
     public void EnterLobbyMusic()
     {
-        m_AudioSource.DOFade(0f, fadeOutTime).OnComplete(EnterLobbyMusicPlay);
+        m_AudioSource.DOFade(0, fadeOutTime).OnComplete(EnterLobbyMusicPlay);
     }
 
     public void EnterLobbyMusicPlay()
@@ -50,7 +50,7 @@ public class SoundPlayer : MonoBehaviour
 
     public void EnterGameMusic()
     {
-        m_AudioSource.DOFade(0f, fadeOutTime).OnComplete(EnterGameMusicPlay);
+        m_AudioSource.DOFade(0, fadeOutTime).OnComplete(EnterGameMusicPlay);
     }
 
     public void EnterGameMusicPlay()
