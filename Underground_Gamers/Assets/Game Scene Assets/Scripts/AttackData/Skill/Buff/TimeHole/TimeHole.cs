@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TimeHole.Asset", menuName = "DeBuffSkill/TimeHole")]
 public class TimeHole : BuffSkill
 {
-    public TimeHoleCastEffect timeHoleCastEffectPrefab;
+    public ExplosionCastEffect timeHoleCastEffectPrefab;
     //public TimeHoleExplosionEffect timeHoleExplodeEffectPrefab;
 
     [Header("타임 홀 위치 조정")]
@@ -60,7 +60,7 @@ public class TimeHole : BuffSkill
             _ => decreasedAttackSpeedRateLevel1,
         };
 
-        TimeHoleCastEffect timeHoleCastEffect = Instantiate(timeHoleCastEffectPrefab, defender.transform.position, timeHoleCastEffectPrefab.transform.rotation);
+        ExplosionCastEffect timeHoleCastEffect = Instantiate(timeHoleCastEffectPrefab, defender.transform.position, timeHoleCastEffectPrefab.transform.rotation);
         timeHoleCastEffect.SetBuff(speedBuff, attackSpeedBuff, buffAi);
         Vector3 castPos = timeHoleCastEffect.transform.position;
         castPos.y += offsetTimeHoleCastEffct;

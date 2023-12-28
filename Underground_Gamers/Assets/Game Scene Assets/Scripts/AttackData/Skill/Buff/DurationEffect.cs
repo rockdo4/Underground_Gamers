@@ -8,4 +8,13 @@ public class DurationEffect : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void SetOffsetNScale(float offset, float scale)
+    {
+        Vector3 offsetPos = transform.position;
+        offsetPos.y += offset;
+        transform.position = offsetPos;
+
+        transform.localScale *= scale;
+    }
 }

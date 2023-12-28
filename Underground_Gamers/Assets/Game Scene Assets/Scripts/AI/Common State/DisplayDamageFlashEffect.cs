@@ -23,6 +23,8 @@ public class DisplayDamageFlashEffect : MonoBehaviour, IAttackable
     }
     public void OnAttack(GameObject attacker, Attack attack)
     {
+        if (attack.IsHeal)
+            return;
         isHit = true;
         startTime = Time.time;
         FlashRenderer(flashColor);

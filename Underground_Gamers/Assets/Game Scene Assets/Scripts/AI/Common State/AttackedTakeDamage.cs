@@ -36,16 +36,18 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
                 }
             }
         }
-        
+
         defenderStatus.Hp -= attack.Damage;
         defenderStatus.Hp = Mathf.Min(defenderStatus.Hp, defenderStatus.maxHp);
         defenderStatus.Hp = Mathf.Max(0, defenderStatus.Hp);
         defenderStatus.GetHp();
 
         // 데미지 그래프 수치 적용
-        defenderStatus.takenDamage += attack.Damage;
         if (attack.Damage >= 0)
+        {
             attackerStatus.dealtDamage += attack.Damage;
+            defenderStatus.takenDamage += attack.Damage;
+        }
         else
             attackerStatus.healAmount -= attack.Damage;
 

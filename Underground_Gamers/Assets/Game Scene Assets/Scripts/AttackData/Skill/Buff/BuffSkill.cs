@@ -17,13 +17,13 @@ public class BuffSkill : AttackDefinition
     public float duration;
     public BuffType type;
     public CastEffect castEffectPrefab;
-    public GameObject durationEffectPrefab;
+    public DurationEffect durationEffectPrefab;
     public TextMeshPro scrollingBuffText;
 
     [Header("위치 조정")]
-    public float offsetText;
-    public float offsetDurationEffct;
-    public float offsetCastEffct;    
+    public float offsetText = 0f;
+    public float offsetDurationEffct = 0f;
+    public float offsetCastEffct = 0f;    
     
     [Header("크기 조정")]
     public float scaleText = 1f;
