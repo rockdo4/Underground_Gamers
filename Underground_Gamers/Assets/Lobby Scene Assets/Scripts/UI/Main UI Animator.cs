@@ -8,7 +8,7 @@ public class MainUIAnimator : MonoBehaviour
     private bool isStart = false;
     void Start()
     {
-        Invoke("DoOpen", 0.01f);
+        Invoke("DoOpen", 0.1f);
     }
 
     public void DoOpen()

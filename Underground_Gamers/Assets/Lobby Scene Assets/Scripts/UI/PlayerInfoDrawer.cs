@@ -62,7 +62,7 @@ public class PlayerInfoDrawer : MonoBehaviour
         PlayerImage.sprite = pt.GetPlayerFullSprite(currPlayer.code);
         PlayerName.text = currPlayer.name;
         breakThrough.text = $"{st.Get("break")}: {currPlayer.breakthrough}";
-        XpVal[0].text = $"Lv.{currPlayer.level}/";
+        XpVal[0].text = $"<color=\"white\">Lv.{currPlayer.level}</color>/";
         XpVal[1].text = $"{currPlayer.maxLevel}";
         XpBar.value = currPlayer.xp / currPlayer.maxXp;
         PlayerChar = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{currPlayer.code}")), PlayerCharPos);

@@ -77,7 +77,7 @@ public class GamePlayerInfo : MonoBehaviour
     public int willOpenMenu = 0;
 
     //¿É¼Ç
-    public int quality = 2;
+    public int quality = 3;
     public int resolution = 2;
     public int textureQuality = 2;
     public bool isPost_fx = true;

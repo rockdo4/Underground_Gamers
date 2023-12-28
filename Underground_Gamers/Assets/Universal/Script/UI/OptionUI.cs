@@ -297,10 +297,10 @@ public class OptionUI : MonoBehaviour
                 resolutionValue = 1f;
                 break;
             case 2:
-                resolutionValue = 1.5f;
+                resolutionValue = 1.2f;
                 break;
             case 3:
-                resolutionValue = 2f;
+                resolutionValue = 1.5f;
                 break;
         }
 
@@ -405,7 +405,7 @@ public class OptionUI : MonoBehaviour
         toggleSkillEffect[isSkillEffect ? 0 : 1].isOn = true;
 
         toggleLanguage[language].isOn = true;
-
+        quality = GamePlayerInfo.instance.quality;
         toggleQuality[quality].isOn = true;
     }
 
