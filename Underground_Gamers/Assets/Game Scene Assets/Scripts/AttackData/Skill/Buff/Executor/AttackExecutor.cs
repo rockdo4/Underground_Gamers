@@ -17,12 +17,14 @@ public class AttackExecutor : AttackDefinition
 
     public float duration;
     public float hitDuration;
+    public float hitOffset = 0f;
+    public float hitScale = 1f;
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
         AIController aController = attacker.GetComponent<AIController>();
 
         ExecutorEffect executor = Instantiate(executorEffectPrefab, attacker.transform.position, attacker.transform.rotation);
-        executor.SetEffect(aController, attack, attackTiming, colDisableDelay, Time.time, hitDuration);
+        executor.SetEffect(aController, attack, attackTiming, colDisableDelay, Time.time, hitDuration, hitOffset, hitScale);
         executor.SetOffsetNScale(offsetEffect, scaleEffect);
         Destroy(executor, duration);
     }

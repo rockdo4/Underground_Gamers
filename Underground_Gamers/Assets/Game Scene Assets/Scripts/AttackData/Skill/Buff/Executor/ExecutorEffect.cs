@@ -23,6 +23,8 @@ public class ExecutorEffect : MonoBehaviour
     public float firstDamage = 0.7f;
     public float secondDamage = 0.8f;
 
+    private float hitScale;
+    private float hitOffset;
     private void OnDisable()
     {
         col.enabled = false;
@@ -61,6 +63,7 @@ public class ExecutorEffect : MonoBehaviour
             return;
 
         DurationEffect durationEffect = Instantiate(durationEffectPrefab, other.transform.position, durationEffectPrefab.transform.rotation);
+        durationEffect.SetOffsetNScale(hitOffset, hitScale);
         Destroy(durationEffect, hitDuration);
 
 
@@ -80,7 +83,7 @@ public class ExecutorEffect : MonoBehaviour
         }
     }
 
-    public void SetEffect(AIController ai, Attack attack, float[] timing, float delay, float timer, float hitDuration)
+    public void SetEffect(AIController ai, Attack attack, float[] timing, float delay, float timer, float hitDuration, float offset, float scale)
     {
         this.controller = ai;
         this.attack = attack;
@@ -89,6 +92,8 @@ public class ExecutorEffect : MonoBehaviour
         this.timer = timer;
         this.hitDuration = hitDuration;
         originDamage = this.attack.Damage;
+        hitOffset = offset;
+        hitScale = scale;
     }
 
     public void SetOffsetNScale(float offset, float scale)
