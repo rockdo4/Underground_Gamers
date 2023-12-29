@@ -401,6 +401,7 @@ public class GameInfo : MonoBehaviour
             stat.reloadCooldown = playerInfo.reload;
             stat.accuracyRate = playerInfo.accuracy;
             stat.detectionRange = playerInfo.detection;
+            stat.aiClass = pt.playerTypeSprites[playerInfo.type - 1];
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
             ai.SetInitialization();
@@ -560,6 +561,7 @@ public class GameInfo : MonoBehaviour
             stat.reloadCooldown = playerInfo.reload;
             stat.accuracyRate = playerInfo.accuracy;
             stat.detectionRange = playerInfo.detection;
+            stat.aiClass = pt.playerTypeSprites[playerInfo.type - 1];
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
             ai.SetInitialization();
@@ -706,6 +708,7 @@ public class GameInfo : MonoBehaviour
             stat.reloadCooldown = playerInfo.reload;
             stat.accuracyRate = playerInfo.accuracy;
             stat.detectionRange = playerInfo.detection;
+            stat.aiClass = pt.playerTypeSprites[playerInfo.type - 1];
             stat.occupationType = (OccupationType)playerInfo.type;
             stat.distancePriorityType = DistancePriorityType.Closer;
             ai.SetInitialization();

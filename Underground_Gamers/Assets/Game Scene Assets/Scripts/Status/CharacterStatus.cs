@@ -82,50 +82,10 @@ public class CharacterStatus : MonoBehaviour
     {
         AIController aiController = GetComponent<AIController>();
         GameManager gameManager = GetComponent<AIController>().gameManager;
-
-        if (aiController != null)
-        {
-            if (aiController.attackInfos[(int)SkillMode.Base] != null)
-                aiController.isOnCoolBaseAttack = true;
-            else
-                aiController.isOnCoolBaseAttack = false;
-
-            if (aiController.attackInfos[(int)SkillMode.Original] != null)
-                aiController.isOnCoolOriginalSkill = true;
-            else
-                aiController.isOnCoolOriginalSkill = false;
-
-            if (aiController.attackInfos[(int)SkillMode.General] != null)
-                aiController.isOnCoolGeneralSkill = true;
-            else
-                aiController.isOnCoolGeneralSkill = false;
-
-            //aIController.isKiting = false;
-        }
         IsLive = true;
         Hp = maxHp;
         GetHp();
 
-        // 상태 설정
-        if (aiController.isAttack)
-            aiController.SetState(States.MissionExecution);
-        if (aiController.isDefend)
-            aiController.SetState(States.Retreat);
-
-        if (aiController.teamIdentity.teamType == TeamType.NPC)
-        {
-            gameManager.npcManager.SelectLineByRate(aiController);
-            gameManager.lineManager.JoiningLine(aiController);
-        }
-
-        // 카메라 설정
-        if (gameManager != null)
-        {
-            if (gameManager.commandManager.currentAI == aiController)
-            {
-                gameManager.cameraManager.StartZoomIn();
-            }
-        }
     }
 
     public void GetHp()
