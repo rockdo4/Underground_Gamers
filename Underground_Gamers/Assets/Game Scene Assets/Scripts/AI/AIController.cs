@@ -357,7 +357,7 @@ public class AIController : MonoBehaviour
 
     private void OnDisable()
     {
-        foreach(var buff in appliedBuffs)
+        foreach (var buff in appliedBuffs)
         {
             buff.RemoveBuff(this);
         }
@@ -742,5 +742,32 @@ public class AIController : MonoBehaviour
         lastReloadTime = Time.time - reloadCoolTime;
         lastSupportTime = Time.time - supportTime;
         Reload();
+
+        if (attackInfos[(int)SkillMode.Base] != null)
+            isOnCoolBaseAttack = true;
+        else
+            isOnCoolBaseAttack = false;
+
+        RefreshBuilding();
+        // 상태 설정
+        if (isAttack)
+            SetState(States.MissionExecution);
+        if (isDefend)
+            SetState(States.Retreat);
+
+        if (teamIdentity.teamType == TeamType.NPC)
+        {
+            gameManager.npcManager.SelectLineByRate(this);
+            gameManager.lineManager.JoiningLine(this);
+        }
+
+        // 카메라 설정
+        if (gameManager != null)
+        {
+            if (gameManager.commandManager.currentAI == this)
+            {
+                gameManager.cameraManager.StartZoomIn();
+            }
+        }
     }
 }
