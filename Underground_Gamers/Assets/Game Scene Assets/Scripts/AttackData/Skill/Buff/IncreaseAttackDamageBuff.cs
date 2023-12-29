@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "IncreaseAttackDamageBuff.Asset", menuName = "BuffSkill/IncreaseAttackDamageBuff")]
 public class IncreaseAttackDamageBuff : BuffSkill
 {
+    [Header("버프 / 양수")]
     public float increaseAttackDamageRateLevel1;
     public float increaseAttackDamageRateLevel2;
     public float increaseAttackDamageRateLevel3;
@@ -60,7 +61,7 @@ public class IncreaseAttackDamageBuff : BuffSkill
         attackBuff.ApplyBuff(buffAi);
         reactionSpeedBuff.ApplyBuff(buffAi);
 
-        GameObject buffEffect = Instantiate(durationEffectPrefab, buffAi.transform);
-        Destroy(buffEffect, duration);
+        DurationEffect buffEffect = Instantiate(durationEffectPrefab, buffAi.transform);
+        Destroy(buffEffect.gameObject, duration);
     }
 }

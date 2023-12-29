@@ -42,7 +42,7 @@ public class AttackDefinition : ScriptableObject
         // 캐릭터의 공속 + 무기의 공속(스킬, 평타)
         bool isCritical = Random.value < attacker.critical;
 
-        if(isCritical)
+        if(isCritical) 
         {
             damage *= criticalMultiplier;
         }

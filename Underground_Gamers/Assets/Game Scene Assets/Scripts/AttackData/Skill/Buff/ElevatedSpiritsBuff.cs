@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ElevatedSpiritsBuff.Asset", menuName = "BuffSkill/ElevatedSpiritsBuff")]
 public class ElevatedSpiritsBuff : BuffSkill
 {
+    [Header("버프 / 양수")]
     public float increasedSpeedRateLevel1;
     public float increasedSpeedRateLevel2;
     public float increasedSpeedRateLevel3;
@@ -59,7 +60,7 @@ public class ElevatedSpiritsBuff : BuffSkill
         speedBuff.ApplyBuff(buffAi);
         invalidAttackBuff.ApplyBuff(buffAi);
 
-        GameObject buffEffect = Instantiate(durationEffectPrefab, buffAi.transform);
-        Destroy(buffEffect, duration);
+        DurationEffect buffEffect = Instantiate(durationEffectPrefab, buffAi.transform);
+        Destroy(buffEffect.gameObject, duration);
     }
 }

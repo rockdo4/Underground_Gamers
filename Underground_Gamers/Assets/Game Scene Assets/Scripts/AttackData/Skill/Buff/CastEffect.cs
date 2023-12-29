@@ -5,14 +5,14 @@ using UnityEngine;
 public class CastEffect : MonoBehaviour
 {
     private Transform parent;
-    private GameObject durationEffectPrefab;
+    private DurationEffect durationEffectPrefab;
     private float offset;
     private float duration;
     private float scale;
 
     private void OnDisable()
     {
-        GameObject durationEffect = Instantiate(durationEffectPrefab, parent);
+        DurationEffect durationEffect = Instantiate(durationEffectPrefab, parent);
         Vector3 pos = durationEffect.transform.position;
         pos.y += offset;
         durationEffect.transform.position = pos;
@@ -20,7 +20,7 @@ public class CastEffect : MonoBehaviour
         Destroy(durationEffect, duration);
         Destroy(gameObject);
     }
-    public void SetDurationEffect(GameObject durationEffectPrefab, Transform parent, float duration, float offset, float scale)
+    public void SetDurationEffect(DurationEffect durationEffectPrefab, Transform parent, float duration, float offset, float scale)
     {
         this.durationEffectPrefab = durationEffectPrefab;
         this.parent = parent;

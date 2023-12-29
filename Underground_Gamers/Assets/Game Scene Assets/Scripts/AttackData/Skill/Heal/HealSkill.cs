@@ -51,7 +51,6 @@ public class HealSkill : AttackDefinition
         GameObject healPrefab = Instantiate(effectPrefab, select.transform);
         Destroy(healPrefab, 1f);
 
-
         var attackables = select.GetComponents<IAttackable>();
         foreach (var attackable in attackables)
         {
@@ -73,7 +72,7 @@ public class HealSkill : AttackDefinition
             _ => healRateLevel1
         };
 
-        damage = -(defender.maxHp * healRate);
-        return new Attack((int)damage, false, true);
+        float healAmount = -(defender.maxHp * healRate);
+        return new Attack((int)healAmount, false, true);
     }
 }

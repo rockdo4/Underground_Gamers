@@ -31,7 +31,7 @@ public class DisplayDamageText : MonoBehaviour, IAttackable
             }
         }
 
-        if(attack.IsHeal)
+        if (attack.IsHeal)
         {
             text.color = healColor;
         }
@@ -41,6 +41,9 @@ public class DisplayDamageText : MonoBehaviour, IAttackable
             text.color = Color.yellow;
             text.fontSize += 8f;
         }
-        text.text = attack.Damage.ToString();
+        float damage = attack.Damage;
+        if (attack.IsHeal)
+            damage *= -1;
+        text.text = damage.ToString();
     }
 }
