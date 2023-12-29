@@ -38,6 +38,7 @@ public class SoundPlayer : MonoBehaviour
 
     public void EnterLobbyMusic()
     {
+        DOTween.defaultTimeScaleIndependent = true;
         m_AudioSource.DOFade(0, fadeOutTime).OnComplete(EnterLobbyMusicPlay);
     }
 
@@ -50,6 +51,7 @@ public class SoundPlayer : MonoBehaviour
 
     public void EnterGameMusic()
     {
+        DOTween.defaultTimeScaleIndependent = true;
         m_AudioSource.DOFade(0, fadeOutTime).OnComplete(EnterGameMusicPlay);
     }
 
