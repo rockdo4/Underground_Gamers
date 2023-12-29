@@ -34,6 +34,8 @@ public class GameEndPannel : MonoBehaviour
     public GameObject nextButton;
     public GameObject damageGraphButton;
 
+    public GameObject nextStageButton;
+    public GameObject retryButton;
 
     public void SetActiveGameEndPanelButton(bool isActive)
     {
@@ -80,15 +82,37 @@ public class GameEndPannel : MonoBehaviour
         // 집계 중
         if (gameManager.IsRoundWin)
         {
-            GameInfo.instance.WinReward(); 
+            GameInfo.instance.WinReward();
             DOTween.timeScale = 1f;
             DOTween.defaultTimeScaleIndependent = true;
             gameManager.aiRewardManager.DisplayFillXpGauage();
             gameManager.aiRewardManager.DisplayGetXp(GameInfo.instance.XpRewards);
+
+            if (GameInfo.instance.gameType == GameType.Story)
+            {
+                nextStageButton.SetActive(true);
+                retryButton.SetActive(false);
+            }
+            else
+            {
+                nextStageButton.SetActive(false);
+                retryButton.SetActive(false);
+            }
         }
         else
         {
             gameManager.aiRewardManager.DisplayGetXp(0);
+
+            if (GameInfo.instance.gameType == GameType.Story)
+            {
+                nextStageButton.SetActive(false);
+                retryButton.SetActive(true);
+            }
+            else
+            {
+                nextStageButton.SetActive(false);
+                retryButton.SetActive(false);
+            }
         }
 
         // 집계 후
@@ -244,5 +268,40 @@ public class GameEndPannel : MonoBehaviour
     public void OffRewardPanel()
     {
         rewardPanel.SetActive(false);
+    }
+
+    public void Retry()
+    {
+        GameInfo.instance.ClearEntryPlayer();
+        GameInfo.instance.ClearMembersIndex();
+        gameManager.aiRewardManager.ClearRewards();
+        GameInfo.instance.DeletePlayers();
+        SceneManager.LoadScene("Game Scene");
+    }
+
+    public void NextStage()
+    {
+        GameInfo.instance.ClearEntryPlayer();
+        GameInfo.instance.ClearMembersIndex();
+        gameManager.aiRewardManager.ClearRewards();
+        GameInfo.instance.currentStage = GameInfo.instance.currentStage switch
+        {
+            106 => 201,
+            206 => 301,
+            306 => 401,
+            >= 406 => 406,
+            _ => GameInfo.instance.currentStage+1
+        };
+
+        GameInfo.instance.DeletePlayers();
+        if (GameInfo.instance.currentStage != 406)
+        {
+            SceneManager.LoadScene("Game Scene");
+        }
+        else
+        {
+            SceneManager.LoadScene("Lobby Scene");
+        }
+     
     }
 }
