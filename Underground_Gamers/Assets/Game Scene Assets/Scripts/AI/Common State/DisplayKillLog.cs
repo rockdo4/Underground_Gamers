@@ -17,6 +17,7 @@ public class DisplayKillLog : MonoBehaviour, IDestroyable
     public void DestoryObject(GameObject attacker)
     {
         var attackerInfo = attacker.GetComponent<Portrait>();
+        var attackerIdentity = attacker.GetComponent<TeamIdentifier>();
         var deadInfo = transform.GetComponent<Portrait>();
         var attackerPortrait = attackerInfo.GetPortrait();
         var deadPortrait = deadInfo.GetPortrait();
@@ -33,7 +34,7 @@ public class DisplayKillLog : MonoBehaviour, IDestroyable
         // 초상화 세팅
         if (attackerPortrait != null && deadPortrait != null)
         {
-            killLog.SetKillLog(attackerPortrait, deadPortrait);
+            killLog.SetKillLog(attackerPortrait, deadPortrait, attackerIdentity);
         }
     }
 }

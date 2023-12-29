@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class KillLog : MonoBehaviour
 {
     public KillLogPanel killLogPanel;
-
-
 
     public Transform killerPortraitParent;
     public Transform deadPortraitParent;
     public float scale;
     public float destroyedTimer;
     private float duration = 2f;
+
+    public Color pcColor;
+    public Color npcColor;
 
     private void Awake()
     {
@@ -28,10 +30,23 @@ public class KillLog : MonoBehaviour
         }
     }
 
-    public void SetKillLog(GameObject killerPortrait, GameObject deadPortrait)
+    public void SetKillLog(GameObject killerPortrait, GameObject deadPortrait, TeamIdentifier killerIdentity)
     {
         GameObject k_portrait = Instantiate(killerPortrait, killerPortraitParent);
         GameObject d_portrait = Instantiate(deadPortrait, deadPortraitParent);
+
+        if(killerIdentity.teamLayer == LayerMask.GetMask("PC"))
+        {
+            killerPortraitParent.GetComponent<Image>().color = pcColor;
+            deadPortraitParent.GetComponent<Image>().color = npcColor;
+        }
+        else
+        {
+            killerPortraitParent.GetComponent<Image>().color = npcColor;
+            deadPortraitParent.GetComponent<Image>().color = pcColor;
+        }
+
+        //k_portrait.GetComponent<Image>().color =;
         k_portrait.SetActive(true);
         d_portrait.SetActive(true);
         SetPortrait(k_portrait, killerPortraitParent);
