@@ -30,6 +30,8 @@ public class ScheduleUIOfficial : ScheduleUISubscriber
     private Image[] nextLeagueInfoBack = new Image[8];
 
     private StringTable st;
+
+    public SceneLoader sceneLoader;
     public override void OnEnter()
     {
         base.OnEnter();
@@ -138,6 +140,7 @@ public class ScheduleUIOfficial : ScheduleUISubscriber
     {
         GameInfo.instance.gameType = GameType.Official;
         GamePlayerInfo.instance.endScrimmage = true;
-        SceneManager.LoadScene("Game Scene");
+        //SceneManager.LoadScene("Game Scene");
+        sceneLoader.SceneLoad("Game Scene");
     }
 }

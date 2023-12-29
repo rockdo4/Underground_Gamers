@@ -1,5 +1,6 @@
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
+using EPOOutline;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
@@ -36,6 +37,10 @@ public class GameEndPannel : MonoBehaviour
 
     public GameObject nextStageButton;
     public GameObject retryButton;
+
+    public List<Outlinable> outlinables = new List<Outlinable>();
+    public SceneLoader sceneLoader;
+    public GameObject uiCanvas;
 
     public void SetActiveGameEndPanelButton(bool isActive)
     {
@@ -176,10 +181,16 @@ public class GameEndPannel : MonoBehaviour
 
     public void EnterLobby()
     {
+        gameManager.aiManager.ResetAI();
+        uiCanvas.SetActive(false);
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
         gameManager.aiRewardManager.ClearRewards();
-        SceneManager.LoadScene("Lobby Scene");
+        uiCanvas.SetActive(false);
+        gameManager.killLogPanel.ClearKillLog();
+        OffOutline();
+        sceneLoader.SceneLoad("Lobby Scene");
+        //SceneManager.LoadScene("Lobby Scene");
     }
 
     public void ClearEntry()
@@ -223,11 +234,16 @@ public class GameEndPannel : MonoBehaviour
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
         gameManager.aiManager.ResetAI();
+        uiCanvas.SetActive(false);
         gameManager.aiRewardManager.ClearRewards();
         GamePlayerInfo.instance.CalculateOfficialPlayer(gameManager.IsGameWin,
             gameManager.gameRuleManager.PCWinEvidenceCount,
             gameManager.gameRuleManager.NPCWinEvidenceCount);
-        SceneManager.LoadScene("Lobby Scene");
+        uiCanvas.SetActive(false);
+        gameManager.killLogPanel.ClearKillLog();
+        OffOutline();
+        sceneLoader.SceneLoad("Lobby Scene");
+        //SceneManager.LoadScene("Lobby Scene");
     }
 
     public void OffGameEndPanel()
@@ -272,15 +288,21 @@ public class GameEndPannel : MonoBehaviour
 
     public void Retry()
     {
+        gameManager.aiManager.ResetAI();
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
         gameManager.aiRewardManager.ClearRewards();
         GameInfo.instance.DeletePlayers();
-        SceneManager.LoadScene("Game Scene");
+        uiCanvas.SetActive(false);
+        gameManager.killLogPanel.ClearKillLog();
+        OffOutline();
+        sceneLoader.SceneLoad("Game Scene");
+        //SceneManager.LoadScene("Game Scene");
     }
 
     public void NextStage()
     {
+        gameManager.aiManager.ResetAI();
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
         gameManager.aiRewardManager.ClearRewards();
@@ -296,12 +318,29 @@ public class GameEndPannel : MonoBehaviour
         GameInfo.instance.DeletePlayers();
         if (GameInfo.instance.currentStage != 406)
         {
-            SceneManager.LoadScene("Game Scene");
+            uiCanvas.SetActive(false);
+            gameManager.killLogPanel.ClearKillLog();
+            OffOutline();
+            sceneLoader.SceneLoad("Game Scene");
+            //SceneManager.LoadScene("Game Scene");
         }
         else
         {
-            SceneManager.LoadScene("Lobby Scene");
+            uiCanvas.SetActive(false);
+            gameManager.killLogPanel.ClearKillLog();
+            OffOutline();
+            sceneLoader.SceneLoad("Lobby Scene");
+            //SceneManager.LoadScene("Lobby Scene");
+        }    
+    }
+
+    private void OffOutline()
+    {
+        Color color = Color.white;
+        color.a = 0;
+        foreach(var outline in outlinables)
+        {
+            outline.OutlineParameters.Color = color;
         }
-     
     }
 }

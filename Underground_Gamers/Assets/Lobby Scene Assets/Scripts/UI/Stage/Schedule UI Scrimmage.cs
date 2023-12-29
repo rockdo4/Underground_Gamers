@@ -45,6 +45,8 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
     private bool isPanelVisible = false;
     private bool isInit = false;
 
+    public SceneLoader sceneLoader;
+
     protected override void Awake()
     {
         base.Awake();
@@ -348,6 +350,7 @@ public class ScheduleUIScrimmage : ScheduleUISubscriber
     {
         GameInfo.instance.gameType = GameType.Scrimmage;
         GamePlayerInfo.instance.scrimmageCount--;
-        SceneManager.LoadScene("Game Scene");
+        //SceneManager.LoadScene("Game Scene");
+        sceneLoader.SceneLoad("Game Scene");
     }
 }

@@ -12,4 +12,13 @@ public class KillLogPanel : MonoBehaviour
         killLogs.Remove(oldKillLog);
         Destroy(oldKillLog.gameObject);
     }
+
+    public void ClearKillLog()
+    {
+        foreach (KillLog killLog in killLogs)
+        {
+            Destroy(killLog.gameObject);
+        }
+        killLogs.Clear();
+    }
 }
