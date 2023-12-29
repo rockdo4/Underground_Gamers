@@ -202,6 +202,11 @@ public class GameEndPannel : MonoBehaviour
 
     public void EnterNextRound()
     {
+        GameObject[] effects = GameObject.FindGameObjectsWithTag("Effect");
+        foreach(var effect in effects)
+        {
+            Destroy(effect);
+        }
         gameManager.aiManager.UpdateOfficialResult();
         gameManager.autoSelect.ResetButton();
 
