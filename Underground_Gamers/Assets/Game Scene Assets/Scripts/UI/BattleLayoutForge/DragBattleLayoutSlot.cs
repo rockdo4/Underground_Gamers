@@ -18,6 +18,7 @@ public class DragBattleLayoutSlot : DragSlot
     private List<AIController> currentEntry;
     public Color[] outlineColors = new Color[3];
     public Image outline;
+    public Image classIcon;
 
     public AIController AI { get; private set; }
 
@@ -68,16 +69,17 @@ public class DragBattleLayoutSlot : DragSlot
         this.gameManager = gameManager;
         int grade = 0;
         if (this.gameManager.gameRuleManager.gameType == GameType.Official)
-             grade = GamePlayerInfo.instance.GetOfficialPlayer(index).grade - 3;
+            grade = GamePlayerInfo.instance.GetOfficialPlayer(index).grade - 3;
         else
             grade = GamePlayerInfo.instance.usingPlayers[index].grade - 3;
 
         outline.color = outlineColors[grade];
+        classIcon.sprite = AI.status.aiClass;
         AI.commandInfoOutlineColor = outlineColors[grade];
         this.battleLayoutForge = gameManager.battleLayoutForge;
         this.gameManager.uiCanvas = gameManager.uiCanvas;
         ghostImage = Instantiate(ghostImagePrefab, this.gameManager.uiCanvas);
-        ghostImage.SetGhostImage(AI.status.illustration);
+        ghostImage.SetGhostImage(AI.status.illustration, classIcon.sprite, outlineColors[grade]);
         ghostImage.SetActiveGhostImage(false);
         RegistEntry(this.gameManager.entryManager.NoneEntryAI);
     }
