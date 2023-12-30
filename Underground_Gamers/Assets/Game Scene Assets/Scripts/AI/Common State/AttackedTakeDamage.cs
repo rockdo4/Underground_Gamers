@@ -73,6 +73,7 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         if (defenderStatus.Hp <= 0)
         {
             defenderStatus.IsLive = false;
+            defenderStatus.gameObject.SetActive(false);
             if (!identity.isBuilding)
             {
                 if (identity.teamLayer == LayerMask.GetMask("PC"))

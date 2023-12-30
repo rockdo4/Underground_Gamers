@@ -69,6 +69,7 @@ public class KillLog : MonoBehaviour
             var portraitPos = portrait.transform.position;
             portraitPos.y = -26f;
             portraitPos.x = 3f;
+            portraitPos.z = 0f;
 
             portrait.transform.localPosition = portraitPos;
         }

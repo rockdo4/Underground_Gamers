@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -50717308520860059}
   m_Layer: 0
   m_Name: TempThrowArcProjectile
-  m_TagString: Untagged
+  m_TagString: Effect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,6 +151,7 @@ MonoBehaviour:
   criticalMultiplier: 0
   minDamageRate: 0
   maxDamageRate: 0
+  offsetY: 0.5
   colEffectPrefab: {fileID: 0}
   status: {fileID: -50717308520860059}
 --- !u!114 &-50717308520860059
@@ -167,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupationType: 0
   distancePriorityType: 0
+  AIName: 
   maxHp: 50
   speed: 0
   sight: 0
@@ -182,9 +184,21 @@ MonoBehaviour:
   reloadCooldown: 0
   accuracyRate: 0
   armor: 0
+  condition: 0
+  killCount: 0
   deathCount: 0
   respawnTime: 0
   respawnTimeIncreaseRate: 0
+  illustration: {fileID: 0}
+  aiClass: {fileID: 0}
+  lv: 0
+  maxLv: 0
+  xp: 0
+  maxXp: 0
+  grade: {fileID: 0}
+  dealtDamage: 0
+  takenDamage: 0
+  healAmount: 0
   lifeCycle: 0
   isPenetrating: 0
   isAreaAttack: 0

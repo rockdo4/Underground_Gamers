@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public EntryPanel entryPanel;
     public WayPoint wayPoint;
     public AutoSelect autoSelect;
+    public KillLogPanel killLogPanel;
 
     [Header("Å×ÀÌºí Ä³½Ì")]
     public PlayerTable pt;

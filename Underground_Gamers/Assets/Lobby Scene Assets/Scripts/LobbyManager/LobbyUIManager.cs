@@ -48,7 +48,7 @@ public class LobbyUIManager : MonoBehaviour
     }
 
     private static LobbyUIManager lobbyUIManager;
-
+    public SceneLoader sceneLoader;
 
     private void Start()
     {
@@ -166,6 +166,7 @@ public class LobbyUIManager : MonoBehaviour
     public void StartGame()
     {
         GameInfo.instance.gameType = GameType.Story;
-        SceneManager.LoadScene("Game Scene");
+        //SceneManager.LoadScene("Game Scene");
+        sceneLoader.SceneLoad("Game Scene");
     }
 }
