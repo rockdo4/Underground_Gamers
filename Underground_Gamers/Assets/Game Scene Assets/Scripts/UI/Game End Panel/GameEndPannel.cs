@@ -14,6 +14,13 @@ public class GameEndPannel : MonoBehaviour
 
     public TextMeshProUGUI winText;
     public TextMeshProUGUI LoseText;
+    public TextMeshProUGUI retryStageButtonText;
+    public TextMeshProUGUI nextStageButtonText;
+    public TextMeshProUGUI damageGraphButtonText;
+    public TextMeshProUGUI backButtonText;
+    public TextMeshProUGUI nextRoundButtonText;
+    public TextMeshProUGUI endRoundButtonText;
+    public TextMeshProUGUI okGraphButtonText;
 
     public GameObject rewardPanel;
     [Header("딜 그래프 패널")]
@@ -41,6 +48,19 @@ public class GameEndPannel : MonoBehaviour
     public List<Outlinable> outlinables = new List<Outlinable>();
     public SceneLoader sceneLoader;
     public GameObject uiCanvas;
+
+    private void Start()
+    {
+        winText.text = gameManager.str.Get("win");
+        LoseText.text = gameManager.str.Get("lose");
+        retryStageButtonText.text = gameManager.str.Get("retry stage");
+        nextStageButtonText.text = gameManager.str.Get("next stage");
+        damageGraphButtonText.text = gameManager.str.Get("damage graph");
+        backButtonText.text = gameManager.str.Get("back");
+        nextRoundButtonText.text = gameManager.str.Get("next round");
+        endRoundButtonText.text = gameManager.str.Get("end round");
+        okGraphButtonText.text = gameManager.str.Get("ok");
+    }
 
     public void SetActiveGameEndPanelButton(bool isActive)
     {
