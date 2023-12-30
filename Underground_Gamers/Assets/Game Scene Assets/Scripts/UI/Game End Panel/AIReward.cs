@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class AIReward : MonoBehaviour
 {
     public AIController ai;
+    public Player player;
     public Image illustration;
     public Image aiClass;
     public TextMeshProUGUI lvText;
@@ -40,8 +41,16 @@ public class AIReward : MonoBehaviour
 
     public void CalXp()
     {
-        currentXP = ai.playerInfo.xp;
-        maxXP = ai.playerInfo.maxXp;
+        if (ai != null)
+        {
+            currentXP = ai.playerInfo.xp;
+            maxXP = ai.playerInfo.maxXp;
+        }
+        else
+        {
+            currentXP = player.xp;
+            maxXP = player.maxXp;
+        }
         DisplayXpGauge(currentXP / maxXP);
     }
 
@@ -91,7 +100,10 @@ public class AIReward : MonoBehaviour
 
     public void DisplayRemainedXp()
     {
-        xpGauge.DOValue(ai.playerInfo.xp / ai.playerInfo.maxXp, remainedXpTime).SetEase(Ease.InOutQuint).OnComplete(CalXp);
+        if (ai != null)
+            xpGauge.DOValue(ai.playerInfo.xp / ai.playerInfo.maxXp, remainedXpTime).SetEase(Ease.InOutQuint).OnComplete(CalXp);
+        else
+            xpGauge.DOValue(player.xp / player.maxXp, remainedXpTime).SetEase(Ease.InOutQuint).OnComplete(CalXp);
     }
 
     void AdditionalTween()

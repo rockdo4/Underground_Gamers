@@ -142,6 +142,25 @@ public class GameEndPannel : MonoBehaviour
             aiReward.ai = pc;
             gameManager.aiRewardManager.rewards.Add(aiReward);
         }
+
+        if(GameInfo.instance.gameType != GameType.Official)
+        {
+            for(int i = 5; i< 8; ++i)
+            {
+                if (GameInfo.instance.EntryPlayer[i].code < 0)
+                    continue;
+                AIReward aiReward = Instantiate(rewardPrefab, rewardParent);
+                aiReward.player = GameInfo.instance.EntryPlayer[i];
+                aiReward.aiNameText.text = $"{GameInfo.instance.EntryPlayer[i].name}";
+                aiReward.lvText.text = $"Lv. {GameInfo.instance.EntryPlayer[i].level}";
+                aiReward.illustration.sprite = gameManager.pt.GetPlayerSprite(GameInfo.instance.EntryPlayer[i].code);
+                aiReward.aiClass.sprite = gameManager.pt.playerTypeSprites[GameInfo.instance.EntryPlayer[i].type - 1];
+                aiReward.grade.sprite = gameManager.pt.starsSprites[GameInfo.instance.EntryPlayer[i].grade - 3];
+                aiReward.currentXP = GameInfo.instance.EntryPlayer[i].xp;
+                aiReward.maxXP = GameInfo.instance.EntryPlayer[i].maxXp;
+                gameManager.aiRewardManager.rewards.Add(aiReward);
+            }
+        }
     }
 
     public void CreateDamageGraph()
