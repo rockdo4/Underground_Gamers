@@ -53,6 +53,11 @@ public class GamePlayerInfo : MonoBehaviour
 
     public int playSpeed = 1;
 
+    //세이브에 추가해야함
+    public Queue<int> tutorials = new Queue<int>();
+
+
+
     //정규전
     public bool isOnOfficial = false;
     public int officialLevel = -1;
@@ -1076,7 +1081,14 @@ public class GamePlayerInfo : MonoBehaviour
         isOnOfficial = false;
         willOpenMenu = -1;
     }
+
+    public void AddTutorial(int code)
+    {
+        tutorials.Enqueue(code);
+        SaveFile();
+    }
 }
+
 public class PlayerConverter : JsonConverter<Player>
 {
     public override Player ReadJson(JsonReader reader, Type objectType, Player existingValue, bool hasExistingValue, JsonSerializer serializer)

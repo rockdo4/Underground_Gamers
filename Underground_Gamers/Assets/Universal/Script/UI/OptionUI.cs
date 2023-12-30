@@ -273,7 +273,7 @@ public class OptionUI : MonoBehaviour
 
     public void ResetGame()
     {
-        var filePath = Path.Combine(Application.persistentDataPath, "savefile.json");
+        var filePath = Path.Combine(Application.persistentDataPath, "52743890.json");
         if (File.Exists(filePath))
         {
                 File.Delete(filePath);
