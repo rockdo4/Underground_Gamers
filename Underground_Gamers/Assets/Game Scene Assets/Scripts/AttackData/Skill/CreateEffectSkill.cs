@@ -52,6 +52,7 @@ public class CreateEffectSkill : MonoBehaviour
         this.delay = delay;
         this.timer = timer;
     }
+
     public void SetOffsetNScale(float offset, float scale)
     {
         Vector3 offsetPos = transform.position;
