@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a139f1a367346849903b42af33b528e, type: 3}
-  m_Name: AppleOfEden
+  m_Name: Energy Nova
   m_EditorClassIdentifier: 
   damage: 0
   maxDamageRate: 0
   minDamageRate: 0
-  cooldown: 13
+  cooldown: 14
   fixedCooldown: 0
   reloadCooldown: 0
   chargeCount: 0
@@ -29,13 +29,15 @@ MonoBehaviour:
   damageRateLevel2: 1.2
   damageRateLevel3: 1.4
   attackTiming:
-  - 2.3
+  - 0.3
   colDisableDelay: 0.01
-  durationRangeEffect: 0
+  durationRangeEffect: 1.4
   offsetRangeEffect: 0
-  scaleRangeEffect: 1
-  isDirectional: 1
-  rangeDamageEffectPrefab: {fileID: -589996333039354611, guid: f6e81f8717a1c844c84cdb355faf32fc, type: 3}
-  durationHitEffect: 1
-  offsetHitEffect: 0
-  scaleHitEffect: 1
+  scaleRangeEffect: 5
+  offsetDirectional: {x: 0, y: 0, z: 0}
+  isDirectional: 0
+  isTargetPos: 0
+  rangeDamageEffectPrefab: {fileID: 8021299040623682236, guid: 3fab2bdda41fa914e8de74f20d57ca0e, type: 3}
+  durationHitEffect: 2
+  offsetHitEffect: 1
+  scaleHitEffect: 5

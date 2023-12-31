@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RangeDamageSkill.Asset", menuName = "RangeSkill/RangeDamageSkill")]
@@ -17,10 +18,14 @@ public class RangeDamageSkill : AttackDefinition
     public float offsetRangeEffect = 0f;
     public float scaleRangeEffect = 1f;
 
+    public Vector3 offsetDirectional = Vector3.zero;
+    //public float offsetDirectionalY = 0f;
+    //public float offsetDirectionalX = 0f;
+
     public bool isDirectional = false;
     public bool isTargetPos = false;
 
-    public RangeDamageEffect rangeDamageEffectPrefab;
+    public CreateEffectSkill rangeDamageEffectPrefab;
     private Attack attack;
 
 
@@ -55,26 +60,56 @@ public class RangeDamageSkill : AttackDefinition
         {
             attack.IsCritical = false;
         }
-        RangeDamageEffect rangeEffect;
+        CreateEffectSkill rangeEffect;
         if (isDirectional)
         {
             if (!isTargetPos)
-                rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform.position, attacker.transform.rotation);
+            {
+
+                Quaternion newRotation = RotateAxis(attacker.transform.rotation.eulerAngles, offsetDirectional);
+                rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform.position, newRotation);
+            }
             else
-                rangeEffect = Instantiate(rangeDamageEffectPrefab, defender.transform.position, attacker.transform.rotation);
+            {
+                Quaternion newRotation = RotateAxis(attacker.transform.rotation.eulerAngles, offsetDirectional);
+                rangeEffect = Instantiate(rangeDamageEffectPrefab, defender.transform.position, newRotation);
+            }
         }
         else
         {
             if (!isTargetPos)
+            {
                 rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform.position, rangeDamageEffectPrefab.transform.rotation);
+            }
             else
+            {
                 rangeEffect = Instantiate(rangeDamageEffectPrefab, defender.transform.position, rangeDamageEffectPrefab.transform.rotation);
+            }
         }
 
         rangeEffect.SetEffect(aController, attack, attackTiming, colDisableDelay, Time.time);
         rangeEffect.SetHitEffect(durationHitEffect, offsetHitEffect, scaleHitEffect);
         rangeEffect.SetOffsetNScale(offsetRangeEffect, scaleRangeEffect);
-        Destroy(rangeEffect, durationRangeEffect);
+        Destroy(rangeEffect.gameObject, durationRangeEffect);
 
+    }
+
+    private Quaternion RotateAxis(Vector3 eulerAngles, Vector3 offset)
+    {
+        Vector3 rotation = eulerAngles;
+        rotation.y += offset.y;
+        if (rotation.y < 0)
+            rotation.y += 360f;
+
+        rotation.y %= 360f;
+
+        rotation.x += offset.x;
+
+        if (rotation.x < 0)
+            rotation.x += 360f;
+
+        rotation.x %= 360f;
+        Quaternion newRotation = Quaternion.Euler(new Vector3(rotation.x, rotation.y, rotation.z));
+        return newRotation;
     }
 }

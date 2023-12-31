@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a139f1a367346849903b42af33b528e, type: 3}
-  m_Name: EnergyNova
+  m_Script: {fileID: 11500000, guid: 62eee24a734ae8347a40d1bbc2a5f34b, type: 3}
+  m_Name: Attack Executor
   m_EditorClassIdentifier: 
   damage: 0
   maxDamageRate: 0
   minDamageRate: 0
-  cooldown: 14
+  cooldown: 3
   fixedCooldown: 0
   reloadCooldown: 0
   chargeCount: 0
@@ -23,19 +23,17 @@ MonoBehaviour:
   spreadRate: 0
   criticalRate: 0
   criticalMultiplier: 0
-  skillMode: 1
+  skillMode: 0
   skillType: 0
-  damageRateLevel1: 1.1
-  damageRateLevel2: 1.2
-  damageRateLevel3: 1.4
+  executorEffectPrefab: {fileID: -1081699138025531712, guid: ce05365eb69119d42a0cc42beb7b2ca4, type: 3}
+  offsetEffect: 0
+  scaleEffect: 1.8
   attackTiming:
+  - 0.2
   - 0.3
+  - 0.45
   colDisableDelay: 0.01
-  durationRangeEffect: 1.4
-  offsetRangeEffect: 0
-  scaleRangeEffect: 5
-  isDirectional: 0
-  rangeDamageEffectPrefab: {fileID: 8021299040623682236, guid: 3fab2bdda41fa914e8de74f20d57ca0e, type: 3}
-  durationHitEffect: 1
-  offsetHitEffect: 1
-  scaleHitEffect: 5
+  duration: 1.5
+  hitDuration: 1
+  hitOffset: 1.5
+  hitScale: 1.5

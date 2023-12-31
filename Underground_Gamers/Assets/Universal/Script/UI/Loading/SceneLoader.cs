@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class SceneLoader : MonoBehaviour
 {
     public GameObject loadingUI; // 로딩 UI(프로그레스 바 등)를 담고 있는 게임 오브젝트
-    //public Slider progressBar; // 프로그레스 바
     public Image progressBar1;
     public Image progressBar2;
     public string sceneToLoad; // 로드할 씬의 이름
@@ -15,9 +14,6 @@ public class SceneLoader : MonoBehaviour
     private float loadingTimer = 0.0f; // 로딩 화면을 보여준 시간을 측정하는 타이머
     private bool isSceneLoad = false;
 
-    void Start()
-    {
-    }
 
     public void SceneLoad(string sceneName)
     {

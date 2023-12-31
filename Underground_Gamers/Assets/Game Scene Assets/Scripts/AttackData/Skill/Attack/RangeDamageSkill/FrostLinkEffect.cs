@@ -2,12 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangeDamageEffect : CreateEffectSkill
+public class FrostLinkEffect : CreateEffectSkill
 {
-    public DurationEffect hitEffectPrefab;
-    private float durationHitEffect;
-    private float offsetHitEffect;
-    private float scaleHitEffect;
+    [Header("프로스트 링크")]
+    public Collider[] frostLinkCol = new Collider[3];
+
+    protected override void Update()
+    {
+        if (hitCount < timing.Length)
+        {
+            if (timing[hitCount] + timer < Time.time && !frostLinkCol[hitCount].enabled)
+            {
+                frostLinkCol[hitCount].enabled = true;
+                delayTimer = Time.time;
+            }
+
+            if (delay + delayTimer < Time.time && frostLinkCol[hitCount].enabled)
+            {
+                frostLinkCol[hitCount].enabled = false;
+                hitCount++;
+            }
+        }
+        else
+        {
+            frostLinkCol[timing.Length - 1].enabled = false;
+        }
+
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,7 +40,7 @@ public class RangeDamageEffect : CreateEffectSkill
         if (other.gameObject.layer == controller.gameObject.layer)
             return;
 
-        if(hitEffectPrefab != null)
+        if (hitEffectPrefab != null)
         {
             DurationEffect hitEffect = Instantiate(hitEffectPrefab, other.transform.position, hitEffectPrefab.transform.rotation);
             hitEffect.SetOffsetNScale(offsetHitEffect, scaleHitEffect);
@@ -36,12 +57,5 @@ public class RangeDamageEffect : CreateEffectSkill
         {
             attackable.OnAttack(controller.gameObject, attack);
         }
-    }
-
-    public void SetHitEffect(float duration, float offset, float scale)
-    {
-        durationHitEffect = duration;
-        offsetHitEffect = offset;
-        scaleHitEffect = scale;
     }
 }
