@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a139f1a367346849903b42af33b528e, type: 3}
-  m_Name: EnergyNova
+  m_Name: Meteor
   m_EditorClassIdentifier: 
   damage: 0
   maxDamageRate: 0
   minDamageRate: 0
-  cooldown: 14
+  cooldown: 13
   fixedCooldown: 0
   reloadCooldown: 0
   chargeCount: 0
@@ -29,13 +29,14 @@ MonoBehaviour:
   damageRateLevel2: 1.2
   damageRateLevel3: 1.4
   attackTiming:
-  - 0.3
+  - 0.7
   colDisableDelay: 0.01
-  durationRangeEffect: 1.4
+  durationRangeEffect: 2.6
   offsetRangeEffect: 0
-  scaleRangeEffect: 5
+  scaleRangeEffect: 3
   isDirectional: 0
-  rangeDamageEffectPrefab: {fileID: 8021299040623682236, guid: 3fab2bdda41fa914e8de74f20d57ca0e, type: 3}
+  isTargetPos: 1
+  rangeDamageEffectPrefab: {fileID: 4020750301661286227, guid: ca8c447227463f24288e21eea66988d1, type: 3}
   durationHitEffect: 1
-  offsetHitEffect: 1
-  scaleHitEffect: 5
+  offsetHitEffect: 0
+  scaleHitEffect: 1

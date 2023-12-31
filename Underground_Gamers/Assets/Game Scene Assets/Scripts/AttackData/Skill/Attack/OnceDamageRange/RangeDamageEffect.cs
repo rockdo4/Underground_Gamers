@@ -28,6 +28,10 @@ public class RangeDamageEffect : CreateEffectSkill
 
         var attackables = other.GetComponentsInChildren<IAttackable>();
 
+        float damage = attack.Damage;
+        damage = Utils.GetRandomDamageByAccuracy(damage, aStatus);
+        attack.Damage = Mathf.RoundToInt(damage);
+
         foreach (var attackable in attackables)
         {
             attackable.OnAttack(controller.gameObject, attack);

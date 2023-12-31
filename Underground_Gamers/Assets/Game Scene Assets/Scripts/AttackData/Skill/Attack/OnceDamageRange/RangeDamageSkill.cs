@@ -18,6 +18,7 @@ public class RangeDamageSkill : AttackDefinition
     public float scaleRangeEffect = 1f;
 
     public bool isDirectional = false;
+    public bool isTargetPos = false;
 
     public RangeDamageEffect rangeDamageEffectPrefab;
     private Attack attack;
@@ -56,9 +57,19 @@ public class RangeDamageSkill : AttackDefinition
         }
         RangeDamageEffect rangeEffect;
         if (isDirectional)
-            rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform.position, attacker.transform.rotation);
+        {
+            if (!isTargetPos)
+                rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform.position, attacker.transform.rotation);
+            else
+                rangeEffect = Instantiate(rangeDamageEffectPrefab, defender.transform.position, attacker.transform.rotation);
+        }
         else
-            rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform.position, rangeDamageEffectPrefab.transform.rotation);
+        {
+            if (!isTargetPos)
+                rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform.position, rangeDamageEffectPrefab.transform.rotation);
+            else
+                rangeEffect = Instantiate(rangeDamageEffectPrefab, defender.transform.position, rangeDamageEffectPrefab.transform.rotation);
+        }
 
         rangeEffect.SetEffect(aController, attack, attackTiming, colDisableDelay, Time.time);
         rangeEffect.SetHitEffect(durationHitEffect, offsetHitEffect, scaleHitEffect);
