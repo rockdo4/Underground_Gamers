@@ -41,12 +41,24 @@ public class MoveSkill : AttackDefinition
     {
         AIController aController = attacker.GetComponent<AIController>();
         AIController dController = defender.GetComponent<AIController>();
+        CharacterStatus aStatus = attacker.GetComponent<CharacterStatus>();
 
-        Vector3 dirToTarget = (defender.transform.position - attacker.transform.position).normalized;
-        NavMeshAgent aNav = aController.GetComponent<NavMeshAgent>();
-        if (aController != null && aNav != null)
+        int skillLevel = 1;
+        if (attacker.GetComponent<AIController>().playerInfo != null)
+            skillLevel = attacker.GetComponent<AIController>().playerInfo.skillLevel;
+
+        float damage = skillLevel switch
         {
-            aNav.enabled = false;
+            1 => aStatus.damage * damageRateLevel1,
+            2 => aStatus.damage * damageRateLevel2,
+            3 => aStatus.damage * damageRateLevel3,
+            _ => aStatus.damage * damageRateLevel1
+        };
+
+        attack.Damage = Mathf.RoundToInt(damage);
+
+        if (aController != null)
+        {
             DurationEffect trailEffect= Instantiate(trailEffectPrefab, attacker.transform);
             trailEffect.SetOffsetNScale(offsetTrailEffect, scaleTrailEffect);
 

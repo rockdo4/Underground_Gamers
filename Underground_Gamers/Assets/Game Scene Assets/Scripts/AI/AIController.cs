@@ -468,7 +468,12 @@ public class AIController : MonoBehaviour
         controller.Stun(true, moveTime);
         if (!afterAttack)
         {
-
+            transform.LookAt(battleTarget);
+            CreateEffectSkill effect = Instantiate(effectPrefab, transform.position, transform.rotation);
+            effect.SetEffect(controller, attack, attackTiming, delay, Time.time);
+            effect.SetOffsetNScale(offsetEffect, scaleEffect);
+            effect.SetHitEffect(durationHitEffect, offsetHitEffect, scaleHitEffect);
+            Destroy(effect.gameObject, durationEffect);
         }
         if (moveCoroutine == null)
             moveCoroutine = StartCoroutine(CoMoveBySkill(moveTime, moveSpeed, targetPos));
