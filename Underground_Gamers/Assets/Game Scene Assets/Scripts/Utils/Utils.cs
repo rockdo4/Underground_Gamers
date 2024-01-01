@@ -5,6 +5,11 @@ using UnityEngine.AI;
 
 public static class Utils
 {
+    public static float GetEaseOutQuintReversed(float t)
+    {
+        return 1 - ((t = 1 - t) * t * t * t * t);
+    }    
+    
     public static float GetEaseOutQuint(float t)
     {
         return 1f + (--t) * t * t * t * t;

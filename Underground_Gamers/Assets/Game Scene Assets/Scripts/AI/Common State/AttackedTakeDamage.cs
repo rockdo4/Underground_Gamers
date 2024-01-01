@@ -54,7 +54,7 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         // 반격, 수정
         if (defenderController != null && !attack.IsHeal)
         {
-            if (!defenderController.isBattle && !defenderController.isReloading)
+            if (!defenderController.isBattle && !defenderController.isReloading && !defenderController.isStun)
             {
                 defenderController.SetBattleTarget(attacker.transform);
                 defenderController.SetState(States.Trace);

@@ -7,18 +7,18 @@ public class CreateEffectSkill : MonoBehaviour
     public AIController controller;
 
     public Collider col;
-    protected Attack attack;
+    public Attack attack;
 
     protected float delayTimer;
     protected float delay;
 
     protected float timer;
-    protected float[] timing;
+    public float[] timing;
     protected int hitCount = 0;
 
     [Header("««∞› ¿Ã∆Â∆Æ")]
     public DurationEffect hitEffectPrefab;
-    protected float durationHitEffect;
+    public float durationHitEffect;
     protected float offsetHitEffect;
     protected float scaleHitEffect;
 

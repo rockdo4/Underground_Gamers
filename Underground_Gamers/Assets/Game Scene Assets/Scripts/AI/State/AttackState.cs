@@ -1,6 +1,3 @@
-using DG.Tweening.Core.Easing;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackState : AIState
@@ -23,7 +20,7 @@ public class AttackState : AIState
 
     public override void Update()
     {
-        if (!aiStatus.IsLive)
+        if (!aiStatus.IsLive && !aiController.isStun)
         {
             return;
         }
@@ -44,8 +41,10 @@ public class AttackState : AIState
             RotateToTarget();
         }
 
-        AttackByOriginSkill();
-        AttackByBase();
+        if (!aiController.isStun)
+            AttackByOriginSkill();
+        if (!aiController.isStun)
+            AttackByBase();
     }
     private void AttackByOriginSkill()
     {
@@ -57,8 +56,8 @@ public class AttackState : AIState
         {
             TeamIdentifier identity = aiController.battleTarget.GetComponent<TeamIdentifier>();
 
-            if (identity != null && 
-                identity.isBuilding && 
+            if (identity != null &&
+                identity.isBuilding &&
                 aiController.attackInfos[(int)SkillMode.Original].skillType != SkillType.Attack)
                 return;
 

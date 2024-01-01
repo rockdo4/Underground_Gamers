@@ -40,6 +40,9 @@ public class PatrolState : AIState
 
     public override void Update()
     {
+        if (aiController.isStun)
+            return;
+
         if (aiController.isAttack)
         {
             aiController.SetMissionTarget(aiController.buildingManager.GetAttackPoint(aiController.currentLine, aiController.teamIdentity.teamType));

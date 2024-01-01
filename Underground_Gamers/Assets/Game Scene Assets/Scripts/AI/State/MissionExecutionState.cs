@@ -14,7 +14,7 @@ public class MissionExecutionState : AIState
 
     public override void Enter()
     {
-        if (!aiStatus.IsLive)
+        if (!aiStatus.IsLive && aiController.isStun)
         {
             return;
         }

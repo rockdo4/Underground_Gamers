@@ -447,6 +447,10 @@ MonoBehaviour:
   hitInfoPos: {x: 0, y: 0, z: 0}
   kitingPos: {x: 0, y: 0, z: 0}
   isKiting: 0
+  stunTime: 0
+  stunTimer: 0
+  isStun: 0
+  useMoveSkill: 0
   isBattle: 0
   attackInfos:
   - {fileID: 11400000, guid: 55edeb36a82ac5a42a324bddbe6df0a4, type: 2}
@@ -564,7 +568,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2

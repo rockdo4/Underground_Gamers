@@ -26,7 +26,9 @@ public class ReloadingState : AIState
 
     public override void Update()
     {
-        if(!aiController.isReloading)
+        if (aiController.isStun)
+            return;
+        if (!aiController.isReloading)
         {
             aiController.SetState(States.AimSearch);
             return;

@@ -43,7 +43,8 @@ public class AttackCommand : Command
                 }
 
                 aiController.battleTarget = null;
-                aiController.SetState(States.MissionExecution);
+                if (!aiController.isReloading && !aiController.isStun)
+                    aiController.SetState(States.MissionExecution);
 
                 Debug.Log($"{aiController.aiType.text} : Attack Command Execute");
             }
@@ -54,7 +55,8 @@ public class AttackCommand : Command
             ai.isMission = false;
             ai.isDefend = false;
             ai.isRetreat = false;
-            ai.SetState(States.MissionExecution);
+            if (!ai.isReloading && !ai.isStun)
+                ai.SetState(States.MissionExecution);
 
             Transform[] wayPoints = ai.currentLine switch
             {
@@ -74,7 +76,8 @@ public class AttackCommand : Command
             //Transform attackTarget = ai.buildingManager.GetAttackPoint(ai.currentLine, ai.teamIdentity.teamType);
             //ai.SetMissionTarget(attackTarget);
             ai.battleTarget = null;
-            ai.SetState(States.MissionExecution);
+            if (!ai.isReloading && !ai.isStun)
+                ai.SetState(States.MissionExecution);
 
             if (ai.teamIdentity.teamType == TeamType.PC)
                 gameManager.commandManager.SetActiveCommandButton(ai);
