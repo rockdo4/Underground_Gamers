@@ -79,7 +79,7 @@ public class MissionExecutionState : AIState
             //aiController.Reload();
         }
 
-        if (lastDetectTime + aiController.detectTime < Time.time)
+        if (lastDetectTime + aiController.detectTime < Time.time && !aiController.isReloading)
         {
             lastDetectTime = Time.time;
 

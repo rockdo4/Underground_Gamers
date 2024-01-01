@@ -6,6 +6,8 @@ public class RetreatState : AIState
 {
     private float timer;
     private float time = 1f;
+    private float reloadTime;
+    private float reloadCoolTime = 2f;
     public RetreatState(AIController aiController) : base(aiController)
     {
     }
@@ -23,6 +25,7 @@ public class RetreatState : AIState
         //Transform defendTarget = aiController.buildingManager.GetDefendPoint(aiController.currentLine, aiController.teamIdentity.teamType).GetComponent<Building>().defendPoint;
         //aiController.SetMissionTarget(defendTarget);
         aiController.SetMissionTarget(aiController.missionTarget);
+        reloadTime = Time.time;
     }
 
     public override void Exit()
@@ -38,17 +41,17 @@ public class RetreatState : AIState
             aiController.SetState(States.MissionExecution);
             return;
         }
-        //if (timer + time > Time.time)
-        //{
-        //    timer = Time.time;
-        //    if (aiController.isDefend)
-        //    {
-        //        aiController.RefreshBuilding();
-        //        aiController.SetMissionTarget(aiController.missionTarget);
-        //    }
-        //}
 
-        if(aiController.DistanceToMissionTarget < 3f)
+        if (reloadTime + reloadCoolTime < Time.time && aiController.currentAmmo < aiController.maxAmmo && !aiController.isReloading)
+        {
+            reloadTime = Time.time;
+            aiController.isReloading = true;
+            aiController.lastReloadTime = Time.time;
+            aiController.TryReloading();
+            //aiController.Reload();
+        }
+
+        if (aiController.DistanceToMissionTarget < 3f && !aiController.isReloading)
         {
             aiController.SetState(States.Patrol);
             return;

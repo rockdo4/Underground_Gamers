@@ -12,6 +12,9 @@ public class PatrolState : AIState
     private float detectTimer;
     private float detectTime;
 
+    private float reloadTime;
+    private float reloadCoolTime = 2f;
+
     public PatrolState(AIController aiController) : base(aiController)
     {
     }
@@ -44,13 +47,22 @@ public class PatrolState : AIState
             return;
         }
 
+        if (reloadTime + reloadCoolTime < Time.time && aiController.currentAmmo < aiController.maxAmmo && !aiController.isReloading)
+        {
+            reloadTime = Time.time;
+            aiController.isReloading = true;
+            aiController.lastReloadTime = Time.time;
+            aiController.TryReloading();
+            //aiController.Reload();
+        }
+
         if (patrolTime + patrolTimer < Time.time)
         {
             patrolTimer = Time.time;
             RandomPatrol();
         }
 
-        if (detectTime + detectTimer < Time.time)
+        if (detectTime + detectTimer < Time.time && !aiController.isReloading)
         {
             detectTimer = Time.time;
             SearchTargetInPatrol();
