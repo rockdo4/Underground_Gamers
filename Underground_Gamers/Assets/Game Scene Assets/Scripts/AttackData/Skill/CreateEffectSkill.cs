@@ -16,11 +16,21 @@ public class CreateEffectSkill : MonoBehaviour
     public float[] timing;
     protected int hitCount = 0;
 
+    [Header("¿Ã∆Â∆Æ")]
+    public float durationEffect;
+    public float offsetEffect;
+    public float scaleEffect = 1f;
+
     [Header("««∞› ¿Ã∆Â∆Æ")]
     public DurationEffect hitEffectPrefab;
     public float durationHitEffect;
     protected float offsetHitEffect;
     protected float scaleHitEffect;
+
+    private void OnEnable()
+    {
+        SetOffsetNScale(offsetEffect, scaleEffect);
+    }
 
     protected virtual void Update()
     {

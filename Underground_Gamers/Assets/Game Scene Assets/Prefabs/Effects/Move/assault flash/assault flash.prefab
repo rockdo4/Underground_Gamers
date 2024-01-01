@@ -19661,7 +19661,7 @@ GameObject:
   - component: {fileID: 2542151522330620725}
   - component: {fileID: -8664203660959443526}
   m_Layer: 0
-  m_Name: assault flash
+  m_Name: Assault Flash
   m_TagString: Effect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24605,6 +24605,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
   col: {fileID: 8753280448391556700}
-  timing: []
+  timing:
+  - 0.07
+  durationEffect: 1
+  offsetEffect: 1
+  scaleEffect: 3
   hitEffectPrefab: {fileID: 4042615811174264814, guid: 48a43646dd51b2a48a5f29936ec02be1, type: 3}
   durationHitEffect: 1

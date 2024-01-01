@@ -450,17 +450,14 @@ public class AIController : MonoBehaviour
 
 
 
-    public void UseMoveSkill(AIController controller, float moveTime, float moveSpeed, bool afterAttack, Attack attack, float[] attackTiming, float delay, Vector3 targetPos,
-        CreateEffectSkill effectPrefab, float durationEffect, float offsetEffect, float scaleEffect,
-         float durationHitEffect, float offsetHitEffect, float scaleHitEffect)
+    public void UseMoveSkill(AIController controller, float moveTime, bool afterAttack, Attack attack, 
+        float[] attackTiming, float delay, Vector3 targetPos, CreateEffectSkill effectPrefab)
     {
-        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, moveSpeed, afterAttack, attack, attackTiming, delay, targetPos,
-            effectPrefab, durationEffect, offsetEffect, scaleEffect, durationHitEffect, offsetHitEffect, scaleHitEffect));
+        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, afterAttack, attack, attackTiming, delay, targetPos, effectPrefab));
     }
 
-    private IEnumerator CoUseMoveSkill(AIController controller, float moveTime, float moveSpeed, bool afterAttack, Attack attack, float[] attackTiming, float delay, Vector3 targetPos,
-        CreateEffectSkill effectPrefab, float durationEffect, float offsetEffect, float scaleEffect,
-         float durationHitEffect, float offsetHitEffect, float scaleHitEffect)
+    private IEnumerator CoUseMoveSkill(AIController controller, float moveTime, bool afterAttack, Attack attack, 
+        float[] attackTiming, float delay, Vector3 targetPos, CreateEffectSkill effectPrefab)
     {
         Debug.Log("Stun");
         agent.enabled = false;
@@ -471,12 +468,10 @@ public class AIController : MonoBehaviour
             transform.LookAt(battleTarget);
             CreateEffectSkill effect = Instantiate(effectPrefab, transform.position, transform.rotation);
             effect.SetEffect(controller, attack, attackTiming, delay, Time.time);
-            effect.SetOffsetNScale(offsetEffect, scaleEffect);
-            effect.SetHitEffect(durationHitEffect, offsetHitEffect, scaleHitEffect);
-            Destroy(effect.gameObject, durationEffect);
+            Destroy(effect.gameObject, effect.durationEffect);
         }
         if (moveCoroutine == null)
-            moveCoroutine = StartCoroutine(CoMoveBySkill(moveTime, moveSpeed, targetPos));
+            moveCoroutine = StartCoroutine(CoMoveBySkill(moveTime, targetPos));
         yield return new WaitForSeconds(moveTime);
 
 
@@ -485,9 +480,7 @@ public class AIController : MonoBehaviour
             transform.LookAt(battleTarget);
             CreateEffectSkill effect = Instantiate(effectPrefab, transform.position, transform.rotation);
             effect.SetEffect(controller, attack, attackTiming, delay, Time.time);
-            effect.SetOffsetNScale(offsetEffect, scaleEffect);
-            effect.SetHitEffect(durationHitEffect, offsetHitEffect, scaleHitEffect);
-            Destroy(effect.gameObject, durationEffect);
+            Destroy(effect.gameObject, effect.durationEffect);
         }
 
         controller.isStun = false;
@@ -502,7 +495,7 @@ public class AIController : MonoBehaviour
         Debug.Log("Stun Release");
     }
 
-    private IEnumerator CoMoveBySkill(float moveTime, float moveSpeed, Vector3 targetPos)
+    private IEnumerator CoMoveBySkill(float moveTime, Vector3 targetPos)
     {
         float timer = 0f;
         Vector3 startPos = transform.position;

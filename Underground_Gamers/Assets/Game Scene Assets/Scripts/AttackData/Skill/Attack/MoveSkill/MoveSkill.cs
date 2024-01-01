@@ -23,9 +23,6 @@ public class MoveSkill : AttackDefinition
 
     [Header("¿Ã∆Â∆Æ")]
     public CreateEffectSkill effectSkillPrefab;
-    public float durationEffect;
-    public float offsetEffect;
-    public float scaleEffect = 1f;
 
     [Header("≈∏∞› ¿Ã∆Â∆Æ")]
     public float durationHitEffect;
@@ -59,15 +56,11 @@ public class MoveSkill : AttackDefinition
 
         if (aController != null)
         {
-            DurationEffect trailEffect= Instantiate(trailEffectPrefab, attacker.transform);
+            DurationEffect trailEffect = Instantiate(trailEffectPrefab, attacker.transform);
             trailEffect.SetOffsetNScale(offsetTrailEffect, scaleTrailEffect);
-
             Destroy(trailEffect, moveTime);
 
-            aController.UseMoveSkill(aController, moveTime, moveSpeed, afterAttack, attack, attackTiming, colDisableTime,
-                defender.transform.position, 
-                effectSkillPrefab, durationEffect, offsetEffect, scaleEffect,
-                durationHitEffect, offsetHitEffect, scaleHitEffect);
+            aController.UseMoveSkill(aController, moveTime, afterAttack, attack, attackTiming, colDisableTime, defender.transform.position, effectSkillPrefab);
         }
     }
 }
