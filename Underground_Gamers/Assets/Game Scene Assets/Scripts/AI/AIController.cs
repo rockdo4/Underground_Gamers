@@ -67,6 +67,7 @@ public class AIController : MonoBehaviour
     public int code;
 
     public NavMeshAgent agent;
+    public Rigidbody rb;
     public CharacterStatus status;
 
     private AIManager aiManager;
@@ -450,14 +451,14 @@ public class AIController : MonoBehaviour
 
 
 
-    public void UseMoveSkill(AIController controller, float moveTime, bool afterAttack, Attack attack, 
-        float[] attackTiming, float delay, Vector3 targetPos, CreateEffectSkill effectPrefab)
+    public void UseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
+        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float addForce)
     {
-        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, afterAttack, attack, attackTiming, delay, targetPos, effectPrefab));
+        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, afterAttack, lookTarget, isPull, attack, attackTiming, delay, targetPos, prevPos, effectPrefab, addForce));
     }
 
-    private IEnumerator CoUseMoveSkill(AIController controller, float moveTime, bool afterAttack, Attack attack, 
-        float[] attackTiming, float delay, Vector3 targetPos, CreateEffectSkill effectPrefab)
+    private IEnumerator CoUseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
+        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float addForce)
     {
         Debug.Log("Stun");
         agent.enabled = false;
@@ -465,7 +466,8 @@ public class AIController : MonoBehaviour
         controller.Stun(true, moveTime);
         if (!afterAttack)
         {
-            transform.LookAt(battleTarget);
+            if (lookTarget)
+                transform.LookAt(battleTarget);
             CreateEffectSkill effect = Instantiate(effectPrefab, transform.position, transform.rotation);
             effect.SetEffect(controller, attack, attackTiming, delay, Time.time);
             Destroy(effect.gameObject, effect.durationEffect);
@@ -477,10 +479,19 @@ public class AIController : MonoBehaviour
 
         if (afterAttack)
         {
-            transform.LookAt(battleTarget);
+            if (lookTarget)
+                transform.LookAt(battleTarget);
             CreateEffectSkill effect = Instantiate(effectPrefab, transform.position, transform.rotation);
             effect.SetEffect(controller, attack, attackTiming, delay, Time.time);
             Destroy(effect.gameObject, effect.durationEffect);
+        }
+
+
+        if (isPull)
+        {
+            float range = Vector3.Distance(prevPos, targetPos);
+            Vector3 dir = (targetPos - prevPos).normalized;
+            PullInPath(moveTime, range, dir, addForce);
         }
 
         controller.isStun = false;
@@ -493,6 +504,29 @@ public class AIController : MonoBehaviour
         if (controller.isDefend)
             controller.SetState(States.Retreat);
         Debug.Log("Stun Release");
+    }
+
+    private void PullInPath(float time, float range, Vector3 dir, float addForce)
+    {
+        RaycastHit[] allHits = Physics.RaycastAll(transform.position, Vector3.back, range);
+
+        foreach (var hit in allHits)
+        {
+            var identity = hit.transform.gameObject.GetComponent<TeamIdentifier>();
+            var controller = hit.transform.gameObject.GetComponent<AIController>();
+            if (identity == null)
+                continue;
+
+            if (identity.isBuilding)
+                continue;
+
+            if (hit.transform.gameObject.layer == gameObject.layer)
+                continue;
+
+            controller.rb.isKinematic = false;
+            controller.Stun(false, time);
+            controller.rb.AddForce(addForce * dir, ForceMode.Impulse);
+        }
     }
 
     private IEnumerator CoMoveBySkill(float moveTime, Vector3 targetPos)
@@ -513,6 +547,7 @@ public class AIController : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+        transform.position = targetPos;
         moveCoroutine = null;
         Debug.Log("Stop Move");
     }

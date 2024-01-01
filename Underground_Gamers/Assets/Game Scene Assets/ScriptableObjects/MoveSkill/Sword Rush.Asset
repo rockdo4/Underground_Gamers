@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00f4131d7b1a3d1408b1f84befb89623, type: 3}
-  m_Name: Assault Flash
+  m_Script: {fileID: 11500000, guid: eb84319606b2e7c409fa0cea54509c27, type: 3}
+  m_Name: Sword Rush
   m_EditorClassIdentifier: 
   damage: 0
   maxDamageRate: 0
   minDamageRate: 0
-  cooldown: 15
+  cooldown: 18
   fixedCooldown: 0
   reloadCooldown: 0
   chargeCount: 0
@@ -25,21 +25,22 @@ MonoBehaviour:
   criticalMultiplier: 0
   skillMode: 1
   skillType: 1
-  damageRateLevel1: 1.3
-  damageRateLevel2: 1.4
-  damageRateLevel3: 1.6
-  moveTime: 0.5
-  moveSpeed: 25
+  damageRateLevel1: 1.2
+  damageRateLevel2: 1.3
+  damageRateLevel3: 1.52
+  moveTime: 0.3
+  moveSpeed: 0
   afterAttack: 1
-  lookTaget: 1
-  isPull: 0
+  lookTaget: 0
+  isPull: 1
   attackTiming:
-  - 0.07
+  - 0
   colDisableTime: 0.01
-  effectSkillPrefab: {fileID: -8664203660959443526, guid: c59a2e6409a415344b3eed918eb98efa, type: 3}
-  durationHitEffect: 1
-  offsetHitEffect: 1
-  scaleHitEffect: 3
-  trailEffectPrefab: {fileID: -12988306910544152, guid: 428ad9b38c2162d4485bbd7af9c947a3, type: 3}
+  effectSkillPrefab: {fileID: 6283310098124599907, guid: 2f26d26da270fe34f9850d7494bfb4b2, type: 3}
+  durationHitEffect: 0
+  offsetHitEffect: 0
+  scaleHitEffect: 1
+  trailEffectPrefab: {fileID: 7010896352836907095, guid: 56b91faf457d9c247bc5b93d5b9c578c, type: 3}
   offsetTrailEffect: 1
-  scaleTrailEffect: 1
+  scaleTrailEffect: 5
+  addForce: 100

@@ -15,7 +15,7 @@ public class DurationEffect : MonoBehaviour
 
     private void OnEnable()
     {
-        SetOffsetNScale(offset, scale);
+        //SetOffsetNScale(offset, scale);
     }
 
     public void SetOffsetNScale(float offset, float scale)

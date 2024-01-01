@@ -21,7 +21,6 @@ public class MissionExecutionState : AIState
         aiController.RefreshDebugAIStatus(this.ToString());
 
         aiController.isBattle = false;
-
         aiController.SetMissionTarget(aiController.missionTarget);
 
         lastDetectTime = Time.time - aiController.detectTime;

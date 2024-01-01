@@ -21,15 +21,19 @@ public class CreateEffectSkill : MonoBehaviour
     public float offsetEffect;
     public float scaleEffect = 1f;
 
+    public Vector3 rotateAxis = Vector3.zero;
+
     [Header("««∞› ¿Ã∆Â∆Æ")]
     public DurationEffect hitEffectPrefab;
     public float durationHitEffect;
-    protected float offsetHitEffect;
-    protected float scaleHitEffect;
+    public float offsetHitEffect;
+    public float scaleHitEffect;
 
     private void OnEnable()
     {
         SetOffsetNScale(offsetEffect, scaleEffect);
+        Quaternion newRotation = RotateAxis(transform.rotation.eulerAngles, rotateAxis);
+        transform.rotation = newRotation;
     }
 
     protected virtual void Update()
@@ -78,4 +82,24 @@ public class CreateEffectSkill : MonoBehaviour
         offsetHitEffect = offset;
         scaleHitEffect = scale;
     }
+
+    protected Quaternion RotateAxis(Vector3 eulerAngles, Vector3 offset)
+    {
+        Vector3 rotation = eulerAngles;
+        rotation.y += offset.y;
+        if (rotation.y < 0)
+            rotation.y += 360f;
+
+        rotation.y %= 360f;
+
+        rotation.x += offset.x;
+
+        if (rotation.x < 0)
+            rotation.x += 360f;
+
+        rotation.x %= 360f;
+        Quaternion newRotation = Quaternion.Euler(new Vector3(rotation.x, rotation.y, rotation.z));
+        return newRotation;
+    }
+
 }

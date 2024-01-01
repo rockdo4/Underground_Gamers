@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 4745340300516590824}
   - component: {fileID: 8860506263280521353}
   - component: {fileID: 2013940768982972327}
+  - component: {fileID: 2821199211977996711}
   - component: {fileID: 8199792129937762316}
   - component: {fileID: -6158067953069640075}
   - component: {fileID: 2064359598527298224}
@@ -425,6 +426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   code: 0
   agent: {fileID: 0}
+  rb: {fileID: 2821199211977996711}
   status: {fileID: 0}
   gameManager: {fileID: 0}
   buildingManager: {fileID: 0}
@@ -553,6 +555,33 @@ MonoBehaviour:
   dealtDamage: 0
   takenDamage: 0
   healAmount: 0
+--- !u!54 &2821199211977996711
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281770148374587240}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!136 &8199792129937762316
 CapsuleCollider:
   m_ObjectHideFlags: 0

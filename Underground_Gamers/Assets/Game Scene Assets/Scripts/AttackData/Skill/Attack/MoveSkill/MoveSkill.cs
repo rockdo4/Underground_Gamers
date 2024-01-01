@@ -15,6 +15,8 @@ public class MoveSkill : AttackDefinition
     public float moveSpeed;
 
     public bool afterAttack = true;
+    public bool lookTaget = true;
+    public bool isPull = false;
 
     [Header("공격기")]
     public Attack attack;
@@ -33,6 +35,9 @@ public class MoveSkill : AttackDefinition
     public DurationEffect trailEffectPrefab;
     public float offsetTrailEffect;
     public float scaleTrailEffect = 1f;
+
+    [Header("리지드 바디")]
+    public float addForce;
 
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
@@ -60,7 +65,8 @@ public class MoveSkill : AttackDefinition
             trailEffect.SetOffsetNScale(offsetTrailEffect, scaleTrailEffect);
             Destroy(trailEffect, moveTime);
 
-            aController.UseMoveSkill(aController, moveTime, afterAttack, attack, attackTiming, colDisableTime, defender.transform.position, effectSkillPrefab);
+            aController.UseMoveSkill(aController, moveTime, afterAttack, lookTaget, isPull, attack,
+                attackTiming, colDisableTime, defender.transform.position, attacker.transform.position, effectSkillPrefab, addForce);
         }
     }
 }

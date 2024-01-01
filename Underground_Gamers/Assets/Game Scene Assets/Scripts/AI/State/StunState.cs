@@ -26,6 +26,18 @@ public class StunState : AIState
 
     public override void Update()
     {
-        Debug.Log("Stunnig~~~~~~~~~~");
+        if(aiController.stunTime + aiController.stunTimer < Time.time)
+        {
+            if (!aiController.rb.isKinematic)
+            {
+                aiController.rb.AddForce(Vector3.zero);
+                aiController.rb.isKinematic = true;
+            }
+
+            if (aiController.isAttack)
+                aiController.SetState(States.MissionExecution);
+            if (aiController.isDefend)
+                aiController.SetState(States.Retreat);
+        }
     }
 }
