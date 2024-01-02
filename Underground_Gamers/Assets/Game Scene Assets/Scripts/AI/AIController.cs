@@ -531,7 +531,16 @@ public class AIController : MonoBehaviour
         Debug.Log("Stun Release");
     }
 
-    private void PullInPath(float time, float range, float devideForce)
+    public void PullByTargetPos(Vector3 targetPos, float time)
+    {
+        Stun(false, time);
+        if (moveCoroutine == null)
+        {
+            moveCoroutine = StartCoroutine(CoMoveBySkill(time, targetPos));
+        }
+    }
+
+    public void PullInPath(float time, float range, float devideForce)
     {
         RaycastHit[] allHits = Physics.RaycastAll(transform.position, Vector3.back, range);
 

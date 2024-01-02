@@ -11,6 +11,17 @@ public class RangeDamageEffect : CreateEffectSkill
     public float offsetStunEffect;
     public float scaleStunEffect = 1f;
 
+    [Header("¿¬¼â ÀÌÆåÆ®")]
+    public CreateEffectSkill chainEffectPrefab;
+    public Attack chainAttack;
+    public float chainDelay;
+    public float[] chainTiming;
+
+    private void OnDisable()
+    {
+        CreateEffectSkill chainEffect = Instantiate(chainEffectPrefab);
+        chainEffect.SetEffect(controller, chainAttack, chainTiming, chainDelay, Time.time);
+    }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
@@ -23,7 +34,7 @@ public class RangeDamageEffect : CreateEffectSkill
         if (other.gameObject.layer == controller.gameObject.layer)
             return;
 
-        if(hitEffectPrefab != null)
+        if (hitEffectPrefab != null)
         {
             DurationEffect hitEffect = Instantiate(hitEffectPrefab, other.transform.position, hitEffectPrefab.transform.rotation);
             hitEffect.SetOffsetNScale(offsetHitEffect, scaleHitEffect);
@@ -36,7 +47,7 @@ public class RangeDamageEffect : CreateEffectSkill
         damage = Utils.GetRandomDamageByAccuracy(damage, aStatus);
         attack.Damage = Mathf.RoundToInt(damage);
 
-        if(stunTime > 0f)
+        if (stunTime > 0f)
         {
             dController.Stun(false, stunTime);
             DurationEffect stunEffect = Instantiate(stunEffectPrefab, dController.transform);
