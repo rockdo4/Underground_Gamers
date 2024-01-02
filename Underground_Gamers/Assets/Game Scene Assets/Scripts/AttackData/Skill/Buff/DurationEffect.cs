@@ -5,8 +5,8 @@ using UnityEngine;
 public class DurationEffect : MonoBehaviour
 {
     public float offset;
-    public float scale;
-    public float duration;
+    public float scale = 1f;
+    public float duration = 1f;
 
     private void OnDisable()
     {

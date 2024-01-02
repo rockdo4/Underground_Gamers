@@ -9874,9 +9874,10 @@ GameObject:
   - component: {fileID: 6504116280443909334}
   - component: {fileID: 2856621302956119319}
   - component: {fileID: 7213081975416495238}
+  - component: {fileID: 561239914115269964}
   m_Layer: 0
-  m_Name: Shield charge dash
-  m_TagString: Untagged
+  m_Name: Shield Charge Dash
+  m_TagString: Effect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9890,7 +9891,7 @@ Transform:
   m_GameObject: {fileID: 8036156428156996647}
   serializedVersion: 2
   m_LocalRotation: {x: -0.0000009089707, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 84.19, y: 0, z: 218.37889}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14793,3 +14794,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &561239914115269964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8036156428156996647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18e03e0ec9055fe4fa249f4cdcee59f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 0
+  scale: 1
+  duration: 1

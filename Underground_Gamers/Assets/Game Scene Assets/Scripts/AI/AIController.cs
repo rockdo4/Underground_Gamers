@@ -453,13 +453,13 @@ public class AIController : MonoBehaviour
 
 
     public void UseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
-        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce)
+        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce, float stunTime = 0f)
     {
-        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, afterAttack, lookTarget, isPull, attack, attackTiming, delay, targetPos, prevPos, effectPrefab, devideForce));
+        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, afterAttack, lookTarget, isPull, attack, attackTiming, delay, targetPos, prevPos, effectPrefab, devideForce, stunTime));
     }
 
     private IEnumerator CoUseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
-        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce)
+        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce, float stunTime = 0f)
     {
         Debug.Log("Stun");
         agent.enabled = false;
