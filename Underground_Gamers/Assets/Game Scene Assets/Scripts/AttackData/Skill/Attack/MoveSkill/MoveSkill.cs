@@ -37,7 +37,7 @@ public class MoveSkill : AttackDefinition
     public float scaleTrailEffect = 1f;
 
     [Header("리지드 바디")]
-    public float addForce;
+    public float devideForce;
 
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
@@ -66,7 +66,7 @@ public class MoveSkill : AttackDefinition
             Destroy(trailEffect, moveTime);
 
             aController.UseMoveSkill(aController, moveTime, afterAttack, lookTaget, isPull, attack,
-                attackTiming, colDisableTime, defender.transform.position, attacker.transform.position, effectSkillPrefab, addForce);
+                attackTiming, colDisableTime, defender.transform.position, attacker.transform.position, effectSkillPrefab, devideForce);
         }
     }
 }

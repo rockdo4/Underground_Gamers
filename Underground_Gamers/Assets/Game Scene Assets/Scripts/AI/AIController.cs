@@ -1,6 +1,7 @@
 using EPOOutline;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -452,13 +453,13 @@ public class AIController : MonoBehaviour
 
 
     public void UseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
-        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float addForce)
+        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce)
     {
-        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, afterAttack, lookTarget, isPull, attack, attackTiming, delay, targetPos, prevPos, effectPrefab, addForce));
+        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, afterAttack, lookTarget, isPull, attack, attackTiming, delay, targetPos, prevPos, effectPrefab, devideForce));
     }
 
     private IEnumerator CoUseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
-        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float addForce)
+        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce)
     {
         Debug.Log("Stun");
         agent.enabled = false;
@@ -476,7 +477,6 @@ public class AIController : MonoBehaviour
             moveCoroutine = StartCoroutine(CoMoveBySkill(moveTime, targetPos));
         yield return new WaitForSeconds(moveTime);
 
-
         if (afterAttack)
         {
             if (lookTarget)
@@ -490,7 +490,7 @@ public class AIController : MonoBehaviour
         {
             float range = Vector3.Distance(prevPos, targetPos);
             Vector3 dir = (targetPos - prevPos).normalized;
-            PullInPath(moveTime, range, addForce);
+            PullInPath(moveTime, range, devideForce);
         }
 
         controller.isStun = false;
@@ -505,14 +505,14 @@ public class AIController : MonoBehaviour
         Debug.Log("Stun Release");
     }
 
-    private void PullInPath(float time, float range, float addForce)
+    private void PullInPath(float time, float range, float devideForce)
     {
         RaycastHit[] allHits = Physics.RaycastAll(transform.position, Vector3.back, range);
 
-        Vector3 movePos = transform.position - (Vector3.back * addForce);
-
         foreach (var hit in allHits)
         {
+            float dis = Vector3.Distance(transform.position, hit.transform.position);
+            Vector3 movePos = transform.position - (Vector3.back * dis * devideForce);
             var identity = hit.transform.gameObject.GetComponent<TeamIdentifier>();
             var controller = hit.transform.gameObject.GetComponent<AIController>();
             if (identity == null)
@@ -535,9 +535,8 @@ public class AIController : MonoBehaviour
 
     public void StopMove()
     {
-        if(moveCoroutine != null)
+        if (moveCoroutine != null)
         {
-            StopCoroutine(moveCoroutine);
             moveCoroutine = null;
         }
     }

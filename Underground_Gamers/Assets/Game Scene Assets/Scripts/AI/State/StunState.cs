@@ -21,7 +21,12 @@ public class StunState : AIState
     public override void Exit()
     {
         Debug.Log("Stun Exit~~~~~~~~~~");
-
+        aiController.StopMove();
+        if (!agent.enabled)
+        {
+            agent.enabled = true;
+        }
+        aiController.stunTime = 0f;
     }
 
     public override void Update()
