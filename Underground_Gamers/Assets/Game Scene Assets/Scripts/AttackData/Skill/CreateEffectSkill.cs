@@ -27,7 +27,7 @@ public class CreateEffectSkill : MonoBehaviour
     public DurationEffect hitEffectPrefab;
     public float durationHitEffect;
     public float offsetHitEffect;
-    public float scaleHitEffect;
+    public float scaleHitEffect = 1f;
 
     private void OnEnable()
     {

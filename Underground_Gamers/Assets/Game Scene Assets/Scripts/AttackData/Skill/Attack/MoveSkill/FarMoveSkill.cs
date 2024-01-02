@@ -52,7 +52,7 @@ public class FarMoveSkill : MoveSkill
             Destroy(trailEffect, moveTime);
 
             aController.UseMoveSkill(aController, moveTime, afterAttack, lookTaget, isPull, attack, 
-                attackTiming, colDisableTime, targetPos, attacker.transform.position, effectSkillPrefab, addForce);
+                attackTiming, colDisableTime, targetPos, attacker.transform.position, effectSkillPrefab, devideForce);
         }
     }
 }

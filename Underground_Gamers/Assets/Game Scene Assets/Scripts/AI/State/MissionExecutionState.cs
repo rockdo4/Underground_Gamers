@@ -7,6 +7,9 @@ public class MissionExecutionState : AIState
     private float reloadTime;
     private float reloadCoolTime = 2f;
 
+    private float executeTime = 0.5f;
+    private float executeTimer;
+
     public MissionExecutionState(AIController aiController) : base(aiController)
     {
 
@@ -35,7 +38,8 @@ public class MissionExecutionState : AIState
         lastDetectTime = Time.time - aiController.detectTime;
         reloadTime = Time.time;
         agent.angularSpeed = aiStatus.reactionSpeed;
-
+        agent.speed = aiStatus.speed;
+        //executeTimer = Time.time;
     }
 
     public override void Exit()
@@ -93,5 +97,12 @@ public class MissionExecutionState : AIState
             SearchTargetInDetectionRange();
             SearchTargetInSector();
         }
+
+        //if (aiController.agent.velocity.magnitude <= 0.01f && executeTime + executeTimer < Time.time)
+        //{
+        //    executeTimer = Time.time;
+        //    aiController.SetMissionTarget(aiController.missionTarget);
+        //    return;
+        //}
     }
 }
