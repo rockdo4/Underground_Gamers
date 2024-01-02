@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -73,9 +74,9 @@ public struct GrowableStats
 {
     public float min;
     public float max;
-    public float gap 
-    { 
-        get 
+    public float gap
+    {
+        get
         {
             return (max - min) / 49;
         }
@@ -170,7 +171,7 @@ public class AttackDefinitionData
 
 [System.Serializable]
 public class KitingDefinitionData
-{ 
+{
     public int code;
     public KitingData value;
 }
@@ -252,6 +253,10 @@ public class SaveData
     public string teamName = "드림팀";
     public int playSpeed = 1;
 
+    public Queue<int> storyQueue = new Queue<int>();
+    public bool isInfoOn = false;
+    public bool isAutoBattle = false;
+
     //정규전
     public bool isOnOfficial = false;
     public int officialLevel = -1;
@@ -306,4 +311,27 @@ public struct OfficialPlayerData
     public int kill;
     public int death;
     public int totalDamage;
+}
+
+[System.Serializable]
+public class StorySetter
+{
+    public int code;
+    public int startCode;
+    public int endCode;
+}
+
+public struct StoryDatas
+{
+    public int ID;
+    public int charName;
+    public int storyScript;
+}
+
+
+[System.Serializable]
+public class SpecialStoryObjects
+{
+    public int ID;
+    public GameObject prefab;
 }

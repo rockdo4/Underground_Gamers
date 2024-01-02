@@ -10,11 +10,13 @@ public class NameInputFieldChecker : MonoBehaviour
     private TMP_InputField nameInputBox;
     [SerializeField]
     private Button button;
+    [SerializeField]
+    private int count = 8;
 
     public void CheckInput()
     {
         if (nameInputBox.text.Length == 0 ||
-            nameInputBox.text.Length > 8) 
+            nameInputBox.text.Length > count) 
         {
             button.interactable = false;
         }
@@ -23,4 +25,13 @@ public class NameInputFieldChecker : MonoBehaviour
             button.interactable = true;
         }
     }
+
+    public void InputStreamString(string newText)
+    {
+        if (newText.Length > count)
+        {
+            nameInputBox.text = newText.Substring(0, count);
+        }
+    }
+
 }

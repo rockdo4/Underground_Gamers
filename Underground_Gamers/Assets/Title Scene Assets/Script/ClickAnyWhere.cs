@@ -32,7 +32,7 @@ public class ClickAnyWhere : MonoBehaviour
     public void EndNameInput()
     {
         GamePlayerInfo.instance.playername = nameInputBox.text;
-        GamePlayerInfo.instance.tutorials = new Queue<int>();
+        GamePlayerInfo.instance.storyQueue = new Queue<int>();
         GamePlayerInfo.instance.AddTutorial(0);
 
        SceneManager.LoadScene("Lobby Scene");

@@ -36,15 +36,15 @@ public class SoundPlayer : MonoBehaviour
         m_AudioSource.Play();
     }
 
-    public void EnterLobbyMusic()
+    public void EnterLobbyMusic(int index)
     {
         DOTween.defaultTimeScaleIndependent = true;
-        m_AudioSource.DOFade(0, fadeOutTime).OnComplete(EnterLobbyMusicPlay);
+        m_AudioSource.DOFade(0, fadeOutTime).OnComplete(() => EnterLobbyMusicPlay(index));
     }
 
-    public void EnterLobbyMusicPlay()
+    public void EnterLobbyMusicPlay(int index)
     {
-        m_AudioSource.clip = BGM_Lobby[0];
+        m_AudioSource.clip = BGM_Lobby[index];
         m_AudioSource.volume = 1;
         m_AudioSource.Play();
     }
