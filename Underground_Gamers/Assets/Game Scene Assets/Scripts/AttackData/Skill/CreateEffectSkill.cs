@@ -45,6 +45,7 @@ public class CreateEffectSkill : MonoBehaviour
                 hitCount++;
                 col.enabled = true;
                 delayTimer = Time.time;
+                Debug.Log("Col");
             }
 
             if (delay + delayTimer < Time.time && col.enabled)
@@ -97,7 +98,14 @@ public class CreateEffectSkill : MonoBehaviour
         if (rotation.x < 0)
             rotation.x += 360f;
 
-        rotation.x %= 360f;
+        rotation.x %= 360f;        
+        
+        rotation.z += offset.z;
+
+        if (rotation.z < 0)
+            rotation.z += 360f;
+
+        rotation.z %= 360f;
         Quaternion newRotation = Quaternion.Euler(new Vector3(rotation.x, rotation.y, rotation.z));
         return newRotation;
     }

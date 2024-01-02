@@ -504,7 +504,7 @@ ParticleSystem:
     startRotationY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -1.5707963
+      scalar: 0.7853981
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5022,15 +5022,19 @@ MonoBehaviour:
   controller: {fileID: 0}
   col: {fileID: 2096888580211469902}
   timing:
-  - 0.2
+  - 0.3
   durationEffect: 2
   offsetEffect: 1
-  scaleEffect: 3
-  rotateAxis: {x: 0, y: 0, z: 0}
+  scaleEffect: 2
+  rotateAxis: {x: 0, y: 90, z: 0}
   hitEffectPrefab: {fileID: 0}
   durationHitEffect: 0
   offsetHitEffect: 0
   scaleHitEffect: 1
+  stunTime: 0
+  stunEffectPrefab: {fileID: -7289134629825542656, guid: 7838987a7543f054b804624e50803456, type: 3}
+  offsetStunEffect: 3
+  scaleStunEffect: 2
 --- !u!1 &5972196968428261036
 GameObject:
   m_ObjectHideFlags: 0

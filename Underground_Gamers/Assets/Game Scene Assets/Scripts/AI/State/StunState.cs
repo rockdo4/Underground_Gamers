@@ -10,6 +10,8 @@ public class StunState : AIState
 
     public override void Enter()
     {
+        aiController.RefreshDebugAIStatus(this.ToString());
+
         if (agent.enabled)
         {
             agent.isStopped = true;
@@ -26,6 +28,7 @@ public class StunState : AIState
         {
             agent.enabled = true;
         }
+        aiController.isStun = false;
         aiController.stunTime = 0f;
     }
 

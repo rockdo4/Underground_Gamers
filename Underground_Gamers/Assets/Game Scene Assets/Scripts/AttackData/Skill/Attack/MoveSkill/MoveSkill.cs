@@ -12,7 +12,6 @@ public class MoveSkill : AttackDefinition
     public float damageRateLevel3;
 
     public float moveTime;
-    public float moveSpeed;
 
     public bool afterAttack = true;
     public bool lookTaget = true;

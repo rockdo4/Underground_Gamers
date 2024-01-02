@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00f4131d7b1a3d1408b1f84befb89623, type: 3}
+  m_Script: {fileID: 11500000, guid: 48e622490c64be74c875c0241ee25a7d, type: 3}
   m_Name: Shiled Charge
   m_EditorClassIdentifier: 
   damage: 0
@@ -25,22 +25,24 @@ MonoBehaviour:
   criticalMultiplier: 0
   skillMode: 1
   skillType: 1
-  damageRateLevel1: 0
-  damageRateLevel2: 0
-  damageRateLevel3: 0
-  moveTime: 0
-  moveSpeed: 0
-  afterAttack: 1
-  lookTaget: 1
-  isPull: 0
+  damageRateLevel1: 0.4
+  damageRateLevel2: 0.45
+  damageRateLevel3: 0.55
+  moveTime: 1
+  afterAttack: 0
+  lookTaget: 0
+  isPull: 1
   attackTiming:
-  - 0
-  colDisableTime: 0.01
-  effectSkillPrefab: {fileID: 0}
+  - 0.3
+  colDisableTime: 0.5
+  effectSkillPrefab: {fileID: 528518301669217025, guid: eaf9274165d3ef74188510ffbb5f8401, type: 3}
   durationHitEffect: 0
   offsetHitEffect: 0
   scaleHitEffect: 1
-  trailEffectPrefab: {fileID: 0}
-  offsetTrailEffect: 0
-  scaleTrailEffect: 1
-  devideForce: 0
+  trailEffectPrefab: {fileID: 561239914115269964, guid: eec9a16a8c49df54a8a7ddd5d067f64c, type: 3}
+  offsetTrailEffect: 1
+  scaleTrailEffect: 3
+  devideForce: 2
+  stunRateLevel1: 1
+  stunRateLevel2: 1.2
+  stunRateLevel3: 1.5
