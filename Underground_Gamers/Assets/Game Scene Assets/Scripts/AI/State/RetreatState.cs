@@ -30,7 +30,12 @@ public class RetreatState : AIState
 
     public override void Exit()
     {
-
+        aiController.StopMove();
+        if (!agent.enabled)
+        {
+            agent.enabled = true;
+        }
+        aiController.stunTime = 0f;
     }
 
     public override void Update()
@@ -38,7 +43,7 @@ public class RetreatState : AIState
         if (aiController.isStun)
             return;
 
-        if(aiController.isAttack)
+        if (aiController.isAttack)
         {
             aiController.SetMissionTarget(aiController.buildingManager.GetAttackPoint(aiController.currentLine, aiController.teamIdentity.teamType));
             aiController.SetState(States.MissionExecution);

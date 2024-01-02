@@ -105,8 +105,8 @@ public class AIController : MonoBehaviour
     public float stunTimer;
     public bool isStun = false;
     public bool useMoveSkill = false;
-    private Coroutine moveCoroutine;
-    private Coroutine useMoveCoroutine;
+    public Coroutine moveCoroutine;
+    public Coroutine useMoveCoroutine;
 
     [Header("전투 상태")]
     public bool isBattle = false;
@@ -486,12 +486,11 @@ public class AIController : MonoBehaviour
             Destroy(effect.gameObject, effect.durationEffect);
         }
 
-
         if (isPull)
         {
             float range = Vector3.Distance(prevPos, targetPos);
             Vector3 dir = (targetPos - prevPos).normalized;
-            PullInPath(moveTime, range, dir, addForce);
+            PullInPath(moveTime, range, addForce);
         }
 
         controller.isStun = false;
@@ -506,9 +505,11 @@ public class AIController : MonoBehaviour
         Debug.Log("Stun Release");
     }
 
-    private void PullInPath(float time, float range, Vector3 dir, float addForce)
+    private void PullInPath(float time, float range, float addForce)
     {
         RaycastHit[] allHits = Physics.RaycastAll(transform.position, Vector3.back, range);
+
+        Vector3 movePos = transform.position - (Vector3.back * addForce);
 
         foreach (var hit in allHits)
         {
@@ -523,9 +524,21 @@ public class AIController : MonoBehaviour
             if (hit.transform.gameObject.layer == gameObject.layer)
                 continue;
 
-            controller.rb.isKinematic = false;
+            //controller.rb.isKinematic = false;
             controller.Stun(false, time);
-            controller.rb.AddForce(addForce * dir, ForceMode.Impulse);
+            if (controller.moveCoroutine == null)
+            {
+                controller.moveCoroutine = StartCoroutine(controller.CoMoveBySkill(time, movePos));
+            }
+        }
+    }
+
+    public void StopMove()
+    {
+        if(moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
         }
     }
 
@@ -533,6 +546,7 @@ public class AIController : MonoBehaviour
     {
         float timer = 0f;
         Vector3 startPos = transform.position;
+        agent.enabled = false;
 
         while (timer < moveTime)
         {
@@ -547,6 +561,7 @@ public class AIController : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+        agent.enabled = true;
         transform.position = targetPos;
         moveCoroutine = null;
         Debug.Log("Stop Move");
@@ -635,8 +650,10 @@ public class AIController : MonoBehaviour
 
         if (building != null)
             building.AddAIController(this);
+        Debug.Log("Prve SetDest");
         if (status.IsLive)
             SetDestination(this.missionTarget.position);
+        Debug.Log("SetDest");
     }
 
     public void RefreshBuilding()

@@ -21,12 +21,19 @@ public class MissionExecutionState : AIState
         aiController.RefreshDebugAIStatus(this.ToString());
 
         aiController.isBattle = false;
+        if(agent.enabled)
+        {
+            Debug.Log($"{aiStatus.name} Enabled");
+        }
+        else
+        {
+            Debug.Log($"{aiStatus.name} Disabled");
+        }
+        agent.isStopped = false;
         aiController.SetMissionTarget(aiController.missionTarget);
 
         lastDetectTime = Time.time - aiController.detectTime;
         reloadTime = Time.time;
-        agent.isStopped = false;
-        agent.speed = aiStatus.speed;
         agent.angularSpeed = aiStatus.reactionSpeed;
 
     }
