@@ -29,7 +29,7 @@ public class KitingState : AIState
 
     public override void Update()
     {
-        if (!aiStatus.IsLive)
+        if (!aiStatus.IsLive && aiController.isStun)
         {
             return;
         }
@@ -39,8 +39,8 @@ public class KitingState : AIState
             return;
         }
 
-        if(aiController.isOnCoolBaseAttack 
-            || aiController.isOnCoolOriginalSkill 
+        if (aiController.isOnCoolBaseAttack
+            || aiController.isOnCoolOriginalSkill
             || aiController.isOnCoolGeneralSkill)
         {
             aiController.SetState(States.AimSearch);

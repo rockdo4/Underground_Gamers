@@ -34,11 +34,8 @@ public class DefendCommand : Command
                     aiController.missionTarget = lineWayPoint;
                     //ai.SetMissionTarget(lineWayPoint);
                 }
-
-                if (aiController.status.IsLive)
+                if (aiController.status.IsLive && !ai.isReloading && !ai.isStun)
                     aiController.SetState(States.Retreat);
-
-                Debug.Log($"{aiController.aiType.text} : Defend Command Execute");
             }
         }         // 개별명령
         else
@@ -63,11 +60,10 @@ public class DefendCommand : Command
                 //ai.SetMissionTarget(lineWayPoint);
             }
 
-            if (ai.status.IsLive)
+            if (ai.status.IsLive && !ai.isReloading && !ai.isStun)
                 ai.SetState(States.Retreat);
             if (ai.teamIdentity.teamType == TeamType.PC)
                 gameManager.commandManager.SetActiveCommandButton(ai);
-            Debug.Log($"{ai.aiType.text} : Defend Command Execute");
         }
     }
 }

@@ -32,7 +32,7 @@ public class GameInfo : MonoBehaviour
     public int currentStage = 0;
     public float RandomSpawnRange = 1f;
     public GameType gameType = GameType.Story;
-    List<Player> entryPlayer = new List<Player>();
+    public List<Player> EntryPlayer { get; private set; } = new List<Player>();
 
     [HideInInspector]
     public int screammageLevel = 0;
@@ -88,14 +88,14 @@ public class GameInfo : MonoBehaviour
     {
         foreach (int index in entryIndex)
         {
-            entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(index));
+            EntryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(index));
         }
         GamePlayerInfo.instance.SaveFile();
     }
 
     public void ClearEntryPlayer()
     {
-        entryPlayer.Clear();
+        EntryPlayer.Clear();
     }
 
     public void ClearMembersIndex()
@@ -116,7 +116,7 @@ public class GameInfo : MonoBehaviour
                 {
                     foreach (Player player in GamePlayerInfo.instance.usingPlayers)
                     {
-                        entryPlayer.Add(player);
+                        EntryPlayer.Add(player);
                     }
                     var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
                     StageInfo stageInfo = st.GetStageInfo(currentStage);
@@ -146,7 +146,7 @@ public class GameInfo : MonoBehaviour
                 {
                     foreach (Player player in GamePlayerInfo.instance.usingPlayers)
                     {
-                        entryPlayer.Add(player);
+                        EntryPlayer.Add(player);
                     }
                     var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
                     var rewardInfo = st.GetScrimmageRewards(screammageLevel);
@@ -166,7 +166,7 @@ public class GameInfo : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            var player = entryPlayer[i];
+            var player = EntryPlayer[i];
             // 테스트를 위한 코드
             if (pt == null)
                 return;

@@ -1,10 +1,10 @@
 using EPOOutline;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
 public enum OccupationType
 {
@@ -35,7 +35,8 @@ public enum States
     Kiting,
     Reloading,
     Retreat,
-    Patrol
+    Patrol,
+    Stun
 }
 
 public enum SkillMode
@@ -49,6 +50,7 @@ public enum SkillMode
 public enum SkillType
 {
     Attack,
+    Move,
     Buff,
     Heal
 }
@@ -65,6 +67,7 @@ public class AIController : MonoBehaviour
     public int code;
 
     public NavMeshAgent agent;
+    public Rigidbody rb;
     public CharacterStatus status;
 
     private AIManager aiManager;
@@ -97,6 +100,13 @@ public class AIController : MonoBehaviour
     public Vector3 kitingPos;
     public bool isKiting = false;
 
+    [Header("스턴 상태")]
+    public float stunTime;
+    public float stunTimer;
+    public bool isStun = false;
+    public bool useMoveSkill = false;
+    public Coroutine moveCoroutine;
+    public Coroutine useMoveCoroutine;
 
     [Header("전투 상태")]
     public bool isBattle = false;
@@ -346,6 +356,7 @@ public class AIController : MonoBehaviour
         states.Add(new ReloadingState(this));
         states.Add(new RetreatState(this));
         states.Add(new PatrolState(this));
+        states.Add(new StunState(this));
 
         agent.speed = status.speed;
 
@@ -368,6 +379,18 @@ public class AIController : MonoBehaviour
         }
         appliedBuffs.Clear();
         removedBuffs.Clear();
+
+        if (useMoveCoroutine != null)
+        {
+            StopCoroutine(useMoveCoroutine);
+            useMoveCoroutine = null;
+        }
+
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
+        }
     }
 
     public void InitInGameScene()
@@ -380,6 +403,14 @@ public class AIController : MonoBehaviour
     }
     private void Update()
     {
+        // 죽었을 때, 다음 라운드 갈 때 초기화
+        //if(stunTime + stunTimer < Time.time && isStun)
+        //{
+        //    if (isAttack)
+        //        SetState(States.MissionExecution);
+        //    if (isDefend)
+        //        SetState(States.Retreat);
+        //}
         if (lastBaseAttackTime + baseAttackCoolTime < Time.time)
         {
             lastBaseAttackTime = Time.time;
@@ -416,6 +447,133 @@ public class AIController : MonoBehaviour
             s = 0f;
 
         spum._anim.SetFloat("RunState", Mathf.Min(s, 0.5f));
+    }
+
+
+
+    public void UseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
+        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float addForce)
+    {
+        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, afterAttack, lookTarget, isPull, attack, attackTiming, delay, targetPos, prevPos, effectPrefab, addForce));
+    }
+
+    private IEnumerator CoUseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
+        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float addForce)
+    {
+        Debug.Log("Stun");
+        agent.enabled = false;
+
+        controller.Stun(true, moveTime);
+        if (!afterAttack)
+        {
+            if (lookTarget)
+                transform.LookAt(battleTarget);
+            CreateEffectSkill effect = Instantiate(effectPrefab, transform.position, transform.rotation);
+            effect.SetEffect(controller, attack, attackTiming, delay, Time.time);
+            Destroy(effect.gameObject, effect.durationEffect);
+        }
+        if (moveCoroutine == null)
+            moveCoroutine = StartCoroutine(CoMoveBySkill(moveTime, targetPos));
+        yield return new WaitForSeconds(moveTime);
+
+
+        if (afterAttack)
+        {
+            if (lookTarget)
+                transform.LookAt(battleTarget);
+            CreateEffectSkill effect = Instantiate(effectPrefab, transform.position, transform.rotation);
+            effect.SetEffect(controller, attack, attackTiming, delay, Time.time);
+            Destroy(effect.gameObject, effect.durationEffect);
+        }
+
+        if (isPull)
+        {
+            float range = Vector3.Distance(prevPos, targetPos);
+            Vector3 dir = (targetPos - prevPos).normalized;
+            PullInPath(moveTime, range, addForce);
+        }
+
+        controller.isStun = false;
+        agent.enabled = true;
+        useMoveCoroutine = null;
+        controller.useMoveSkill = false;
+
+        if (controller.isAttack)
+            controller.SetState(States.MissionExecution);
+        if (controller.isDefend)
+            controller.SetState(States.Retreat);
+        Debug.Log("Stun Release");
+    }
+
+    private void PullInPath(float time, float range, float addForce)
+    {
+        RaycastHit[] allHits = Physics.RaycastAll(transform.position, Vector3.back, range);
+
+        Vector3 movePos = transform.position - (Vector3.back * addForce);
+
+        foreach (var hit in allHits)
+        {
+            var identity = hit.transform.gameObject.GetComponent<TeamIdentifier>();
+            var controller = hit.transform.gameObject.GetComponent<AIController>();
+            if (identity == null)
+                continue;
+
+            if (identity.isBuilding)
+                continue;
+
+            if (hit.transform.gameObject.layer == gameObject.layer)
+                continue;
+
+            //controller.rb.isKinematic = false;
+            controller.Stun(false, time);
+            if (controller.moveCoroutine == null)
+            {
+                controller.moveCoroutine = StartCoroutine(controller.CoMoveBySkill(time, movePos));
+            }
+        }
+    }
+
+    public void StopMove()
+    {
+        if(moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
+        }
+    }
+
+    private IEnumerator CoMoveBySkill(float moveTime, Vector3 targetPos)
+    {
+        float timer = 0f;
+        Vector3 startPos = transform.position;
+        agent.enabled = false;
+
+        while (timer < moveTime)
+        {
+            float t = timer / moveTime;
+            float easeT = Utils.GetEaseOutQuint(t);
+            Vector3 movePos = Vector3.Lerp(startPos, targetPos, easeT);
+            //Vector3 movePos = transform.position;
+            //movePos += dir * moveSpeed * Time.deltaTime;
+            transform.position = movePos;
+            Debug.Log("Moving");
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        agent.enabled = true;
+        transform.position = targetPos;
+        moveCoroutine = null;
+        Debug.Log("Stop Move");
+    }
+
+    public void Stun(bool useMove, float time)
+    {
+        isStun = true;
+        useMoveSkill = useMove;
+        stunTime = time;
+        stunTimer = Time.time;
+        SetState(States.Stun);
     }
 
     public void UnSelectAI()
@@ -492,8 +650,10 @@ public class AIController : MonoBehaviour
 
         if (building != null)
             building.AddAIController(this);
+        Debug.Log("Prve SetDest");
         if (status.IsLive)
             SetDestination(this.missionTarget.position);
+        Debug.Log("SetDest");
     }
 
     public void RefreshBuilding()
@@ -741,6 +901,10 @@ public class AIController : MonoBehaviour
     {
         lastReloadTime = Time.time - reloadCoolTime;
         lastSupportTime = Time.time - supportTime;
+        isStun = false;
+        useMoveSkill = false;
+        stunTime = 0f;
+
         Reload();
 
         if (attackInfos[(int)SkillMode.Base] != null)

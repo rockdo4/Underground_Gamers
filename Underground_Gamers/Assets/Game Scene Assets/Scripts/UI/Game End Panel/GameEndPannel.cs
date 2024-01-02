@@ -14,6 +14,13 @@ public class GameEndPannel : MonoBehaviour
 
     public TextMeshProUGUI winText;
     public TextMeshProUGUI LoseText;
+    public TextMeshProUGUI retryStageButtonText;
+    public TextMeshProUGUI nextStageButtonText;
+    public TextMeshProUGUI damageGraphButtonText;
+    public TextMeshProUGUI backButtonText;
+    public TextMeshProUGUI nextRoundButtonText;
+    public TextMeshProUGUI endRoundButtonText;
+    public TextMeshProUGUI okGraphButtonText;
 
     public GameObject rewardPanel;
     [Header("딜 그래프 패널")]
@@ -41,6 +48,19 @@ public class GameEndPannel : MonoBehaviour
     public List<Outlinable> outlinables = new List<Outlinable>();
     public SceneLoader sceneLoader;
     public GameObject uiCanvas;
+
+    private void Start()
+    {
+        winText.text = gameManager.str.Get("win");
+        LoseText.text = gameManager.str.Get("lose");
+        retryStageButtonText.text = gameManager.str.Get("retry stage");
+        nextStageButtonText.text = gameManager.str.Get("next stage");
+        damageGraphButtonText.text = gameManager.str.Get("damage graph");
+        backButtonText.text = gameManager.str.Get("back");
+        nextRoundButtonText.text = gameManager.str.Get("next round");
+        endRoundButtonText.text = gameManager.str.Get("end round");
+        okGraphButtonText.text = gameManager.str.Get("ok");
+    }
 
     public void SetActiveGameEndPanelButton(bool isActive)
     {
@@ -141,6 +161,25 @@ public class GameEndPannel : MonoBehaviour
             aiReward.maxXP = pc.status.maxXp;
             aiReward.ai = pc;
             gameManager.aiRewardManager.rewards.Add(aiReward);
+        }
+
+        if(GameInfo.instance.gameType != GameType.Official)
+        {
+            for(int i = 5; i< 8; ++i)
+            {
+                if (GameInfo.instance.EntryPlayer[i].code < 0)
+                    continue;
+                AIReward aiReward = Instantiate(rewardPrefab, rewardParent);
+                aiReward.player = GameInfo.instance.EntryPlayer[i];
+                aiReward.aiNameText.text = $"{GameInfo.instance.EntryPlayer[i].name}";
+                aiReward.lvText.text = $"Lv. {GameInfo.instance.EntryPlayer[i].level}";
+                aiReward.illustration.sprite = gameManager.pt.GetPlayerSprite(GameInfo.instance.EntryPlayer[i].code);
+                aiReward.aiClass.sprite = gameManager.pt.playerTypeSprites[GameInfo.instance.EntryPlayer[i].type - 1];
+                aiReward.grade.sprite = gameManager.pt.starsSprites[GameInfo.instance.EntryPlayer[i].grade - 3];
+                aiReward.currentXP = GameInfo.instance.EntryPlayer[i].xp;
+                aiReward.maxXP = GameInfo.instance.EntryPlayer[i].maxXp;
+                gameManager.aiRewardManager.rewards.Add(aiReward);
+            }
         }
     }
 

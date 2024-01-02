@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb84319606b2e7c409fa0cea54509c27, type: 3}
+  m_Name: Sword Rush
+  m_EditorClassIdentifier: 
+  damage: 0
+  maxDamageRate: 0
+  minDamageRate: 0
+  cooldown: 18
+  fixedCooldown: 0
+  reloadCooldown: 0
+  chargeCount: 0
+  accuracyRate: 0
+  spreadRate: 0
+  criticalRate: 0
+  criticalMultiplier: 0
+  skillMode: 1
+  skillType: 1
+  damageRateLevel1: 1.2
+  damageRateLevel2: 1.3
+  damageRateLevel3: 1.52
+  moveTime: 0.3
+  moveSpeed: 0
+  afterAttack: 1
+  lookTaget: 0
+  isPull: 1
+  attackTiming:
+  - 0
+  colDisableTime: 0.01
+  effectSkillPrefab: {fileID: 6283310098124599907, guid: 2f26d26da270fe34f9850d7494bfb4b2, type: 3}
+  durationHitEffect: 0
+  offsetHitEffect: 0
+  scaleHitEffect: 1
+  trailEffectPrefab: {fileID: 7010896352836907095, guid: 56b91faf457d9c247bc5b93d5b9c578c, type: 3}
+  offsetTrailEffect: 1
+  scaleTrailEffect: 5
+  addForce: 100

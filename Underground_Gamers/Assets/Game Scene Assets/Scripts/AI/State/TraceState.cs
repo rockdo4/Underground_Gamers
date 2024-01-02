@@ -42,7 +42,7 @@ public class TraceState : AIState
 
     public override void Update()
     {
-        if (!aiStatus.IsLive)
+        if (!aiStatus.IsLive && aiController.isStun)
         {
             return;
         }

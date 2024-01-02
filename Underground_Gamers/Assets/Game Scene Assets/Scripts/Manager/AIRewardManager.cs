@@ -23,19 +23,25 @@ public class AIRewardManager : MonoBehaviour
 
     public void DisplayRewardResult()
     {
-        foreach(var reward in rewards)
+        foreach (var reward in rewards)
         {
             reward.CalXp();
-            reward.DisplayLevel(reward.ai.playerInfo.level);
+            if (reward.ai != null)
+                reward.DisplayLevel(reward.ai.playerInfo.level);
+            else
+                reward.DisplayLevel(reward.player.level);
         }
     }
 
     public void DisplayFillXpGauage()
     {
-        foreach(var reward in rewards)
+        foreach (var reward in rewards)
         {
             // 몇번 렙업하나 분기
-            reward.FillXpGauge(reward.ai.playerInfo.levelUpCount, fillXpGaugeTime);
+            if (reward.ai != null)
+                reward.FillXpGauge(reward.ai.playerInfo.levelUpCount, fillXpGaugeTime);
+            else
+                reward.FillXpGauge(reward.player.levelUpCount, fillXpGaugeTime);
         }
     }
 }

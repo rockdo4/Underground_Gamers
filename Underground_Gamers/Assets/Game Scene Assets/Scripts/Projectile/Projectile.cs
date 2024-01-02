@@ -36,7 +36,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"COL {other.name}");
         if (ai.enemyLayer == 1 << other.gameObject.layer)
         {
             if (status.isAreaAttack)

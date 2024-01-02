@@ -29,7 +29,7 @@ public class AimSearchState : AIState
 
     public override void Update()
     {
-        if (!aiStatus.IsLive)
+        if (!aiStatus.IsLive && aiController.isStun)
         {
             return;
         }

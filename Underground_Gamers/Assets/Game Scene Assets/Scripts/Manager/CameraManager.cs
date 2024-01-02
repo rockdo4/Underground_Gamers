@@ -98,7 +98,7 @@ public class CameraManager : MonoBehaviour
     {
         moveTimer += Time.deltaTime;
         float t = moveTimer / moveTime;
-        t = Utils.GetEaseOutQuint(t);
+        t = Utils.GetEaseOutQuintReversed(t);
         currentPos = mainCam.transform.position;
         currentPos.z = zPos;
         mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, currentPos, t);
@@ -108,7 +108,7 @@ public class CameraManager : MonoBehaviour
     {
         moveTimer += Time.deltaTime;
         float t = moveTimer / moveTime;
-        t = Utils.GetEaseOutQuint(t);
+        t = Utils.GetEaseOutQuintReversed(t);
         Vector3 zoomOutPos = Vector3.Lerp(currentPos, originPos, t);
         mainCam.transform.position = zoomOutPos;
 

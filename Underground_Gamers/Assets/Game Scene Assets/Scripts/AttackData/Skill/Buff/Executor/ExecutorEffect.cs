@@ -2,22 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExecutorEffect : MonoBehaviour
+public class ExecutorEffect : CreateEffectSkill
 {
-    public AIController controller;
     public DurationEffect durationEffectPrefab;
     
-    public Collider col;
-    private Attack attack;
-
     private float hitDuration;
 
-    private float timer;
-    private float[] timing;
-    private int hitCount = 0;
-
-    private float delayTimer;
-    private float delay;
     private int originDamage;
 
     public float firstDamage = 0.7f;
@@ -25,32 +15,12 @@ public class ExecutorEffect : MonoBehaviour
 
     private float hitScale;
     private float hitOffset;
+
     private void OnDisable()
     {
         col.enabled = false;
     }
 
-    private void Update()
-    {
-        if (hitCount < timing.Length)
-        {
-            if (timing[hitCount] + timer < Time.time && !col.enabled)
-            {
-                hitCount++;
-                col.enabled = true;
-                delayTimer = Time.time;
-            }
-
-            if (delay + delayTimer < Time.time && col.enabled)
-            {
-                col.enabled = false;
-            }
-        }
-        else
-        {
-            col.enabled = false;
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -94,14 +64,5 @@ public class ExecutorEffect : MonoBehaviour
         originDamage = this.attack.Damage;
         hitOffset = offset;
         hitScale = scale;
-    }
-
-    public void SetOffsetNScale(float offset, float scale)
-    {
-        Vector3 offsetPos = transform.position;
-        offsetPos.y += offset;
-        transform.position = offsetPos;
-
-        transform.localScale *= scale;
     }
 }

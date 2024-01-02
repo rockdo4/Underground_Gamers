@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class DurationEffect : MonoBehaviour
 {
+    public float offset;
+    public float scale;
+    public float duration;
+
     private void OnDisable()
     {
         Destroy(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        //SetOffsetNScale(offset, scale);
     }
 
     public void SetOffsetNScale(float offset, float scale)

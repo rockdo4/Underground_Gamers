@@ -14,20 +14,26 @@ public class MissionExecutionState : AIState
 
     public override void Enter()
     {
-        if (!aiStatus.IsLive)
+        if (!aiStatus.IsLive && aiController.isStun)
         {
             return;
         }
         aiController.RefreshDebugAIStatus(this.ToString());
 
         aiController.isBattle = false;
-
+        if(agent.enabled)
+        {
+            Debug.Log($"{aiStatus.name} Enabled");
+        }
+        else
+        {
+            Debug.Log($"{aiStatus.name} Disabled");
+        }
+        agent.isStopped = false;
         aiController.SetMissionTarget(aiController.missionTarget);
 
         lastDetectTime = Time.time - aiController.detectTime;
         reloadTime = Time.time;
-        agent.isStopped = false;
-        agent.speed = aiStatus.speed;
         agent.angularSpeed = aiStatus.reactionSpeed;
 
     }
@@ -79,7 +85,7 @@ public class MissionExecutionState : AIState
             //aiController.Reload();
         }
 
-        if (lastDetectTime + aiController.detectTime < Time.time)
+        if (lastDetectTime + aiController.detectTime < Time.time && !aiController.isReloading)
         {
             lastDetectTime = Time.time;
 

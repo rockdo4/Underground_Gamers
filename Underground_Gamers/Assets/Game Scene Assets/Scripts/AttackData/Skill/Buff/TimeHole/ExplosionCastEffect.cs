@@ -19,7 +19,6 @@ public class ExplosionCastEffect : MonoBehaviour
     private void OnDisable()
     {
         ExplosionEffect explosion = Instantiate(explosionEffectPrefab, transform.position, explosionEffectPrefab.transform.rotation);
-        explosion.colOntime = explosionDuration - 0.1f;
         explosion.timer = Time.time;
         explosion.SetBuff(speedBuff, attackSpeedBuff, ai);
         Vector3 explosionPos = explosion.transform.position;
