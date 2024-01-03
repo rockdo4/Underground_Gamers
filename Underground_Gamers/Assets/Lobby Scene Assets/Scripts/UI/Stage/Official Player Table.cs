@@ -70,6 +70,7 @@ public class OfficialPlayerTable : MonoBehaviour
         PlayerTable pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
         StringTable st = DataTableManager.instance.Get<StringTable>(DataType.String);
         PlayerInfo currPlayerInfo = pt.GetPlayerInfo(currPlayer.code);
+        SkillInfo skillInfo = pt.GetSkillInfo(currPlayerInfo.UniqueSkillCode);
         foreach (var item in currPlayer.training)
         {
             var ti = pt.GetTrainingInfo(item);
@@ -82,15 +83,14 @@ public class OfficialPlayerTable : MonoBehaviour
             popupImages[0].sprite = image.sprite;
             popupImages[1].sprite = pt.playerTypeSprites[currPlayer.type - 1];
             popupImages[2].sprite = pt.starsSprites[currPlayer.grade - 3];
-            //popupImages[3].sprite = image.sprite;
-            //스킬이미지
+            popupImages[3].sprite = skillInfo.icon;
+
             popupText[0].text = currPlayer.name;
             popupText[1].text = st.Get($"type{currPlayer.type}");
             popupText[2].text = st.Get("level") + $" : {currPlayer.level}";
             popupText[3].text = st.Get("break") + $" : {currPlayer.breakthrough}";
             popupText[4].text = st.Get("skill_level") + $" : {currPlayer.skillLevel}";
-            //popupText[5].text = $" : {currentPlayer.skillLevel}";
-            //스킬이름
+            popupText[5].text = st.Get(skillInfo.name.ToString());
             popupText[6].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp, currPlayer.level).ToString("F0")}";
             popupText[7].text = $"{pt.CalculateCurrStats(currPlayerInfo.atk, currPlayer.level).ToString("F0")}";
             popupText[8].text = $"{pt.CalculateCurrStats(currPlayerInfo.atkRate, currPlayer.level).ToString("F1")}";

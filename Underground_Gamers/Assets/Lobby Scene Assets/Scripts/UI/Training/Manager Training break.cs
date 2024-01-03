@@ -21,6 +21,12 @@ public class ManagerTrainingbreak : ManagerTraining
     private TMP_Text slotName;
     [SerializeField]
     private GameObject slotCover;
+    [SerializeField]
+    private Image skillImage;
+    [SerializeField]
+    private TMP_Text skillName;
+    [SerializeField]
+    private TMP_Text skillLevel;
 
     [Space(10f)]
     [Header("Right")]
@@ -32,6 +38,8 @@ public class ManagerTrainingbreak : ManagerTraining
     private GameObject breakInfoArea;
     [SerializeField]
     private List<TMP_Text> breakInfoTexts = new List<TMP_Text>();
+    [SerializeField]
+    private Image skillIcon;
     [SerializeField]
     private Image breakTargetImage;
     [SerializeField]
@@ -193,7 +201,14 @@ public class ManagerTrainingbreak : ManagerTraining
         breakInfoTexts[2].text = currPlayer.breakthrough.ToString();
         breakInfoTexts[3].text = (currPlayer.breakthrough + 1).ToString();
         //나중에 스킬테이블 완성되면..
-        breakInfoTexts[4].text = currPlayer.name;
+        SkillInfo skillInfo = pt.GetSkillInfo(pt.GetPlayerInfo(currPlayer.code).UniqueSkillCode);
+        breakInfoTexts[4].text = st.Get(skillInfo.name.ToString());
+        skillName.text = breakInfoTexts[4].text;
+        skillIcon.sprite = skillInfo.icon;
+        skillImage.sprite = skillIcon.sprite;
+        skillLevel.text = $"Lv.{currPlayer.skillLevel}";
+
+
         breakInfoTexts[5].text = "Lv." + currPlayer.skillLevel.ToString();
         breakInfoTexts[6].text = "Lv." + currPlayer.breakthrough switch
         {
@@ -363,7 +378,15 @@ public class ManagerTrainingbreak : ManagerTraining
     }
 
     public void StartBreaking()
-    {
+    {        
+        popUpbreakResultImage.sprite = slotImage.sprite;
+        popUpbreakResultTexts[0].text = breakInfoTexts[0].text;
+        popUpbreakResultTexts[1].text = breakInfoTexts[1].text;
+        popUpbreakResultTexts[2].text = breakInfoTexts[5].text;
+        popUpbreakResultTexts[3].text = breakInfoTexts[6].text;
+        popUpbreakResultTexts[4].text = breakInfoTexts[2].text;
+        popUpbreakResultTexts[5].text = breakInfoTexts[3].text;
+
         GamePlayerInfo.instance.BreakPlayer(currPlayer, willDestroyPlayerList);
         GamePlayerInfo.instance.CheckRepresentPlayers();
 
@@ -375,13 +398,7 @@ public class ManagerTrainingbreak : ManagerTraining
             OpenPlayerBreakInfo();
         }
 
-        popUpbreakResultImage.sprite = slotImage.sprite;
-        popUpbreakResultTexts[0].text = breakInfoTexts[0].text;
-        popUpbreakResultTexts[1].text = breakInfoTexts[1].text;
-        popUpbreakResultTexts[2].text = breakInfoTexts[2].text;
-        popUpbreakResultTexts[3].text = breakInfoTexts[3].text;
-        popUpbreakResultTexts[4].text = breakInfoTexts[5].text;
-        popUpbreakResultTexts[5].text = breakInfoTexts[6].text;
+
 
         popUpbreakResultArea.SetActive(true);
     }

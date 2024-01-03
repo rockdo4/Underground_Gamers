@@ -20,6 +20,7 @@ public class PlayerInfoDrawer : MonoBehaviour
     public Slider XpBar;
     public Button growB;
     public Transform PlayerCharPos;
+
     [HideInInspector]
     public GameObject PlayerChar;
     public Image SkillIcon;
@@ -87,6 +88,13 @@ public class PlayerInfoDrawer : MonoBehaviour
             _ => pt.starsSprites[0],
         };
         TypeIcon.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", playerInfo.type.ToString()));
+
+        SkillInfo skillInfo = pt.GetSkillInfo(playerInfo.UniqueSkillCode);
+        SkillIcon.sprite = skillInfo.icon;
+        SkillName.text = st.Get(skillInfo.name.ToString());
+        SkillText.text = st.Get(skillInfo.toolTip.ToString());
+        SkillLevel.text = $"Lv.{currPlayer.skillLevel}";
+
         if (currPlayer.level <currPlayer.maxLevel && !GamePlayerInfo.instance.isOnSchedule)
         {
             growB.interactable = true;
