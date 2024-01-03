@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8263d425fedda524f9a5485e5affb4cb, type: 3}
+  m_Name: Dragon Roar
+  m_EditorClassIdentifier: 
+  damage: 0
+  maxDamageRate: 0
+  minDamageRate: 0
+  cooldown: 20
+  fixedCooldown: 0
+  reloadCooldown: 0
+  chargeCount: 0
+  accuracyRate: 0
+  spreadRate: 0
+  criticalRate: 0
+  criticalMultiplier: 0
+  skillMode: 1
+  skillType: 0
+  damageRateLevel1: 0.25
+  damageRateLevel2: 0.3
+  damageRateLevel3: 0.4
+  attackTiming:
+  - 0.4
+  - 0.6
+  - 0.8
+  - 1
+  - 1.2
+  - 1.4
+  - 1.6
+  colDisableDelay: 0.01
+  durationRangeEffect: 2.5
+  offsetRangeEffect: 1
+  scaleRangeEffect: 5
+  offsetDirectional: {x: 0, y: 0, z: 0}
+  isDirectional: 1
+  isTargetPos: 0
+  rangeDamageEffectPrefab: {fileID: 8834010783642372136, guid: 6cde47c183874d047907787da1661b56, type: 3}
+  durationHitEffect: 1
+  offsetHitEffect: 1
+  scaleHitEffect: 3

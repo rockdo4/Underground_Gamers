@@ -40,8 +40,6 @@ public class RangeDamageSkill : AttackDefinition
         if (attacker.GetComponent<AIController>().playerInfo != null)
             skillLevel = attacker.GetComponent<AIController>().playerInfo.skillLevel;
 
-
-
         CreateEffectSkill rangeEffect;
         if (isDirectional)
         {
