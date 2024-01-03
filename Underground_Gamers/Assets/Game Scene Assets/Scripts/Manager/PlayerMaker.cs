@@ -15,6 +15,8 @@ public class PlayerMaker : MonoBehaviour
             if(gameManager.gameRuleManager.gameType == GameType.Official)
             {
                 gameManager.entryPanel.SetActiveEntryPanel(true);
+                // 이곳에서 컨디션 설정
+                GameInfo.instance.SetOfficialPlayerCondition();
                 gameManager.entryPanel.SetOriginMemberIndex();
                 gameManager.entryPanel.SetPlayerEntrySlotAndBenchSlot();
             }

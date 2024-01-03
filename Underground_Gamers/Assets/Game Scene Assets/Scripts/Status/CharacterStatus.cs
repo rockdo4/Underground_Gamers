@@ -63,7 +63,6 @@ public class CharacterStatus : MonoBehaviour
         Hp = maxHp;
         killCount = 0;
         deathCount = 0;
-        condition = 0;
     }
 
     public void ResetStatus()
@@ -72,7 +71,6 @@ public class CharacterStatus : MonoBehaviour
         Hp = maxHp;
         killCount = 0;
         deathCount = 0;
-        condition = 0;
         dealtDamage = 0;
         takenDamage = 0;
         healAmount = 0;
