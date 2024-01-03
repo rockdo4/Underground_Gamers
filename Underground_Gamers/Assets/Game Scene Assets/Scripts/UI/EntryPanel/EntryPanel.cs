@@ -120,10 +120,11 @@ public class EntryPanel : MonoBehaviour
         gameManager.IsStart = false;
         gameObject.SetActive(isActive);
     }
-    public void CreateEntryPlayer(Transform parent, int index, Sprite illustration, string name, int playerHp, int playerAttack, int grade, Sprite type, int level, Sprite codition, int skillLevel)
+    public void CreateEntryPlayer(Transform parent, int index, Sprite illustration, string name, int playerHp, 
+        int playerAttack, int grade, Sprite type, int level, Sprite codition, int skillLevel, Sprite skillIcon, string skillName)
     {
         EntryPlayer entryPlayer = Instantiate(entryPlayerPrefab, parent);
-        entryPlayer.SetInfo(gameManager, index, illustration, name, playerHp, playerAttack, grade, type, level, codition, skillLevel);
+        entryPlayer.SetInfo(gameManager, index, illustration, name, playerHp, playerAttack, grade, type, level, codition, skillLevel, skillIcon, skillName);
 
         if (parent == entryScrollView)
         {
@@ -156,6 +157,8 @@ public class EntryPanel : MonoBehaviour
             ti.AddStats(playerInfo);
         }
         Sprite illustration = pt.GetPlayerSprite(code);
+        Sprite skillIcon = pt.GetSkillInfo(playerInfo.UniqueSkillCode).icon;
+        var skillName = gameManager.str.Get(pt.GetSkillInfo(playerInfo.UniqueSkillCode).name.ToString());
         var name = GamePlayerInfo.instance.GetOfficialPlayer(index).name;
         int playerHp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
         int playerAttack = (int)pt.CalculateCurrStats(playerInfo.atk, player.level);
@@ -170,7 +173,7 @@ public class EntryPanel : MonoBehaviour
         var skillLevel = GamePlayerInfo.instance.GetOfficialPlayer(index).skillLevel;
 
         // 이 인덱스 생각하기
-        CreateEntryPlayer(parent, index, illustration, name, playerHp, playerAttack, grade, type, level, conditionIcon[condition], skillLevel);
+        CreateEntryPlayer(parent, index, illustration, name, playerHp, playerAttack, grade, type, level, conditionIcon[condition], skillLevel, skillIcon, skillName);
     }
 
     public void SetOriginMemberIndex()
