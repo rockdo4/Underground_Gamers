@@ -15,6 +15,7 @@ public class RangeChannelingDamageSkill : RangeDamageSkill
         int skillLevel = 1;
         if (attacker.GetComponent<AIController>().playerInfo != null)
             skillLevel = attacker.GetComponent<AIController>().playerInfo.skillLevel;
+        aController.isChanneling = true;
 
         CreateEffectSkill rangeEffect;
         if (isDirectional)
@@ -25,7 +26,7 @@ public class RangeChannelingDamageSkill : RangeDamageSkill
                 {
                     rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform);
                     Vector3 effectPos = rangeEffect.transform.localPosition;
-                    effectPos.z += 1f;
+                    effectPos.z += 0.5f;
                     rangeEffect.transform.localPosition = effectPos;
                 }
                 else
@@ -73,7 +74,6 @@ public class RangeChannelingDamageSkill : RangeDamageSkill
             attack.IsCritical = false;
         }
 
-        aController.isChanneling = true;
         aController.Stun(false, durationRangeEffect);
         rangeEffect.SetEffect(aController, attack, attackTiming, colDisableDelay, Time.time);
         rangeEffect.SetHitEffect(durationHitEffect, offsetHitEffect, scaleHitEffect);
