@@ -44,6 +44,8 @@ public class ManagerTrainingTrain : ManagerTraining
     private GameObject trainResultPrefab;
     [SerializeField]
     private Transform trainResultTransform;
+    [SerializeField]
+    private TMP_Text nameBox;
 
     [SerializeField]
     private Button trainStartB;
@@ -198,6 +200,7 @@ public class ManagerTrainingTrain : ManagerTraining
         slotImage.sprite = pt.GetPlayerSprite(currPlayer.code);
         slotName.text = currPlayer.name;
         slotCover.SetActive(false);
+        nameBox.text = currPlayer.name;
 
         levelToggles[0].isOn = true;
 

@@ -178,7 +178,7 @@ public class GameInfo : MonoBehaviour
             }
             var madePlayer = Instantiate(playerObj);
             //madePlayer.AddComponent<DontDestroy>();
-
+            
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{player.code}")), madePlayer.transform);
             madePlayerCharactor.AddComponent<LookCameraRect>();
             var outLine = madePlayerCharactor.AddComponent<Outlinable>();
