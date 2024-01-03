@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -306,4 +307,12 @@ public struct OfficialPlayerData
     public int kill;
     public int death;
     public int totalDamage;
+}
+
+public struct SkillInfo
+{
+    public int ID;
+    public int name;
+    public int toolTip;
+    public Sprite icon;
 }

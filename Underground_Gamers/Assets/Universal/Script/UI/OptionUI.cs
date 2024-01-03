@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.PostProcessing.SubpixelMorphologicalAntialiasing;
 
 
 public class OptionUI : MonoBehaviour
@@ -273,7 +268,7 @@ public class OptionUI : MonoBehaviour
 
     public void ResetGame()
     {
-        var filePath = Path.Combine(Application.persistentDataPath, "savefile.json");
+        var filePath = Path.Combine(Application.persistentDataPath, "52743890.json");
         if (File.Exists(filePath))
         {
                 File.Delete(filePath);
