@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,45 +6,22 @@ using UnityEngine;
 public class HitScan : MonoBehaviour
 {
     private LineRenderer lineRenderer;
-    public float speed;
 
-    private Vector3 startPos;
-    private Vector3 endPos;
-    private Vector3 dir;
-    private Vector3 movePos;
+    public float fadeDuration = 0.3f;
 
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
     }
 
-    public void SetHitScan(Vector3 attacPos, Vector3 hitPos)
+    private void OnEnable()
     {
-        startPos = attacPos;
-        endPos = hitPos;
-        dir = endPos - startPos;
-        dir.Normalize();
-        movePos = startPos;
-    }
+        Color startColor = lineRenderer.startColor;
+        Color endColor = lineRenderer.endColor;
 
-    private void Update()
-    {
-        Fire();
-        DestroyByDistance();
-    }
+        startColor.a = 1.0f;
+        endColor.a = 0.0f;
 
-    private void Fire()
-    {
-        movePos += (dir * speed * Time.deltaTime);
-        lineRenderer.SetPosition(0, movePos);
-    }
-
-    private void DestroyByDistance()
-    {
-        float dis = Vector3.Distance(startPos, movePos);
-        if(dis < 0.1f)
-        {
-            gameObject.SetActive(false);
-        }
+        lineRenderer.DOColor(new Color2(startColor, startColor), new Color2(endColor, endColor),fadeDuration);
     }
 }

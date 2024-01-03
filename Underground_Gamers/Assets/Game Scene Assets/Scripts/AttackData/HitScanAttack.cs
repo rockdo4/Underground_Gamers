@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [CreateAssetMenu(fileName = "HitScanAttack.Asset", menuName = "AttackData/HitScanAttack")]
 public class HitScanAttack : AttackDefinition
@@ -8,6 +9,9 @@ public class HitScanAttack : AttackDefinition
     public GameObject muzzlePrefab;
     public GameObject hitScanLine;
     public float lineWidth;
+    public float offsetFirePos = 0.8f;
+    private Vector3 cameraRight;
+
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
         if (defender == null)
@@ -23,11 +27,28 @@ public class HitScanAttack : AttackDefinition
         var attackPos = attackAI.firePos.position;
         var hitPos = attackAI.hitInfoPos;
         hitPos.y = attackPos.y;
+        cameraRight = Camera.main.transform.right;
+        float dot = Vector3.Dot(attacker.transform.forward, cameraRight);
+        Vector3 muzzlePos = attackPos;
+        Vector3 euler = new Vector3(0f, 180f, 0f);
+        if (dot > 0)
+        {
+            euler = Vector3.zero;
+            attackPos.z += offsetFirePos;
+            muzzlePos.z += offsetFirePos;
+        }
+        else
+        {
+            attackPos.z -= offsetFirePos;
+            muzzlePos.z -= offsetFirePos;
+        }
 
         lineRen.SetPosition(0, attackPos);
         lineRen.SetPosition(1, hitPos);
-        lineRen.GetComponent<HitScan>().SetHitScan(attackPos, hitPos);
-        GameObject muzzleEffect = Instantiate(muzzlePrefab, attackPos, attackAI.firePos.rotation);
+
+        Quaternion rotation = Quaternion.Euler(euler);
+
+        GameObject muzzleEffect = Instantiate(muzzlePrefab, muzzlePos, rotation);
         Destroy(muzzleEffect, 1f);
 
         var attackStatus = attacker.GetComponent<CharacterStatus>();

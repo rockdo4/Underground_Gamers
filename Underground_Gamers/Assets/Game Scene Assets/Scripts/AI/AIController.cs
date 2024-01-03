@@ -278,7 +278,6 @@ public class AIController : MonoBehaviour
             return Vector3.Distance(transform.position, targetPos) - colDis;
         }
     }
-
     public float DistanceToBattleTarget
     {
         get
@@ -346,7 +345,6 @@ public class AIController : MonoBehaviour
 
         firePos = rightHand;
     }
-
     private void Start()
     {
 
@@ -372,7 +370,6 @@ public class AIController : MonoBehaviour
         PlayerInfo playerInfo = gameManager.pt.GetPlayerInfo(code);
         skillIcon = gameManager.pt.GetSkillInfo(playerInfo.UniqueSkillCode).icon;
     }
-
     private void OnDisable()
     {
         foreach (var buff in appliedBuffs)
@@ -410,14 +407,6 @@ public class AIController : MonoBehaviour
     }
     private void Update()
     {
-        // 죽었을 때, 다음 라운드 갈 때 초기화
-        //if(stunTime + stunTimer < Time.time && isStun)
-        //{
-        //    if (isAttack)
-        //        SetState(States.MissionExecution);
-        //    if (isDefend)
-        //        SetState(States.Retreat);
-        //}
         if (lastBaseAttackTime + baseAttackCoolTime < Time.time)
         {
             lastBaseAttackTime = Time.time;
@@ -825,8 +814,6 @@ public class AIController : MonoBehaviour
             else if (isDefend)
             {
                 TeamIdentifier colIdentity = col.GetComponent<TeamIdentifier>();
-                // 구조물이 여러개일 경우가 있을까?
-                // 구조물 검사
                 if (colIdentity != null && colIdentity.isBuilding)
                 {
                     if (colIdentity.buildingTarget)
