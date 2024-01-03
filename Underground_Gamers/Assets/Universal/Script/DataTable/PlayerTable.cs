@@ -15,6 +15,7 @@ public class PlayerTable : DataTable
     public List<Sprite> starsSprites = new List<Sprite>();
     public List<Sprite> berakSprites = new List<Sprite>();
     public List<Sprite> playerTypeSprites = new List<Sprite>();
+    public List<SkillInfo> skillTable = new List<SkillInfo>();
 
     public PlayerTable() : base(DataType.Player)
     {
@@ -31,6 +32,8 @@ public class PlayerTable : DataTable
         playerSprites = new List<Sprite>();
         playerFullSprites = new List<Sprite>();
         playerStandingSprites = new List<Sprite>();
+        this.skillTable = new List<SkillInfo>();
+
         foreach (var player in players)
         {
             PlayerInfo playerInfo = new PlayerInfo();
@@ -101,7 +104,6 @@ public class PlayerTable : DataTable
             newTrain.level = int.Parse(item["Level"]);
             newTrain.value = float.Parse(item["Value"]);
             newTrain.needPotential = int.Parse(item["Potential"]);
-
             trainingDatabase.Add(newTrain);
         }
 
@@ -129,6 +131,16 @@ public class PlayerTable : DataTable
             playerTypeSprites.Add(Resources.Load<Sprite>(Path.Combine("PlayerType", (i+1).ToString())));
         }
 
+        List<Dictionary<string, string>> skillTable = CSVReader.Read(Path.Combine("CSV", "skilltable"));
+        foreach (var item in skillTable)
+        {
+            SkillInfo newSkill = new SkillInfo();
+            newSkill.ID = int.Parse(item["skillID"]);
+            newSkill.name = int.Parse(item["skillName"]);
+            newSkill.toolTip = int.Parse(item["skillTooltip"]);
+            newSkill.icon = Resources.Load<Sprite>(Path.Combine("SkillIcon", newSkill.ID.ToString()));
+            this.skillTable.Add(newSkill);
+        }
     }
     
     public int PlayerIndexSearch(int code)
