@@ -453,13 +453,13 @@ public class AIController : MonoBehaviour
 
 
     public void UseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
-        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce)
+        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce, float stunTime = 0f)
     {
-        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, afterAttack, lookTarget, isPull, attack, attackTiming, delay, targetPos, prevPos, effectPrefab, devideForce));
+        useMoveCoroutine = StartCoroutine(CoUseMoveSkill(controller, moveTime, afterAttack, lookTarget, isPull, attack, attackTiming, delay, targetPos, prevPos, effectPrefab, devideForce, stunTime));
     }
 
     private IEnumerator CoUseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
-        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce)
+        float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce, float stunTime = 0f)
     {
         Debug.Log("Stun");
         agent.enabled = false;
@@ -469,8 +469,26 @@ public class AIController : MonoBehaviour
         {
             if (lookTarget)
                 transform.LookAt(battleTarget);
-            CreateEffectSkill effect = Instantiate(effectPrefab, transform.position, transform.rotation);
+
+            CreateEffectSkill effect;
+            if (stunTime > 0f)
+            {
+                effect = Instantiate(effectPrefab, transform);
+                effect.transform.rotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
+            }
+            else
+            {
+                effect = Instantiate(effectPrefab, transform.position, transform.rotation);
+            }
             effect.SetEffect(controller, attack, attackTiming, delay, Time.time);
+
+
+            if (effect is RangeDamageEffect)
+            {
+                RangeDamageEffect rangeEffect = effect as RangeDamageEffect;
+                rangeEffect.stunTime = stunTime;
+            }
+
             Destroy(effect.gameObject, effect.durationEffect);
         }
         if (moveCoroutine == null)
@@ -483,6 +501,14 @@ public class AIController : MonoBehaviour
                 transform.LookAt(battleTarget);
             CreateEffectSkill effect = Instantiate(effectPrefab, transform.position, transform.rotation);
             effect.SetEffect(controller, attack, attackTiming, delay, Time.time);
+
+
+            if (effect is RangeDamageEffect)
+            {
+                RangeDamageEffect rangeEffect = effect as RangeDamageEffect;
+                rangeEffect.stunTime = stunTime;
+            }
+
             Destroy(effect.gameObject, effect.durationEffect);
         }
 
@@ -505,7 +531,20 @@ public class AIController : MonoBehaviour
         Debug.Log("Stun Release");
     }
 
-    private void PullInPath(float time, float range, float devideForce)
+    public void PullByTargetPos(Vector3 targetPos, float time, float addForce)
+    {
+        Stun(false, time);
+
+        Vector3 movePos = transform.position;
+        Vector3 dir = (targetPos - movePos).normalized;
+        movePos += (dir * addForce);
+        if (moveCoroutine == null)
+        {
+            moveCoroutine = StartCoroutine(CoMoveBySkill(time, targetPos));
+        }
+    }
+
+    public void PullInPath(float time, float range, float devideForce)
     {
         RaycastHit[] allHits = Physics.RaycastAll(transform.position, Vector3.back, range);
 
@@ -525,7 +564,9 @@ public class AIController : MonoBehaviour
                 continue;
 
             //controller.rb.isKinematic = false;
-            controller.Stun(false, time);
+
+            if (!controller.isStun)
+                controller.Stun(false, time);
             if (controller.moveCoroutine == null)
             {
                 controller.moveCoroutine = StartCoroutine(controller.CoMoveBySkill(time, movePos));

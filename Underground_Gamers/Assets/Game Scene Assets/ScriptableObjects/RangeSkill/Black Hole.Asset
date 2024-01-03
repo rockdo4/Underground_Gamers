@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c929e5f17b0ddc84ba3a9d108c47ee09, type: 3}
+  m_Name: Black Hole
+  m_EditorClassIdentifier: 
+  damage: 0
+  maxDamageRate: 0
+  minDamageRate: 0
+  cooldown: 0
+  fixedCooldown: 0
+  reloadCooldown: 0
+  chargeCount: 0
+  accuracyRate: 0
+  spreadRate: 0
+  criticalRate: 0
+  criticalMultiplier: 0
+  skillMode: 1
+  skillType: 0
+  damageRateLevel1: 0.2
+  damageRateLevel2: 0.3
+  damageRateLevel3: 0.45
+  attackTiming:
+  - 1
+  - 2
+  - 3
+  colDisableDelay: 0.01
+  durationRangeEffect: 3
+  offsetRangeEffect: 0
+  scaleRangeEffect: 1
+  offsetDirectional: {x: 0, y: 0, z: 0}
+  isDirectional: 0
+  isTargetPos: 0
+  rangeDamageEffectPrefab: {fileID: 9169955128656424827, guid: dda14b79cbefedc4795a541a4c84a575, type: 3}
+  durationHitEffect: 1
+  offsetHitEffect: 0
+  scaleHitEffect: 1
+  chainEffectPrefab: {fileID: 2499272984683594685, guid: 36fc7558e57c1794f9a4924c6f56de22, type: 3}
+  chainDamageRateLevel1: 0.8
+  chainDamageRateLevel2: 0.9
+  chainDamageRateLevel3: 1
+  chainTiming:
+  - 0.6
+  chainColDisableDelay: 0.01
