@@ -79,7 +79,7 @@ public class AttackState : AIState
                 aiController.gameManager.skillModeButton.SetActiveCoolTimeFillImage(true);
                 aiController.gameManager.skillModeButton.SetActiveCoolTimeText(true);
             }
-
+            aiController.gameManager.cutSceneManager.CreateCutScene();
             aiController.attackInfos[(int)SkillMode.Original].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
         }
     }

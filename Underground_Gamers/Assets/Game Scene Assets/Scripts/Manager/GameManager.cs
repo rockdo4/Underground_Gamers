@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public EntryManager entryManager;
     public AIRewardManager aiRewardManager;
     public StageInfoManager stageInfoManager;
+    public CutsceneManager cutSceneManager;
 
     [Header("Ä³½Ì")]
     public GameEndPannel gameEndPannel;
