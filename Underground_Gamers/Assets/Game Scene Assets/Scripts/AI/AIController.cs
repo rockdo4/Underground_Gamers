@@ -534,6 +534,10 @@ public class AIController : MonoBehaviour
     public void PullByTargetPos(Vector3 targetPos, float time, float addForce)
     {
         Stun(false, time);
+
+        Vector3 movePos = transform.position;
+        Vector3 dir = (targetPos - movePos).normalized;
+        movePos += (dir * addForce);
         if (moveCoroutine == null)
         {
             moveCoroutine = StartCoroutine(CoMoveBySkill(time, targetPos));
