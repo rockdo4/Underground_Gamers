@@ -39,6 +39,19 @@ public class EntryPanel : MonoBehaviour
         giveUpButtonText.text = gameManager.str.Get("give up");
     }
 
+    public void SetConditionIcon()
+    {
+        foreach(var member in entryMembers)
+        {
+            member.SetConditionIcon(conditionIcon[GamePlayerInfo.instance.GetOfficialPlayer(member.Index).condition]);
+        }         
+        
+        foreach(var member in benchMembers)
+        {
+            member.SetConditionIcon(conditionIcon[GamePlayerInfo.instance.GetOfficialPlayer(member.Index).condition]);
+        }
+    }
+
     public void SwapEntryMember()
     {
         if (selectedEntryMember != null && selectedBenchMember != null)

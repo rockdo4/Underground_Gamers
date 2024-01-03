@@ -1,3 +1,4 @@
+using Demo_Project;
 using EPOOutline;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ public class GameInfo : MonoBehaviour
     public int currentStage = 0;
     public float RandomSpawnRange = 1f;
     public GameType gameType = GameType.Story;
-    public List<Player> EntryPlayer { get; private set; } = new List<Player>();
+    public List<Player> entryPlayer { get; private set; } = new List<Player>();
 
     [HideInInspector]
     public int screammageLevel = 0;
@@ -63,7 +64,7 @@ public class GameInfo : MonoBehaviour
         foreach (EntryPlayer entryPlayer in entryMembers)
         {
             benchMembersIndex.Add(entryPlayer.Index);
-            
+
         }
         benchMembersIndex.Sort();
     }
@@ -88,14 +89,14 @@ public class GameInfo : MonoBehaviour
     {
         foreach (int index in entryIndex)
         {
-            EntryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(index));
+            entryPlayer.Add(GamePlayerInfo.instance.GetOfficialPlayer(index));
         }
         GamePlayerInfo.instance.SaveFile();
     }
 
     public void ClearEntryPlayer()
     {
-        EntryPlayer.Clear();
+        entryPlayer.Clear();
     }
 
     public void ClearMembersIndex()
@@ -116,7 +117,7 @@ public class GameInfo : MonoBehaviour
                 {
                     foreach (Player player in GamePlayerInfo.instance.usingPlayers)
                     {
-                        EntryPlayer.Add(player);
+                        entryPlayer.Add(player);
                     }
                     var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
                     StageInfo stageInfo = st.GetStageInfo(currentStage);
@@ -140,13 +141,14 @@ public class GameInfo : MonoBehaviour
                 break;
             case GameType.Official:
                 {
+
                 }
                 break;
             case GameType.Scrimmage:
                 {
                     foreach (Player player in GamePlayerInfo.instance.usingPlayers)
                     {
-                        EntryPlayer.Add(player);
+                        entryPlayer.Add(player);
                     }
                     var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
                     var rewardInfo = st.GetScrimmageRewards(screammageLevel);
@@ -159,6 +161,18 @@ public class GameInfo : MonoBehaviour
         }
     }
 
+    public void SetOfficialPlayerCondition()
+    {
+        GamePlayerInfo.instance.GetOfficialPlayer(0).condition = RandomGetCondition();
+        GamePlayerInfo.instance.GetOfficialPlayer(1).condition = RandomGetCondition();
+        GamePlayerInfo.instance.GetOfficialPlayer(2).condition = RandomGetCondition();
+        GamePlayerInfo.instance.GetOfficialPlayer(3).condition = RandomGetCondition();
+        GamePlayerInfo.instance.GetOfficialPlayer(4).condition = RandomGetCondition();
+        GamePlayerInfo.instance.GetOfficialPlayer(5).condition = RandomGetCondition();
+        GamePlayerInfo.instance.GetOfficialPlayer(6).condition = RandomGetCondition();
+        GamePlayerInfo.instance.GetOfficialPlayer(7).condition = RandomGetCondition();
+    }
+
     public void MakePlayers()
     {
         GamePlayerInfo.instance.isOnSchedule = false;
@@ -166,7 +180,7 @@ public class GameInfo : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            var player = EntryPlayer[i];
+            var player = entryPlayer[i];
             // 테스트를 위한 코드
             if (pt == null)
                 return;
@@ -237,7 +251,23 @@ public class GameInfo : MonoBehaviour
             stat.maxLv = player.maxLevel;
             stat.xp = player.xp;
             stat.maxXp = player.maxXp;
-            stat.condition = player.condition;
+
+
+            // 공격력, 공속, 이속
+            if (GameInfo.instance.gameType == GameType.Official)
+            {
+                stat.condition = player.condition;
+                stat.damage = UpdateStatsByCondition(stat.condition, stat.damage, true);
+                stat.speed = UpdateStatsByCondition(stat.condition, stat.speed, true);
+                stat.cooldown = UpdateStatsByCondition(stat.condition, stat.cooldown, false);
+            }
+            else
+            {
+                player.condition = 2;
+                stat.condition = player.condition;
+            }
+
+
             ai.SetInitialization();
 
             switch (stat.occupationType)
@@ -836,5 +866,59 @@ public class GameInfo : MonoBehaviour
         GamePlayerInfo.instance.officialPlayerDatas[index].kill += kill;
         GamePlayerInfo.instance.officialPlayerDatas[index].death += death;
         GamePlayerInfo.instance.officialPlayerDatas[index].totalDamage += totalDamage;
+    }
+
+    public int RandomGetCondition()
+    {
+        float randCondition = Random.Range(0f, 10f);
+
+        if (randCondition >= 0 && randCondition < 1f)
+        {
+            return 4;
+        }
+        else if (randCondition >= 1f && randCondition < 3f)
+        {
+            return 3;
+        }
+        else if (randCondition >= 3f && randCondition < 7f)
+        {
+            return 2;
+        }
+        else if (randCondition >= 7f && randCondition < 9f)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public float UpdateStatsByCondition(int condition, float value, bool isLargerBetter)
+    {
+        if (isLargerBetter)
+        {
+            value += condition switch
+            {
+                0 => value * 0.05f,
+                1 => value * 0.03f,
+                2 => value * 0f,
+                3 => value * -0.08f,
+                4 => value * -0.1f,
+                _ => value * 0f
+            };
+        }
+        else
+        {
+            value -= condition switch
+            {
+                0 => value * 0.05f,
+                1 => value * 0.03f,
+                2 => value * 0f,
+                3 => value * -0.08f,
+                4 => value * -0.1f,
+                _ => value * 0f
+            };
+        }
+        return value;
     }
 }

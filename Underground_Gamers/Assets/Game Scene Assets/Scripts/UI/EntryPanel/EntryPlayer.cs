@@ -1,4 +1,5 @@
 using DG.Tweening.Core.Easing;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -31,7 +32,7 @@ public class EntryPlayer : MonoBehaviour, IPointerClickHandler
     private GameManager gameManager;
     public Color[] outlineColors = new Color[3];
 
-    public void SetInfo(GameManager gameManager, int index, Sprite illustration, string name, int playerHp, 
+    public void SetInfo(GameManager gameManager, int index, Sprite illustration, string name, int playerHp,
         int playerAttack, int grade, Sprite type, int level, Sprite codition, int skillLevel, Sprite skillIcon, string skillName)
     {
         this.gameManager = gameManager;
@@ -48,6 +49,12 @@ public class EntryPlayer : MonoBehaviour, IPointerClickHandler
         skillLevelText.text = $"{this.gameManager.str.Get("skill lv")} {skillLevel}";
         this.skillIcon.sprite = skillIcon;
         skillNameText.text = skillName;
+    }
+
+    public void SetConditionIcon(Sprite conditionIcon)
+    {
+        this.conditionIcon.sprite = conditionIcon;
+        //conditionIcon.sprite = GamePlayerInfo.instance.GetOfficialPlayer(Index).condition;
     }
 
     public void SetBgColor(int grade)
@@ -87,8 +94,8 @@ public class EntryPlayer : MonoBehaviour, IPointerClickHandler
             gameManager.entryPanel.selectedEntryMember = this; // 새로운 멤버 선택
             gameManager.entryPanel.selectedEntryMember.SetActiveSelectOutline(true); // 선택한 멤버 활성화
         }
-    }    
-    
+    }
+
     public void ClickBenchMember()
     {
         if (gameManager.entryPanel.selectedBenchMember == this) // 같은 멤버를 다시 클릭한 경우
