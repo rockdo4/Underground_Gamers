@@ -1,3 +1,4 @@
+using Demo_Project;
 using EPOOutline;
 using System.Collections;
 using System.Collections.Generic;
@@ -66,6 +67,7 @@ public class AIController : MonoBehaviour
 {
     public Player playerInfo;
     public int code;
+    public Sprite skillIcon;
 
     public NavMeshAgent agent;
     public Rigidbody rb;
@@ -366,6 +368,9 @@ public class AIController : MonoBehaviour
             gameManager.lineManager.JoiningLine(this);
         if (teamIdentity.teamType == TeamType.NPC)
             gameManager.npcManager.SelectLineByInit(this);
+
+        PlayerInfo playerInfo = gameManager.pt.GetPlayerInfo(code);
+        skillIcon = gameManager.pt.GetSkillInfo(playerInfo.UniqueSkillCode).icon;
     }
 
     private void OnDisable()

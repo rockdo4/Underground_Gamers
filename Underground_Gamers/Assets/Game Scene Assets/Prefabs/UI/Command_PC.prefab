@@ -926,7 +926,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -6, y: -6}
+  m_SizeDelta: {x: -2, y: -2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7975438372195461555
 CanvasRenderer:
@@ -956,7 +956,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5dd3dd8c7d3872841aae89a3539bb5ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c406f220905bc3a44b1f8fc749fb60d1, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1815,6 +1815,7 @@ MonoBehaviour:
   isDragging: 0
   isDropSuccess: 0
   originImage: {fileID: 5411590557218224554}
+  frameImage: {fileID: 1276546777027452213}
   dummyPortraitPrefab: {fileID: 3303471980239516619, guid: 178e48c5fad66244688cfe10b390dc78, type: 3}
   dummyPrefab: {fileID: 3303471980239516619, guid: f521f49b56217f44491bff24f5932a12, type: 3}
 --- !u!1 &9208362704514969829
@@ -1986,6 +1987,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portrait Frame
       objectReference: {fileID: 0}
+    - target: {fileID: 3806732718569183496, guid: f5c619d388349da42a73fab41d47ae4a, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3806732718569183496, guid: f5c619d388349da42a73fab41d47ae4a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 14e3dd5fb02066447940104e4f55aff2, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

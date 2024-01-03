@@ -19,6 +19,7 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public Image coolTimeFill;
     public TextMeshProUGUI coolTimeText;
     public TextMeshProUGUI autoText;
+    public Image skillIcon;
     public Image priorSkillImage;
 
     private AIController currentAI;
@@ -90,8 +91,8 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void SetActiveCoolTimeFillImage(bool isActive)
     {
         coolTimeFill.gameObject.SetActive(isActive);
-    }    
-    
+    }
+
     public void SetActiveCoolTimeText(bool isActive)
     {
         coolTimeText.gameObject.SetActive(isActive);
@@ -128,6 +129,8 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void SetAI(AIController ai)
     {
         currentAI = ai;
+        if (currentAI != null)
+            skillIcon.sprite = currentAI.skillIcon;
     }
 
     public AIController GetAI()
