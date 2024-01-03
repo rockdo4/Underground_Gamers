@@ -5217,6 +5217,14 @@ MonoBehaviour:
   progressBar1: {fileID: 1165810526}
   progressBar2: {fileID: 1165810525}
   sceneToLoad: 
+  background: {fileID: 1371627135}
+  tipText: {fileID: 1371627134}
+  backgrounds:
+  - {fileID: 21300000, guid: 55a21e03d0388e143a4d3c5e41de9291, type: 3}
+  - {fileID: 21300000, guid: e4b0c3601faf9634090d1c919fd15fce, type: 3}
+  - {fileID: 21300000, guid: cb28c21b6933159448a815f01768de7f, type: 3}
+  - {fileID: 21300000, guid: 5647f29f1a7b2874ab2a45b0940d60d1, type: 3}
+  - {fileID: 21300000, guid: 8ca5e01bcb6848c4194168c145304649, type: 3}
 --- !u!4 &520880018 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6866797978406272594, guid: 4acaa074bbd0b1a4a855714153a27888, type: 3}
@@ -18213,6 +18221,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 260
       objectReference: {fileID: 0}
+    - target: {fileID: 1170625598508837606, guid: 1627336e05ee71c449252b0bbbfedc26, type: 3}
+      propertyPath: m_Name
+      value: Tip Text
+      objectReference: {fileID: 0}
+    - target: {fileID: 1719991546926036571, guid: 1627336e05ee71c449252b0bbbfedc26, type: 3}
+      propertyPath: m_Name
+      value: Loading Image
+      objectReference: {fileID: 0}
     - target: {fileID: 3154220406774818167, guid: 1627336e05ee71c449252b0bbbfedc26, type: 3}
       propertyPath: m_Name
       value: LodingPanel
@@ -18313,7 +18329,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7467871528392196174, guid: 1627336e05ee71c449252b0bbbfedc26, type: 3}
+      propertyPath: m_Name
+      value: Tip Background
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 887052451208698469, guid: 1627336e05ee71c449252b0bbbfedc26, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -20732,6 +20753,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1371627134 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 870971499123933734, guid: 1627336e05ee71c449252b0bbbfedc26, type: 3}
+  m_PrefabInstance: {fileID: 1165810521}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1371627135 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 692500364750846090, guid: 1627336e05ee71c449252b0bbbfedc26, type: 3}
+  m_PrefabInstance: {fileID: 1165810521}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165810523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1372559416
 GameObject:
   m_ObjectHideFlags: 0
