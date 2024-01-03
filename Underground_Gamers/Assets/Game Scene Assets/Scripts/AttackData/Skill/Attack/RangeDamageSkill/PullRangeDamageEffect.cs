@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PullRangeDamageEffect : RangeDamageEffect
 {
+    public float addForce = 1f;
     private int count = 0;
 
     private void OnDisable()
@@ -35,12 +36,12 @@ public class PullRangeDamageEffect : RangeDamageEffect
         attack.Damage = Mathf.RoundToInt(damage);
         if(count < timing.Length - 1)
         {
-            dController.PullByTargetPos(transform.position, timing[count+1] - timing[count]);
+            dController.PullByTargetPos(transform.position, timing[count+1] - timing[count], addForce);
             count++;
         }
         else if(count == timing.Length)
         {
-            dController.PullByTargetPos(transform.position, timing[1] - timing[0]);
+            dController.PullByTargetPos(transform.position, timing[1] - timing[0], addForce);
         }
         foreach (var attackable in attackables)
         {

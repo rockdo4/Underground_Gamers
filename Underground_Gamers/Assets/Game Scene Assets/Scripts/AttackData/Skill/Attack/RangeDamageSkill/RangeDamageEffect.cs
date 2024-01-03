@@ -17,10 +17,13 @@ public class RangeDamageEffect : CreateEffectSkill
     public float chainDelay;
     public float[] chainTiming;
 
+    public float durationChainEffect = 1f;
+
     private void OnDisable()
     {
         CreateEffectSkill chainEffect = Instantiate(chainEffectPrefab);
         chainEffect.SetEffect(controller, chainAttack, chainTiming, chainDelay, Time.time);
+        Destroy(chainEffect, durationChainEffect);
     }
 
     protected virtual void OnTriggerEnter(Collider other)

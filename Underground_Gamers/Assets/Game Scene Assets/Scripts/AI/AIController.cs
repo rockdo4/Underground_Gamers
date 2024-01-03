@@ -531,7 +531,7 @@ public class AIController : MonoBehaviour
         Debug.Log("Stun Release");
     }
 
-    public void PullByTargetPos(Vector3 targetPos, float time)
+    public void PullByTargetPos(Vector3 targetPos, float time, float addForce)
     {
         Stun(false, time);
         if (moveCoroutine == null)

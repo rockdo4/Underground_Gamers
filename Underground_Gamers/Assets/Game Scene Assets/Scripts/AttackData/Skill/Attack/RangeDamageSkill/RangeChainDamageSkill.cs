@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "RangeChainDamageSkill.Asset", menuName = "RangeSkill/RangeChainDamageSkill")]
 public class RangeChainDamageSkill : RangeDamageSkill
 {
     [Header("ø¨º‚ ¿Ã∆Â∆Æ")]
