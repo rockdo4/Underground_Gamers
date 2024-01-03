@@ -20,6 +20,7 @@ public class DragInfoSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, I
     private static Image bottomDropPanel;
 
     public Image originImage;
+    public Image frameImage;
 
     public DummySlot dummyPortraitPrefab;
     private DummySlot dummyPortrait;
@@ -54,7 +55,7 @@ public class DragInfoSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, I
         dragInfo = this;
         dummyPortrait.gameObject.SetActive(true);
         dummyPortrait.portrait.sprite = originImage.sprite;
-
+        dummyPortrait.frame.color = frameImage.color;
         dummyPortrait.transform.position = eventData.position;
 
 

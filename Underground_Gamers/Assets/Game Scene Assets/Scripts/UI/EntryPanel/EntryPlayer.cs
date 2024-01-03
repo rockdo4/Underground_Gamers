@@ -19,6 +19,8 @@ public class EntryPlayer : MonoBehaviour, IPointerClickHandler
     public TextMeshProUGUI levelText;
     public Image conditionIcon;
     public TextMeshProUGUI skillLevelText;
+    public Image skillIcon;
+    public TextMeshProUGUI skillNameText;
 
     public GameObject selectOutline;
     public Image bg;
@@ -29,7 +31,8 @@ public class EntryPlayer : MonoBehaviour, IPointerClickHandler
     private GameManager gameManager;
     public Color[] outlineColors = new Color[3];
 
-    public void SetInfo(GameManager gameManager, int index, Sprite illustration, string name, int playerHp, int playerAttack, int grade, Sprite type, int level, Sprite codition, int skillLevel)
+    public void SetInfo(GameManager gameManager, int index, Sprite illustration, string name, int playerHp, 
+        int playerAttack, int grade, Sprite type, int level, Sprite codition, int skillLevel, Sprite skillIcon, string skillName)
     {
         this.gameManager = gameManager;
         this.Index = index;
@@ -43,6 +46,8 @@ public class EntryPlayer : MonoBehaviour, IPointerClickHandler
         levelText.text = $"{this.gameManager.str.Get("lv")} {level}";
         conditionIcon.sprite = codition;
         skillLevelText.text = $"{this.gameManager.str.Get("skill lv")} {skillLevel}";
+        this.skillIcon.sprite = skillIcon;
+        skillNameText.text = skillName;
     }
 
     public void SetBgColor(int grade)

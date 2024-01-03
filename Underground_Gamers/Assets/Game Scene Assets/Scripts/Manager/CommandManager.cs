@@ -106,6 +106,7 @@ public class CommandManager : MonoBehaviour
         skillModeButton.RefreshUsedSkillCoolTime();
         skillModeButton.SetActiveSkillModeButton(true);
         skillModeButton.SetAI(currentAI);
+        // 여기서 아이콘 지정
         skillModeButton.SetPriorSkill(currentAI.isPrior);
         if (skillModeButton.IsAutoMode)
         {
