@@ -2,34 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RangeDamageSkill.Asset", menuName = "RangeSkill/RangeDamageSkill")]
-public class RangeDamageSkill : AttackDefinition
+
+[CreateAssetMenu(fileName = "RangeChannelingDamageSkill.Asset", menuName = "RangeSkill/RangeChannelingDamageSkill")]
+public class RangeChannelingDamageSkill : RangeDamageSkill
 {
-    public float damageRateLevel1;
-    public float damageRateLevel2;
-    public float damageRateLevel3;
-
-    public float[] attackTiming = new float[1];
-    public float colDisableDelay;
-
-    [Header("π¸¿ß¿Ã∆Â∆Æ")]
-    public float durationRangeEffect;
-    public float offsetRangeEffect = 0f;
-    public float scaleRangeEffect = 1f;
-
-    public Vector3 offsetDirectional = Vector3.zero;
-
-    public bool isDirectional = false;
-    public bool isTargetPos = false;
-
-    public CreateEffectSkill rangeDamageEffectPrefab;
-    private Attack attack;
-
-    [Header("≈∏∞› ¿Ã∆Â∆Æ")]
-    public float durationHitEffect = 1f;
-    public float offsetHitEffect = 0f;
-    public float scaleHitEffect = 1f;
-
     public override void ExecuteAttack(GameObject attacker, GameObject defender)
     {
         CharacterStatus aStatus = attacker.GetComponent<CharacterStatus>();
@@ -45,8 +21,18 @@ public class RangeDamageSkill : AttackDefinition
         {
             if (!isTargetPos)
             {
-                Quaternion newRotation = RotateAxis(attacker.transform.rotation.eulerAngles, offsetDirectional);
-                rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform.position, newRotation);
+                if(aController.isChanneling)
+                {
+                    rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform);
+                    Vector3 effectPos = rangeEffect.transform.localPosition;
+                    effectPos.z += 1f;
+                    rangeEffect.transform.localPosition = effectPos;
+                }
+                else
+                {
+                    Quaternion newRotation = RotateAxis(attacker.transform.rotation.eulerAngles, offsetDirectional);
+                    rangeEffect = Instantiate(rangeDamageEffectPrefab, attacker.transform.position, newRotation);
+                }
             }
             else
             {
@@ -86,6 +72,9 @@ public class RangeDamageSkill : AttackDefinition
         {
             attack.IsCritical = false;
         }
+
+        aController.isChanneling = true;
+        aController.Stun(false, durationRangeEffect);
         rangeEffect.SetEffect(aController, attack, attackTiming, colDisableDelay, Time.time);
         rangeEffect.SetHitEffect(durationHitEffect, offsetHitEffect, scaleHitEffect);
         rangeEffect.SetOffsetNScale(offsetRangeEffect, scaleRangeEffect);
@@ -94,22 +83,4 @@ public class RangeDamageSkill : AttackDefinition
         Destroy(rangeEffect.gameObject, durationRangeEffect);
     }
 
-    protected Quaternion RotateAxis(Vector3 eulerAngles, Vector3 offset)
-    {
-        Vector3 rotation = eulerAngles;
-        rotation.y += offset.y;
-        if (rotation.y < 0)
-            rotation.y += 360f;
-
-        rotation.y %= 360f;
-
-        rotation.x += offset.x;
-
-        if (rotation.x < 0)
-            rotation.x += 360f;
-
-        rotation.x %= 360f;
-        Quaternion newRotation = Quaternion.Euler(new Vector3(rotation.x, rotation.y, rotation.z));
-        return newRotation;
-    }
 }

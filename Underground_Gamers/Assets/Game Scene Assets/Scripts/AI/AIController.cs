@@ -106,6 +106,7 @@ public class AIController : MonoBehaviour
     public float stunTimer;
     public bool isStun = false;
     public bool useMoveSkill = false;
+    public bool isChanneling = false;
     public Coroutine moveCoroutine;
     public Coroutine useMoveCoroutine;
 
