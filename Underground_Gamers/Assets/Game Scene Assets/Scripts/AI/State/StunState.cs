@@ -36,10 +36,6 @@ public class StunState : AIState
     {
         if(aiController.stunTime + aiController.stunTimer < Time.time)
         {
-            //if (!aiController.rb.isKinematic)
-            //{
-            //    aiController.rb.isKinematic = true;
-            //}
 
             if (aiController.isAttack)
                 aiController.SetState(States.MissionExecution);

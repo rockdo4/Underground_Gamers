@@ -461,7 +461,7 @@ public class AIController : MonoBehaviour
     private IEnumerator CoUseMoveSkill(AIController controller, float moveTime, bool afterAttack, bool lookTarget, bool isPull, Attack attack,
         float[] attackTiming, float delay, Vector3 targetPos, Vector3 prevPos, CreateEffectSkill effectPrefab, float devideForce, float stunTime = 0f)
     {
-        Debug.Log("Stun");
+        //Debug.Log("Stun");
         agent.enabled = false;
 
         controller.Stun(true, moveTime);
@@ -528,7 +528,7 @@ public class AIController : MonoBehaviour
             controller.SetState(States.MissionExecution);
         if (controller.isDefend)
             controller.SetState(States.Retreat);
-        Debug.Log("Stun Release");
+        //Debug.Log("Stun Release");
     }
 
     public void PullByTargetPos(Vector3 targetPos, float time, float addForce)
@@ -540,7 +540,7 @@ public class AIController : MonoBehaviour
         movePos += (dir * addForce);
         if (moveCoroutine == null)
         {
-            moveCoroutine = StartCoroutine(CoMoveBySkill(time, targetPos));
+            moveCoroutine = StartCoroutine(CoMoveBySkill(time, movePos));
         }
     }
 
@@ -596,7 +596,7 @@ public class AIController : MonoBehaviour
             //Vector3 movePos = transform.position;
             //movePos += dir * moveSpeed * Time.deltaTime;
             transform.position = movePos;
-            Debug.Log("Moving");
+            //Debug.Log("Moving");
 
             timer += Time.deltaTime;
             yield return null;
@@ -604,7 +604,7 @@ public class AIController : MonoBehaviour
         agent.enabled = true;
         transform.position = targetPos;
         moveCoroutine = null;
-        Debug.Log("Stop Move");
+        //Debug.Log("Stop Move");
     }
 
     public void Stun(bool useMove, float time)
@@ -690,10 +690,8 @@ public class AIController : MonoBehaviour
 
         if (building != null)
             building.AddAIController(this);
-        Debug.Log("Prve SetDest");
         if (status.IsLive)
             SetDestination(this.missionTarget.position);
-        Debug.Log("SetDest");
     }
 
     public void RefreshBuilding()
@@ -745,12 +743,14 @@ public class AIController : MonoBehaviour
         //    var colDis = colDir * col.bounds.extents.x;
         //    destination += colDis;
         //}
-        agent.SetDestination(destination);
+        if (agent.enabled)
+            agent.SetDestination(destination);
     }
 
     public void SetDestination(Vector3 destination)
     {
-        agent.SetDestination(destination);
+        if (agent.enabled)
+            agent.SetDestination(destination);
     }
 
     public void SetState(States newState)

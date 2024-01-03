@@ -19,11 +19,14 @@ public class RangeDamageEffect : CreateEffectSkill
 
     public float durationChainEffect = 1f;
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
-        CreateEffectSkill chainEffect = Instantiate(chainEffectPrefab);
-        chainEffect.SetEffect(controller, chainAttack, chainTiming, chainDelay, Time.time);
-        Destroy(chainEffect, durationChainEffect);
+        if(chainEffectPrefab != null)
+        {
+            CreateEffectSkill chainEffect = Instantiate(chainEffectPrefab, transform.position, chainEffectPrefab.transform.rotation);
+            chainEffect.SetEffect(controller, chainAttack, chainTiming, chainDelay, Time.time);
+            Destroy(chainEffect, durationChainEffect);
+        }
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -52,10 +55,14 @@ public class RangeDamageEffect : CreateEffectSkill
 
         if (stunTime > 0f)
         {
-            dController.Stun(false, stunTime);
-            DurationEffect stunEffect = Instantiate(stunEffectPrefab, dController.transform);
-            stunEffect.SetOffsetNScale(offsetStunEffect, scaleStunEffect);
-            Destroy(stunEffect.gameObject, stunTime);
+            if(dController != null)
+                dController.Stun(false, stunTime);
+            if(stunEffectPrefab != null)
+            {
+                DurationEffect stunEffect = Instantiate(stunEffectPrefab, dController.transform);
+                stunEffect.SetOffsetNScale(offsetStunEffect, scaleStunEffect);
+                Destroy(stunEffect.gameObject, stunTime);
+            }
         }
 
         foreach (var attackable in attackables)

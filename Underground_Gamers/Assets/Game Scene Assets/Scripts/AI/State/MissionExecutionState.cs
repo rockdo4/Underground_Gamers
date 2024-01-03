@@ -24,14 +24,14 @@ public class MissionExecutionState : AIState
         aiController.RefreshDebugAIStatus(this.ToString());
 
         aiController.isBattle = false;
-        if(agent.enabled)
-        {
-            Debug.Log($"{aiStatus.name} Enabled");
-        }
-        else
-        {
-            Debug.Log($"{aiStatus.name} Disabled");
-        }
+        //if(agent.enabled)
+        //{
+        //    Debug.Log($"{aiStatus.name} Enabled");
+        //}
+        //else
+        //{
+        //    Debug.Log($"{aiStatus.name} Disabled");
+        //}
         agent.isStopped = false;
         aiController.SetMissionTarget(aiController.missionTarget);
 

@@ -17,7 +17,7 @@ public class CastEffect : MonoBehaviour
         pos.y += offset;
         durationEffect.transform.position = pos;
         durationEffect.transform.localScale *= scale;
-        Destroy(durationEffect, duration);
+        Destroy(durationEffect.gameObject, duration);
         Destroy(gameObject);
     }
     public void SetDurationEffect(DurationEffect durationEffectPrefab, Transform parent, float duration, float offset, float scale)

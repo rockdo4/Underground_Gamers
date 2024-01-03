@@ -6,6 +6,6 @@ public class Setting : MonoBehaviour
 {
     public void OnSetting()
     {
-
+        OptionUI.instance.OpenOption();
     }
 }
