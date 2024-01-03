@@ -70,6 +70,8 @@ public class PlayerChanger : MonoBehaviour
             else
             {
                 Player player = usingList[i];
+                PlayerInfo playerInfo = pt.GetPlayerInfo(player.code);
+                SkillInfo skillInfo = pt.GetSkillInfo(playerInfo.UniqueSkillCode);
                 slot.FrontPanel.gameObject.SetActive(false);
                 slot.image.sprite = pt.playerSprites[pt.PlayerIndexSearch(player.code)];
                 if (!slot.isSpare)
@@ -79,8 +81,11 @@ public class PlayerChanger : MonoBehaviour
                     slot.levelText.text = $"Lv.{player.level}";
                     slot.nameText.text = st.Get($"playerName{player.code}");
                     slot.skillNameText.text = st.Get($"skillName{player.gearCode}");
-                    slot.skillLevelText.text = $"Lv.{player.gearLevel}";
+                    slot.skillLevelText.text = $"Lv.{player.skillLevel}";
                     slot.xpGauge.value = player.xp / player.maxXp;
+
+                    slot.skillNameText.text = st.Get(skillInfo.name.ToString());
+                    slot.skillImage.sprite = skillInfo.icon;
                 }
                 slot.star.sprite = player.grade switch
                 {

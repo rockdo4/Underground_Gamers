@@ -17,6 +17,7 @@ public class UIPlayerSlots : MonoBehaviour
 
     public Slider xpGauge;
     public TMP_Text nameText;
+    public Image skillImage;
     public TMP_Text skillNameText;
     public TMP_Text skillLevelText;
 }

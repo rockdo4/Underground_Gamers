@@ -186,4 +186,9 @@ public class PlayerTable : DataTable
     {
         return levelUpCostDatabase.Find(a => a.level == level).cost;
     }
+
+    public SkillInfo GetSkillInfo(int code)
+    {
+        return skillTable.Find(a => a.ID == code);
+    }
 }
