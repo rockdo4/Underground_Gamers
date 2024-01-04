@@ -47,7 +47,6 @@ public class RangeChainDamageSkill : RangeDamageSkill
             }
             else
             {
-                Debug.Log("Create Black Hole");
                 rangeEffect = Instantiate(rangeDamageEffectPrefab, defender.transform.position, rangeDamageEffectPrefab.transform.rotation);
             }
         }
