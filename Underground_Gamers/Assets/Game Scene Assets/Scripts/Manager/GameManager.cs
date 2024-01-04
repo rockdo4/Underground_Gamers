@@ -102,6 +102,8 @@ public class GameManager : MonoBehaviour
                     IsRoundWin = false;
                 }
 
+                Time.timeScale = 1f;
+                gameEndPannel.DisplayResultLogo(IsRoundWin);
                 GetWinner();
             }
 
@@ -163,15 +165,20 @@ public class GameManager : MonoBehaviour
         IsPlaying = false;
         if (IsRoundWin)
         {
-            gameEndPannel.winText.gameObject.SetActive(true);
-            gameEndPannel.LoseText.gameObject.SetActive(false);
+            gameEndPannel.victoryLogo.gameObject.SetActive(true);
+            gameEndPannel.defeatLogo.gameObject.SetActive(false);
         }
         else
         {
-            gameEndPannel.winText.gameObject.SetActive(false);
-            gameEndPannel.LoseText.gameObject.SetActive(true);
+            gameEndPannel.victoryLogo.gameObject.SetActive(false);
+            gameEndPannel.defeatLogo.gameObject.SetActive(true);
         }
 
+        gameEndPannel.youWinLogo.gameObject.SetActive(false);
+        gameEndPannel.youLoseLogo.gameObject.SetActive(false);
+        gameEndPannel.youWinLogo.transform.position = gameEndPannel.originPos;
+        gameEndPannel.youLoseLogo.transform.position = gameEndPannel.originPos;
+        gameEndPannel.endPanel.SetActive(false);
         // 게임 업데이트가 멈추는데 멈춰도 되는가 생각
         Time.timeScale = 0f;
         gameEndPannel.OnGameEndPanel();
