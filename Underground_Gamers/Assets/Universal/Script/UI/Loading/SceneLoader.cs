@@ -38,6 +38,7 @@ public class SceneLoader : MonoBehaviour
 
     public void SceneLoad(string sceneName)
     {
+        StopAllCoroutines();
         int randBackground = Random.Range(0, backgrounds.Length);
         int randTip = Random.Range(0, tips.Length);
 

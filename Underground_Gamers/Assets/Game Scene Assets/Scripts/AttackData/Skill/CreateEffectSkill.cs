@@ -45,7 +45,6 @@ public class CreateEffectSkill : MonoBehaviour
                 hitCount++;
                 col.enabled = true;
                 delayTimer = Time.time;
-                Debug.Log("Col");
             }
 
             if (delay + delayTimer < Time.time && col.enabled)

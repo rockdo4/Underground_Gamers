@@ -257,25 +257,25 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
     public void SwipeLeftCard()
     {
-        if (currIndex - 1 < 0)
-        {
-            OpenPlayerGrowInfo(sortedPlayerList.Count - 1);
-        }
-        else
-        {
-            OpenPlayerGrowInfo(currIndex - 1);
-        }
+        //if (currIndex - 1 < 0)
+        //{
+        //    OpenPlayerGrowInfo(sortedPlayerList.Count - 1);
+        //}
+        //else
+        //{
+        //    OpenPlayerGrowInfo(currIndex - 1);
+        //}
     }
     public void SwipeRightCard()
     {
-        if (currIndex + 1 >= sortedPlayerList.Count)
-        {
-            OpenPlayerGrowInfo(0);
-        }
-        else
-        {
-            OpenPlayerGrowInfo(currIndex + 1);
-        }
+        //if (currIndex + 1 >= sortedPlayerList.Count)
+        //{
+        //    OpenPlayerGrowInfo(0);
+        //}
+        //else
+        //{
+        //    OpenPlayerGrowInfo(currIndex + 1);
+        //}
     }
 
     public void ActivePopupPlayerInfo()
