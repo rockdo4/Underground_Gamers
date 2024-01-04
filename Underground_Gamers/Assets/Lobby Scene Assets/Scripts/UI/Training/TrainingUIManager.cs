@@ -54,7 +54,7 @@ public class TrainingUIManager : LobbySceneSubscriber
     {
         if (code > 2)
         {
-            Debug.Log("Not Allowd Training Code");
+            //Debug.Log("Not Allowd Training Code");
             return;
         }
         for (int i = 0; i < trainingManagers.Count; i++) 

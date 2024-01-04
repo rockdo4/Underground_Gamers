@@ -1,9 +1,9 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class GamePlayerInfo : MonoBehaviour
@@ -465,7 +465,7 @@ public class GamePlayerInfo : MonoBehaviour
                 return;
             }
         }
-        Debug.Log("Can't find Char");
+        //Debug.Log("Can't find Char");
     }
 
     public void BreakPlayer(Player player, List<Player> delete)
@@ -526,7 +526,7 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.usingPlayers = usingPlayers;
         if (usingPlayers.Count > 8)
         {
-            Debug.Log($"{usingPlayers.Count}");
+            //Debug.Log($"{usingPlayers.Count}");
         }
 
         saveData.cleardStage = cleardStage;

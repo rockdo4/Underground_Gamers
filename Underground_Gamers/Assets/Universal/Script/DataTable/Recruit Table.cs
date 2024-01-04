@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -92,7 +91,7 @@ public class RecruitTable : DataTable
 
         if (result == -1 ) 
         {
-            Debug.Log("GatchaError!");
+            //Debug.Log("GatchaError!");
             return -1;
         }
         else if (int.Parse(data["end"]) == 0)

@@ -1,8 +1,7 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.Collections.Generic;
 using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class OnDropInfoPanel : MonoBehaviour, IDropHandler
 {
@@ -18,8 +17,8 @@ public class OnDropInfoPanel : MonoBehaviour, IDropHandler
 
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
-        Debug.Log("Drop");
-        Debug.Log(eventData.pointerDrag.gameObject.name);
+        //Debug.Log("Drop");
+        //Debug.Log(eventData.pointerDrag.gameObject.name);
         DragInfoSlot dragObject = DragInfoSlot.dragInfo;
 
         // 이전 기능 드롭 패널과, 실제 이미지 패널 크기 동기화

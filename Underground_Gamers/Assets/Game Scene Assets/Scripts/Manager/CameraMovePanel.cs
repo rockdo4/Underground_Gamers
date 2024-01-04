@@ -20,7 +20,7 @@ public class CameraMovePanel : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("드래그중");
+        //Debug.Log("드래그중");
         Vector3 deltaPosition = eventData.position - dragOrigin;
         Vector3 move = new Vector3(0, 0, -deltaPosition.x * dragSpeed);
         mainCamera.transform.Translate(move * Time.deltaTime, Space.World);

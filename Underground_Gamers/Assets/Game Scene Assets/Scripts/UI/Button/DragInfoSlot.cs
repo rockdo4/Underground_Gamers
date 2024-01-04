@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -49,7 +47,7 @@ public class DragInfoSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, I
         isDragging = true;
 
         prevPos = transform.position;
-        Debug.Log("BeginDrag");
+        //Debug.Log("BeginDrag");
         //transform.position = eventData.position;
         GetComponent<Image>().raycastTarget = false;
         dragInfo = this;
@@ -82,7 +80,7 @@ public class DragInfoSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, I
         dummyPortrait.gameObject.SetActive(false);
         dummy.transform.gameObject.SetActive(false);
 
-        Debug.Log("EndDrag");
+        //Debug.Log("EndDrag");
 
         if (!isDropSuccess)
         {

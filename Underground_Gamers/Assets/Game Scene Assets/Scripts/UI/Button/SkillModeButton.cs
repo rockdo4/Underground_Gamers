@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -55,11 +53,11 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         if (isActive)
         {
-            Debug.Log("Auto");
+            //Debug.Log("Auto");
         }
         else
         {
-            Debug.Log("Manual");
+            //Debug.Log("Manual");
         }
         // 수동
         coolTimeText.gameObject.SetActive(!isActive);
@@ -110,8 +108,8 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         if (!IsAutoMode && switchModeTimer + switchModeTime > Time.time)
         {
             // 스킬 수동 사용
-            Debug.Log(currentAI.name);
-            Debug.Log("Use Skill");
+            //Debug.Log(currentAI.name);
+            //Debug.Log("Use Skill");
 
             if (currentAI != null)
             {

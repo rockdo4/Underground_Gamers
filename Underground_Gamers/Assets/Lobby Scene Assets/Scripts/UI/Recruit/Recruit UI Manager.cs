@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -82,7 +80,7 @@ public class RecruitUIManager : LobbySceneSubscriber
     {
         if (code > 2)
         {
-            Debug.Log("Not Allowd Recruit Code");
+            //Debug.Log("Not Allowd Recruit Code");
             return;
         }
         for (int i = 0; i < recruitManagers.Count; i++)

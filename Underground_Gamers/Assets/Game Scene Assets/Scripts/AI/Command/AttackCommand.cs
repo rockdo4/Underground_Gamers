@@ -47,7 +47,7 @@ public class AttackCommand : Command
                     && aiController.moveCoroutine == null && aiController.useMoveCoroutine == null)
                     aiController.SetState(States.MissionExecution);
 
-                Debug.Log($"{aiController.aiType.text} : Attack Command Execute");
+                //Debug.Log($"{aiController.aiType.text} : Attack Command Execute");
             }
         }       // 개별명령
         else
@@ -82,7 +82,7 @@ public class AttackCommand : Command
 
             if (ai.teamIdentity.teamType == TeamType.PC)
                 gameManager.commandManager.SetActiveCommandButton(ai);
-            Debug.Log($"{ai.aiType.text} : Attack Command Execute");
+            //Debug.Log($"{ai.aiType.text} : Attack Command Execute");
         }
     }
 }

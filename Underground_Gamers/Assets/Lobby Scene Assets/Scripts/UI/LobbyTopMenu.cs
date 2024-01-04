@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyTopMenu : MonoBehaviour
@@ -38,7 +36,7 @@ public class LobbyTopMenu : MonoBehaviour
         if (functionStack.Count == 0)
         {
             LobbySceneUIManager.instance.EmergencyOut();
-            Debug.Log("Execute Nothing!");
+            //Debug.Log("Execute Nothing!");
             return;
         }
         Action function = functionStack.Pop();
@@ -49,7 +47,7 @@ public class LobbyTopMenu : MonoBehaviour
         if (functionStack.Count == 0)
         {
             LobbySceneUIManager.instance.EmergencyOut();
-            Debug.Log("Execute Nothing!");
+            //Debug.Log("Execute Nothing!");
             return;
         }
         int executedCount = 0;
@@ -67,7 +65,7 @@ public class LobbyTopMenu : MonoBehaviour
         if (functionStack.Count == 0)
         {
             LobbySceneUIManager.instance.EmergencyOut();
-            Debug.Log("Execute Nothing!");
+            //Debug.Log("Execute Nothing!");
             return;
         }
 
@@ -88,7 +86,7 @@ public class LobbyTopMenu : MonoBehaviour
         if (functionStack.Count == 0)
         {
             LobbySceneUIManager.instance.EmergencyOut();
-            Debug.Log("Delete Nothing!");
+            //Debug.Log("Delete Nothing!");
             return;
         }
         functionStack.Pop();
