@@ -1,19 +1,26 @@
 using DG.Tweening;
-using DG.Tweening.Core.Easing;
 using EPOOutline;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Principal;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameEndPannel : MonoBehaviour
 {
     public GameManager gameManager;
 
-    public TextMeshProUGUI winText;
-    public TextMeshProUGUI LoseText;
+    //public TextMeshProUGUI winText;
+    //public TextMeshProUGUI LoseText;
+    public Image victoryLogo;
+    public Image defeatLogo;
+    public Image youWinLogo;
+    public Image youLoseLogo;
+    public Vector3 originPos = Vector3.zero;
+    public GameObject endPanel;
+
+    public Vector3 targetPos = Vector3.zero;
+    public float moveDuration = 2f;
+
     public TextMeshProUGUI retryStageButtonText;
     public TextMeshProUGUI nextStageButtonText;
     public TextMeshProUGUI damageGraphButtonText;
@@ -51,8 +58,8 @@ public class GameEndPannel : MonoBehaviour
 
     private void Start()
     {
-        winText.text = gameManager.str.Get("win");
-        LoseText.text = gameManager.str.Get("lose");
+        //winText.text = gameManager.str.Get("win");
+        //LoseText.text = gameManager.str.Get("lose");
         retryStageButtonText.text = gameManager.str.Get("retry stage");
         nextStageButtonText.text = gameManager.str.Get("next stage");
         damageGraphButtonText.text = gameManager.str.Get("damage graph");
@@ -60,6 +67,25 @@ public class GameEndPannel : MonoBehaviour
         nextRoundButtonText.text = gameManager.str.Get("next round");
         endRoundButtonText.text = gameManager.str.Get("end round");
         okGraphButtonText.text = gameManager.str.Get("ok");
+    }
+
+    public void DisplayResultLogo(bool isWin)
+    {
+        endPanel.SetActive(true);
+        if (isWin)
+        {
+            youWinLogo.gameObject.SetActive(true);
+            youLoseLogo.gameObject.SetActive(false);
+            originPos = youWinLogo.transform.position;
+            youWinLogo.GetComponent<RectTransform>().DOAnchorPos(targetPos, moveDuration).SetEase(Ease.OutQuint);
+        }
+        else
+        {
+            youLoseLogo.gameObject.SetActive(true);
+            youWinLogo.gameObject.SetActive(false);
+            originPos = youLoseLogo.transform.position;
+            youLoseLogo.GetComponent<RectTransform>().DOAnchorPos(targetPos, moveDuration).SetEase(Ease.OutQuint);
+        }
     }
 
     public void SetActiveGameEndPanelButton(bool isActive)

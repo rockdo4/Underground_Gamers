@@ -347,7 +347,6 @@ public class AIController : MonoBehaviour
     }
     private void Start()
     {
-
         stateManager = new StateManager();
         states.Add(new IdleState(this));
         states.Add(new MissionExecutionState(this));

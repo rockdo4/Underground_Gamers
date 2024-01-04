@@ -38,7 +38,6 @@ public class ExplosionEffect : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Col Create");
         var ai = other.GetComponent<AIController>();
         if (ai == null)
             return;
@@ -46,8 +45,6 @@ public class ExplosionEffect : MonoBehaviour
         // ต๐น๖วม
         if(other.gameObject.layer == this.ai.gameObject.layer)
         {
-            Debug.Log("Debuff");
-
             speedBuff.ApplyBuff(ai);
             attackSpeedBuff.ApplyBuff(ai);
 

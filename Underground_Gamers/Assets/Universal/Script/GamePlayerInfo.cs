@@ -580,7 +580,6 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.volumeEffect = volumeEffect;
 
         var path = Path.Combine(Application.persistentDataPath, "52743890.json");
-        Debug.Log(path);
         var json = JsonConvert.SerializeObject(saveData, new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
         File.WriteAllText(path, json);
     }

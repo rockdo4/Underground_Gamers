@@ -27,6 +27,8 @@ public class DestroyedNexus : MonoBehaviour, IDestroyable
             {
                 gameManager.IsRoundWin = true;
             }
+            Time.timeScale = 1f;
+            gameManager.gameEndPannel.DisplayResultLogo(gameManager.IsRoundWin);
             gameManager.GetWinner();
         }
         if (gameManager != null)
