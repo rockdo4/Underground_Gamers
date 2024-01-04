@@ -158,7 +158,7 @@ public class EntryPanel : MonoBehaviour
         int code = GamePlayerInfo.instance.GetOfficialPlayer(index).code;
         if (code < 0)
         {
-            Debug.Log("Code Error");
+            //Debug.Log("Code Error");
             return;
         }
         var playerInfo = pt.GetPlayerInfo(code);
