@@ -3,6 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EffectType
+{
+    Button_Click,
+    Option_Button,
+    Level_Up,
+    Xp_Gauge,
+    Positive_PopUp,
+    Negative_PopUp
+}
+
 public class SoundPlayer : MonoBehaviour
 {
     public static SoundPlayer instance
@@ -19,7 +29,8 @@ public class SoundPlayer : MonoBehaviour
 
     private static SoundPlayer soundPlayer;
 
-    private AudioSource m_AudioSource;
+    public AudioSource bgmAudio;
+    public AudioSource effectAudio;
     [SerializeField]
     private float fadeOutTime = 1f;
     [SerializeField]
@@ -28,58 +39,72 @@ public class SoundPlayer : MonoBehaviour
     private AudioClip[] BGM_Lobby;
     [SerializeField]
     private AudioClip[] BGM_Game;
+    [SerializeField]
+    private AudioClip[] EffectSounds;
 
     private void Awake()
     {
-        m_AudioSource = GetComponent<AudioSource>();
-        m_AudioSource.clip = BGM_Title;
-        m_AudioSource.Play();
+        bgmAudio = GetComponent<AudioSource>();
+        bgmAudio.clip = BGM_Title;
+        bgmAudio.Play();
     }
 
     public void EnterLobbyMusic()
     {
         DOTween.defaultTimeScaleIndependent = true;
-        m_AudioSource.DOFade(0, fadeOutTime).OnComplete(EnterLobbyMusicPlay);
+        bgmAudio.DOFade(0, fadeOutTime).OnComplete(EnterLobbyMusicPlay);
     }
 
     public void EnterLobbyMusicPlay()
     {
-        m_AudioSource.clip = BGM_Lobby[0];
-        m_AudioSource.volume = 1;
-        m_AudioSource.Play();
+        bgmAudio.clip = BGM_Lobby[0];
+        bgmAudio.volume = 1;
+        bgmAudio.Play();
     }
 
     public void EnterGameMusic()
     {
         DOTween.defaultTimeScaleIndependent = true;
-        m_AudioSource.DOFade(0, fadeOutTime).OnComplete(EnterGameMusicPlay);
+        bgmAudio.DOFade(0, fadeOutTime).OnComplete(EnterGameMusicPlay);
     }
 
     public void EnterGameMusicPlay()
     {
-        m_AudioSource.clip = BGM_Game[0];
-        m_AudioSource.volume = 1;
-        m_AudioSource.Play();
+        bgmAudio.clip = BGM_Game[0];
+        bgmAudio.volume = 1;
+        bgmAudio.Play();
+    }
+
+    public void EnterBattleMusicPlay(int index)
+    {
+        bgmAudio.clip = BGM_Game[index];
+        bgmAudio.volume = 1;
+        bgmAudio.Play();
+    }
+
+    public void PlayEffectSound(int index)
+    {
+        effectAudio.PlayOneShot(EffectSounds[index]);
     }
 
     public void PlayMusic(AudioClip music)
     {
-        m_AudioSource.clip = music;
-        m_AudioSource.Play();
+        bgmAudio.clip = music;
+        bgmAudio.Play();
     }
 
     public void PauseMusic()
     {
-        m_AudioSource.Pause();
+        bgmAudio.Pause();
     }
 
     public void ResumeMusic()
     {
-        m_AudioSource.UnPause();
+        bgmAudio.UnPause();
     }
 
     public void StopMusic()
     {
-        m_AudioSource.Stop();
+        bgmAudio.Stop();
     }
 }

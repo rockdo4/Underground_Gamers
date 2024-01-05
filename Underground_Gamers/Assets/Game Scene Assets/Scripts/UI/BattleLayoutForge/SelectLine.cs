@@ -23,6 +23,7 @@ public class SelectLine : MonoBehaviour
         Time.timeScale = 1f;
         gameManager.IsStart = true;
         SoundPlayer.instance.PauseMusic();
+        SoundPlayer.instance.EnterBattleMusicPlay(1);
 
         // 기존 코드
         battleLayoutForgePanel.SetActive(false);
