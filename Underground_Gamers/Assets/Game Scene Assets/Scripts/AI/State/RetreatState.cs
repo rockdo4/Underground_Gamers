@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class RetreatState : AIState
 {
-    private float timer;
-    private float time = 1f;
     private float reloadTime;
     private float reloadCoolTime = 2f;
+
+    private float reTagetTimer;
+    private float reTargetTime = 0.5f;
+    private bool isDisabledNav = false;
     public RetreatState(AIController aiController) : base(aiController)
     {
     }
@@ -21,9 +23,14 @@ public class RetreatState : AIState
         agent.isStopped = false;
         agent.speed = aiController.status.speed;
         aiController.battleTarget = null;
-        timer = Time.time - time;
         //Transform defendTarget = aiController.buildingManager.GetDefendPoint(aiController.currentLine, aiController.teamIdentity.teamType).GetComponent<Building>().defendPoint;
         //aiController.SetMissionTarget(defendTarget);
+        isDisabledNav = false;
+        if (!agent.enabled)
+        {
+            isDisabledNav = true;
+            reTagetTimer = Time.time;
+        }
         aiController.SetMissionTarget(aiController.missionTarget);
         reloadTime = Time.time;
     }
@@ -42,6 +49,12 @@ public class RetreatState : AIState
     {
         if (aiController.isStun)
             return;
+
+        if(reTagetTimer + reTargetTime < Time.time && isDisabledNav)
+        {
+            isDisabledNav = false;
+            aiController.SetMissionTarget(aiController.missionTarget);
+        }
 
         if (aiController.isAttack)
         {

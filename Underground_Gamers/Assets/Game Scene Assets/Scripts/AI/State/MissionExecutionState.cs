@@ -7,7 +7,7 @@ public class MissionExecutionState : AIState
 
     private float executeTime = 0.5f;
     private float executeTimer;
-
+    private bool isDisabledNav = false;
     public MissionExecutionState(AIController aiController) : base(aiController)
     {
 
@@ -31,6 +31,12 @@ public class MissionExecutionState : AIState
         //    Debug.Log($"{aiStatus.name} Disabled");
         //}
         agent.isStopped = false;
+        isDisabledNav = false;
+        if (!agent.enabled)
+        {
+            isDisabledNav = true;
+            executeTimer = Time.time;
+        }
         aiController.SetMissionTarget(aiController.missionTarget);
 
         lastDetectTime = Time.time - aiController.detectTime;
@@ -53,7 +59,13 @@ public class MissionExecutionState : AIState
             return;
         }
 
-        if(aiController.isDefend)
+        if(executeTime + executeTimer < Time.time && isDisabledNav)
+        {
+            isDisabledNav = false;
+            aiController.SetMissionTarget(aiController.missionTarget);
+        }
+
+        if (aiController.isDefend)
         {
             aiController.SetState(States.Retreat);
             return;
