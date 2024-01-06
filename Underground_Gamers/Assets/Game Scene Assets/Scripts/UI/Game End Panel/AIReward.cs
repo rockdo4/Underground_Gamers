@@ -61,6 +61,7 @@ public class AIReward : MonoBehaviour
     }
     public void FillXpGauge(int loopCount, float duration)
     {
+        SoundPlayer.instance.PlayEffectSound((int)EffectType.Xp_Gauge);
         levelUpXpTime = (duration - remainedXpTime) / loopCount;
         this.loopCount = loopCount;
         if (this.loopCount > completedTweenCount)
@@ -70,7 +71,6 @@ public class AIReward : MonoBehaviour
         }
         else
         {
-            SoundPlayer.instance.PlayEffectSound((int)EffectType.Xp_Gauge);
             DisplayRemainedXp();
         }
     }

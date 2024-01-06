@@ -30,19 +30,22 @@ public class MissionExecutionState : AIState
         //{
         //    Debug.Log($"{aiStatus.name} Disabled");
         //}
-        agent.isStopped = false;
         isDisabledNav = false;
         if (!agent.enabled)
         {
             isDisabledNav = true;
             executeTimer = Time.time;
         }
+        else
+        {
+            agent.isStopped = false;
+            agent.angularSpeed = aiStatus.reactionSpeed;
+            agent.speed = aiStatus.speed;
+        }
         aiController.SetMissionTarget(aiController.missionTarget);
 
         lastDetectTime = Time.time - aiController.detectTime;
         reloadTime = Time.time;
-        agent.angularSpeed = aiStatus.reactionSpeed;
-        agent.speed = aiStatus.speed;
         //executeTimer = Time.time;
     }
 
@@ -62,6 +65,9 @@ public class MissionExecutionState : AIState
         if(executeTime + executeTimer < Time.time && isDisabledNav)
         {
             isDisabledNav = false;
+            agent.isStopped = false;
+            agent.angularSpeed = aiStatus.reactionSpeed;
+            agent.speed = aiStatus.speed;
             aiController.SetMissionTarget(aiController.missionTarget);
         }
 

@@ -55,8 +55,8 @@ public class GamePlayerInfo : MonoBehaviour
 
     //세이브에 추가해야함
     public Queue<int> storyQueue = new Queue<int>();
-    public bool isInfoOn = false;
-    public bool isAutoBattle = false;
+    public bool isInfoOn = true;
+    public bool isAutoMode = true;
     public float playSpeed = 1;
 
     //정규전
@@ -587,7 +587,7 @@ public class GamePlayerInfo : MonoBehaviour
 
         saveData.storyQueue = storyQueue;
         saveData.isInfoOn = isInfoOn;
-        saveData.isAutoBattle = isAutoBattle;
+        saveData.isAutoBattle = isAutoMode;
 
         var path = Path.Combine(Application.persistentDataPath, "534789fd.json");
         Debug.Log(path);
@@ -676,7 +676,7 @@ public class GamePlayerInfo : MonoBehaviour
 
         storyQueue = saveData.storyQueue;
         isInfoOn = saveData.isInfoOn;
-        isAutoBattle = saveData.isAutoBattle;
+        isAutoMode = saveData.isAutoBattle;
     }
 
     public void OfficialMakeEnemyTeams(int officialLevel)
