@@ -400,10 +400,12 @@ public class ManagerTrainingAnalyze : ManagerTraining
         if (currlevel < currPlayer.maxLevel)
         {
             OpenPlayerGrowInfo(currIndex);
+            SoundPlayer.instance.PlayEffectSound((int)EffectType.Level_Up);
         }
         else
         {
-            popupFullLevel.SetActive(true);
+            popupFullLevel.SetActive(true); 
+            SoundPlayer.instance.PlayEffectSound((int)EffectType.Positive_PopUp);
         }
         LobbyUIManager.instance.UpdateMoneyInfo();
         LobbySceneUIManager.instance.lobbyTopMenu.UpdateMoney();
