@@ -51,13 +51,13 @@ public class GamePlayerInfo : MonoBehaviour
 
     public string teamName = "Underground GamerZ";
 
-    public int playSpeed = 1;
+
 
     //세이브에 추가해야함
     public Queue<int> storyQueue = new Queue<int>();
     public bool isInfoOn = false;
     public bool isAutoBattle = false;
-
+    public int playSpeed = 1;
 
     //정규전
     public bool isOnOfficial = false;

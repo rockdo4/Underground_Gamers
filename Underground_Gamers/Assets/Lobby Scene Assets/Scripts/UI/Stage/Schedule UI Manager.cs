@@ -14,8 +14,24 @@ public enum ScheduleType
 
 public class ScheduleUIManager : LobbySceneSubscriber
 {
-    private Dictionary<ScheduleType,ScheduleUISubscriber> scheduleUISubscribers;
-    private int currUIIndex = 1;
+    public static ScheduleUIManager instance
+    {
+        get
+        {
+            if (scheduleUIManager == null)
+            {
+                scheduleUIManager = FindObjectOfType<ScheduleUIManager>(true);
+            }
+            return scheduleUIManager;
+        }
+    }
+
+    private static ScheduleUIManager scheduleUIManager;
+
+    private Dictionary<ScheduleType, ScheduleUISubscriber> scheduleUISubscribers;
+    public int currUIIndex = 1;
+
+
     public override void OnEnter()
     {
         base.OnEnter();
@@ -23,6 +39,7 @@ public class ScheduleUIManager : LobbySceneSubscriber
         lobbyTopMenu.ActiveTop(true);
         lobbyTopMenu.AddFunction(OnBack);
         GamePlayerInfo.instance.isOnSchedule = true;
+        scheduleUISubscribers[ScheduleType.Buttons].OnEnter();
     }
 
     public override void OnExit()

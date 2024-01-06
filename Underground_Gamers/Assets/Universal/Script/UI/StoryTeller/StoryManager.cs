@@ -29,6 +29,8 @@ public class StoryManager : MonoBehaviour
     private List<StorySetter> storyDataDefines;
     [SerializeField]
     private List<int> tutorialCodeDefines;
+    [SerializeField]
+    private List<int> storyCodeDefines;
     private StorySetter currentStory;
 
     public GameObject StoryBase;
@@ -38,6 +40,8 @@ public class StoryManager : MonoBehaviour
     private Transform SpecialStoryObjectsTransform;
     [SerializeField]
     private GameObject nextArrow;
+    [SerializeField]
+    private GameObject skipButton;
 
     [Space(10f)]
     [SerializeField]
@@ -51,18 +55,25 @@ public class StoryManager : MonoBehaviour
     private int lastStoryObjectIndex = 0;
     private bool isTextTypeEnd = true;
     private StringTable st;
+
     public void CheckNeedTutorial()
     {
         if (st == null)
         {
             st = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
+        skipButton.SetActive(false);
         if (GamePlayerInfo.instance.storyQueue.Count > 0)
         {
             int currCode = GamePlayerInfo.instance.storyQueue.Peek();
             if (tutorialCodeDefines.Contains(currCode))
             {
                 StartTutorial(currCode);
+            }
+            else if (storyCodeDefines.Contains(currCode))
+            {
+                StartTutorial(currCode);
+                skipButton.SetActive(true);
             }
         }
 
@@ -160,7 +171,7 @@ public class StoryManager : MonoBehaviour
         Instantiate(SpecialStoryObjects[lastStoryObjectIndex].prefab, SpecialStoryObjectsTransform);
         if (SpecialStoryObjects.Count <= lastStoryObjectIndex + 1)
         {
-           lastStoryObjectCode = 0;
+            lastStoryObjectCode = 0;
             lastStoryObjectIndex = -1;
         }
         else
@@ -175,8 +186,8 @@ public class StoryManager : MonoBehaviour
         StoryBase.SetActive(false);
         GamePlayerInfo.instance.storyQueue.Dequeue();
         GamePlayerInfo.instance.SaveFile();
-        CheckNeedTutorial();
+        //CheckNeedTutorial();
     }
 
-    
+
 }

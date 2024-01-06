@@ -11,7 +11,7 @@ public class BaseUIManager : LobbySceneSubscriber
         {
             if (baseUIManager == null)
             {
-                baseUIManager = FindObjectOfType<BaseUIManager>();
+                baseUIManager = FindObjectOfType<BaseUIManager>(true);
             }
             return baseUIManager;
         }
