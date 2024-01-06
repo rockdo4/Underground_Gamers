@@ -16,6 +16,8 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
         if (!defenderStatus.IsLive)
             return;
 
+        SoundPlayer.instance.PlayEffectSound((int)EffectType.Hit);
+
         // 막기 버프 적용
         if (defenderController != null)
         {

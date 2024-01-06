@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ToggleSound : MonoBehaviour
 {
-    public EffectType effectType = EffectType.Button_Click;
+    public EffectType effectType = EffectType.Option_Button;
     private Toggle toggle;
 
     private void Awake()

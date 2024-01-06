@@ -136,8 +136,11 @@ public class GameEndPannel : MonoBehaviour
             GameInfo.instance.WinReward();
             DOTween.timeScale = 1f;
             DOTween.defaultTimeScaleIndependent = true;
-            gameManager.aiRewardManager.DisplayFillXpGauage();
             gameManager.aiRewardManager.DisplayGetXp(GameInfo.instance.XpRewards);
+            if (GameInfo.instance.gameType == GameType.Story)
+            {
+                gameManager.aiRewardManager.DisplayFillXpGauage();
+            }
 
             if (GameInfo.instance.gameType == GameType.Story)
             {
