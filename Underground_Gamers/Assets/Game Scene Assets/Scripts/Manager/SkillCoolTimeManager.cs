@@ -52,7 +52,7 @@ public class SkillCoolTimeManager : MonoBehaviour
     public void CheckCurrentAISkill()
     {
         isSkillUsed = !skillCooldowns.Any(ai => ai.Item1 == skillModeButton.GetAI());
-        if (!isSkillUsed && !skillModeButton.IsAutoMode)
+        if (!isSkillUsed && !GamePlayerInfo.instance.isAutoMode)
         {
             skillModeButton.DisplayCoolTimeFillImage(1f);
             skillModeButton.DisplayCoolTimeText(0f);

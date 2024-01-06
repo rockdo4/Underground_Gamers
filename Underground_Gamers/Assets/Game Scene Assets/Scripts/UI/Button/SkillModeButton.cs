@@ -8,8 +8,6 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public float switchModeTime = 1f;
     private float switchModeTimer;
     public bool isHover = false;
-    public bool IsAutoMode { get; private set; } = true;
-
     public GameManager gameManager;
 
     public GameObject rotateAutoIcon;
@@ -37,8 +35,8 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void SwitchSkillMode()
     {
-        IsAutoMode = !IsAutoMode;
-        if (IsAutoMode)
+        GamePlayerInfo.instance.isAutoMode = !GamePlayerInfo.instance.isAutoMode;
+        if (GamePlayerInfo.instance.isAutoMode)
         {
             foreach (var ai in gameManager.aiManager.pc)
             {
@@ -46,19 +44,11 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             }
             priorSkillImage.gameObject.SetActive(false);
         }
-        SwitchActiveObject(IsAutoMode);
+        SwitchActiveObject(GamePlayerInfo.instance.isAutoMode);
     }
 
-    private void SwitchActiveObject(bool isActive)
+    public void SwitchActiveObject(bool isActive)
     {
-        if (isActive)
-        {
-            //Debug.Log("Auto");
-        }
-        else
-        {
-            //Debug.Log("Manual");
-        }
         // 수동
         coolTimeText.gameObject.SetActive(!isActive);
         // 오토
@@ -105,7 +95,7 @@ public class SkillModeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerUp(PointerEventData eventData)
     {
         isHover = false;
-        if (!IsAutoMode && switchModeTimer + switchModeTime > Time.time)
+        if (!GamePlayerInfo.instance.isAutoMode && switchModeTimer + switchModeTime > Time.time)
         {
             // 스킬 수동 사용
             //Debug.Log(currentAI.name);

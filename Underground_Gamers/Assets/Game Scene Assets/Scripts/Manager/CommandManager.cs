@@ -108,7 +108,7 @@ public class CommandManager : MonoBehaviour
         skillModeButton.SetAI(currentAI);
         // 여기서 아이콘 지정
         skillModeButton.SetPriorSkill(currentAI.isPrior);
-        if (skillModeButton.IsAutoMode)
+        if (GamePlayerInfo.instance.isAutoMode)
         {
             if (currentAI.isOnCoolOriginalSkill)
             {

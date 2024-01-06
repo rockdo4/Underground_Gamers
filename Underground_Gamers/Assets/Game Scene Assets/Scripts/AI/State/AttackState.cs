@@ -52,7 +52,7 @@ public class AttackState : AIState
         if (aiController.attackInfos[(int)SkillMode.Original] != null
             && aiController.battleTarget != null && aiController != null
             && aiController.isOnCoolOriginalSkill && aiController.RaycastToTarget
-            && (aiController.gameManager.skillModeButton.IsAutoMode || (!aiController.gameManager.skillModeButton.IsAutoMode && aiController.isPrior)))
+            && (GamePlayerInfo.instance.isAutoMode || (!GamePlayerInfo.instance.isAutoMode && aiController.isPrior)))
         {
             TeamIdentifier identity = aiController.battleTarget.GetComponent<TeamIdentifier>();
 
@@ -65,13 +65,13 @@ public class AttackState : AIState
             if (aiController.aiCommandInfo != null)
                 aiController.gameManager.skillCoolTimeManager.StartSkillCooldown(aiController, Time.time);
 
-            if (aiController.gameManager.skillModeButton.IsAutoMode)
+            if (GamePlayerInfo.instance.isAutoMode)
             {
                 aiController.gameManager.skillModeButton.SetActiveCoolTimeFillImage(true);
             }
 
             // 수동 사용
-            if (!aiController.gameManager.skillModeButton.IsAutoMode)
+            if (!GamePlayerInfo.instance.isAutoMode)
             {
                 aiController.isPrior = false;
                 aiController.gameManager.skillModeButton.SetPriorSkill(aiController.isPrior);

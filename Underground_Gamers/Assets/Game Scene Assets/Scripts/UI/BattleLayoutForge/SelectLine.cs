@@ -50,6 +50,8 @@ public class SelectLine : MonoBehaviour
                 gameManager.gameSpeedFactor.OnSpeedFactorX4();
                 break;
         }
+
+        gameManager.skillModeButton.SwitchActiveObject(GamePlayerInfo.instance.isAutoMode);
     }
 
     public void SetActive(bool isActive)
