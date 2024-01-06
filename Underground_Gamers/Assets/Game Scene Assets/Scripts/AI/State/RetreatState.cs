@@ -20,8 +20,6 @@ public class RetreatState : AIState
             return;
         aiController.RefreshDebugAIStatus(this.ToString());
 
-        agent.isStopped = false;
-        agent.speed = aiController.status.speed;
         aiController.battleTarget = null;
         //Transform defendTarget = aiController.buildingManager.GetDefendPoint(aiController.currentLine, aiController.teamIdentity.teamType).GetComponent<Building>().defendPoint;
         //aiController.SetMissionTarget(defendTarget);
@@ -30,6 +28,11 @@ public class RetreatState : AIState
         {
             isDisabledNav = true;
             reTagetTimer = Time.time;
+        }
+        else
+        {
+            agent.isStopped = false;
+            agent.speed = aiController.status.speed;
         }
         aiController.SetMissionTarget(aiController.missionTarget);
         reloadTime = Time.time;
@@ -53,6 +56,8 @@ public class RetreatState : AIState
         if(reTagetTimer + reTargetTime < Time.time && isDisabledNav)
         {
             isDisabledNav = false;
+            agent.isStopped = false;
+            agent.speed = aiController.status.speed;
             aiController.SetMissionTarget(aiController.missionTarget);
         }
 

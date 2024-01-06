@@ -37,6 +37,19 @@ public class SelectLine : MonoBehaviour
         gameManager.battleLayoutForge.ClearSlot();
         gameManager.buildingManager.DisplayBuildingHPByReset();
         Time.timeScale = GamePlayerInfo.instance.playSpeed;
+        
+        switch(GamePlayerInfo.instance.playSpeed)
+        {
+            case 1f:
+                gameManager.gameSpeedFactor.OnSpeedFactorX1();
+                break;
+            case 2f:
+                gameManager.gameSpeedFactor.OnSpeedFactorX2();
+                break;
+            case 4f:
+                gameManager.gameSpeedFactor.OnSpeedFactorX4();
+                break;
+        }
     }
 
     public void SetActive(bool isActive)

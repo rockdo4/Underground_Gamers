@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     public BattleLayoutForge battleLayoutForge;
     public Respawner respawner;
     public Transform uiCanvas;
+    public GameSpeedFactor gameSpeedFactor;
     public EntryPanel entryPanel;
     public WayPoint wayPoint;
     public AutoSelect autoSelect;

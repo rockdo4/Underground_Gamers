@@ -31,7 +31,6 @@ public class PlayerMaker : MonoBehaviour
                 Time.timeScale = 0f;
             }
 
-
             // 경기 이름
             gameManager.stageInfoManager.InitString();
             gameManager.stageInfoManager.SetStageInfo();
