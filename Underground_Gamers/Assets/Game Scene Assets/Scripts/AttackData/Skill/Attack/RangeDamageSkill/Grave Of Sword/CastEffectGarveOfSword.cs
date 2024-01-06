@@ -14,7 +14,7 @@ public class CastEffectGarveOfSword : RangeDamageEffect
     public float offsetDelayEffect;
     public float scaleDelayEffect;
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         // 후속타 검 꽂히는거
         CreateEffectSkill effect = Instantiate(delayRangeEffect, transform.position, delayRangeEffect.transform.rotation);
