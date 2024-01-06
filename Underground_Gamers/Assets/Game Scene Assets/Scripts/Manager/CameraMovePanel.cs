@@ -19,7 +19,6 @@ public class CameraMovePanel : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         originalPanelPosition = transform.position;
         screenWidth = Screen.width;
-        Debug.Log(screenWidth);
     }
 
     public void OnDrag(PointerEventData eventData)
