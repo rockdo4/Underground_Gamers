@@ -57,7 +57,7 @@ public class GamePlayerInfo : MonoBehaviour
     public Queue<int> storyQueue = new Queue<int>();
     public bool isInfoOn = false;
     public bool isAutoBattle = false;
-    public int playSpeed = 1;
+    public float playSpeed = 1;
 
     //Á¤±ÔÀü
     public bool isOnOfficial = false;
@@ -589,7 +589,7 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.isInfoOn = isInfoOn;
         saveData.isAutoBattle = isAutoBattle;
 
-        var path = Path.Combine(Application.persistentDataPath, "489357w.json");
+        var path = Path.Combine(Application.persistentDataPath, "534789fd.json");
         Debug.Log(path);
         var json = JsonConvert.SerializeObject(saveData, new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
         File.WriteAllText(path, json);
@@ -597,7 +597,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public void LoadFile()
     {
-        var path = Path.Combine(Application.persistentDataPath, "489357w.json");
+        var path = Path.Combine(Application.persistentDataPath, "534789fd.json");
         if (!File.Exists(path))
         {
             isInit = true;

@@ -251,7 +251,7 @@ public class SaveData
 
     public List<float> officialPlayers = new List<float>();
     public string teamName = "µå¸²ÆÀ";
-    public int playSpeed = 1;
+    public float playSpeed = 1;
 
     public Queue<int> storyQueue = new Queue<int>();
     public bool isInfoOn = false;
