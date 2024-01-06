@@ -49,15 +49,15 @@ public class SoundPlayer : MonoBehaviour
         bgmAudio.Play();
     }
 
-    public void EnterLobbyMusic()
+    public void EnterLobbyMusic(int index)
     {
         DOTween.defaultTimeScaleIndependent = true;
-        bgmAudio.DOFade(0, fadeOutTime).OnComplete(EnterLobbyMusicPlay);
+        bgmAudio.DOFade(0, fadeOutTime).OnComplete(() => EnterLobbyMusicPlay(index));
     }
 
-    public void EnterLobbyMusicPlay()
+    public void EnterLobbyMusicPlay(int index)
     {
-        bgmAudio.clip = BGM_Lobby[0];
+        bgmAudio.clip = BGM_Lobby[index];
         bgmAudio.volume = 1;
         bgmAudio.Play();
     }

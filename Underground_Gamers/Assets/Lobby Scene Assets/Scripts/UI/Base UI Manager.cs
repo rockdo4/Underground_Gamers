@@ -5,6 +5,20 @@ using UnityEngine;
 using UnityEngine.UI;
 public class BaseUIManager : LobbySceneSubscriber
 {
+    public static BaseUIManager instance
+    {
+        get
+        {
+            if (baseUIManager == null)
+            {
+                baseUIManager = FindObjectOfType<BaseUIManager>(true);
+            }
+            return baseUIManager;
+        }
+    }
+
+    private static BaseUIManager baseUIManager;
+
     [Header("PlayerCard")]
     [SerializeField]
     private Image portrait;

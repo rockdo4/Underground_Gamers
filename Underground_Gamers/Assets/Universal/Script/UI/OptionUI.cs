@@ -17,7 +17,7 @@ public class OptionUI : MonoBehaviour
             return optionUI;
         }
     }
-   
+
     private static OptionUI optionUI;
     public AudioMixer audioMixer;
 
@@ -268,10 +268,10 @@ public class OptionUI : MonoBehaviour
 
     public void ResetGame()
     {
-        var filePath = Path.Combine(Application.persistentDataPath, "52743890.json");
+        var filePath = Path.Combine(Application.persistentDataPath, "489357w.json");
         if (File.Exists(filePath))
         {
-                File.Delete(filePath);
+            File.Delete(filePath);
         }
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -304,7 +304,7 @@ public class OptionUI : MonoBehaviour
             true => 60,
             false => 30,
         };
-        Screen.SetResolution((int)(originWidth * resolutionValue), (int)(originHeight * resolutionValue),true);
+        Screen.SetResolution((int)(originWidth * resolutionValue), (int)(originHeight * resolutionValue), true);
         InvokeGlobalSettings(isPost_fx);
         QualitySettings.globalTextureMipmapLimit = 2 - textureQuality;
 
@@ -317,7 +317,7 @@ public class OptionUI : MonoBehaviour
             QualitySettings.shadows = ShadowQuality.Disable;
         }
 
-        if(muteMaster)
+        if (muteMaster)
         {
             audioMixer.SetFloat("Master", Mathf.Log10(0.001f) * 20);
         }
@@ -342,11 +342,11 @@ public class OptionUI : MonoBehaviour
             audioMixer.SetFloat("SFX", Mathf.Log10(volumeEffect) * 20);
         }
 
-        if (language != GamePlayerInfo.instance.language) 
+        if (language != GamePlayerInfo.instance.language)
         {
             GamePlayerInfo.instance.language = language;
             var texts = FindObjectsOfType<SetString>();
-            foreach ( var text in texts ) 
+            foreach (var text in texts)
             {
                 text.ResetString();
             }
@@ -586,7 +586,7 @@ public class OptionUI : MonoBehaviour
 
     public void DoOptionChange()
     {
-        SaveOptions(); 
+        SaveOptions();
         InvokeOptionSettingLobby();
         popupOption.SetActive(false);
     }

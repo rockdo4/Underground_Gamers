@@ -47,10 +47,16 @@ public class GamePlayerInfo : MonoBehaviour
     public List<int> tradeCenter = new List<int>();
     public DateTime lastRecruitTime = DateTime.MinValue;
 
-    public bool isInit = false;
+    public bool isInit = true;
 
     public string teamName = "Underground GamerZ";
 
+
+
+    //세이브에 추가해야함
+    public Queue<int> storyQueue = new Queue<int>();
+    public bool isInfoOn = false;
+    public bool isAutoBattle = false;
     public int playSpeed = 1;
 
     //정규전
@@ -579,14 +585,19 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.volumeBackground = volumeBackground;
         saveData.volumeEffect = volumeEffect;
 
-        var path = Path.Combine(Application.persistentDataPath, "52743890.json");
+        saveData.storyQueue = storyQueue;
+        saveData.isInfoOn = isInfoOn;
+        saveData.isAutoBattle = isAutoBattle;
+
+        var path = Path.Combine(Application.persistentDataPath, "489357w.json");
+        Debug.Log(path);
         var json = JsonConvert.SerializeObject(saveData, new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
         File.WriteAllText(path, json);
     }
 
     public void LoadFile()
     {
-        var path = Path.Combine(Application.persistentDataPath, "52743890.json");
+        var path = Path.Combine(Application.persistentDataPath, "489357w.json");
         if (!File.Exists(path))
         {
             isInit = true;
@@ -595,6 +606,13 @@ public class GamePlayerInfo : MonoBehaviour
 
         var json = File.ReadAllText(path);
         var saveData = JsonConvert.DeserializeObject<SaveData>(json, new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
+
+        if (saveData.storyQueue.Count > 0 && saveData.storyQueue.Peek() == 0)
+        {
+            storyQueue = saveData.storyQueue;
+            isInit = true;
+            return;
+        }
 
         representativePlayer = saveData.representativePlayer;
         havePlayers = saveData.havePlayers;
@@ -655,6 +673,10 @@ public class GamePlayerInfo : MonoBehaviour
         volumeMaster = saveData.volumeMaster;
         volumeBackground = saveData.volumeBackground;
         volumeEffect = saveData.volumeEffect;
+
+        storyQueue = saveData.storyQueue;
+        isInfoOn = saveData.isInfoOn;
+        isAutoBattle = saveData.isAutoBattle;
     }
 
     public void OfficialMakeEnemyTeams(int officialLevel)
@@ -672,7 +694,7 @@ public class GamePlayerInfo : MonoBehaviour
         }
 
         officialTeamDatas = new OfficialTeamData[8];
-        var randNums = st.GenerateRandomNumbers(0, 99,7);
+        var randNums = st.GenerateRandomNumbers(0, 99, 7);
         for (int i = 0; i < 7; i++)
         {
             officialTeamDatas[i].name = str.Get($"random_team_name{randNums[i]}");
@@ -1075,7 +1097,14 @@ public class GamePlayerInfo : MonoBehaviour
         isOnOfficial = false;
         willOpenMenu = -1;
     }
+
+    public void AddTutorial(int code)
+    {
+        storyQueue.Enqueue(code);
+        SaveFile();
+    }
 }
+
 public class PlayerConverter : JsonConverter<Player>
 {
     public override Player ReadJson(JsonReader reader, Type objectType, Player existingValue, bool hasExistingValue, JsonSerializer serializer)

@@ -846,6 +846,26 @@ public class GameInfo : MonoBehaviour
                 if (GamePlayerInfo.instance.cleardStage < currentStage)
                 {
                     GamePlayerInfo.instance.cleardStage = currentStage;
+                    switch (currentStage)
+                    {
+                        case 101:
+                            GamePlayerInfo.instance.AddTutorial(1);
+                            break;
+                        case 102:
+                            GamePlayerInfo.instance.AddTutorial(2);
+                            break;
+                        case 103:
+                            GamePlayerInfo.instance.AddTutorial(3);
+                            break;
+                        case 104:
+                            GamePlayerInfo.instance.AddTutorial(4);
+                            break;
+                        case 105:
+                            GamePlayerInfo.instance.AddTutorial(5);
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 GamePlayerInfo.instance.AddMoney(rewards[4], rewards[5], 0);
                 GamePlayerInfo.instance.GetXpItems(rewards[0], rewards[1], rewards[2], rewards[3]);

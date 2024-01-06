@@ -30,7 +30,8 @@ public class LobbySceneUIManager : MonoBehaviour
 
     public void Start()
     {
-        SoundPlayer.instance.EnterLobbyMusic();
+        SoundPlayer.instance.EnterLobbyMusic(0);
+        StoryManager.instance.CheckNeedTutorial();
     }
 
     private Dictionary<LobbyType, LobbySceneSubscriber> lobbySceneSubscribers;
