@@ -70,6 +70,7 @@ public class AIReward : MonoBehaviour
         }
         else
         {
+            SoundPlayer.instance.PlayEffectSound((int)EffectType.Xp_Gauge);
             DisplayRemainedXp();
         }
     }
@@ -78,6 +79,7 @@ public class AIReward : MonoBehaviour
         xpGauge.value = 0f;
         DisplayLevel(currentLv + loopCount - (loopCount - completedTweenCount));
         CreateLevelUpImage();
+        SoundPlayer.instance.PlayEffectSound((int)EffectType.Xp_Gauge);
         if (loopCount > completedTweenCount)
         {
             // 레벨업 표시하기
@@ -96,6 +98,7 @@ public class AIReward : MonoBehaviour
     public void CreateLevelUpImage()
     {
         GameObject levelUpImage = Instantiate(levelUpPrefab, levelUpPoint);
+        SoundPlayer.instance.PlayEffectSound((int)EffectType.Level_Up);
     }
 
     public void DisplayRemainedXp()

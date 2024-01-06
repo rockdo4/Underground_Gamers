@@ -10,7 +10,9 @@ public enum EffectType
     Level_Up,
     Xp_Gauge,
     Positive_PopUp,
-    Negative_PopUp
+    Negative_PopUp,
+    Hit,
+    Shoot,
 }
 
 public class SoundPlayer : MonoBehaviour

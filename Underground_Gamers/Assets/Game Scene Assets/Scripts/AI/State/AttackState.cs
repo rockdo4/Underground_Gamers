@@ -91,6 +91,7 @@ public class AttackState : AIState
             && aiController.battleTarget != null && aiController != null
             && aiController.isOnCoolBaseAttack && aiController.RaycastToTarget)
         {
+            SoundPlayer.instance.PlayEffectSound((int)EffectType.Shoot);
             aiController.isOnCoolBaseAttack = false;
             aiController.attackInfos[(int)SkillMode.Base].ExecuteAttack(aiController.gameObject, aiController.battleTarget.gameObject);
             UseAmmo();

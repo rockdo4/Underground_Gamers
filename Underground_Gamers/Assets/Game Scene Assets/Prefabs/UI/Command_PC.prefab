@@ -1679,7 +1679,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120, y: 120}
+  m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2470119197706294852
 CanvasRenderer:
@@ -1903,6 +1903,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3740519219876661226}
     m_Modifications:
+    - target: {fileID: 149630636867912303, guid: f5c619d388349da42a73fab41d47ae4a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 149630636867912303, guid: f5c619d388349da42a73fab41d47ae4a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 149630636867912303, guid: f5c619d388349da42a73fab41d47ae4a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 149630636867912303, guid: f5c619d388349da42a73fab41d47ae4a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 647062536735211214, guid: f5c619d388349da42a73fab41d47ae4a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1986,6 +2002,10 @@ PrefabInstance:
     - target: {fileID: 845529707020772448, guid: f5c619d388349da42a73fab41d47ae4a, type: 3}
       propertyPath: m_Name
       value: Portrait Frame
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842273719589694089, guid: f5c619d388349da42a73fab41d47ae4a, type: 3}
+      propertyPath: m_ShowMaskGraphic
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
