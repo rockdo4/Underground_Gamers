@@ -36,7 +36,7 @@ public class SelectLine : MonoBehaviour
         gameManager.aiManager.ResetAIState();
         gameManager.battleLayoutForge.ClearSlot();
         gameManager.buildingManager.DisplayBuildingHPByReset();
-        Time.timeScale = gameManager.gameSpeedFactor.currentTimeScale;
+        Time.timeScale = GamePlayerInfo.instance.playSpeed;
     }
 
     public void SetActive(bool isActive)
