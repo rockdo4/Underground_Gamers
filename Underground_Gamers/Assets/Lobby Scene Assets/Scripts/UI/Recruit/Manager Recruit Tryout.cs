@@ -149,7 +149,7 @@ public class ManagerRecruitTryout : ManagerRecruit
         List<Player> used = GamePlayerInfo.instance.usingPlayers;
         foreach (var item in used)
         {
-            if (item.code < 0)
+            if (item.code >= 0)
             {
                 usingList++;
             }
@@ -347,6 +347,7 @@ public class ManagerRecruitTryout : ManagerRecruit
             5 => pt.starsSprites[2],
             _ => pt.starsSprites[0],
         };
+        Canvas.ForceUpdateCanvases();
     }
 
     public void UpdateMoneyInfo()

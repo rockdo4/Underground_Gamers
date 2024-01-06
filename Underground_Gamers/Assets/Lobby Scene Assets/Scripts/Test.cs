@@ -15,7 +15,6 @@ public class Test : MonoBehaviour
                 var pl5 = GamePlayerInfo.instance.AddPlayer(14);
             }
             init = false;
-            //LobbyUIManager.instance.UpdateMoneyInfo();
         }
        Destroy(gameObject);
     }

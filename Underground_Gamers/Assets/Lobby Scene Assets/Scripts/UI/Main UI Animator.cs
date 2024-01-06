@@ -6,10 +6,6 @@ public class MainUIAnimator : MonoBehaviour
 {
     public List<MainUIAnimatedElements> animations;
     private bool isStart = false;
-    void Start()
-    {
-        Invoke("DoOpen", 0.1f);
-    }
 
     public void DoOpen()
     {
