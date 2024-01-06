@@ -55,7 +55,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     //세이브에 추가해야함
     public Queue<int> storyQueue = new Queue<int>();
-    public bool isInfoOn = false;
+    public bool isInfoOn = true;
     public bool isAutoMode = true;
     public float playSpeed = 1;
 

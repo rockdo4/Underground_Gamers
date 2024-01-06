@@ -52,6 +52,7 @@ public class SelectLine : MonoBehaviour
         }
 
         gameManager.skillModeButton.SwitchActiveObject(GamePlayerInfo.instance.isAutoMode);
+        gameManager.commandManager.SetActiveStatusInfo(GamePlayerInfo.instance.isInfoOn);
     }
 
     public void SetActive(bool isActive)

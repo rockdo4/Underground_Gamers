@@ -223,8 +223,8 @@ public class CommandManager : MonoBehaviour
 
     public void ClickInfoButton()
     {
-        isInfoOn = !isInfoOn;
-        SetActiveStatusInfo(isInfoOn);
+        GamePlayerInfo.instance.isInfoOn = !GamePlayerInfo.instance.isInfoOn;
+        SetActiveStatusInfo(GamePlayerInfo.instance.isInfoOn);
     }
 
     public void SetActiveStatusInfo(bool isActive)
