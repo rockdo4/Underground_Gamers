@@ -16,6 +16,11 @@ public class Scrolling : MonoBehaviour
 
     private Transform lookTarget;
 
+    private void OnEnable()
+    {
+        timer = 0f;
+    }
+
     private void Awake()
     {
         lookTarget = Camera.main.transform;
@@ -41,7 +46,8 @@ public class Scrolling : MonoBehaviour
 
         if (timer > duration)
         {
-            Destroy(gameObject);
+            ObjectPoolManager.Instance.textPool.ReturnObjectToPool(textMesh);
+            //Destroy(gameObject);
         }
     }
 

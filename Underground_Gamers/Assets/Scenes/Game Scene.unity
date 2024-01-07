@@ -4880,6 +4880,56 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &440345071
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440345072}
+  - component: {fileID: 440345073}
+  m_Layer: 0
+  m_Name: ObjectPoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &440345072
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440345071}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1776381728}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &440345073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440345071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f1a6ed37225aba41aa390cefd92cba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portraitPrefab: {fileID: 0}
+  killLogPrefab: {fileID: 1420138695407371432, guid: 83023749b63dad14bb7b6278ad590b64, type: 3}
+  pcHitScanPrefab: {fileID: -2331654437535238612, guid: 1b73f526688c9ec4780aad0c4f3ae80d, type: 3}
+  npcHitScanPrefab: {fileID: -2331654437535238612, guid: d354f089b2eb0ef41b8ca8c6d801ea30, type: 3}
+  projectilePrefab: {fileID: -7088508087202059376, guid: 11bfe95022b90f44bb8181bd2b2c090c, type: 3}
+  textPrefab: {fileID: 3413788427445076640, guid: 7d2431464ac41a44091c713e5128f161, type: 3}
 --- !u!1 &446585124
 GameObject:
   m_ObjectHideFlags: 0
@@ -25976,6 +26026,7 @@ Transform:
   - {fileID: 510069539}
   - {fileID: 1755726411}
   - {fileID: 1401885368}
+  - {fileID: 440345072}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1777714459

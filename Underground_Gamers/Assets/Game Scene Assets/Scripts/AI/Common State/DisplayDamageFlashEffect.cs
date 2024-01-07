@@ -10,6 +10,13 @@ public class DisplayDamageFlashEffect : MonoBehaviour, IAttackable
     private float startTime;
     private bool isHit;
 
+    private Renderer[] renderers;
+
+    public void Start()
+    {
+        renderers = GetComponentsInChildren<Renderer>();
+    }
+
     private void Update()
     {
         if(isHit)
@@ -32,11 +39,8 @@ public class DisplayDamageFlashEffect : MonoBehaviour, IAttackable
 
     private void FlashRenderer(Color newColor)
     {
-        var renderers = GetComponentsInChildren<Renderer>();
         foreach(Renderer renderer in renderers)
         {
-            if (renderer.tag == "Effect")
-                continue;
             renderer.material.color = newColor;
         }
     }

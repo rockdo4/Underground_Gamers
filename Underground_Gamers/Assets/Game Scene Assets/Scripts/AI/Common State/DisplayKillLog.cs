@@ -23,6 +23,13 @@ public class DisplayKillLog : MonoBehaviour, IDestroyable
         var deadPortrait = deadInfo.GetPortrait();
 
         KillLog killLog = Instantiate(this.killLog, killLogPanel.transform);
+        killLog.transform.SetParent(killLogPanel.transform);
+        killLog.transform.localRotation = Quaternion.identity;
+
+        Vector3 killLogPos = killLog.transform.localPosition;
+        killLogPos.z = 0f;
+        killLog.transform.localPosition = killLogPos;
+        killLog.transform.localScale = Vector3.one;
         killLog.destroyedTimer = Time.time;
         killLogPanel.killLogs.Add(killLog);
         // 킬로그 리프레시, 3개 제한
