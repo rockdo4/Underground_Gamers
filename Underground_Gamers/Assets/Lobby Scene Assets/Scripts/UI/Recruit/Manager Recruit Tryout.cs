@@ -96,6 +96,11 @@ public class ManagerRecruitTryout : ManagerRecruit
     private int currTryout = -1;
     private int currReward = 5;
 
+
+
+    [SerializeField]
+    private PopupRecruitChanceInfo popupRecruitChanceInfo;
+
     private void Awake()
     {
         oldRecruitCards = new List<GameObject>();
@@ -360,5 +365,10 @@ public class ManagerRecruitTryout : ManagerRecruit
     public void RestartBGM()
     {
         SoundPlayer.instance.ResumeMusic();
+    }
+
+    public void OpenChanceInfo()
+    {
+        popupRecruitChanceInfo.OpenChanceInfo(3);
     }
 }

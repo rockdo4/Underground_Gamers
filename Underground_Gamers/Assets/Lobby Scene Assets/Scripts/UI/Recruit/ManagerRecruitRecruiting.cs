@@ -75,6 +75,10 @@ public class ManagerRecruitRecruiting : ManagerRecruit
     private PlayerTable pt;
     private StringTable st;
 
+
+    [SerializeField]
+    private PopupRecruitChanceInfo popupRecruitChanceInfo;
+
     public override void OnEnter()
     {
         currCode = defaultRecruitCode;
@@ -288,5 +292,18 @@ public class ManagerRecruitRecruiting : ManagerRecruit
     public void RestartBGM()
     {
         SoundPlayer.instance.ResumeMusic();
+    }
+
+
+    public void OpenChanceInfo()
+    {
+        int infoCode = currCode switch
+        {
+            10000 => 0,
+            11000 => 1,
+            12000 => 2,
+            _ => 3,
+        };
+        popupRecruitChanceInfo.OpenChanceInfo(infoCode);
     }
 }
