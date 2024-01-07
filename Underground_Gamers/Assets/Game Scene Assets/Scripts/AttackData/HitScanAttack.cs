@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [CreateAssetMenu(fileName = "HitScanAttack.Asset", menuName = "AttackData/HitScanAttack")]
 public class HitScanAttack : AttackDefinition
 {
     public GameObject muzzlePrefab;
-    public GameObject hitScanLine;
+    public HitScan hitScanLine;
     public float lineWidth;
     public float offsetFirePos = 0.8f;
     private Vector3 cameraRight;
@@ -17,9 +16,19 @@ public class HitScanAttack : AttackDefinition
         if (defender == null)
             return;
 
-        GameObject line = Instantiate(hitScanLine);
-        LineRenderer lineRen = line.GetComponent<LineRenderer>();
         AIController attackAI = attacker.GetComponent<AIController>();
+        HitScan line;
+        if (attackAI.teamIdentity.teamLayer == LayerMask.GetMask("PC"))
+        {
+            line = ObjectPoolManager.Instance.pcHitScanPool.GetObjectFromPool();
+            line.pool = ObjectPoolManager.Instance.pcHitScanPool;
+        }
+        else
+        {
+            line = ObjectPoolManager.Instance.npcHitScanPool.GetObjectFromPool();
+            line.pool = ObjectPoolManager.Instance.npcHitScanPool;
+        }
+        LineRenderer lineRen = line.GetComponent<LineRenderer>();
         lineRen.positionCount = 2;
         lineRen.startWidth = lineWidth;
         lineRen.endWidth = lineWidth;
@@ -61,6 +70,7 @@ public class HitScanAttack : AttackDefinition
         {
             attackable.OnAttack(attacker, attack);
         }
-        Destroy(line, 0.3f);
+
+
     }
 }

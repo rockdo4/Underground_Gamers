@@ -35,7 +35,7 @@ public class KillLog : MonoBehaviour
         GameObject k_portrait = Instantiate(killerPortrait, killerPortraitParent);
         GameObject d_portrait = Instantiate(deadPortrait, deadPortraitParent);
 
-        if(killerIdentity.teamLayer == LayerMask.GetMask("PC"))
+        if (killerIdentity.teamLayer == LayerMask.GetMask("PC"))
         {
             killerPortraitParent.GetComponent<Image>().color = pcColor;
             deadPortraitParent.GetComponent<Image>().color = npcColor;
@@ -46,7 +46,6 @@ public class KillLog : MonoBehaviour
             deadPortraitParent.GetComponent<Image>().color = pcColor;
         }
 
-        //k_portrait.GetComponent<Image>().color =;
         k_portrait.SetActive(true);
         d_portrait.SetActive(true);
         SetPortrait(k_portrait, killerPortraitParent);

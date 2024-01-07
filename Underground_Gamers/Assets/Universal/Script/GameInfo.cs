@@ -327,17 +327,8 @@ public class GameInfo : MonoBehaviour
             player.transform.position = spawnPos;
             player.SetActive(true);
 
-            // 이곳에서 할당 안하도록 구성
-            //var ai = player.GetComponent<AIController>();
-            //if (buildingManager != null)
-            //    ai.point = buildingManager[Random.Range(0, buildingManager.Length - 1)].transform;
-            //ai.SetDestination(ai.point);
-
             var ai = player.GetComponent<AIController>();
             var portrait = player.GetComponent<Portrait>();
-            //if (buildingManager != null)
-            //    ai.point = buildingManager.GetAttackPoint(Line.Bottom, TeamType.PC);
-            //ai.SetDestination(ai.point);
             ai.spum.gameObject.AddComponent<Outlinable>();
             ai.InitInGameScene();
 
