@@ -590,7 +590,7 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.isAutoBattle = isAutoMode;
 
         var path = Path.Combine(Application.persistentDataPath, "534789fd.json");
-        Debug.Log(path);
+        //Debug.Log(path);
         var json = JsonConvert.SerializeObject(saveData, new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
         File.WriteAllText(path, json);
     }

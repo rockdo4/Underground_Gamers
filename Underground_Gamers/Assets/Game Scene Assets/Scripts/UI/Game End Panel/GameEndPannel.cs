@@ -249,6 +249,12 @@ public class GameEndPannel : MonoBehaviour
 
     public void EnterLobby()
     {
+        GameObject[] effects = GameObject.FindGameObjectsWithTag("Effect");
+        foreach (var effect in effects)
+        {
+            Destroy(effect.gameObject);
+        }
+
         gameManager.aiManager.ResetAI();
         uiCanvas.SetActive(false);
         GameInfo.instance.ClearEntryPlayer();
@@ -275,7 +281,7 @@ public class GameEndPannel : MonoBehaviour
         GameObject[] effects = GameObject.FindGameObjectsWithTag("Effect");
         foreach(var effect in effects)
         {
-            Destroy(effect);
+            Destroy(effect.gameObject);
         }
         gameManager.aiManager.UpdateOfficialResult();
         gameManager.autoSelect.ResetButton();
@@ -305,6 +311,11 @@ public class GameEndPannel : MonoBehaviour
     public void EndRound()
     {
         gameManager.aiManager.UpdateOfficialResult();
+        GameObject[] effects = GameObject.FindGameObjectsWithTag("Effect");
+        foreach (var effect in effects)
+        {
+            Destroy(effect.gameObject);
+        }
 
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
@@ -363,6 +374,12 @@ public class GameEndPannel : MonoBehaviour
 
     public void Retry()
     {
+        GameObject[] effects = GameObject.FindGameObjectsWithTag("Effect");
+        foreach (var effect in effects)
+        {
+            Destroy(effect.gameObject);
+        }
+
         gameManager.aiManager.ResetAI();
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
@@ -377,6 +394,12 @@ public class GameEndPannel : MonoBehaviour
 
     public void NextStage()
     {
+        GameObject[] effects = GameObject.FindGameObjectsWithTag("Effect");
+        foreach (var effect in effects)
+        {
+            Destroy(effect.gameObject);
+        }
+
         gameManager.aiManager.ResetAI();
         GameInfo.instance.ClearEntryPlayer();
         GameInfo.instance.ClearMembersIndex();
