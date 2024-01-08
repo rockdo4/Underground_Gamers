@@ -44,6 +44,7 @@ public class GameInfo : MonoBehaviour
     public List<int> benchMembersIndex = new List<int>();
 
     public string storyTeamName;
+    public bool isFirstClear = false;
 
     //0부터 각각 경험치재화 1,2,3,4 ,골드, 크리스탈 순임
     private int[] rewards = new int[6] { 0, 0, 0, 0, 0, 0 };
@@ -107,6 +108,7 @@ public class GameInfo : MonoBehaviour
 
     public void StartGame()
     {
+        isFirstClear = false;
         GamePlayerInfo.instance.SaveFile();
 
         rewards = new int[6] { 0, 0, 0, 0, 0, 0 };
@@ -836,6 +838,7 @@ public class GameInfo : MonoBehaviour
             case GameType.Story:
                 if (GamePlayerInfo.instance.cleardStage < currentStage)
                 {
+                    isFirstClear = true;
                     GamePlayerInfo.instance.cleardStage = currentStage;
                     switch (currentStage)
                     {
@@ -855,6 +858,7 @@ public class GameInfo : MonoBehaviour
                             GamePlayerInfo.instance.AddTutorial(5);
                             break;
                         default:
+                            isFirstClear = false;
                             break;
                     }
                 }

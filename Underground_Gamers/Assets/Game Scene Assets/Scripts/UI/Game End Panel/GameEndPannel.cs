@@ -391,7 +391,16 @@ public class GameEndPannel : MonoBehaviour
         };
 
         GameInfo.instance.DeletePlayers();
-        if (GameInfo.instance.currentStage != 406)
+        if (GameInfo.instance.isFirstClear)
+        {
+            GamePlayerInfo.instance.willOpenMenu = (int)GameInfo.instance.gameType + 1;
+            uiCanvas.SetActive(false);
+            gameManager.killLogPanel.ClearKillLog();
+            OffOutline();
+            sceneLoader.SceneLoad("Lobby Scene");
+            return;
+        }
+        else if (GameInfo.instance.currentStage != 406)
         {
             uiCanvas.SetActive(false);
             gameManager.killLogPanel.ClearKillLog();
@@ -406,14 +415,14 @@ public class GameEndPannel : MonoBehaviour
             OffOutline();
             sceneLoader.SceneLoad("Lobby Scene");
             //SceneManager.LoadScene("Lobby Scene");
-        }    
+        }
     }
 
     private void OffOutline()
     {
         Color color = Color.white;
         color.a = 0;
-        foreach(var outline in outlinables)
+        foreach (var outline in outlinables)
         {
             outline.OutlineParameters.Color = color;
         }
