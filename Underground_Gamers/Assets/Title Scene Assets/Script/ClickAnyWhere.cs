@@ -11,6 +11,8 @@ public class ClickAnyWhere : MonoBehaviour
     private GameObject popupNameInput;
     [SerializeField]
     private TMP_InputField nameInputBox;
+    [SerializeField]
+    private GameObject LoadingScreen;
 
     private void Update()
     {
@@ -25,6 +27,7 @@ public class ClickAnyWhere : MonoBehaviour
         }
         else
         {
+            LoadingScreen.SetActive(true);
             SceneManager.LoadScene("Lobby Scene");
         }
     }
@@ -35,7 +38,8 @@ public class ClickAnyWhere : MonoBehaviour
         GamePlayerInfo.instance.storyQueue = new Queue<int>();
         GamePlayerInfo.instance.AddTutorial(0);
 
-       SceneManager.LoadScene("Lobby Scene");
+        LoadingScreen.SetActive(true);
+        SceneManager.LoadScene("Lobby Scene");
     }
     
     public void InputStreamString(string newText)

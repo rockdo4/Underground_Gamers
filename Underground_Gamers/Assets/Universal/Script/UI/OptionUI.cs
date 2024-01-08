@@ -304,6 +304,7 @@ public class OptionUI : MonoBehaviour
             true => 60,
             false => 30,
         };
+
         Screen.SetResolution((int)(originWidth * resolutionValue), (int)(originHeight * resolutionValue), true);
         InvokeGlobalSettings(isPost_fx);
         QualitySettings.globalTextureMipmapLimit = 2 - textureQuality;
@@ -345,13 +346,13 @@ public class OptionUI : MonoBehaviour
         if (language != GamePlayerInfo.instance.language)
         {
             GamePlayerInfo.instance.language = language;
-            var texts = FindObjectsOfType<SetString>();
+            var texts = FindObjectsOfType<SetString>(true);
             foreach (var text in texts)
             {
                 text.ResetString();
             }
         }
-
+        GL.Clear(true, true, Color.black);
         //인게임 이펙트/일러는 부탁드리겠습니다..
     }
 
