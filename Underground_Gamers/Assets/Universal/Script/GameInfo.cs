@@ -122,6 +122,7 @@ public class GameInfo : MonoBehaviour
                         entryPlayer.Add(player);
                     }
                     var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+                    var str = DataTableManager.instance.Get<StringTable>(DataType.String);
                     StageInfo stageInfo = st.GetStageInfo(currentStage);
                     if (GamePlayerInfo.instance.cleardStage < currentStage)
                     {
@@ -137,7 +138,7 @@ public class GameInfo : MonoBehaviour
                             rewards[i] = stageInfo.rewards[i];
                         }
                     }
-                    storyTeamName = stageInfo.teamName;
+                    storyTeamName = str.Get($"story_team_{stageInfo.code}");
                     XpRewards = stageInfo.xp;
                 }
                 break;
@@ -179,6 +180,7 @@ public class GameInfo : MonoBehaviour
     {
         GamePlayerInfo.instance.isOnSchedule = false;
         var stateDefines = DataTableManager.instance.stateDef;
+        var str = DataTableManager.instance.Get<StringTable>(DataType.String);
 
         for (int i = 0; i < 5; i++)
         {
@@ -194,7 +196,7 @@ public class GameInfo : MonoBehaviour
             }
             var madePlayer = Instantiate(playerObj);
             //madePlayer.AddComponent<DontDestroy>();
-            
+
             var madePlayerCharactor = Instantiate(Resources.Load<GameObject>(Path.Combine("SPUM", $"{player.code}")), madePlayer.transform);
             madePlayerCharactor.AddComponent<LookCameraRect>();
             var outLine = madePlayerCharactor.AddComponent<Outlinable>();
@@ -230,7 +232,7 @@ public class GameInfo : MonoBehaviour
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
 
-            stat.AIName = playerInfo.name;
+            stat.AIName = str.Get($"playerName{playerInfo.code}");
             stat.Hp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
             stat.maxHp = stat.Hp;
             stat.speed = pt.CalculateCurrStats(playerInfo.moveSpeed, player.level);
@@ -367,6 +369,7 @@ public class GameInfo : MonoBehaviour
     {
         var stateDefines = DataTableManager.instance.stateDef;
         var st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+        var str = DataTableManager.instance.Get<StringTable>(DataType.String);
         var enemys = st.GetStageInfo(currentStage).enemys;
         for (int i = 0; i < 5; i++)
         {
@@ -408,7 +411,7 @@ public class GameInfo : MonoBehaviour
 
             var stat = madePlayer.GetComponent<CharacterStatus>();
 
-            stat.AIName = playerInfo.name;
+            stat.AIName = str.Get($"mon_name_{playerInfo.code}");
             stat.Hp = playerInfo.hp;
             stat.maxHp = stat.Hp;
 

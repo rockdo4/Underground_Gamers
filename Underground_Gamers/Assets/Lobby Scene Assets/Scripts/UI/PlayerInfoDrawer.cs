@@ -61,7 +61,7 @@ public class PlayerInfoDrawer : MonoBehaviour
         }
 
         PlayerImage.sprite = pt.GetPlayerFullSprite(currPlayer.code);
-        PlayerName.text = currPlayer.name;
+        PlayerName.text = st.Get($"playerName{currPlayer.code}");
         breakThrough.text = $"{st.Get("break")}: {currPlayer.breakthrough}";
         XpVal[0].text = $"<color=\"white\">Lv.{currPlayer.level}</color>/";
         XpVal[1].text = $"{currPlayer.maxLevel}";

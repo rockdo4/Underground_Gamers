@@ -45,7 +45,7 @@ public class StageInfoManager : MonoBehaviour
                 string storyEnemyName = GameInfo.instance.storyTeamName;
 
                 SetGameTypeText(gameManager.str.Get("story"));
-                SetStageNameText(gameManager.stageTable.GetStageInfo(GameInfo.instance.currentStage).name);
+                SetStageNameText(DataTableManager.instance.Get<StringTable>(DataType.String).Get($"story_name_{GameInfo.instance.currentStage}"));
                 SetOurTeamNameText(storyOurTeamName);
                 SetEnemyTeamNameText(storyEnemyName);
                 SetPauseEnemyTeamNameText($"VS {storyEnemyName}");

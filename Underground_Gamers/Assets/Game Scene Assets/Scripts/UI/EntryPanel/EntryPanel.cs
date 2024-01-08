@@ -41,12 +41,12 @@ public class EntryPanel : MonoBehaviour
 
     public void SetConditionIcon()
     {
-        foreach(var member in entryMembers)
+        foreach (var member in entryMembers)
         {
             member.SetConditionIcon(conditionIcon[GamePlayerInfo.instance.GetOfficialPlayer(member.Index).condition]);
-        }         
-        
-        foreach(var member in benchMembers)
+        }
+
+        foreach (var member in benchMembers)
         {
             member.SetConditionIcon(conditionIcon[GamePlayerInfo.instance.GetOfficialPlayer(member.Index).condition]);
         }
@@ -133,7 +133,7 @@ public class EntryPanel : MonoBehaviour
         gameManager.IsStart = false;
         gameObject.SetActive(isActive);
     }
-    public void CreateEntryPlayer(Transform parent, int index, Sprite illustration, string name, int playerHp, 
+    public void CreateEntryPlayer(Transform parent, int index, Sprite illustration, string name, int playerHp,
         int playerAttack, int grade, Sprite type, int level, Sprite codition, int skillLevel, Sprite skillIcon, string skillName)
     {
         EntryPlayer entryPlayer = Instantiate(entryPlayerPrefab, parent);
@@ -172,7 +172,7 @@ public class EntryPanel : MonoBehaviour
         Sprite illustration = pt.GetPlayerSprite(code);
         Sprite skillIcon = pt.GetSkillInfo(playerInfo.UniqueSkillCode).icon;
         var skillName = gameManager.str.Get(pt.GetSkillInfo(playerInfo.UniqueSkillCode).name.ToString());
-        var name = GamePlayerInfo.instance.GetOfficialPlayer(index).name;
+        var name = DataTableManager.instance.Get<StringTable>(DataType.String).Get($"playerName{GamePlayerInfo.instance.GetOfficialPlayer(index).code}");
         int playerHp = (int)pt.CalculateCurrStats(playerInfo.hp, player.level);
         int playerAttack = (int)pt.CalculateCurrStats(playerInfo.atk, player.level);
         //var grade = pt.starsSprites[GamePlayerInfo.instance.GetOfficialPlayer(index - 1).grade - 3];

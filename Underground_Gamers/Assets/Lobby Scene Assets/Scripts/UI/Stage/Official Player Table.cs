@@ -21,9 +21,13 @@ public class OfficialPlayerTable : MonoBehaviour
     [SerializeField]
     private TMP_Text[] popupText = new TMP_Text[18];
 
-
+    private StringTable str;
     public void SetInfos(OfficialPlayerData officialPlayerData, int index)
     {
+        if (str == null)
+        {
+            str = DataTableManager.instance.Get<StringTable>(DataType.String);
+        }
         playerIndex = index;
         button.onClick.RemoveAllListeners();
         Player current = GamePlayerInfo.instance.GetOfficialPlayer(playerIndex);
@@ -31,7 +35,7 @@ public class OfficialPlayerTable : MonoBehaviour
         {
             image.color = Color.white;
             image.sprite = DataTableManager.instance.Get<PlayerTable>(DataType.Player).GetPlayerSprite(current.code);
-            infos[0].text = current.name;
+            infos[0].text = str.Get($"playerName{current.code}");
             infos[1].text = officialPlayerData.playCount.ToString();
             infos[2].text = officialPlayerData.kill.ToString();
             infos[3].text = officialPlayerData.death.ToString();
@@ -66,6 +70,10 @@ public class OfficialPlayerTable : MonoBehaviour
 
     public void OpenInfoWindow()
     {
+        if (str == null)
+        {
+            str = DataTableManager.instance.Get<StringTable>(DataType.String);
+        }
         Player currPlayer = GamePlayerInfo.instance.GetOfficialPlayer(playerIndex);
         PlayerTable pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
         StringTable st = DataTableManager.instance.Get<StringTable>(DataType.String);
@@ -85,7 +93,7 @@ public class OfficialPlayerTable : MonoBehaviour
             popupImages[2].sprite = pt.starsSprites[currPlayer.grade - 3];
             popupImages[3].sprite = skillInfo.icon;
 
-            popupText[0].text = currPlayer.name;
+            popupText[0].text = str.Get($"playerName{currPlayer.code}");
             popupText[1].text = st.Get($"type{currPlayer.type}");
             popupText[2].text = st.Get("level") + $" : {currPlayer.level}";
             popupText[3].text = st.Get("break") + $" : {currPlayer.breakthrough}";

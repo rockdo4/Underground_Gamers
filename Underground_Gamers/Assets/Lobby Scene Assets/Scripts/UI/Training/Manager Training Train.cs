@@ -154,7 +154,7 @@ public class ManagerTrainingTrain : ManagerTraining
                     break;
                 }
             }
-            card.playerName.text = player.name;
+            card.playerName.text = st.Get($"playerName{player.code}");
 
 
             MadeBList.Add(bt);
@@ -198,9 +198,9 @@ public class ManagerTrainingTrain : ManagerTraining
 
         slotType.text = st.Get($"type{currPlayer.type.ToString("F0")}");
         slotImage.sprite = pt.GetPlayerSprite(currPlayer.code);
-        slotName.text = currPlayer.name;
+        slotName.text = st.Get($"playerName{currPlayer.code}");
         slotCover.SetActive(false);
-        nameBox.text = currPlayer.name;
+        nameBox.text = slotName.text;
 
         levelToggles[0].isOn = true;
 

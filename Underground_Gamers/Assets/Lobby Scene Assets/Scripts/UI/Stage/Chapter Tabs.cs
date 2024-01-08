@@ -11,15 +11,18 @@ public class ChapterTabs : MonoBehaviour
     private int LeagueType = 100;
     private Toggle firstStage;
     private StageTable st;
+    private StringTable str;
     private void Start()
     {
         st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+        str = DataTableManager.instance.Get<StringTable>(DataType.String);
     }
     public void SetFirst()
     {
         if(st == null)
         {
             st = DataTableManager.instance.Get<StageTable>(DataType.Stage);
+            str = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
         firstStage = stageTabs[0];
         int stageLevel = LeagueType;
@@ -37,7 +40,7 @@ public class ChapterTabs : MonoBehaviour
                 item.interactable = false;
             }
             var nameText = item.GetComponentInChildren<TMP_Text>(true);
-           nameText.text = st.GetStageInfo(stageLevel).name;
+           nameText.text = str.Get($"story_name_{stageLevel}");
             if (item.interactable)
             {
                 nameText.color = Color.white;

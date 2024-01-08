@@ -311,7 +311,7 @@ public class ManagerRecruitTrade : ManagerRecruit
         PlayerInfo pi = pt.GetPlayerInfo(currMakeCode);
         recruitEffrctCharImage.sprite = pt.GetPlayerFullSprite(currMakeCode);
         recruitEffrctTypeImage.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", pi.type.ToString()));
-        recruitEffrctName.text = pi.name;
+        recruitEffrctName.text = st.Get($"playerName{pi.code}");
         recruitEffrctStars.sprite = pi.grade switch
         {
             3 => pt.starsSprites[0],

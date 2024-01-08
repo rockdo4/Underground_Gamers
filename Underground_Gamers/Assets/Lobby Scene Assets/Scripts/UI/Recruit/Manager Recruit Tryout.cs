@@ -138,7 +138,7 @@ public class ManagerRecruitTryout : ManagerRecruit
         RecruitInfo info = rt.GetRecruitInfo(currCode.ToString());
 
         recruitImage.sprite = Resources.Load<Sprite>(Path.Combine("RecruitSprite", currCode.ToString()));
-        recruitInfo.text = info.info;
+        recruitInfo.text = st.Get($"recruit_info_{currCode}");
         MoneyText5.text = $"<sprite=1> :  {info.crystal * 5}";
         ticketRewardText.text = GamePlayerInfo.instance.contractTicket.ToString();
     }
@@ -344,7 +344,7 @@ public class ManagerRecruitTryout : ManagerRecruit
         PlayerInfo pi = pt.GetPlayerInfo(currMakeCode);
         recruitEffrctCharImage.sprite = pt.GetPlayerFullSprite(currMakeCode);
         recruitEffrctTypeImage.sprite = Resources.Load<Sprite>(Path.Combine("PlayerType", pi.type.ToString()));
-        recruitEffrctName.text = pi.name;
+        recruitEffrctName.text = st.Get($"playerName{pi.code}");
         recruitEffrctStars.sprite = pi.grade switch
         {
             3 => pt.starsSprites[0],

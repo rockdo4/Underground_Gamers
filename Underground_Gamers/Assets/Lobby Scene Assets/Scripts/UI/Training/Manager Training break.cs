@@ -163,7 +163,7 @@ public class ManagerTrainingbreak : ManagerTraining
                     break;
                 }
             }
-            card.playerName.text = player.name;
+            card.playerName.text = st.Get($"playerName{player.code}");
 
 
 
@@ -193,7 +193,7 @@ public class ManagerTrainingbreak : ManagerTraining
 
         slotType.text = st.Get($"type{currPlayer.type.ToString("F0")}");
         slotImage.sprite = pt.GetPlayerSprite(currPlayer.code);
-        slotName.text = currPlayer.name;
+        slotName.text = st.Get($"playerName{currPlayer.code}");
         slotCover.SetActive(false);
 
         breakInfoTexts[0].text = "Lv." + currPlayer.maxLevel.ToString();
@@ -263,7 +263,7 @@ public class ManagerTrainingbreak : ManagerTraining
                     break;
                 }
             }
-            card.playerName.text = player.name;
+            card.playerName.text = st.Get($"playerName{player.code}");
 
             int useIndex = count++;
             bt.GetComponent<Toggle>().onValueChanged.AddListener(value => SelectBreaking(useIndex, value));

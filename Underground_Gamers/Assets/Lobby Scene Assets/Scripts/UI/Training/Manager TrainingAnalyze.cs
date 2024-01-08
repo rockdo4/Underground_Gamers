@@ -1,4 +1,5 @@
 //using System.Collections;
+using Demo_Project;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -175,7 +176,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
                     break;
                 }
             }
-            card.playerName.text = player.name;
+            card.playerName.text = st.Get($"playerName{player.code}");
 
             MadeBList.Add(bt);
         }
@@ -205,7 +206,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
         slotType.text = st.Get($"type{currPlayer.type.ToString("F0")}");
         slotImage.sprite = pt.GetPlayerSprite(currPlayer.code);
-        slotName.text = currPlayer.name;
+        slotName.text = st.Get($"playerName{currPlayer.code}");
         slotCover.SetActive(false);
 
         currXp = currPlayer.xp;
