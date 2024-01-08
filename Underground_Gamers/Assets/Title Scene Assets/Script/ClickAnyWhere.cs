@@ -36,8 +36,10 @@ public class ClickAnyWhere : MonoBehaviour
     {
         GamePlayerInfo.instance.playername = nameInputBox.text;
         GamePlayerInfo.instance.storyQueue = new Queue<int>();
-        GamePlayerInfo.instance.AddTutorial(0);
-
+        if (Screen.width / Screen.height >= 16f / 9f)
+        {
+            GamePlayerInfo.instance.AddTutorial(0);
+        }
         LoadingScreen.SetActive(true);
         SceneManager.LoadScene("Lobby Scene");
     }
