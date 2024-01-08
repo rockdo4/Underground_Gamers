@@ -38,9 +38,8 @@ public class MissionExecutionState : AIState
         }
         else
         {
-            agent.isStopped = false;
-            agent.angularSpeed = aiStatus.reactionSpeed;
-            agent.speed = aiStatus.speed;
+            isDisabledNav = true;
+            executeTimer = Time.time;
         }
         aiController.SetMissionTarget(aiController.missionTarget);
 
