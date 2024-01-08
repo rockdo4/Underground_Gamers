@@ -346,7 +346,7 @@ public class OptionUI : MonoBehaviour
         if (language != GamePlayerInfo.instance.language)
         {
             GamePlayerInfo.instance.language = language;
-            var texts = FindObjectsOfType<SetString>();
+            var texts = FindObjectsOfType<SetString>(true);
             foreach (var text in texts)
             {
                 text.ResetString();

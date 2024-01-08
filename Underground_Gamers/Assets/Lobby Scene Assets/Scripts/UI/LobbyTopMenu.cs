@@ -92,4 +92,11 @@ public class LobbyTopMenu : MonoBehaviour
         functionStack.Pop();
     }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape) && functionStack.Count > 0)
+        {
+            ExecuteFunction();
+        }
+    }
 }
