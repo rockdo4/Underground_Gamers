@@ -677,6 +677,7 @@ public class GamePlayerInfo : MonoBehaviour
         storyQueue = saveData.storyQueue;
         isInfoOn = saveData.isInfoOn;
         isAutoMode = saveData.isAutoBattle;
+        isInit = false;
     }
 
     public void OfficialMakeEnemyTeams(int officialLevel)
