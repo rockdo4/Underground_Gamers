@@ -94,7 +94,7 @@ public class LobbyTopMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Escape) && functionStack.Count > 0 && GamePlayerInfo.instance.storyQueue.Count == 0)
+        if (Input.GetKey(KeyCode.Escape) && functionStack.Count > 0 && GamePlayerInfo.instance.storyQueue == 0)
         {
             ExecuteFunction();
         }

@@ -54,7 +54,7 @@ public class GamePlayerInfo : MonoBehaviour
 
 
     //세이브에 추가해야함
-    public Queue<int> storyQueue = new Queue<int>();
+    public int storyQueue = 1;
     public bool isInfoOn = true;
     public bool isAutoMode = true;
     public float playSpeed = 1;
@@ -589,7 +589,7 @@ public class GamePlayerInfo : MonoBehaviour
         saveData.isInfoOn = isInfoOn;
         saveData.isAutoBattle = isAutoMode;
 
-        var path = Path.Combine(Application.persistentDataPath, "534789fd.json");
+        var path = Path.Combine(Application.persistentDataPath, "45672389gh.json");
         //Debug.Log(path);
         var json = JsonConvert.SerializeObject(saveData, new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
         File.WriteAllText(path, json);
@@ -597,7 +597,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public void LoadFile()
     {
-        var path = Path.Combine(Application.persistentDataPath, "534789fd.json");
+        var path = Path.Combine(Application.persistentDataPath, "45672389gh.json");
         if (!File.Exists(path))
         {
             isInit = true;
@@ -607,7 +607,7 @@ public class GamePlayerInfo : MonoBehaviour
         var json = File.ReadAllText(path);
         var saveData = JsonConvert.DeserializeObject<SaveData>(json, new PlayerConverter(), new EnemyInfoConverter(), new OfficialTeamDataConverter(), new OfficialPlayerDataConverter());
 
-        if (saveData.storyQueue.Count > 0 && saveData.storyQueue.Peek() == 0)
+        if (saveData.storyQueue == 1)
         {
             storyQueue = saveData.storyQueue;
             isInit = true;
@@ -1101,7 +1101,7 @@ public class GamePlayerInfo : MonoBehaviour
 
     public void AddTutorial(int code)
     {
-        storyQueue.Enqueue(code);
+        storyQueue = code;
         SaveFile();
     }
 }

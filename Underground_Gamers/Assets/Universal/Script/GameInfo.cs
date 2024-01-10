@@ -846,19 +846,19 @@ public class GameInfo : MonoBehaviour
                     switch (currentStage)
                     {
                         case 101:
-                            GamePlayerInfo.instance.AddTutorial(1);
-                            break;
-                        case 102:
                             GamePlayerInfo.instance.AddTutorial(2);
                             break;
-                        case 103:
+                        case 102:
                             GamePlayerInfo.instance.AddTutorial(3);
                             break;
-                        case 104:
+                        case 103:
                             GamePlayerInfo.instance.AddTutorial(4);
                             break;
-                        case 105:
+                        case 104:
                             GamePlayerInfo.instance.AddTutorial(5);
+                            break;
+                        case 105:
+                            GamePlayerInfo.instance.AddTutorial(6);
                             break;
                         default:
                             isFirstClear = false;

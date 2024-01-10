@@ -59,9 +59,9 @@ public class StoryManager : MonoBehaviour
             st = DataTableManager.instance.Get<StringTable>(DataType.String);
         }
         skipButton.SetActive(false);
-        if (GamePlayerInfo.instance.storyQueue.Count > 0)
+        if (GamePlayerInfo.instance.storyQueue > 0)
         {
-            int currCode = GamePlayerInfo.instance.storyQueue.Peek();
+            int currCode = GamePlayerInfo.instance.storyQueue;
             if (tutorialCodeDefines.Contains(currCode))
             {
                 StartTutorial(currCode);
@@ -180,7 +180,7 @@ public class StoryManager : MonoBehaviour
     public void EndStory()
     {
         StoryBase.SetActive(false);
-        GamePlayerInfo.instance.storyQueue.Dequeue();
+        GamePlayerInfo.instance.storyQueue = 0;
         GamePlayerInfo.instance.SaveFile();
         //CheckNeedTutorial();
     }

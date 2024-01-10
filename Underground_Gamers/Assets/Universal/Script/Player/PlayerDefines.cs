@@ -253,7 +253,7 @@ public class SaveData
     public string teamName = "µå¸²ÆÀ";
     public float playSpeed = 1;
 
-    public Queue<int> storyQueue = new Queue<int>();
+    public int storyQueue = 1;
     public bool isInfoOn = false;
     public bool isAutoBattle = false;
 
