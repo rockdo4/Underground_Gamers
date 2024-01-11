@@ -317,6 +317,11 @@ public class ManagerTrainingAnalyze : ManagerTraining
             _ => 1
         };
 
+        if (currCost == 0)
+        {
+            currCost = pt.GetLevelUpCost(currlevel);
+        }
+
         while (currXp >= currMaxXp)
         {
             currlevel++;
@@ -331,20 +336,20 @@ public class ManagerTrainingAnalyze : ManagerTraining
                 if (currPlayer.maxLevel >= 50)
                 {
                     currMaxXp = 0;
-                    currCost = pt.GetLevelUpCost(50);
+                    currCost += pt.GetLevelUpCost(50);
                     break;
                 }
                 else
                 {
                     currMaxXp = pt.GetLevelUpXp(currlevel + 1);
-                    currCost = pt.GetLevelUpCost(currlevel);
+                    currCost += pt.GetLevelUpCost(currlevel+1);
                 }
             }
             else
             {
                 currXp = currXp - currMaxXp;
                 currMaxXp = pt.GetLevelUpXp(currlevel + 1);
-                currCost = pt.GetLevelUpCost(currlevel);
+                currCost += pt.GetLevelUpCost(currlevel+1);
             }
             growItemUseMoneyText.text = "<sprite=0> : " + currCost.ToString();
         }
