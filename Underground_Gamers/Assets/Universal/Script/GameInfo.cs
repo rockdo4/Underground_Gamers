@@ -860,6 +860,9 @@ public class GameInfo : MonoBehaviour
                         case 105:
                             GamePlayerInfo.instance.AddTutorial(6);
                             break;
+                        case 406:
+                            GamePlayerInfo.instance.AddTutorial(90);
+                            break;
                         default:
                             isFirstClear = false;
                             break;
