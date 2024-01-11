@@ -214,6 +214,7 @@ public class ManagerTrainingAnalyze : ManagerTraining
 
         growInfoDatas[0].text = $"Lv.{currPlayer.level.ToString("F0")}";
         growInfoDatas[1].text = $"Lv.{currPlayer.level.ToString("F0")}";
+        growInfoDatas[1].color = Color.white;
         growInfoDatas[2].text = $"{currPlayer.xp.ToString("F0")}/{currPlayer.maxXp.ToString("F0")}";
         xpBar.value = currPlayer.xp / currPlayer.maxXp;
         growInfoDatas[3].text = $"{pt.CalculateCurrStats(currPlayerInfo.hp, currPlayer.level).ToString("F0")}";
@@ -317,14 +318,19 @@ public class ManagerTrainingAnalyze : ManagerTraining
             _ => 1
         };
 
-        if (currCost == 0)
+        currCost += type switch
         {
-            currCost = pt.GetLevelUpCost(currlevel);
-        }
+            0 => 350,
+            1 => 2800,
+            2 => 14000,
+            3 => 70000,
+            _ => 7
+        };
 
         while (currXp >= currMaxXp)
         {
             currlevel++;
+            //최대레벨업
             if (currlevel >= currPlayer.maxLevel)
             {
                 currXp = 0;
@@ -336,24 +342,22 @@ public class ManagerTrainingAnalyze : ManagerTraining
                 if (currPlayer.maxLevel >= 50)
                 {
                     currMaxXp = 0;
-                    currCost += pt.GetLevelUpCost(50);
                     break;
                 }
                 else
                 {
                     currMaxXp = pt.GetLevelUpXp(currlevel + 1);
-                    currCost += pt.GetLevelUpCost(currlevel+1);
                 }
             }
+            //그냥 레벨업
             else
             {
                 currXp = currXp - currMaxXp;
                 currMaxXp = pt.GetLevelUpXp(currlevel + 1);
-                currCost += pt.GetLevelUpCost(currlevel+1);
             }
-            growItemUseMoneyText.text = "<sprite=0> : " + currCost.ToString();
+           
         }
-
+        growItemUseMoneyText.text = "<sprite=0> : " + currCost.ToString();
 
         growInfoDatas[1].text = $"Lv.{currlevel.ToString("F0")}";
         growInfoDatas[2].text = $"{currXp.ToString("F0")}/{currMaxXp.ToString("F0")}";
