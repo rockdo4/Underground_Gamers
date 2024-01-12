@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +10,21 @@ public class PopupEnding : MonoBehaviour
     private List<GameObject> objs;
     [SerializeField]
     private List<Sprite> imgs;
+    [SerializeField]
+    private List<int> typeNum;
     private GameObject currObj;
 
     [SerializeField]
     private Image imageToResize;
+    [SerializeField]
+    private TMP_Text nameText;
+    [SerializeField]
+    private TMP_Text infoText;
+    [SerializeField]
+    private Image typeImage;
     private int currIndex = 0;
+    private StringTable st;
+    private PlayerTable pt;
     private void Start()
     {
         if (objs.Count > 0)
@@ -40,10 +51,27 @@ public class PopupEnding : MonoBehaviour
         imageRect.sizeDelta = new Vector2(newWidth, newHeight);
         imageRect.position = parentRect.position;
         imageRect.anchoredPosition3D = new Vector2(0, 0);
+
+        st = DataTableManager.instance.Get<StringTable>(DataType.String);
+        pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+
+        nameText.text = st.Get("alb_name0");
+        infoText.text = st.Get("alb_info0");
+        typeImage.sprite = pt.playerTypeSprites[typeNum[currIndex]];
+    }
+
+    public void OnEnter()
+    {
+        SoundPlayer.instance.EnterLobbyMusic(1);
     }
 
     public void ToLeft()
     {
+        if (st == null)
+        {
+            st = DataTableManager.instance.Get<StringTable>(DataType.String);
+            pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        }
         currIndex = (currIndex - 1 + imgs.Count) % imgs.Count;
 
         currObj.SetActive(false);
@@ -73,10 +101,19 @@ public class PopupEnding : MonoBehaviour
         imageRect.sizeDelta = new Vector2(newWidth, newHeight);
         imageRect.position = parentRect.position;
         imageRect.anchoredPosition3D = new Vector2(0, 0);
+
+        nameText.text = st.Get($"alb_name{currIndex}");
+        infoText.text = st.Get($"alb_info{currIndex}");
+        typeImage.sprite = pt.playerTypeSprites[typeNum[currIndex]];
     }
 
     public void ToRight()
     {
+        if (st == null)
+        {
+            st = DataTableManager.instance.Get<StringTable>(DataType.String);
+            pt = DataTableManager.instance.Get<PlayerTable>(DataType.Player);
+        }
         currIndex = (currIndex + 1) % imgs.Count;
 
         currObj.SetActive(false);
@@ -106,5 +143,9 @@ public class PopupEnding : MonoBehaviour
         imageRect.sizeDelta = new Vector2(newWidth, newHeight);
         imageRect.position = parentRect.position;
         imageRect.anchoredPosition3D = new Vector2(0, 0);
+
+        nameText.text = st.Get($"alb_name{currIndex}");
+        infoText.text = st.Get($"alb_info{currIndex}");
+        typeImage.sprite = pt.playerTypeSprites[typeNum[currIndex]];
     }
 }
