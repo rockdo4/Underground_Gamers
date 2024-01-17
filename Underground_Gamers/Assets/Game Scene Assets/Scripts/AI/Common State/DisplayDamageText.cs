@@ -47,6 +47,10 @@ public class DisplayDamageText : MonoBehaviour, IAttackable
             text.color = Color.yellow;
             text.fontSize = originSize + 8f;
         }
+        else
+        {
+            text.color = Color.white;
+        }
         float damage = attack.Damage;
         if (attack.IsHeal)
             damage *= -1;
